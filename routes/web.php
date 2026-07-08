@@ -9,7 +9,7 @@ use App\Http\Controllers\TugasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/dashboard');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -62,11 +62,15 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // === Materi AI ===
-Route::middleware(['auth', 'role:siswa'])->group(function () {
-    Route::get('/materi', [MateriController::class, 'index'])->name('materi.index');
+Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/materi/create', [MateriController::class, 'create'])->name('materi.create');
     Route::post('/materi', [MateriController::class, 'store'])->name('materi.store');
+});
+
+Route::middleware(['auth', 'role:siswa'])->group(function () {
+    Route::get('/materi', [MateriController::class, 'index'])->name('materi.index');
     Route::get('/materi/{materi}', [MateriController::class, 'show'])->name('materi.show');
+    Route::post('/materi/{materi}/ringkas', [MateriController::class, 'ringkas'])->name('materi.ringkas');
 });
 
 // === Laporan AI ===

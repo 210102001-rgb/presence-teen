@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Materi extends Model
 {
-    protected $fillable = ['siswa_id', 'judul', 'materi_asli', 'ringkasan_ai'];
+    protected $fillable = ['guru_id', 'judul', 'materi_asli', 'ringkasan_ai', 'file_path'];
 
-    public function siswa()
+    public function guru()
     {
-        return $this->belongsTo(User::class, 'siswa_id');
+        return $this->belongsTo(User::class, 'guru_id');
     }
 }

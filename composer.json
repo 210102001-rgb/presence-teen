@@ -10,7 +10,9 @@
         "laravel/framework": "^13.8",
         "laravel/tinker": "^3.0",
         "livewire/livewire": "^4.3",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "phpoffice/phpword": "*",
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "smalot/pdfparser": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

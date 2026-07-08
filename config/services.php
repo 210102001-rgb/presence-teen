@@ -39,4 +39,11 @@ return [
         'api_key' => env('ANTHROPIC_API_KEY'),
     ],
 
+    'ai' => [
+        'base_url' => env('AI_API_BASE_URL', 'https://api.anthropic.com/v1') . '/',
+        'api_key' => env('AI_API_KEY', ''),
+        'model' => env('AI_MODEL', 'claude-sonnet-4-6'),
+        'version' => '2023-06-01',
+    ],
+
 ];

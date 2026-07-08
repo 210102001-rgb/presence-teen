@@ -126,6 +126,7 @@ return [
     'aliases' => [
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Route' => Illuminate\Support\Facades\Route::class,
+        'Storage' => Illuminate\Support\Facades\Storage::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 

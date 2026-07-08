@@ -39,9 +39,16 @@ class AnalisisKehadiranCommand extends Command
             $data = "Siswa: {$siswa->name}\nHadir: {$totalHadir}\nTelat: {$totalTelat}\nTotal Tugas: {$totalTugas}\nTugas Dikumpulkan: {$dikumpulkan}";
 
             try {
-                $response = \Illuminate\Support\Facades\Http::withToken(config('services.anthropic.api_key'))
-                    ->post('https://api.anthropic.com/v1/messages', [
-                        'model' => 'claude-3-haiku-20240307',
+                $response = \Illuminate\Support\Facades\Http::withOptions([
+                        'base_uri' => config('services.ai.base_url'),
+                        'verify' => false,
+                    ])
+                    ->withHeaders([
+                        'x-api-key' => config('services.ai.api_key'),
+                        'anthropic-version' => config('services.ai.version'),
+                    ])
+                    ->post('messages', [
+                        'model' => config('services.ai.model'),
                         'max_tokens' => 1000,
                         'messages' => [[
                             'role' => 'user',
