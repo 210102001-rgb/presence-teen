@@ -1,84 +1,106 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div>
-            <h2 class="text-lg font-semibold text-gray-800">{{ $materi->judul }}</h2>
-            <p class="text-sm text-gray-500">{{ __('Oleh: ') }}{{ $materi->guru->name ?? 'Guru' }} &middot; {{ $materi->created_at->format('d M Y') }}</p>
-        </div>
-    </x-slot>
+    <x-slot name="header">{{ $materi->judul }}</x-slot>
 
-    <div class="py-8">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="p-8">
+        <div class="max-w-3xl mx-auto">
+            {{-- Breadcrumb --}}
+            <nav class="flex items-center gap-1.5 text-xs text-[#5c5f61] mb-6">
+                <a href="{{ route('materi.index') }}" class="hover:text-[#005f2d] transition-colors">Materi</a>
+                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                <span class="text-[#171c1f] font-medium truncate max-w-xs">{{ $materi->judul }}</span>
+            </nav>
+
+            {{-- Flash Messages --}}
             @if(session('success'))
-                <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
+                <div class="mb-5 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-3 text-sm text-[#005f2d]">
+                    <span class="material-symbols-outlined text-[#0e7a3d] filled-icon text-[20px] shrink-0">check_circle</span>
                     {{ session('success') }}
                 </div>
             @endif
-
             @if(session('error'))
-                <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                <div class="mb-5 p-4 bg-[#ffdad6] border border-[#ba1a1a]/20 rounded-xl flex items-center gap-3 text-sm text-[#93000a]">
+                    <span class="material-symbols-outlined filled-icon text-[20px] shrink-0">error</span>
                     {{ session('error') }}
                 </div>
             @endif
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">{{ __('Materi Asli') }}</h3>
-                    @if($materi->file_path)
-                        <a href="{{ Storage::url($materi->file_path) }}" target="_blank"
-                           class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                            </svg>
-                            {{ __('Download File') }}
-                        </a>
-                    @endif
+            {{-- Info Bar --}}
+            <div class="bg-white rounded-xl shadow-soft border border-[#eaeef2] p-4 mb-6 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-[#f0fdf4] rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[#0e7a3d]">description</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-[#171c1f]">{{ $materi->judul }}</p>
+                        <p class="text-xs text-[#5c5f61]">Oleh: {{ $materi->guru->name ?? 'Guru' }} · {{ $materi->created_at->format('d M Y') }}</p>
+                    </div>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-lg text-sm text-gray-700 leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto">
+                @if($materi->file_path)
+                    <a href="{{ Storage::url($materi->file_path) }}" target="_blank"
+                       class="inline-flex items-center gap-2 px-4 py-2 bg-[#f0fdf4] border border-[#0e7a3d]/20 text-[#005f2d] text-sm font-semibold rounded-xl hover:bg-[#0e7a3d] hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-[18px]">download</span>
+                        Download File
+                    </a>
+                @endif
+            </div>
+
+            {{-- Materi Asli --}}
+            <div class="bg-white rounded-xl shadow-soft border border-[#eaeef2] overflow-hidden mb-6">
+                <div class="px-6 py-4 border-b border-[#eaeef2] flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#5c5f61] text-[20px]">article</span>
+                    <h3 class="text-sm font-semibold text-[#171c1f] uppercase tracking-wider">Materi Asli</h3>
+                </div>
+                <div class="p-6 max-h-96 overflow-y-auto text-sm text-[#3f493f] leading-relaxed whitespace-pre-wrap bg-[#f6fafe]">
                     {{ $materi->materi_asli }}
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">{{ __('Ringkasan AI') }}</h3>
-                    @if(!$materi->ringkasan_ai)
+            {{-- Ringkasan AI --}}
+            <div class="bg-white rounded-xl shadow-soft border border-[#eaeef2] overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-[#f0fdf4] border-b border-[#0e7a3d]/15 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">auto_awesome</span>
+                        <h3 class="text-sm font-semibold text-[#005f2d] uppercase tracking-wider">Ringkasan AI</h3>
+                    </div>
+                    @if(!$materi->ringkasan_ai && auth()->user()->role === 'siswa')
                         <form action="{{ route('materi.ringkas', $materi) }}" method="POST">
                             @csrf
                             <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 border border-transparent rounded-lg text-sm font-medium text-white hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                                {{ __('Ringkas dengan AI') }}
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-[#005f2d] text-white text-sm font-semibold rounded-xl hover:bg-[#0e7a3d] transition-all active:scale-95">
+                                <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                                Ringkas dengan AI
                             </button>
                         </form>
                     @endif
                 </div>
 
                 @if($materi->ringkasan_ai)
-                    <div class="p-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 rounded-lg text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                    <div class="p-6 text-sm text-[#171c1f] leading-relaxed whitespace-pre-wrap bg-[#f0fdf4]/40">
                         {{ $materi->ringkasan_ai }}
                     </div>
                 @else
-                    <div class="py-8 text-center">
-                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                            </svg>
+                    <div class="p-12 text-center">
+                        <div class="w-14 h-14 bg-[#eaeef2] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="material-symbols-outlined text-[#5c5f61] text-2xl">psychology</span>
                         </div>
-                        <p class="text-sm text-gray-500">{{ __('Klik "Ringkas dengan AI" untuk membuat ringkasan dari materi ini.') }}</p>
+                        <p class="text-sm font-medium text-[#171c1f]">Belum diringkas</p>
+                        <p class="text-xs text-[#5c5f61] mt-1">
+                            @if(auth()->user()->role === 'siswa')
+                                Klik "Ringkas dengan AI" di atas untuk membuat ringkasan otomatis.
+                            @else
+                                Ringkasan akan tersedia setelah siswa memintanya.
+                            @endif
+                        </p>
                     </div>
                 @endif
             </div>
 
-            <div class="mt-6">
-                <a href="{{ route('materi.index') }}" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-800 transition">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                    {{ __('Kembali ke daftar materi') }}
-                </a>
-            </div>
+            {{-- Back --}}
+            <a href="{{ route('materi.index') }}"
+               class="inline-flex items-center gap-2 text-sm font-medium text-[#005f2d] hover:text-[#0e7a3d] transition-colors">
+                <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                Kembali ke Daftar Materi
+            </a>
         </div>
     </div>
 </x-app-layout>

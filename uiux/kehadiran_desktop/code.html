@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Attendance | Parent Insight</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f6fafe;
+        }
+        .attendance-calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#5c5f61",
+                      "on-secondary-container": "#626567",
+                      "surface-container-highest": "#dfe3e7",
+                      "secondary-fixed-dim": "#c4c7c9",
+                      "surface": "#f6fafe",
+                      "secondary-container": "#e0e3e5",
+                      "outline-variant": "#becabc",
+                      "on-primary-fixed": "#00210b",
+                      "surface-container-high": "#e4e9ed",
+                      "on-secondary-fixed-variant": "#444749",
+                      "inverse-primary": "#7bda92",
+                      "on-tertiary-fixed-variant": "#3d4756",
+                      "on-secondary-fixed": "#191c1e",
+                      "on-background": "#171c1f",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#dfe3e7",
+                      "surface-container-low": "#f0f4f8",
+                      "surface-container": "#eaeef2",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-container": "#616b7b",
+                      "inverse-on-surface": "#edf1f5",
+                      "on-primary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "background": "#f6fafe",
+                      "secondary-fixed": "#e0e3e5",
+                      "on-tertiary-fixed": "#121c2a",
+                      "primary-fixed-dim": "#7bda92",
+                      "inverse-surface": "#2c3134",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed-variant": "#005226",
+                      "primary-container": "#0e7a3d",
+                      "outline": "#6f7a6e",
+                      "surface-dim": "#d6dade",
+                      "surface-bright": "#f6fafe",
+                      "tertiary": "#495362",
+                      "primary-fixed": "#97f7ac",
+                      "error": "#ba1a1a",
+                      "primary": "#005f2d",
+                      "on-primary-container": "#a5ffb7",
+                      "tertiary-fixed": "#d9e3f6",
+                      "on-error": "#ffffff",
+                      "on-surface": "#171c1f",
+                      "surface-tint": "#006d34",
+                      "on-tertiary-container": "#e2ecff",
+                      "tertiary-fixed-dim": "#bdc7d9",
+                      "on-surface-variant": "#3f493f"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "margin-mobile": "16px",
+                      "md": "16px",
+                      "max-width": "1440px",
+                      "xs": "4px",
+                      "sm": "8px",
+                      "margin-desktop": "40px",
+                      "2xl": "48px",
+                      "base": "4px",
+                      "xl": "32px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "title-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="bg-primary-container dark:bg-primary-container text-on-primary-container dark:text-on-primary-container h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col py-lg px-md z-50">
+<div class="mb-xl px-sm">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-10 h-10 rounded-lg bg-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container filled-icon">school</span>
+</div>
+<div>
+<h1 class="text-title-md font-title-md text-on-primary-container leading-none">Academia</h1>
+<p class="font-label-sm text-label-sm opacity-80">Parent Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-xs">
+<!-- Dashboard -->
+<a class="flex items-center gap-md p-md rounded-lg text-on-primary-container/80 hover:text-on-primary-container hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<!-- Performance -->
+<a class="flex items-center gap-md p-md rounded-lg text-on-primary-container/80 hover:text-on-primary-container hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-sm text-label-sm">Performance</span>
+</a>
+<!-- Attendance (ACTIVE STATE) -->
+<a class="flex items-center gap-md p-md rounded-lg bg-on-primary-container/10 text-on-primary-container font-bold border-l-4 border-primary-fixed active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined filled-icon">calendar_today</span>
+<span class="font-label-sm text-label-sm">Attendance</span>
+</a>
+<!-- Fees -->
+<a class="flex items-center gap-md p-md rounded-lg text-on-primary-container/80 hover:text-on-primary-container hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm">Fees</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-md p-md rounded-lg text-on-primary-container/80 hover:text-on-primary-container hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150 mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+</aside>
+<!-- TopNavBar (Execution from JSON) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-surface shadow-sm flex justify-between items-center px-margin-desktop z-40">
+<h2 class="font-headline-lg text-headline-lg text-primary">Attendance</h2>
+<div class="flex items-center gap-lg">
+<div class="relative">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all active:opacity-80">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<div class="flex items-center gap-sm cursor-pointer hover:text-primary transition-all active:opacity-80">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a smiling middle-aged woman with kind eyes, set against a blurred academic background. She represents a supportive parent using an educational platform. The lighting is soft and natural, emphasizing a trustworthy and friendly personality in a high-key light mode style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnLIg5D5yqraqoFFUdjxn_VhTvJMX63p_Iklx40S6RgKegXUYsRw4LY3-BgXhd9CK5BO1n3NPs-MV_hOVfpyuQQypPRIo0bMr4p8y51E7mJ6HHKEXCmwClXxX0pssTU_hHsCYhHXR36FBvmeIpDynX4tJvlJsvHrhWY2t-zRWpjP6hKtd76k9opg2CbK-NyG3GiBo75u1jXcJjzMDqntfv1YX-t4M9grAGsUWU-RbKh3_YwRvmmU8ZS3w1LLEjtXYoCVIAEDWxDhfn"/>
+</div>
+<span class="font-title-md text-title-md text-primary">Mrs. Henderson</span>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-margin-desktop min-h-screen">
+<!-- Top Summary Cards (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-gutter">
+<!-- Total Percentage Card -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-xs">Overall Attendance</p>
+<h3 class="font-display-lg text-display-lg text-primary">94%</h3>
+</div>
+<div class="mt-md flex items-center gap-xs text-primary font-bold">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="text-xs">+2.4% from last month</span>
+</div>
+</div>
+<!-- Present Count -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/10 flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined filled-icon">check_circle</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Present Days</p>
+<h3 class="font-title-md text-title-md">172 <span class="text-on-surface-variant font-normal text-sm">/ 180</span></h3>
+</div>
+</div>
+<!-- Excused (Izin/Sakit) -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/10 flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined filled-icon">medical_services</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Excused Absences</p>
+<h3 class="font-title-md text-title-md">6 <span class="text-on-surface-variant font-normal text-sm">Days</span></h3>
+</div>
+</div>
+<!-- Unexcused (Alpha) -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/10 flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined filled-icon">cancel</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Unexcused</p>
+<h3 class="font-title-md text-title-md">2 <span class="text-on-surface-variant font-normal text-sm">Days</span></h3>
+</div>
+</div>
+</div>
+<!-- Charts Row -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-gutter">
+<!-- Line Chart: Attendance Trend -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/10 h-80">
+<div class="flex justify-between items-center mb-md">
+<h4 class="font-title-md text-title-md text-on-surface">Monthly Trend</h4>
+<div class="flex gap-sm">
+<span class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant"><span class="w-3 h-3 rounded-full bg-primary"></span> Present</span>
+</div>
+</div>
+<canvas class="w-full h-full" id="attendanceTrend"></canvas>
+</div>
+<!-- Pie Chart: Attendance Mix -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/10 h-80 flex flex-col">
+<h4 class="font-title-md text-title-md text-on-surface mb-md">Distribution</h4>
+<div class="flex-1 relative">
+<canvas id="attendanceMix"></canvas>
+</div>
+</div>
+</div>
+<!-- Interactive Calendar & History -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-gutter">
+<!-- Calendar View -->
+<div class="lg:col-span-3 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex justify-between items-center mb-lg">
+<div class="flex items-center gap-sm">
+<h4 class="font-title-md text-title-md">October 2023</h4>
+<div class="flex gap-xs">
+<button class="p-xs hover:bg-surface-container rounded-full transition-colors"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="p-xs hover:bg-surface-container rounded-full transition-colors"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="flex items-center gap-xs"><span class="w-3 h-3 rounded-full bg-primary-container"></span> <span class="text-[10px] font-label-sm">Hadir</span></div>
+<div class="flex items-center gap-xs"><span class="w-3 h-3 rounded-full bg-warning-amber bg-amber-400"></span> <span class="text-[10px] font-label-sm">Izin</span></div>
+<div class="flex items-center gap-xs"><span class="w-3 h-3 rounded-full bg-blue-500"></span> <span class="text-[10px] font-label-sm">Sakit</span></div>
+<div class="flex items-center gap-xs"><span class="w-3 h-3 rounded-full bg-error"></span> <span class="text-[10px] font-label-sm">Alpha</span></div>
+</div>
+</div>
+<div class="attendance-calendar-grid gap-sm mb-sm text-center">
+<div class="font-label-sm text-on-surface-variant">MON</div>
+<div class="font-label-sm text-on-surface-variant">TUE</div>
+<div class="font-label-sm text-on-surface-variant">WED</div>
+<div class="font-label-sm text-on-surface-variant">THU</div>
+<div class="font-label-sm text-on-surface-variant">FRI</div>
+<div class="font-label-sm text-on-surface-variant text-error">SAT</div>
+<div class="font-label-sm text-on-surface-variant text-error">SUN</div>
+</div>
+<div class="attendance-calendar-grid gap-sm">
+<!-- Week 1 - Placeholder boxes for previous month -->
+<div class="aspect-square bg-surface rounded-lg opacity-20"></div>
+<div class="aspect-square bg-surface rounded-lg opacity-20"></div>
+<div class="aspect-square bg-surface rounded-lg opacity-20"></div>
+<div class="aspect-square bg-surface rounded-lg opacity-20"></div>
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg shadow-sm">1</div>
+<div class="aspect-square bg-surface-container-highest flex items-center justify-center font-bold rounded-lg">2</div>
+<div class="aspect-square bg-surface-container-highest flex items-center justify-center font-bold rounded-lg">3</div>
+<!-- Week 2 -->
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg">4</div>
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg">5</div>
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg relative">
+                        6
+                        <span class="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-on-primary-container"></span>
+</div>
+<div class="aspect-square bg-amber-400 text-white flex items-center justify-center font-bold rounded-lg">7</div>
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg">8</div>
+<div class="aspect-square bg-surface-container-highest flex items-center justify-center font-bold rounded-lg">9</div>
+<div class="aspect-square bg-surface-container-highest flex items-center justify-center font-bold rounded-lg">10</div>
+<!-- Week 3 -->
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg">11</div>
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg">12</div>
+<div class="aspect-square bg-blue-500 text-white flex items-center justify-center font-bold rounded-lg">13</div>
+<div class="aspect-square bg-blue-500 text-white flex items-center justify-center font-bold rounded-lg">14</div>
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg">15</div>
+<div class="aspect-square bg-surface-container-highest flex items-center justify-center font-bold rounded-lg">16</div>
+<div class="aspect-square bg-surface-container-highest flex items-center justify-center font-bold rounded-lg">17</div>
+<!-- Week 4 -->
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg">18</div>
+<div class="aspect-square bg-error text-white flex items-center justify-center font-bold rounded-lg">19</div>
+<div class="aspect-square bg-primary-container text-on-primary-container flex items-center justify-center font-bold rounded-lg border-2 border-primary-fixed">20</div>
+<div class="aspect-square bg-surface-container-low flex items-center justify-center font-bold rounded-lg border border-dashed border-outline-variant">21</div>
+<div class="aspect-square bg-surface-container-low flex items-center justify-center font-bold rounded-lg border border-dashed border-outline-variant">22</div>
+<div class="aspect-square bg-surface-container-highest flex items-center justify-center font-bold rounded-lg">23</div>
+<div class="aspect-square bg-surface-container-highest flex items-center justify-center font-bold rounded-lg">24</div>
+</div>
+</div>
+<!-- Attendance History List -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10 flex flex-col">
+<div class="p-lg border-b border-outline-variant/10">
+<h4 class="font-title-md text-title-md">Recent History</h4>
+</div>
+<div class="overflow-y-auto flex-1 p-md">
+<table class="w-full text-left">
+<thead class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+<tr>
+<th class="pb-md px-sm">Date</th>
+<th class="pb-md px-sm">Status</th>
+<th class="pb-md px-sm">Note</th>
+</tr>
+</thead>
+<tbody class="text-body-md font-body-md">
+<tr class="border-b border-outline-variant/5 hover:bg-surface transition-colors group">
+<td class="py-md px-sm font-semibold">19 Oct 2023</td>
+<td class="py-md px-sm">
+<span class="px-3 py-1 rounded-full bg-error/10 text-error text-[10px] font-bold uppercase tracking-wide">Alpha</span>
+</td>
+<td class="py-md px-sm text-on-surface-variant text-xs italic">Tanpa Keterangan</td>
+</tr>
+<tr class="border-b border-outline-variant/5 hover:bg-surface transition-colors">
+<td class="py-md px-sm font-semibold">13 Oct 2023</td>
+<td class="py-md px-sm">
+<span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 text-[10px] font-bold uppercase tracking-wide">Sakit</span>
+</td>
+<td class="py-md px-sm text-on-surface-variant text-xs italic">Influenza & Fever</td>
+</tr>
+<tr class="border-b border-outline-variant/5 hover:bg-surface transition-colors">
+<td class="py-md px-sm font-semibold">07 Oct 2023</td>
+<td class="py-md px-sm">
+<span class="px-3 py-1 rounded-full bg-amber-400/10 text-amber-600 text-[10px] font-bold uppercase tracking-wide">Izin</span>
+</td>
+<td class="py-md px-sm text-on-surface-variant text-xs italic">Acara Keluarga</td>
+</tr>
+<tr class="border-b border-outline-variant/5 hover:bg-surface transition-colors">
+<td class="py-md px-sm font-semibold">06 Oct 2023</td>
+<td class="py-md px-sm">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wide">Hadir</span>
+</td>
+<td class="py-md px-sm text-on-surface-variant text-xs">Piket Pagi</td>
+</tr>
+<tr class="hover:bg-surface transition-colors">
+<td class="py-md px-sm font-semibold">05 Oct 2023</td>
+<td class="py-md px-sm">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wide">Hadir</span>
+</td>
+<td class="py-md px-sm text-on-surface-variant text-xs">-</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md text-center border-t border-outline-variant/10">
+<button class="text-primary font-label-sm text-label-sm hover:underline">View All Records</button>
+</div>
+</div>
+</div>
+<!-- AI Insight Section -->
+<section class="mt-gutter p-lg bg-[#F0FDF4] rounded-xl border border-primary/20 relative overflow-hidden">
+<div class="relative z-10 flex items-start gap-md">
+<div class="text-primary">
+<span class="material-symbols-outlined text-[32px] filled-icon">auto_awesome</span>
+</div>
+<div>
+<h5 class="font-title-md text-title-md text-primary-container mb-xs">Parental Insight</h5>
+<p class="text-body-md text-on-surface font-body-md max-w-2xl">
+                        Your student's attendance is exceptionally high this quarter. Maintaining this 94%+ rate is strongly correlated with a 15% improvement in their Mathematics performance. Keep up the encouragement!
+                    </p>
+</div>
+</div>
+<!-- Decorative atmospheric element -->
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+</section>
+</main>
+<script>
+        // Charts Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Attendance Trend Line Chart
+            const trendCtx = document.getElementById('attendanceTrend').getContext('2d');
+            new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Attendance Rate %',
+                        data: [92, 95, 93, 94],
+                        borderColor: '#005f2d',
+                        backgroundColor: 'rgba(0, 95, 45, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#005f2d'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 80,
+                            max: 100,
+                            grid: { color: '#f0f4f8' },
+                            ticks: { font: { family: 'Inter', size: 10 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', size: 10 } }
+                        }
+                    }
+                }
+            });
+
+            // Attendance Mix Pie Chart
+            const mixCtx = document.getElementById('attendanceMix').getContext('2d');
+            new Chart(mixCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Hadir', 'Izin', 'Sakit', 'Alpha'],
+                    datasets: [{
+                        data: [172, 3, 3, 2],
+                        backgroundColor: [
+                            '#0e7a3d', // Hadir
+                            '#fbbf24', // Izin
+                            '#3b82f6', // Sakit
+                            '#ba1a1a'  // Alpha
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: { family: 'Inter', size: 12 }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,51 +1,98 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div>
-            <h2 class="text-lg font-semibold text-gray-800">{{ __('Upload Materi') }}</h2>
-            <p class="text-sm text-gray-500">{{ __('Upload materi pembelajaran untuk siswa') }}</p>
-        </div>
-    </x-slot>
+    <x-slot name="header">Upload Materi</x-slot>
 
-    <div class="py-8">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="p-8">
+        <div class="max-w-2xl mx-auto">
+            {{-- Breadcrumb --}}
+            <nav class="flex items-center gap-1.5 text-xs text-[#5c5f61] mb-6">
+                <a href="{{ route('dashboard') }}" class="hover:text-[#005f2d] transition-colors">Dashboard</a>
+                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                <span class="text-[#171c1f] font-medium">Upload Materi</span>
+            </nav>
+
+            {{-- AI Info Banner --}}
+            <div class="ai-glow rounded-xl p-4 mb-6 flex items-center gap-3">
+                <span class="material-symbols-outlined text-[#0e7a3d] filled-icon shrink-0">auto_awesome</span>
+                <p class="text-sm text-[#3f493f]">
+                    Setelah upload, AI Claude akan otomatis mengekstrak teks dan membuat ringkasan untuk siswa.
+                    Mendukung format <strong>PDF, DOCX, dan TXT</strong>.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-soft border border-[#eaeef2] p-8">
                 <form action="{{ route('materi.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
 
+                    {{-- Judul --}}
                     <div>
-                        <x-input-label for="judul" :value="__('Judul Materi')" />
-                        <x-text-input id="judul" name="judul" type="text" class="mt-1 block w-full" placeholder="Contoh: Bab 1 - Sistem Persamaan Linear" required />
-                        <x-input-error class="mt-2" :messages="$errors->get('judul')" />
+                        <label for="judul" class="block text-sm font-semibold text-[#171c1f] mb-1.5">
+                            Judul Materi
+                        </label>
+                        <input id="judul" name="judul" type="text"
+                               value="{{ old('judul') }}"
+                               placeholder="Contoh: Bab 3 — Sistem Persamaan Linear"
+                               class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                      focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all"
+                               required>
+                        @error('judul')
+                            <p class="mt-1.5 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                    {{-- File Upload --}}
                     <div>
-                        <x-input-label for="file" :value="__('File Materi')" />
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-400 transition">
-                            <div class="space-y-2 text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <div class="text-sm text-gray-600">
-                                    <label for="file" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
-                                        <span>Upload file</span>
-                                        <input id="file" name="file" type="file" class="sr-only" required accept=".txt,.pdf,.docx">
-                                    </label>
-                                    <p class="ps-1">atau drag & drop</p>
-                                </div>
-                                <p class="text-xs text-gray-500">TXT, PDF, DOCX maksimal 10 MB</p>
-                            </div>
-                        </div>
-                        <x-input-error class="mt-2" :messages="$errors->get('file')" />
+                        <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">
+                            File Materi
+                        </label>
+                        <label for="file"
+                               class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#becabc]
+                                      rounded-xl cursor-pointer hover:border-[#005f2d] hover:bg-[#f0fdf4] transition-all group">
+                            <span class="material-symbols-outlined text-[#5c5f61] text-4xl group-hover:text-[#0e7a3d] transition-colors mb-2">cloud_upload</span>
+                            <p class="text-sm text-[#5c5f61] group-hover:text-[#005f2d]">
+                                <span class="font-semibold text-[#005f2d]">Klik untuk upload</span> atau drag & drop
+                            </p>
+                            <p class="text-xs text-[#5c5f61] mt-1">PDF, DOCX, TXT — Maks. 10 MB</p>
+                            <input id="file" name="file" type="file" class="hidden" accept=".txt,.pdf,.docx" required>
+                        </label>
+                        {{-- Filename preview --}}
+                        <p id="filename-display" class="mt-2 text-xs text-[#5c5f61] hidden">
+                            <span class="material-symbols-outlined text-[14px] align-middle text-[#0e7a3d]">attach_file</span>
+                            <span id="filename-text"></span>
+                        </p>
+                        @error('file')
+                            <p class="mt-1.5 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <div class="flex items-center gap-4">
-                        <x-primary-button>{{ __('Upload Materi') }}</x-primary-button>
-                        <a href="{{ route('dashboard') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
-                            {{ __('Batal') }}
+                    {{-- Buttons --}}
+                    <div class="flex items-center gap-3 pt-2">
+                        <button type="submit"
+                                class="inline-flex items-center gap-2 px-6 py-3 bg-[#005f2d] text-white text-sm font-semibold
+                                       rounded-xl hover:bg-[#0e7a3d] transition-all active:scale-95 shadow-soft">
+                            <span class="material-symbols-outlined text-[18px]">upload_file</span>
+                            Upload Materi
+                        </button>
+                        <a href="{{ route('dashboard') }}"
+                           class="inline-flex items-center gap-2 px-6 py-3 border border-[#becabc] text-[#5c5f61] text-sm font-semibold
+                                  rounded-xl hover:bg-[#f0f4f8] transition-all">
+                            Batal
                         </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.getElementById('file').addEventListener('change', function () {
+            const display = document.getElementById('filename-display');
+            const text = document.getElementById('filename-text');
+            if (this.files.length > 0) {
+                text.textContent = this.files[0].name;
+                display.classList.remove('hidden');
+            }
+        });
+    </script>
+    @endpush
 </x-app-layout>

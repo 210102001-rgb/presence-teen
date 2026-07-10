@@ -1,30 +1,52 @@
 <x-guest-layout>
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12">
+    <div class="w-full lg:w-[55%] flex items-center justify-center p-8 lg:p-12 bg-[#f6fafe]">
         <div class="w-full max-w-md">
-            <div class="text-center lg:text-left mb-8">
-                <h1 class="text-2xl font-bold text-gray-900">Lupa Password</h1>
-                <p class="mt-2 text-sm text-gray-600">Masukkan email Anda, kami akan kirim tautan reset password.</p>
+
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold text-[#171c1f]">Lupa Password?</h1>
+                <p class="mt-1.5 text-sm text-[#5c5f61]">
+                    Masukkan email Anda dan kami akan mengirimkan tautan untuk mereset password.
+                </p>
             </div>
 
-            <x-auth-session-status class="mb-4" :status="session('status')" />
+            @if(session('status'))
+                <div class="mb-5 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-2 text-sm text-[#005f2d]">
+                    <span class="material-symbols-outlined filled-icon text-[18px]">check_circle</span>
+                    {{ session('status') }}
+                </div>
+            @endif
 
             <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
                 @csrf
 
                 <div>
-                    <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" class="block mt-1 w-full px-4 py-3 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" type="email" name="email" :value="old('email')" required autofocus placeholder="nama@email.com" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <label for="email" class="block text-sm font-semibold text-[#171c1f] mb-1.5">Email</label>
+                    <input id="email" name="email" type="email"
+                           value="{{ old('email') }}"
+                           placeholder="nama@email.com"
+                           required autofocus
+                           class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                  focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all
+                                  @error('email') border-[#ba1a1a] @enderror">
+                    @error('email')
+                        <p class="mt-1.5 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <x-primary-button class="w-full justify-center py-3 rounded-lg text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
-                    {{ __('Kirim Tautan Reset') }}
-                </x-primary-button>
-
-                <p class="text-center text-sm text-gray-500">
-                    <a href="{{ route('login') }}" class="text-indigo-600 hover:text-indigo-800 font-medium">Kembali ke Login</a>
-                </p>
+                <button type="submit"
+                        class="w-full py-3 bg-[#005f2d] text-white text-sm font-semibold rounded-xl
+                               hover:bg-[#0e7a3d] transition-all active:scale-[0.98] shadow-soft">
+                    Kirim Tautan Reset
+                </button>
             </form>
+
+            <p class="mt-6 text-center text-sm text-[#5c5f61]">
+                <a href="{{ route('login') }}"
+                   class="inline-flex items-center gap-1 text-[#005f2d] hover:text-[#0e7a3d] font-semibold transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                    Kembali ke Login
+                </a>
+            </p>
         </div>
     </div>
 </x-guest-layout>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Motivation Hub - Academia</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#5c5f61",
+                    "on-secondary-container": "#626567",
+                    "surface-container-highest": "#dfe3e7",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "surface": "#f6fafe",
+                    "secondary-container": "#e0e3e5",
+                    "outline-variant": "#becabc",
+                    "on-primary-fixed": "#00210b",
+                    "surface-container-high": "#e4e9ed",
+                    "on-secondary-fixed-variant": "#444749",
+                    "inverse-primary": "#7bda92",
+                    "on-tertiary-fixed-variant": "#3d4756",
+                    "on-secondary-fixed": "#191c1e",
+                    "on-background": "#171c1f",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#dfe3e7",
+                    "surface-container-low": "#f0f4f8",
+                    "surface-container": "#eaeef2",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#616b7b",
+                    "inverse-on-surface": "#edf1f5",
+                    "on-primary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "background": "#f6fafe",
+                    "secondary-fixed": "#e0e3e5",
+                    "on-tertiary-fixed": "#121c2a",
+                    "primary-fixed-dim": "#7bda92",
+                    "inverse-surface": "#2c3134",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#005226",
+                    "primary-container": "#0e7a3d",
+                    "outline": "#6f7a6e",
+                    "surface-dim": "#d6dade",
+                    "surface-bright": "#f6fafe",
+                    "tertiary": "#495362",
+                    "primary-fixed": "#97f7ac",
+                    "error": "#ba1a1a",
+                    "primary": "#005f2d",
+                    "on-primary-container": "#a5ffb7",
+                    "tertiary-fixed": "#d9e3f6",
+                    "on-error": "#ffffff",
+                    "on-surface": "#171c1f",
+                    "surface-tint": "#006d34",
+                    "on-tertiary-container": "#e2ecff",
+                    "tertiary-fixed-dim": "#bdc7d9",
+                    "on-surface-variant": "#3f493f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "margin-mobile": "16px",
+                    "md": "16px",
+                    "max-width": "1440px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "margin-desktop": "40px",
+                    "2xl": "48px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "title-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); }
+        .ai-border { border: 2px solid transparent; background-image: linear-gradient(white, white), linear-gradient(to right, #0E7A3D, #495362); background-origin: border-box; background-clip: padding-box, border-box; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .chart-glow { filter: drop-shadow(0 0 8px rgba(14, 122, 61, 0.2)); }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-primary-container text-on-primary-container shadow-md flex flex-col py-lg px-md z-50">
+<div class="flex items-center gap-sm mb-xl">
+<div class="w-10 h-10 rounded-lg bg-on-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">school</span>
+</div>
+<div>
+<h1 class="text-title-md font-title-md text-on-primary-container">Academia</h1>
+<p class="font-label-sm text-label-sm opacity-80">Parent Portal</p>
+</div>
+</div>
+<nav class="flex-1 space-y-xs">
+<a class="flex items-center gap-md p-sm rounded-lg text-on-primary-container/80 hover:text-on-primary-container hover:bg-on-primary-container/5 transition-colors duration-150 font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-md p-sm rounded-lg bg-on-primary-container/10 text-on-primary-container font-bold border-l-4 border-primary-fixed font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">auto_awesome</span> Performance
+            </a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-primary-container/80 hover:text-on-primary-container hover:bg-on-primary-container/5 transition-colors duration-150 font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">calendar_today</span> Attendance
+            </a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-primary-container/80 hover:text-on-primary-container hover:bg-on-primary-container/5 transition-colors duration-150 font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">payments</span> Fees
+            </a>
+</nav>
+<div class="mt-auto pt-lg border-t border-on-primary-container/10">
+<a class="flex items-center gap-md p-sm rounded-lg text-on-primary-container/80 hover:text-on-primary-container hover:bg-on-primary-container/5 transition-colors duration-150 font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+<div class="flex items-center gap-sm mt-md p-sm">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A professional studio portrait of a friendly middle-aged woman with a warm smile, wearing a professional blazer. The lighting is soft and corporate, set against a neutral, high-end educational background. The overall aesthetic is clean, trustworthy, and sophisticated to represent a parent portal user." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRGGpMGYiMOOhiTS-V_0qX4QPkWk3pCs7wBSkBIiTBw956tBHyTiIZ5PAeQpAxerZcZAe2BTiNa95GSbpUNRBDcI77oy7ok8WuxBQNfDsk09OdmcR_aSt25HAJflvgYCI1CDa2je-Pw8SuMfZDWAtToGfNeFKmS4rFDh9SW5MGXQoeeqLK9Mi-wgUbg3K6nks943CmjjUaiBxh-leKF6oumi1LcwuWyG74FWwDQnRexukzr2cErNfK9vRveDm0D8vOYHnkGSFY-3aw"/>
+<div class="overflow-hidden">
+<p class="font-label-sm text-label-sm truncate">Mrs. Sarah Johnson</p>
+<p class="text-[10px] opacity-70">Grade 10 Parent</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-surface shadow-sm flex justify-between items-center px-margin-desktop z-40">
+<h2 class="font-headline-lg text-headline-lg text-primary">AI Motivation Hub</h2>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-xs px-md py-xs bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined text-primary scale-75" style="font-variation-settings: 'FILL' 1;">spark</span>
+<span class="font-label-sm text-label-sm text-primary">Student: Alexander Johnson</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 rounded-full hover:bg-surface-container transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-surface-container transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-max-width mx-auto p-margin-desktop">
+<!-- Hero Bento Grid Section -->
+<div class="grid grid-cols-12 gap-gutter mb-gutter">
+<!-- AI Avatar & High-Level Insights -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden flex flex-col md:flex-row relative">
+<div class="absolute top-4 right-4 z-10">
+<span class="flex items-center gap-xs bg-primary/10 text-primary px-sm py-xs rounded-full font-label-sm text-label-sm">
+<span class="material-symbols-outlined scale-75" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            92% Confidence Score
+                        </span>
+</div>
+<div class="w-full md:w-1/3 bg-primary-container/5 p-lg flex flex-col items-center justify-center text-center">
+<div class="w-32 h-32 rounded-full ai-border p-1 mb-md">
+<img class="w-full h-full rounded-full object-cover" data-alt="A futuristic and friendly AI companion avatar for education. A 3D rendered stylized character with ethereal translucent textures and floating geometric particles around it. The color palette features soft emerald greens and calming blues, set against a bright, minimalist studio backdrop with high-key lighting for a premium academic look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBywvE5W2gSDJWuKxmixGkqJju2GPIb3tCsD0m1b5m1frVcCYPdo6g9VHVpSIq6F47Cu1GNJtKpIwJe9aDoy36fHRFUztg3r47k-hvxZ5d9jDRqnUmRTi4uflpMAXnCy-5QJW6wxC5Q9yaJSiha2GoJYIlqS8sUnTuSTF8q6JSrZRTnthWKw-DloLwwwVkB7fWbem4lPJPYiZkOAx2_NpdD2ituH4mEKSvqHPWg-YVDlfFKh81fgC8MSiVgj6NMcw2frPrSBvhy3hAg"/>
+</div>
+<h3 class="font-title-md text-title-md text-primary">Meet AcademAI</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Personalized academic guidance engine</p>
+</div>
+<div class="w-full md:w-2/3 p-lg flex flex-col justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mb-xs">Today's Insight</p>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Alexander is currently performing at his peak capacity.</h2>
+<blockquote class="italic text-on-tertiary-fixed-variant font-body-lg text-body-lg border-l-4 border-primary pl-md py-sm bg-surface-container-low rounded-r-lg">
+                                "The only limit to our realization of tomorrow will be our doubts of today. Keep pushing the boundaries of your mathematical logic."
+                            </blockquote>
+</div>
+<div class="mt-lg flex flex-wrap gap-md">
+<div class="px-md py-sm bg-primary/10 rounded-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">trending_up</span>
+<div>
+<p class="text-[10px] text-secondary font-bold uppercase">Classification</p>
+<p class="font-label-sm text-label-sm text-primary">Sangat Aktif</p>
+</div>
+</div>
+<div class="px-md py-sm bg-green-50 rounded-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-green-700">security</span>
+<div>
+<p class="text-[10px] text-secondary font-bold uppercase">Risk Level</p>
+<p class="font-label-sm text-label-sm text-green-700">Rendah</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Achievement Badge -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-lg flex flex-col items-center justify-center text-center">
+<p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mb-md">Unlocked Badge</p>
+<div class="w-24 h-24 mb-md relative">
+
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface">Consistency Master</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-sm px-md">Alexander has submitted every assignment on time for 30 consecutive days.</p>
+<button class="mt-lg w-full py-sm bg-primary text-on-primary rounded-lg font-label-sm text-label-sm active:scale-95 duration-150">
+                        View Trophy Room
+                    </button>
+</div>
+</div>
+<!-- Recommendation Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Recommendations for Parents -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<div class="bg-surface-container-high px-lg py-md flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">family_restroom</span>
+<h4 class="font-title-md text-title-md text-on-surface">Guidance for Parents</h4>
+</div>
+<span class="px-sm py-xs bg-primary/20 text-primary-container rounded-full text-[10px] font-bold">4 NEW ACTIONS</span>
+</div>
+<div class="p-lg space-y-md">
+<div class="group flex gap-md p-md hover:bg-surface-container-low rounded-xl transition-all border border-transparent hover:border-outline-variant/20">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container">menu_book</span>
+</div>
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface group-hover:text-primary transition-colors">Encourage STEM Reading</h5>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Alexander shows increasing interest in Physics. Consider introducing "The Order of Time" for weekend reading.</p>
+</div>
+</div>
+<div class="group flex gap-md p-md hover:bg-surface-container-low rounded-xl transition-all border border-transparent hover:border-outline-variant/20">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container">forum</span>
+</div>
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface group-hover:text-primary transition-colors">Discuss Future Career Path</h5>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">His analytical scores suggest a high aptitude for Architecture. Ask him about his favorite structures.</p>
+</div>
+</div>
+<button class="w-full py-md border-2 border-dashed border-outline-variant rounded-xl text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-colors">
+                            View All Parental Insights
+                        </button>
+</div>
+</div>
+<!-- Recommendations for Student -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<div class="bg-primary-container/10 px-lg py-md flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">person</span>
+<h4 class="font-title-md text-title-md text-on-surface">Mission for Alexander</h4>
+</div>
+<span class="px-sm py-xs bg-primary text-on-primary rounded-full text-[10px] font-bold">NEXT UP</span>
+</div>
+<div class="p-lg space-y-md">
+<div class="group flex gap-md p-md bg-surface-container-low rounded-xl border border-primary/20 relative">
+<div class="absolute -top-2 -right-2 bg-primary text-on-primary text-[10px] px-sm py-1 rounded-full font-bold">PROMOTED</div>
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container">rocket_launch</span>
+</div>
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface">Advanced Calculus Challenge</h5>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">A new competitive quiz is available. Completing this will boost your global ranking by 2%.</p>
+<div class="mt-md flex gap-sm">
+<button class="px-md py-1.5 bg-primary text-on-primary rounded-lg text-[12px] font-bold active:scale-95 duration-150">Start Mission</button>
+<button class="px-md py-1.5 bg-surface text-primary border border-primary/30 rounded-lg text-[12px] font-bold active:scale-95 duration-150">Remind Later</button>
+</div>
+</div>
+</div>
+<div class="group flex gap-md p-md hover:bg-surface-container-low rounded-xl transition-all border border-transparent hover:border-outline-variant/20">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container">group</span>
+</div>
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface group-hover:text-primary transition-colors">Join Peer Study Group</h5>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Your classmate, David, has invited you to the Chemistry review session today at 3 PM.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tonal Footer Info -->
+<div class="mt-gutter p-lg bg-surface-container-low rounded-xl border border-outline-variant/20 flex flex-col md:flex-row items-center justify-between gap-md">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">AI Narrative Generation</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Last updated today at 08:45 AM based on recent quiz scores and attendance logs.</p>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="px-md py-sm bg-white border border-outline-variant rounded-lg font-label-sm text-label-sm flex items-center gap-xs hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined scale-75">share</span> Share Report
+                    </button>
+<button class="px-md py-sm bg-white border border-outline-variant rounded-lg font-label-sm text-label-sm flex items-center gap-xs hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined scale-75">print</span> Print Insights
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+    </script>
+</body></html>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('guru_id')->constrained('users')->cascadeOnDelete();
             $table->string('judul');
             $table->text('deskripsi')->nullable();
-            $table->timestamp('deadline');
+            $table->timestamp('deadline')->useCurrent();
         });
     }
 

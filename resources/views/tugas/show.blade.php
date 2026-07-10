@@ -1,48 +1,180 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $tugas->judul }}
-        </h2>
-    </x-slot>
+    <x-slot name="header">Detail Tugas</x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ $tugas->judul }}</h3>
-                    <p class="mt-2 text-sm text-gray-600">{{ $tugas->deskripsi }}</p>
-                    <p class="mt-2 text-sm text-gray-500">
-                        <span class="font-medium">{{ __('Deadline') }}:</span>
-                        {{ $tugas->deadline->format('d M Y H:i') }}
-                    </p>
+    <div class="p-8">
+        <div class="max-w-3xl mx-auto">
+            {{-- Breadcrumb --}}
+            <nav class="flex items-center gap-1.5 text-xs text-[#5c5f61] mb-6">
+                <a href="{{ route('tugas.index') }}" class="hover:text-[#005f2d] transition-colors">Tugas</a>
+                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                <span class="text-[#171c1f] font-medium truncate max-w-xs">{{ $tugas->judul }}</span>
+            </nav>
 
-                    <hr class="my-6">
+            {{-- Flash --}}
+            @if(session('success'))
+                <div class="mb-5 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-3 text-sm text-[#005f2d]">
+                    <span class="material-symbols-outlined filled-icon text-[20px] shrink-0">check_circle</span>
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="mb-5 p-4 bg-[#ffdad6] border border-[#ba1a1a]/20 rounded-xl flex items-center gap-3 text-sm text-[#93000a]">
+                    <span class="material-symbols-outlined filled-icon text-[20px] shrink-0">error</span>
+                    {{ session('error') }}
+                </div>
+            @endif
 
-                    <h4 class="font-semibold text-gray-900">{{ __('Pengumpulan') }}</h4>
+            {{-- Tugas Header Card --}}
+            <div class="bg-white rounded-xl shadow-soft border border-[#eaeef2] p-6 mb-6">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#f0fdf4] flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">assignment</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-[#171c1f]">{{ $tugas->judul }}</h3>
+                            @if($tugas->deskripsi)
+                                <p class="text-sm text-[#5c5f61] mt-1">{{ $tugas->deskripsi }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    @php
+                        $isOverdue = $tugas->deadline->isPast();
+                    @endphp
+                    <span class="shrink-0 px-3 py-1.5 text-[11px] font-bold rounded-full uppercase tracking-wider
+                          {{ $isOverdue ? 'bg-[#ffdad6] text-[#93000a]' : 'bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20' }}">
+                        {{ $isOverdue ? 'Lewat Deadline' : 'Aktif' }}
+                    </span>
+                </div>
+
+                <div class="flex items-center gap-2 text-sm text-[#5c5f61] bg-[#f6fafe] rounded-xl px-4 py-3">
+                    <span class="material-symbols-outlined text-[18px] {{ $isOverdue ? 'text-[#ba1a1a]' : 'text-[#005f2d]' }}">schedule</span>
+                    <span class="{{ $isOverdue ? 'text-[#ba1a1a] font-semibold' : '' }}">
+                        Deadline: {{ $tugas->deadline->format('d M Y, H:i') }} WIB
+                    </span>
+                </div>
+
+                {{-- Kumpul Tugas (siswa) --}}
+                @if(auth()->user()->role === 'siswa')
+                    @php
+                        $pengumpulanSaya = $tugas->pengumpulan->where('siswa_id', auth()->id())->first();
+                        $sudahKumpul = $pengumpulanSaya && $pengumpulanSaya->status === 'sudah';
+                    @endphp
+                    <div class="mt-5 pt-5 border-t border-[#eaeef2]">
+                        @if($sudahKumpul)
+                            <div class="flex items-center gap-3 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl">
+                                <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">check_circle</span>
+                                <div>
+                                    <p class="text-sm font-semibold text-[#005f2d]">Tugas sudah dikumpulkan</p>
+                                    @if($pengumpulanSaya->waktu_kumpul)
+                                        <p class="text-xs text-[#3f493f]">{{ \Carbon\Carbon::parse($pengumpulanSaya->waktu_kumpul)->format('d M Y, H:i') }}</p>
+                                    @endif
+                                    @if($pengumpulanSaya->nilai)
+                                        <p class="text-xs text-[#005f2d] font-semibold mt-0.5">Nilai: {{ $pengumpulanSaya->nilai }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @elseif(!$isOverdue)
+                            <form action="{{ route('tugas.kumpul', $tugas) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                                @csrf
+                                <div>
+                                    <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Upload File Tugas</label>
+                                    <label for="file"
+                                           class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#becabc]
+                                                  rounded-xl cursor-pointer hover:border-[#005f2d] hover:bg-[#f0fdf4] transition-all group">
+                                        <span class="material-symbols-outlined text-[#5c5f61] text-3xl group-hover:text-[#0e7a3d] mb-1">cloud_upload</span>
+                                        <p class="text-sm text-[#5c5f61]"><span class="font-semibold text-[#005f2d]">Klik untuk upload</span> file tugas</p>
+                                        <input id="file" name="file" type="file" class="hidden">
+                                    </label>
+                                    @error('file')
+                                        <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <button type="submit"
+                                        class="inline-flex items-center gap-2 px-6 py-3 bg-[#005f2d] text-white text-sm font-semibold
+                                               rounded-xl hover:bg-[#0e7a3d] transition-all active:scale-95 shadow-soft">
+                                    <span class="material-symbols-outlined text-[18px]">upload</span>
+                                    Kumpulkan Tugas
+                                </button>
+                            </form>
+                        @else
+                            <div class="flex items-center gap-3 p-4 bg-[#ffdad6]/40 border border-[#ba1a1a]/20 rounded-xl">
+                                <span class="material-symbols-outlined text-[#ba1a1a] filled-icon">cancel</span>
+                                <p class="text-sm font-medium text-[#93000a]">Deadline telah lewat. Tugas tidak dapat dikumpulkan.</p>
+                            </div>
+                        @endif
+                    </div>
+                @endif
+            </div>
+
+            {{-- Daftar Pengumpulan (guru) --}}
+            @if(auth()->user()->role === 'guru')
+                <div class="bg-white rounded-xl shadow-soft border border-[#eaeef2] overflow-hidden mb-6">
+                    <div class="px-6 py-4 border-b border-[#eaeef2] flex justify-between items-center">
+                        <h4 class="font-semibold text-[#171c1f]">Daftar Pengumpulan Siswa</h4>
+                        <span class="text-xs text-[#5c5f61]">
+                            {{ $tugas->pengumpulan->count() }} siswa telah mengumpulkan
+                        </span>
+                    </div>
+
                     @if($tugas->pengumpulan && $tugas->pengumpulan->count())
-                        <table class="mt-4 min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama Siswa</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nilai</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($tugas->pengumpulan as $pengumpulan)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $pengumpulan->siswa->name ?? '-' }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $pengumpulan->created_at->format('d M Y H:i') }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $pengumpulan->nilai ?? '-' }}</td>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="bg-[#f6fafe]">
+                                        <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-[#5c5f61] uppercase tracking-wider">Nama Siswa</th>
+                                        <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-[#5c5f61] uppercase tracking-wider">Waktu Kumpul</th>
+                                        <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-[#5c5f61] uppercase tracking-wider">File</th>
+                                        <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-[#5c5f61] uppercase tracking-wider">Nilai</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="divide-y divide-[#f0f4f8]">
+                                    @foreach($tugas->pengumpulan as $p)
+                                        <tr class="hover:bg-[#f6fafe] transition-colors">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-8 h-8 rounded-full bg-[#0e7a3d] flex items-center justify-center text-white text-sm font-bold shrink-0">
+                                                        {{ substr($p->siswa->name ?? '?', 0, 1) }}
+                                                    </div>
+                                                    <span class="text-sm font-medium text-[#171c1f]">{{ $p->siswa->name ?? '-' }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-[#5c5f61]">
+                                                {{ $p->waktu_kumpul ? \Carbon\Carbon::parse($p->waktu_kumpul)->format('d M Y, H:i') : $p->created_at->format('d M Y, H:i') }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @if($p->file_path)
+                                                    <a href="{{ Storage::url($p->file_path) }}" target="_blank"
+                                                       class="inline-flex items-center gap-1 text-sm text-[#005f2d] font-medium hover:underline">
+                                                        <span class="material-symbols-outlined text-[16px]">download</span>
+                                                        Unduh
+                                                    </a>
+                                                @else
+                                                    <span class="text-xs text-[#5c5f61]">—</span>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4 text-sm font-semibold text-[#171c1f]">
+                                                {{ $p->nilai ?? '—' }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     @else
-                        <p class="mt-4 text-sm text-gray-500">{{ __('Belum ada pengumpulan') }}</p>
+                        <div class="p-12 text-center">
+                            <span class="material-symbols-outlined text-[#dfe3e7] text-4xl">inbox</span>
+                            <p class="text-sm text-[#5c5f61] mt-3">Belum ada siswa yang mengumpulkan.</p>
+                        </div>
                     @endif
                 </div>
-            </div>
+            @endif
+
+            <a href="{{ route('tugas.index') }}"
+               class="inline-flex items-center gap-2 text-sm font-medium text-[#005f2d] hover:text-[#0e7a3d] transition-colors">
+                <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                Kembali ke Daftar Tugas
+            </a>
         </div>
     </div>
 </x-app-layout>

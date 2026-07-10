@@ -1,102 +1,111 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div>
-            <h2 class="text-lg font-semibold text-gray-800">{{ __('Dashboard Guru') }}</h2>
-            <p class="text-sm text-gray-500">{{ __('Halo, ') }} <span class="font-semibold text-indigo-600">{{ Auth::user()->name }}</span> {{ __('— selamat mengajar!') }}</p>
+    <x-slot name="header">Dashboard Guru</x-slot>
+
+    <div class="p-8">
+        {{-- Welcome Section --}}
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-[#171c1f]">Selamat Datang, {{ Auth::user()->name }} 👋</h2>
+            <p class="text-sm text-[#3f493f] mt-1">Kelola kelas, presensi, tugas, dan pantau laporan siswa dengan mudah.</p>
         </div>
-    </x-slot>
 
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl shadow-sm p-6 text-white">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-indigo-100 text-sm font-medium">{{ __('Total Kelas') }}</p>
-                            <p class="text-3xl font-bold mt-1">1</p>
-                            <p class="text-indigo-200 text-xs mt-1">{{ __('Kelas aktif') }}</p>
-                        </div>
-                        <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                            </svg>
-                        </div>
+        {{-- Stats Grid --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-[#0e7a3d] text-[#a5ffb7] rounded-xl p-6 shadow-soft">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] uppercase tracking-widest text-[#a5ffb7]/80 font-semibold">Total Kelas</p>
+                        <p class="text-4xl font-bold text-white mt-1">1</p>
+                        <p class="text-xs text-white/60 mt-1">Kelas aktif</p>
                     </div>
-                </div>
-
-                <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-sm p-6 text-white">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-emerald-100 text-sm font-medium">{{ __('Total Siswa') }}</p>
-                            <p class="text-3xl font-bold mt-1">30</p>
-                            <p class="text-emerald-200 text-xs mt-1">{{ __('Seluruh siswa') }}</p>
-                        </div>
-                        <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl shadow-sm p-6 text-white">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-amber-100 text-sm font-medium">{{ __('Total Tugas') }}</p>
-                            <p class="text-3xl font-bold mt-1">5</p>
-                            <p class="text-amber-200 text-xs mt-1">{{ __('Tugas dibuat') }}</p>
-                        </div>
-                        <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-                            </svg>
-                        </div>
+                    <div class="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-white filled-icon">class</span>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h4 class="font-semibold text-gray-900">{{ __('QR Presensi') }}</h4>
-                        <a href="{{ route('presensi.guru') }}" class="text-xs font-medium text-indigo-600 hover:text-indigo-800">{{ __('Generate') }}</a>
+            <div class="bg-white rounded-xl p-6 shadow-soft border-t-4 border-[#495362]">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Total Siswa</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">30</p>
+                        <p class="text-xs text-[#5c5f61] mt-1">Seluruh siswa</p>
                     </div>
-                    <p class="text-sm text-gray-600 mb-4">{{ __('Buat QR Code untuk presensi kelas dengan mudah.') }}</p>
-                    <a href="{{ route('presensi.guru') }}" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800">
-                        {{ __('Generate QR') }}
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
+                    <div class="w-12 h-12 bg-[#eaeef2] rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[#495362]">groups</span>
+                    </div>
                 </div>
+            </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h4 class="font-semibold text-gray-900">{{ __('Kelola Tugas') }}</h4>
-                        <a href="{{ route('tugas.index') }}" class="text-xs font-medium text-indigo-600 hover:text-indigo-800">{{ __('Atur') }}</a>
+            <div class="bg-white rounded-xl p-6 shadow-soft border-t-4 border-[#005f2d]">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Total Tugas</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">5</p>
+                        <p class="text-xs text-[#5c5f61] mt-1">Tugas dibuat</p>
                     </div>
-                    <p class="text-sm text-gray-600 mb-4">{{ __('Buat, edit, dan kelola tugas untuk siswa.') }}</p>
-                    <a href="{{ route('tugas.index') }}" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800">
-                        {{ __('Kelola Tugas') }}
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
+                    <div class="w-12 h-12 bg-[#eaeef2] rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[#005f2d]">assignment</span>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h4 class="font-semibold text-gray-900">{{ __('Laporan Siswa') }}</h4>
-                        <a href="{{ route('laporan.index') }}" class="text-xs font-medium text-indigo-600 hover:text-indigo-800">{{ __('Lihat') }}</a>
-                    </div>
-                    <p class="text-sm text-gray-600 mb-4">{{ __('Pantau laporan kehadiran dan peringatan siswa.') }}</p>
-                    <a href="{{ route('laporan.index') }}" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800">
-                        {{ __('Lihat Laporan') }}
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
+        {{-- Action Cards --}}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {{-- QR Presensi --}}
+            <div class="bg-white rounded-xl shadow-soft p-6 bento-card border border-[#eaeef2] hover:border-[#0e7a3d]/30">
+                <div class="w-12 h-12 bg-[#f0fdf4] rounded-xl flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">qr_code_2</span>
                 </div>
+                <h4 class="font-semibold text-[#171c1f] mb-1">QR Presensi</h4>
+                <p class="text-sm text-[#5c5f61] mb-4">Generate QR Code untuk presensi kelas dengan mudah.</p>
+                <a href="{{ route('presensi.guru') }}"
+                   class="inline-flex items-center gap-1 text-sm font-semibold text-[#005f2d] hover:text-[#0e7a3d] transition-colors">
+                    Generate QR <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </a>
+            </div>
+
+            {{-- Kelola Tugas --}}
+            <div class="bg-white rounded-xl shadow-soft p-6 bento-card border border-[#eaeef2] hover:border-[#0e7a3d]/30">
+                <div class="w-12 h-12 bg-[#f0fdf4] rounded-xl flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">assignment</span>
+                </div>
+                <h4 class="font-semibold text-[#171c1f] mb-1">Kelola Tugas</h4>
+                <p class="text-sm text-[#5c5f61] mb-4">Buat, edit, dan kelola tugas untuk siswa.</p>
+                <a href="{{ route('tugas.index') }}"
+                   class="inline-flex items-center gap-1 text-sm font-semibold text-[#005f2d] hover:text-[#0e7a3d] transition-colors">
+                    Kelola Tugas <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </a>
+            </div>
+
+            {{-- Laporan --}}
+            <div class="bg-white rounded-xl shadow-soft p-6 bento-card border border-[#eaeef2] hover:border-[#0e7a3d]/30">
+                <div class="w-12 h-12 bg-[#f0fdf4] rounded-xl flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">monitoring</span>
+                </div>
+                <h4 class="font-semibold text-[#171c1f] mb-1">Laporan Siswa</h4>
+                <p class="text-sm text-[#5c5f61] mb-4">Pantau laporan kehadiran dan peringatan siswa.</p>
+                <a href="{{ route('laporan.index') }}"
+                   class="inline-flex items-center gap-1 text-sm font-semibold text-[#005f2d] hover:text-[#0e7a3d] transition-colors">
+                    Lihat Laporan <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+
+        {{-- Upload Materi --}}
+        <div class="mt-6">
+            <div class="bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl p-6 flex items-center gap-5">
+                <div class="w-12 h-12 bg-[#0e7a3d]/10 rounded-full flex items-center justify-center text-[#0e7a3d] shrink-0">
+                    <span class="material-symbols-outlined filled-icon">auto_awesome</span>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-semibold text-[#005f2d]">Upload Materi + Ringkasan AI</h4>
+                    <p class="text-sm text-[#3f493f] mt-0.5">Upload file materi (PDF/DOCX) dan biarkan AI Claude meringkas secara otomatis untuk siswa.</p>
+                </div>
+                <a href="{{ route('materi.create') }}"
+                   class="shrink-0 bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-colors">
+                    Upload Sekarang
+                </a>
             </div>
         </div>
     </div>

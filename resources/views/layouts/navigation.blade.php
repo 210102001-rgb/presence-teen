@@ -1,160 +1,137 @@
-<nav x-data="{ open: false }" class="bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex items-center">
-                <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                        <span class="text-indigo-600 font-black text-sm">PT</span>
-                    </div>
-                    <span class="text-white font-bold text-lg">Presence-Teen</span>
-                </a>
+@php
+    $role = Auth::check() ? Auth::user()->role : null;
+@endphp
 
-                <div class="hidden sm:flex sm:items-center sm:ms-10 space-x-1">
-                    @php
-                        $role = Auth::user()->role;
-                    @endphp
-
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white/80 hover:text-white">
-                        {{ __('Beranda') }}
-                    </x-nav-link>
-
-                    @if ($role === 'siswa')
-                        <x-nav-link :href="route('presensi.scan')" :active="request()->routeIs('presensi.scan')" class="text-white/80 hover:text-white">
-                            {{ __('Scan Presensi') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('tugas.index')" :active="request()->routeIs('tugas.index')" class="text-white/80 hover:text-white">
-                            {{ __('Tugas') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('materi.index')" :active="request()->routeIs('materi.*')" class="text-white/80 hover:text-white">
-                            {{ __('Materi') }}
-                        </x-nav-link>
-                    @elseif ($role === 'guru')
-                        <x-nav-link :href="route('presensi.guru')" :active="request()->routeIs('presensi.guru')" class="text-white/80 hover:text-white">
-                            {{ __('QR Presensi') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('materi.create')" :active="request()->routeIs('materi.create')" class="text-white/80 hover:text-white">
-                            {{ __('Upload Materi') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('tugas.index')" :active="request()->routeIs('tugas.index')" class="text-white/80 hover:text-white">
-                            {{ __('Tugas') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.index')" class="text-white/80 hover:text-white">
-                            {{ __('Laporan') }}
-                        </x-nav-link>
-                    @elseif ($role === 'orang_tua')
-                        <x-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.index')" class="text-white/80 hover:text-white">
-                            {{ __('Laporan') }}
-                        </x-nav-link>
-                    @endif
-                </div>
-            </div>
-
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg transition duration-150 ease-in-out">
-                            <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold text-white mr-2">
-                                {{ substr(Auth::user()->name, 0, 1) }}
-                            </div>
-                            <div>{{ Auth::user()->name }}</div>
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profil') }}
-                        </x-dropdown-link>
-
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Keluar') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <div class="flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 focus:outline-none transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+<aside class="bg-[#0e7a3d] text-[#a5ffb7] h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col py-6 px-4 z-50 overflow-y-auto">
+    {{-- Brand --}}
+    <div class="flex items-center gap-3 mb-8 px-2">
+        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined filled-icon text-white">school</span>
+        </div>
+        <div>
+            <h1 class="text-base font-bold text-white leading-none">Presence-Teen</h1>
+            <p class="text-[10px] text-white/60 uppercase tracking-widest mt-0.5">
+                @if($role === 'guru') Portal Guru
+                @elseif($role === 'siswa') Portal Siswa
+                @elseif($role === 'orang_tua') Portal Orang Tua
+                @else Academic Portal
+                @endif
+            </p>
         </div>
     </div>
 
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden border-t border-white/10">
-        <div class="pt-2 pb-3 space-y-1 px-4">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white/80 hover:text-white hover:bg-white/10">
-                {{ __('Beranda') }}
-            </x-responsive-nav-link>
+    {{-- Navigation --}}
+    <nav class="flex-1 space-y-1">
+        {{-- Dashboard --}}
+        <a href="{{ route('dashboard') }}"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                  {{ request()->routeIs('dashboard') || request()->routeIs('dashboard.*')
+                     ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                     : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+            <span class="material-symbols-outlined {{ request()->routeIs('dashboard') || request()->routeIs('dashboard.*') ? 'filled-icon' : '' }}">dashboard</span>
+            <span class="text-sm">Dashboard</span>
+        </a>
 
-            @if ($role === 'siswa')
-                <x-responsive-nav-link :href="route('presensi.scan')" :active="request()->routeIs('presensi.scan')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('Scan Presensi') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('tugas.index')" :active="request()->routeIs('tugas.index')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('Tugas') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('materi.index')" :active="request()->routeIs('materi.*')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('Materi') }}
-                </x-responsive-nav-link>
-            @elseif ($role === 'guru')
-                <x-responsive-nav-link :href="route('presensi.guru')" :active="request()->routeIs('presensi.guru')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('QR Presensi') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('materi.create')" :active="request()->routeIs('materi.create')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('Upload Materi') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('tugas.index')" :active="request()->routeIs('tugas.index')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('Tugas') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.index')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('Laporan') }}
-                </x-responsive-nav-link>
-            @elseif ($role === 'orang_tua')
-                <x-responsive-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.index')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('Laporan') }}
-                </x-responsive-nav-link>
-            @endif
-        </div>
+        @if($role === 'siswa')
+            <a href="{{ route('presensi.scan') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('presensi.scan')
+                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('presensi.scan') ? 'filled-icon' : '' }}">qr_code_scanner</span>
+                <span class="text-sm">Scan Presensi</span>
+            </a>
+            <a href="{{ route('tugas.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('tugas.*')
+                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('tugas.*') ? 'filled-icon' : '' }}">assignment</span>
+                <span class="text-sm">Tugas</span>
+            </a>
+            <a href="{{ route('materi.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('materi.*')
+                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('materi.*') ? 'filled-icon' : '' }}">menu_book</span>
+                <span class="text-sm">Materi</span>
+            </a>
 
-        <div class="pt-4 pb-3 border-t border-white/10">
-            <div class="flex items-center px-4">
-                <div class="shrink-0">
-                    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white font-bold">
-                        {{ substr(Auth::user()->name, 0, 1) }}
-                    </div>
-                </div>
-                <div class="ms-3">
-                    <div class="font-medium text-white">{{ Auth::user()->name }}</div>
-                    <div class="text-sm text-white/60">{{ Auth::user()->email }}</div>
-                </div>
+        @elseif($role === 'guru')
+            <a href="{{ route('presensi.guru') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('presensi.guru*')
+                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('presensi.guru*') ? 'filled-icon' : '' }}">qr_code_2</span>
+                <span class="text-sm">QR Presensi</span>
+            </a>
+            <a href="{{ route('materi.create') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('materi.create')
+                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('materi.create') ? 'filled-icon' : '' }}">upload_file</span>
+                <span class="text-sm">Upload Materi</span>
+            </a>
+            <a href="{{ route('tugas.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('tugas.*')
+                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('tugas.*') ? 'filled-icon' : '' }}">assignment</span>
+                <span class="text-sm">Kelola Tugas</span>
+            </a>
+            <a href="{{ route('laporan.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('laporan.*')
+                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('laporan.*') ? 'filled-icon' : '' }}">monitoring</span>
+                <span class="text-sm">Laporan Siswa</span>
+            </a>
+
+        @elseif($role === 'orang_tua')
+            <a href="{{ route('laporan.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('laporan.*')
+                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('laporan.*') ? 'filled-icon' : '' }}">monitoring</span>
+                <span class="text-sm">Laporan Anak</span>
+            </a>
+        @endif
+    </nav>
+
+    {{-- Bottom: Profile & Logout --}}
+    <div class="pt-4 border-t border-white/15 mt-4">
+        <a href="{{ route('profile.edit') }}"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150
+                  {{ request()->routeIs('profile.*')
+                     ? 'bg-white/15 text-white font-semibold'
+                     : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+            <span class="material-symbols-outlined">manage_accounts</span>
+            <span class="text-sm">Profil</span>
+        </a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white/75 hover:text-white hover:bg-white/10 transition-all duration-150 active:scale-95">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="text-sm">Keluar</span>
+            </button>
+        </form>
+
+        {{-- User Info --}}
+        <div class="mt-3 flex items-center gap-3 px-2 py-3 bg-white/10 rounded-xl">
+            <div class="w-9 h-9 rounded-full bg-[#97f7ac] flex items-center justify-center text-[#005f2d] text-sm font-bold shrink-0">
+                {{ substr(Auth::user()->name, 0, 1) }}
             </div>
-
-            <div class="mt-3 space-y-1 px-4">
-                <x-responsive-nav-link :href="route('profile.edit')" class="text-white/80 hover:text-white hover:bg-white/10">
-                    {{ __('Profil') }}
-                </x-responsive-nav-link>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault(); this.closest('form').submit();"
-                            class="text-white/80 hover:text-white hover:bg-white/10">
-                        {{ __('Keluar') }}
-                    </x-responsive-nav-link>
-                </form>
+            <div class="overflow-hidden">
+                <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name }}</p>
+                <p class="text-[10px] text-white/50 truncate capitalize">{{ Auth::user()->role ?? 'User' }}</p>
             </div>
         </div>
     </div>
-</nav>
+</aside>

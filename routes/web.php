@@ -14,18 +14,9 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    Route::get('/dashboard/siswa', function () {
-        return view('dashboard.siswa');
-    })->name('dashboard.siswa');
-
-    Route::get('/dashboard/guru', function () {
-        return view('dashboard.guru');
-    })->name('dashboard.guru');
-
-    Route::get('/dashboard/orang-tua', function () {
-        return view('dashboard.orang_tua');
-    })->name('dashboard.orang_tua');
+    Route::get('/dashboard/siswa', [DashboardController::class, 'siswa'])->name('dashboard.siswa');
+    Route::get('/dashboard/guru', [DashboardController::class, 'guru'])->name('dashboard.guru');
+    Route::get('/dashboard/orang-tua', [DashboardController::class, 'orangTua'])->name('dashboard.orang_tua');
 });
 
 Route::middleware('auth')->group(function () {
