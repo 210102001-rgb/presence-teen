@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('siswa_id')->constrained('users')->after('id');
             $table->string('periode')->nullable()->after('siswa_id');
             $table->text('hasil_analisis')->nullable()->after('periode');
-            $table->enum('level_peringatan', ['ringan', 'sedang', 'berat'])->default('ringan')->after('hasil_analisis');
+            $table->enum('level_peringatan', ['aman', 'perhatian', 'kritis'])->default('aman')->after('hasil_analisis');
         });
     }
 

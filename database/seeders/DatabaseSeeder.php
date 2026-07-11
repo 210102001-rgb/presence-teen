@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Kelas;
-use App\Models\SiswaKelas;
 use App\Models\OrangTuaSiswa;
+use App\Models\SiswaKelas;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

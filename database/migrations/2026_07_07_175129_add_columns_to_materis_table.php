@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('materis', function (Blueprint $table) {
-            $table->foreignId('siswa_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('siswa_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->string('judul');
             $table->longText('materi_asli');
             $table->longText('ringkasan_ai')->nullable();

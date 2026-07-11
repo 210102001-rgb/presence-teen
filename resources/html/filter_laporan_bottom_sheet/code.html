@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Filter Laporan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#005226",
+                        "on-surface-variant": "#3f493f",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#bdcabe",
+                        "tertiary-fixed": "#a3f69c",
+                        "surface": "#f9f9f9",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#81da95",
+                        "outline": "#6f7a6f",
+                        "on-secondary-fixed": "#131e17",
+                        "on-primary-container": "#8fe9a3",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#81da95",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-container": "#eeeeee",
+                        "outline-variant": "#becabd",
+                        "surface-tint": "#056d35",
+                        "on-tertiary-fixed": "#002204",
+                        "on-tertiary-container": "#97e990",
+                        "surface-bright": "#f9f9f9",
+                        "primary": "#005025",
+                        "secondary": "#556158",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2f3131",
+                        "tertiary": "#005111",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "background": "#f9f9f9",
+                        "on-background": "#1a1c1c",
+                        "tertiary-fixed-dim": "#88d982",
+                        "primary-container": "#006b33",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#00210b",
+                        "surface-variant": "#e2e2e2",
+                        "secondary-fixed": "#d9e6da",
+                        "secondary-container": "#d9e6da",
+                        "on-secondary-fixed-variant": "#3e4a41",
+                        "surface-dim": "#dadada",
+                        "on-tertiary-fixed-variant": "#005312",
+                        "on-secondary-container": "#5b675e",
+                        "primary-fixed": "#9cf6af",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#196b22"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "container-max": "1280px",
+                        "lg": "24px",
+                        "unit": "4px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#333333] h-screen w-screen flex flex-col justify-end font-body-md overflow-hidden antialiased">
+<!-- Dimmed Background Overlay is handled by body bg color -->
+<!-- Bottom Sheet Panel -->
+<div class="bg-surface w-full rounded-t-3xl shadow-2xl flex flex-col animate-[slideUp_0.3s_ease-out_forwards]">
+<!-- Drag Handle -->
+<div class="w-full flex justify-center pt-xs pb-sm">
+<div class="w-12 h-1 bg-surface-variant rounded-full"></div>
+</div>
+<!-- Header -->
+<div class="px-margin-mobile flex justify-between items-center pb-md border-b border-surface-variant">
+<div class="w-12"></div> <!-- Spacer for centering -->
+<h2 class="font-headline-md text-headline-md text-on-surface text-center flex-1">Filter Laporan</h2>
+<button class="font-label-md text-label-md text-primary w-12 text-right hover:text-primary-container transition-colors">Reset</button>
+</div>
+<!-- Content Area -->
+<div class="px-margin-mobile py-lg flex flex-col gap-lg overflow-y-auto max-h-[618px]">
+<!-- Time Range Section -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-label-md text-label-md text-on-surface">Rentang Waktu</h3>
+<div class="flex gap-md w-full">
+<!-- Start Date Input -->
+<div class="flex-1 relative">
+<label class="sr-only">Start Date</label>
+<div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-lg" data-icon="calendar_month">calendar_month</span>
+</div>
+<input class="block w-full pl-[36px] pr-sm py-2 bg-surface-container-low border border-surface-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" readonly="" type="text" value="01 Okt 2023"/>
+</div>
+<!-- End Date Input -->
+<div class="flex-1 relative">
+<label class="sr-only">End Date</label>
+<div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-lg" data-icon="calendar_month">calendar_month</span>
+</div>
+<input class="block w-full pl-[36px] pr-sm py-2 bg-surface-container-low border border-surface-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" readonly="" type="text" value="31 Okt 2023"/>
+</div>
+</div>
+</section>
+<!-- Attendance Status Section -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-label-md text-label-md text-on-surface">Status Kehadiran</h3>
+<div class="flex flex-wrap gap-sm">
+<!-- Chip: Hadir (Active) -->
+<button class="px-4 py-2 bg-primary-container text-on-primary rounded-full font-label-md text-label-md transition-transform active:scale-95">
+                        Hadir
+                    </button>
+<!-- Chip: Izin (Inactive) -->
+<button class="px-4 py-2 bg-transparent border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-95">
+                        Izin
+                    </button>
+<!-- Chip: Alpa (Inactive) -->
+<button class="px-4 py-2 bg-transparent border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-95">
+                        Alpa
+                    </button>
+</div>
+</section>
+</div>
+<!-- Sticky Footer Action -->
+<div class="p-margin-mobile pt-md pb-xl mt-auto bg-surface border-t border-surface-variant">
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3 rounded-lg shadow-md hover:shadow-lg transition-all active:scale-[0.98]">
+                Terapkan Filter
+            </button>
+</div>
+</div>
+<style>
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</body></html>

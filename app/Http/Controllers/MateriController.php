@@ -1,22 +1,23 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Materi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
-use Smalot\PdfParser\Parser as PdfParser;
 use PhpOffice\PhpWord\IOFactory as PhpWordIOFactory;
+use Smalot\PdfParser\Parser as PdfParser;
 
 class MateriController extends Controller
 {
     public function index()
     {
         if (auth()->user()->role === 'guru') {
-            $materi = Materi::where('guru_id', auth()->id())->latest()->get();
+            $materi = Materi::with('guru')->where('guru_id', auth()->id())->latest()->get();
         } else {
-            $materi = Materi::latest()->get();
+            $materi = Materi::with('guru')->latest()->get();
         }
+
         return view('materi.index', compact('materi'));
     }
 
@@ -53,14 +54,14 @@ class MateriController extends Controller
 
     public function ringkas(Materi $materi)
     {
-        if (!$materi->materi_asli) {
+        if (! $materi->materi_asli) {
             return back()->with('error', 'Tidak ada teks untuk diringkas.');
         }
 
         $response = Http::withOptions([
-                'base_uri' => config('services.ai.base_url'),
-                'verify' => false,
-            ])
+            'base_uri' => config('services.ai.base_url'),
+            'verify' => false,
+        ])
             ->withHeaders([
                 'x-api-key' => config('services.ai.api_key'),
                 'anthropic-version' => config('services.ai.version'),
@@ -71,9 +72,9 @@ class MateriController extends Controller
                 'messages' => [
                     [
                         'role' => 'user',
-                        'content' => "Ringkas materi pembelajaran berikut menjadi poin-poin penting dalam bahasa Indonesia:\n\n" . $materi->materi_asli
-                    ]
-                ]
+                        'content' => "Ringkas materi pembelajaran berikut menjadi poin-poin penting dalam bahasa Indonesia:\n\n".$materi->materi_asli,
+                    ],
+                ],
             ]);
 
         $ringkasan = $response->json('content.0.text');
@@ -99,8 +100,9 @@ class MateriController extends Controller
     private function extractPdfText(string $path): string
     {
         try {
-            $parser = new PdfParser();
+            $parser = new PdfParser;
             $pdf = $parser->parseFile($path);
+
             return $pdf->getText();
         } catch (\Exception $e) {
             return '[Gagal mengekstrak teks dari PDF]';
@@ -115,16 +117,17 @@ class MateriController extends Controller
             foreach ($phpWord->getSections() as $section) {
                 foreach ($section->getElements() as $element) {
                     if (method_exists($element, 'getText')) {
-                        $text .= $element->getText() . "\n";
+                        $text .= $element->getText()."\n";
                     } elseif (method_exists($element, 'getElements')) {
                         foreach ($element->getElements() as $child) {
                             if (method_exists($child, 'getText')) {
-                                $text .= $child->getText() . "\n";
+                                $text .= $child->getText()."\n";
                             }
                         }
                     }
                 }
             }
+
             return $text;
         } catch (\Exception $e) {
             return '[Gagal mengekstrak teks dari DOCX]';

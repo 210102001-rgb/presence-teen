@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\LaporanAi;
-use App\Models\SiswaKelas;
-use App\Models\OrangTuaSiswa;
 use App\Models\Kelas;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\LaporanAi;
+use App\Models\OrangTuaSiswa;
+use App\Models\SiswaKelas;
 
 class LaporanController extends Controller
 {
@@ -32,13 +32,14 @@ class LaporanController extends Controller
         if ($user->role === 'guru') {
             $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
             $siswaIds = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
-            abort_if(!$siswaIds->contains($laporan->siswa_id), 403);
+            abort_if(! $siswaIds->contains($laporan->siswa_id), 403);
         } else {
             $siswaIds = OrangTuaSiswa::where('orang_tua_id', $user->id)->pluck('siswa_id');
-            abort_if(!$siswaIds->contains($laporan->siswa_id), 403);
+            abort_if(! $siswaIds->contains($laporan->siswa_id), 403);
         }
 
         $laporan->load('siswa');
+
         return view('laporan.show', compact('laporan'));
     }
 }

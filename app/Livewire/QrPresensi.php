@@ -1,16 +1,19 @@
 <?php
+
 namespace App\Livewire;
 
 use App\Models\SesiPresensi;
 use Illuminate\Support\Str;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class QrPresensi extends Component
 {
     public $kelasId;
+
     public $mataPelajaran;
+
     public ?SesiPresensi $sesiAktif = null;
+
     public int $durasiExpired = 30; // detik, sesuai catatan [ISI SENDIRI]
 
     public function mount($kelasId)
@@ -37,7 +40,7 @@ class QrPresensi extends Component
     // dipanggil otomatis lewat wire:poll di view
     public function refreshToken()
     {
-        if (!$this->sesiAktif || !$this->sesiAktif->is_active) {
+        if (! $this->sesiAktif || ! $this->sesiAktif->is_active) {
             return;
         }
 

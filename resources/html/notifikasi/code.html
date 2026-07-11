@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teacher Notification Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#81da95",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-container": "#5b675e",
+                        "background": "#f9f9f9",
+                        "primary": "#005025",
+                        "on-primary-fixed-variant": "#005226",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#9cf6af",
+                        "tertiary-container": "#196b22",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#3e4a41",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2f3131",
+                        "secondary-container": "#d9e6da",
+                        "on-surface-variant": "#3f493f",
+                        "secondary": "#556158",
+                        "tertiary-fixed-dim": "#88d982",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-tint": "#056d35",
+                        "surface-dim": "#dadada",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-secondary-fixed": "#131e17",
+                        "on-background": "#1a1c1c",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary-fixed": "#00210b",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#006b33",
+                        "outline": "#6f7a6f",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#005111",
+                        "surface-variant": "#e2e2e2",
+                        "on-tertiary-container": "#97e990",
+                        "secondary-fixed": "#d9e6da",
+                        "on-tertiary-fixed-variant": "#005312",
+                        "secondary-fixed-dim": "#bdcabe",
+                        "on-tertiary-fixed": "#002204",
+                        "primary-fixed-dim": "#81da95",
+                        "outline-variant": "#becabd",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#eeeeee",
+                        "tertiary-fixed": "#a3f69c",
+                        "on-primary-container": "#8fe9a3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "xs": "4px",
+                        "margin-mobile": "16px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface h-screen flex justify-center">
+<div class="w-full max-w-[428px] h-full bg-surface-container-lowest flex flex-col shadow-2xl overflow-hidden relative">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-margin-mobile py-4 w-full bg-surface-container-lowest sticky top-0 z-10">
+<button class="text-on-surface hover:bg-surface-container rounded-full p-2 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Notifikasi</h1>
+<button class="font-label-md text-label-md text-primary-container hover:text-primary transition-colors font-medium">
+                Tandai Dibaca
+            </button>
+</header>
+<!-- Filter Tabs -->
+<div class="px-margin-mobile py-sm flex gap-sm bg-surface-container-lowest border-b border-surface-container z-10 sticky top-[72px]">
+<button class="px-4 py-2 rounded-full bg-primary-container text-on-primary font-label-md text-label-md transition-colors shadow-sm">
+                Semua
+            </button>
+<button class="px-4 py-2 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md transition-colors">
+                Belum Dibaca
+            </button>
+</div>
+<!-- Notification List -->
+<main class="flex-1 overflow-y-auto w-full pb-xl">
+<ul class="flex flex-col w-full divide-y divide-surface-container">
+<!-- Unread Card -->
+<li class="relative p-margin-mobile bg-secondary-container bg-opacity-30 hover:bg-opacity-50 transition-colors cursor-pointer flex gap-md">
+<!-- Unread Indicator Dot -->
+<div class="absolute top-margin-mobile right-margin-mobile w-2 h-2 rounded-full bg-primary-container"></div>
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1 flex flex-col gap-xs pr-sm">
+<h2 class="font-label-md text-label-md font-bold text-on-surface">Budi Santoso Alpa</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2">Budi tidak hadir pada sesi Matematika - XI RPL 1</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-sm opacity-70">10 menit yang lalu</span>
+</div>
+</li>
+<!-- Read Card 1 -->
+<li class="relative p-margin-mobile bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer flex gap-md">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary-container bg-opacity-10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">temp_preferences_custom</span>
+</div>
+<div class="flex-1 flex flex-col gap-xs">
+<h2 class="font-label-md text-label-md font-semibold text-on-surface">Ringkasan AI Selesai</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2">Ringkasan materi Persamaan Kuadrat sudah siap ditinjau</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-sm opacity-70">2 jam yang lalu</span>
+</div>
+</li>
+<!-- Read Card 2 -->
+<li class="relative p-margin-mobile bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer flex gap-md">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-700">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+</div>
+<div class="flex-1 flex flex-col gap-xs">
+<h2 class="font-label-md text-label-md font-semibold text-on-surface">Sesi Mendatang</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2">Kelas Fisika - XI RPL 2 akan dimulai dalam 15 menit</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-sm opacity-70">Kemarin</span>
+</div>
+</li>
+<!-- Empty State Filler -->
+<li class="p-margin-mobile py-xl flex items-center justify-center opacity-50">
+<div class="flex flex-col items-center text-center gap-sm">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant">check_circle</span>
+<p class="font-body-md text-body-md text-on-surface-variant">Tidak ada notifikasi lama</p>
+</div>
+</li>
+</ul>
+</main>
+</div>
+</body></html>

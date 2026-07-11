@@ -1,65 +1,57 @@
 # PRESENCE-TEEN — Agent Context
 
 ## Stack
-- Laravel 13.19.0, PHP 8.3.26, MySQL, Livewire v4.3.3
-- DB: `presence_teen`, user `root`, no password
+- Laravel 13, PHP 8.3, Livewire v4, Breeze (auth scaffolding)
+- Frontend: Blade + Alpine.js + Tailwind CSS 3 (via `tailwind.config.js` + PostCSS), Vite 8
+- Dev DB: MySQL — database `presence_teen`, user `root`, no password
+- Tests: SQLite `:memory:` (configured in `phpunit.xml`)
+- `@tailwindcss/vite` v4 is in `package.json` but **not used** — actual Tailwind is v3 via `tailwind.config.js`
 
-## Auth
-- 3 roles: `siswa`, `guru`, `orang_tua`
+## Commands
+```sh
+composer setup          # install, key:generate, migrate, npm install+build
+composer dev            # serve + queue:listen + pail + vite dev (via concurrently)
+composer test           # config:clear then php artisan test (PHPUnit 12)
+./vendor/bin/pint       # code formatter (default Laravel preset, no pint.json) — run before committing
+php artisan db:seed     # creates guru/siswa/ortu users, 1 kelas, linkages
+```
+Run a single test file: `php artisan test --filter=SomeTest`
+
+No CI pipeline — `.github/workflows/` does not exist.
+
+## Auth & Roles
+- 3 roles on `users.role`: `siswa`, `guru`, `orang_tua`
+- Middleware alias `role` → `App\Http\Middleware\RoleMiddleware` (registered in `bootstrap/app.php`)
+- `RoleMiddleware` accepts variadic roles: `role:guru,orang_tua`
 - Seed users (password = `password`):
-  - `guru@presensi.test` (role: guru)
-  - `siswa@presensi.test` (role: siswa, NIS: 123456)
-  - `ortu@presensi.test` (role: orang_tua)
-- Seed data: 1 kelas "XII IPA 1" (guru_id=guru), SiswaKelas (siswa->kelas), OrangTuaSiswa (ortu->siswa)
-- Middleware alias `role` → `RoleMiddleware`
+  - `guru@presensi.test` (guru), `siswa@presensi.test` (siswa, NIS 123456), `ortu@presensi.test` (orang_tua)
+- Seed data: kelas "XII IPA 1" (guru_id=guru), `SiswaKelas` (siswa→kelas), `OrangTuaSiswa` (ortu→siswa)
 
-## Routes (key)
-| Route | Middleware | Function |
-|---|---|---|
-| `/dashboard` | auth,verified | Redirect by role |
-| `/dashboard/siswa` | auth,verified | Siswa dashboard |
-| `/dashboard/guru` | auth,verified | Guru dashboard |
-| `/dashboard/orang-tua` | auth,verified | Ortu dashboard |
-| `/presensi/scan` | auth,role:siswa | Scan QR |
-| `/presensi/scan/{token}` | — | Scan via URL |
-| `/presensi/validasi` | POST, auth,role:siswa | Validasi token |
-| `/presensi/guru` | auth,role:guru | Pilih kelas & generate QR |
-| `/presensi/guru/{kelas}` | auth,role:guru | QR per kelas |
-| `/tugas` | auth | Daftar tugas |
-| `/tugas/create` | auth,role:guru | Buat tugas |
-| `/tugas/{tugas}/kumpul` | POST, auth,role:siswa | Kumpul tugas |
-| `/materi` | auth,role:siswa | Daftar materi dari guru |
-| `/materi/create` | auth,role:guru | Upload materi baru |
-| `/materi/{materi}/ringkas` | POST, auth,role:siswa | Minta AI ringkas materi |
-| `/laporan` | auth,role:guru,orang_tua | Laporan peringatan |
+## Project Structure
+- `app/Http/Controllers/` — DashboardController, PresensiController, TugasController, MateriController, LaporanController
+- `app/Livewire/QrPresensi.php` — Livewire component for QR generation
+- `app/Console/Commands/AnalisisKehadiranCommand.php` — weekly AI attendance analysis (scheduled Mon 06:00)
+- `app/Models/` — User, Kelas, SiswaKelas, OrangTuaSiswa, SesiPresensi, Presensi, Tugas, PengumpulanTugas, Materi, LaporanAi
+- `resources/views/` — Blade views organized by feature: `dashboard/`, `presensi/`, `tugas/`, `materi/`, `laporan/`
+- `database/migrations/` — 22 migrations; several `add_columns_to_*` alter-table migrations exist alongside initial creates
 
-## Middleware
-- `RoleMiddleware` registered as `role` alias in `bootstrap/app.php`
+## Code Conventions
+- PHP 8 attribute syntax throughout: User model uses `#[Fillable([...])]`, `#[Hidden([...])]`; Artisan commands use `#[Signature(...)]`, `#[Description(...)]`
+- `tailwind.config.js` has a custom design system with Material Design 3-style color tokens (`primary`, `secondary`, `tertiary`, `error`, `surface`, `on-*`, etc.) and `Inter` as the primary font — use these tokens, not raw Tailwind colors
 
-## Models
-- `Kelas`: fillable = `nama_kelas, guru_id, mata_pelajaran`. Relationships: `sesiPresensi()`, `siswa()`, `waliKelas()`
-- `PengumpulanTugas`: fillable = `tugas_id, siswa_id, file_path, status, waktu_kumpul, nilai`
-- `LaporanAi`: fillable = `siswa_id, periode, hasil_analisis, level_peringatan`. Column `nilai` added via migration `add_nilai_to_pengumpulan_tugas_table` and `laporan_ais` columns via `add_columns_to_laporan_ais_table`
+## AI Integration
+- Direct Anthropic Claude API calls via `Http::withOptions(['base_uri' => ...])` (no SDK)
+- Config: `config('services.ai.*')` sourced from `.env` vars `AI_API_BASE_URL`, `AI_API_KEY`, `AI_MODEL`
+- Auth headers: `x-api-key` + `anthropic-version` from `config('services.ai.version')`
+- Used in: `MateriController@ringkas` (summarize uploaded material) and `AnalisisKehadiranCommand` (attendance analysis)
+- Text extraction: `smalot/pdfparser` (PDF), `phpoffice/phpword` (DOCX), native `file_get_contents` (TXT)
+- SSL verify is disabled (`'verify' => false`) in AI HTTP calls
 
-## AI Features
-- Uses **Anthropic Claude API** langsung via `api.anthropic.com/v1`
-- Config via `.env`: `AI_API_BASE_URL` (default: `https://api.anthropic.com/v1`), `AI_API_KEY`, `AI_MODEL` (default: `claude-sonnet-4-6`)
-- Auth: `x-api-key` header + `anthropic-version: 2023-06-01`
-- Request: `POST /messages` (Anthropic format)
-- Response: `content.0.text`
-- `MateriController@store` upload file → extract text → Claude ringkasan
-- `app:analisis-kehadiran` command (weekly Mon 06:00) via `routes/console.php`
-- Library: `smalot/pdfparser`, `phpoffice/phpword` untuk ekstraksi teks dari PDF/DOCX
-
-## PWA
-- `public/manifest.json`, `public/sw.js`
-
-## Layout
-- `@stack('scripts')` added in `layouts/app.blade.php` (before `</body>`)
-- QR scanner: `resources/views/presensi/scan.blade.php` uses `html5-qrcode` CDN
-
-## Known fixes applied
-- All `href="#"` in dashboards replaced with proper named routes
-- Auth gaps patched on Materi/Laporan/Tugas show
-- Duplicate `⚡qr-presensi.blade.php` deleted
-- Seeder creates SiswaKelas + OrangTuaSiswa linkages
+## Key Gotchas
+- `.env.example` defaults to `DB_CONNECTION=sqlite` but dev `.env` uses `DB_CONNECTION=mysql` — new setup must configure MySQL
+- `QUEUE_CONNECTION=database` in `.env` — `composer dev` starts `queue:listen`; queue tables must be migrated
+- `SESSION_DRIVER=database` — session table migration included in Laravel defaults
+- QR scanner view (`presensi/scan.blade.php`) loads `html5-qrcode` from CDN
+- Route `/presensi/scan/{token}` is public (no auth) — intentional for QR URL sharing
+- `@stack('scripts')` is in `layouts/app.blade.php` before `</body>` — push page-specific JS there
+- PWA: `public/manifest.json` + `public/sw.js`

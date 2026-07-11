@@ -14,7 +14,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#a5ffb7]/80 font-semibold">Total Kelas</p>
-                        <p class="text-4xl font-bold text-white mt-1">1</p>
+                        <p class="text-4xl font-bold text-white mt-1">{{ $totalKelas }}</p>
                         <p class="text-xs text-white/60 mt-1">Kelas aktif</p>
                     </div>
                     <div class="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center">
@@ -27,7 +27,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Total Siswa</p>
-                        <p class="text-4xl font-bold text-[#171c1f] mt-1">30</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalSiswa }}</p>
                         <p class="text-xs text-[#5c5f61] mt-1">Seluruh siswa</p>
                     </div>
                     <div class="w-12 h-12 bg-[#eaeef2] rounded-xl flex items-center justify-center">
@@ -40,7 +40,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Total Tugas</p>
-                        <p class="text-4xl font-bold text-[#171c1f] mt-1">5</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalTugas }}</p>
                         <p class="text-xs text-[#5c5f61] mt-1">Tugas dibuat</p>
                     </div>
                     <div class="w-12 h-12 bg-[#eaeef2] rounded-xl flex items-center justify-center">

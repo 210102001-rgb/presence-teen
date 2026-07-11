@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Notifications;
 
 use App\Models\Presensi;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class PresensiTercatat extends Notification
 {
@@ -25,7 +26,7 @@ class PresensiTercatat extends Notification
         return (new MailMessage)
             ->subject('Info Kehadiran Anak Anda')
             ->line("{$siswa->name} tercatat {$this->presensi->status} pada mata pelajaran {$sesi->mata_pelajaran}.")
-            ->line('Waktu: ' . $this->presensi->waktu_absen->format('d M Y H:i'));
+            ->line('Waktu: '.$this->presensi->waktu_absen->format('d M Y H:i'));
     }
 
     public function toArray($notifiable)

@@ -14,7 +14,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#a5ffb7]/80 font-semibold">Presensi Bulan Ini</p>
-                        <p class="text-4xl font-bold text-white mt-1">95<span class="text-xl">%</span></p>
+                        <p class="text-4xl font-bold text-white mt-1">{{ $tingkatKehadiran }}<span class="text-xl">%</span></p>
                         <p class="text-xs text-white/60 mt-1">Tingkat kehadiran</p>
                     </div>
                     <div class="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center">
@@ -27,7 +27,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Tugas Aktif</p>
-                        <p class="text-4xl font-bold text-[#171c1f] mt-1">3</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $tugasAktifCount }}</p>
                         <p class="text-xs text-[#5c5f61] mt-1">Perlu dikerjakan</p>
                     </div>
                     <div class="w-12 h-12 bg-[#eaeef2] rounded-xl flex items-center justify-center">
@@ -40,7 +40,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Materi Tersedia</p>
-                        <p class="text-4xl font-bold text-[#171c1f] mt-1">5</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $materiTersediaCount }}</p>
                         <p class="text-xs text-[#5c5f61] mt-1">Siap dipelajari</p>
                     </div>
                     <div class="w-12 h-12 bg-[#eaeef2] rounded-xl flex items-center justify-center">
@@ -59,27 +59,28 @@
                     <a href="{{ route('tugas.index') }}" class="text-xs font-semibold text-[#005f2d] hover:underline">Lihat Semua</a>
                 </div>
                 <ul class="space-y-3">
-                    <li class="flex items-center justify-between py-2 border-b border-[#f0f4f8]">
-                        <div>
-                            <p class="text-sm font-medium text-[#171c1f]">Matematika</p>
-                            <p class="text-xs text-[#5c5f61]">Pengumpulan besok</p>
-                        </div>
-                        <span class="px-2.5 py-1 text-[10px] font-bold bg-amber-100 text-amber-700 rounded-full uppercase tracking-wider">Besok</span>
-                    </li>
-                    <li class="flex items-center justify-between py-2 border-b border-[#f0f4f8]">
-                        <div>
-                            <p class="text-sm font-medium text-[#171c1f]">IPA</p>
-                            <p class="text-xs text-[#5c5f61]">Laporan praktikum</p>
-                        </div>
-                        <span class="px-2.5 py-1 text-[10px] font-bold bg-blue-100 text-blue-700 rounded-full uppercase tracking-wider">3 hari</span>
-                    </li>
-                    <li class="flex items-center justify-between py-2">
-                        <div>
-                            <p class="text-sm font-medium text-[#171c1f]">Bahasa Indonesia</p>
-                            <p class="text-xs text-[#5c5f61]">Esai deskriptif</p>
-                        </div>
-                        <span class="px-2.5 py-1 text-[10px] font-bold bg-[#f0fdf4] text-[#005f2d] rounded-full uppercase tracking-wider">1 minggu</span>
-                    </li>
+                    @forelse($tugasMendatang as $item)
+                        <li class="flex items-center justify-between py-2 border-b border-[#f0f4f8] last:border-0">
+                            <div>
+                                <p class="text-sm font-medium text-[#171c1f]">{{ $item->judul }}</p>
+                                <p class="text-xs text-[#5c5f61]">Deadline: {{ \Carbon\Carbon::parse($item->deadline)->translatedFormat('d M Y H:i') }}</p>
+                            </div>
+                            @php
+                                $diffInDays = now()->diffInDays(\Carbon\Carbon::parse($item->deadline), false);
+                            @endphp
+                            @if($diffInDays <= 1)
+                                <span class="px-2.5 py-1 text-[10px] font-bold bg-red-100 text-red-700 rounded-full uppercase tracking-wider">Mendesak</span>
+                            @elseif($diffInDays <= 3)
+                                <span class="px-2.5 py-1 text-[10px] font-bold bg-amber-100 text-amber-700 rounded-full uppercase tracking-wider">Besok/Lusa</span>
+                            @else
+                                <span class="px-2.5 py-1 text-[10px] font-bold bg-[#f0fdf4] text-[#005f2d] rounded-full uppercase tracking-wider">{{ $diffInDays }} Hari</span>
+                            @endif
+                        </li>
+                    @empty
+                        <li class="py-4 text-center text-xs text-[#5c5f61]">
+                            Tidak ada tugas mendatang. Bebas tugas! 🎉
+                        </li>
+                    @endforelse
                 </ul>
             </div>
 

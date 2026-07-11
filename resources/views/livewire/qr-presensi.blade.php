@@ -43,7 +43,7 @@
                     Tampilkan QR ini ke siswa untuk scan presensi
                 </p>
                 <p class="text-xs text-[#5c5f61]/70 mt-1 font-mono">
-                    Token: {{ Str::limit($sesiAktif->qr_token, 20) }}...
+                    Token: {{ $sesiAktif->qr_token }}
                 </p>
             </div>
 

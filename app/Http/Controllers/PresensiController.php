@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
-use App\Models\SesiPresensi;
 use App\Models\Presensi;
+use App\Models\SesiPresensi;
+use App\Notifications\PresensiTercatat;
 use Illuminate\Http\Request;
 
 class PresensiController extends Controller
@@ -31,7 +33,7 @@ class PresensiController extends Controller
             ->where('is_active', true)
             ->first();
 
-        if (!$sesi) {
+        if (! $sesi) {
             return response()->json([
                 'success' => false,
                 'message' => 'QR tidak valid atau sesi sudah berakhir.',
@@ -49,7 +51,7 @@ class PresensiController extends Controller
 
         // cek siswa terdaftar di kelas sesi ini
         $terdaftar = $sesi->kelas->siswa()->where('users.id', $siswaId)->exists();
-        if (!$terdaftar) {
+        if (! $terdaftar) {
             return response()->json([
                 'success' => false,
                 'message' => 'Anda tidak terdaftar di kelas ini.',
@@ -68,14 +70,25 @@ class PresensiController extends Controller
             ]);
         }
 
-        Presensi::create([
+        $presensi = Presensi::create([
             'sesi_presensi_id' => $sesi->id,
             'siswa_id' => $siswaId,
             'waktu_absen' => now(),
             'status' => 'hadir', // logic telat bisa ditambah kalau ada jam mulai kelas
         ]);
 
-        // TODO Step 7: trigger notifikasi ke orang tua
+        // Trigger notifikasi ke orang tua jika ada
+        $userSiswa = auth()->user();
+        if ($userSiswa->orangTua) {
+            $ortu = $userSiswa->orangTua->orangTua;
+            if ($ortu) {
+                try {
+                    $ortu->notify(new PresensiTercatat($presensi));
+                } catch (\Exception $e) {
+                    // Fail-safe jika driver mail belum dikonfigurasi sepenuhnya
+                }
+            }
+        }
 
         return response()->json([
             'success' => true,

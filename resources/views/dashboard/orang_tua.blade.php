@@ -14,7 +14,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#a5ffb7]/80 font-semibold">Kehadiran Hari Ini</p>
-                        <p class="text-3xl font-bold text-white mt-1">Hadir</p>
+                        <p class="text-3xl font-bold text-white mt-1">{{ $kehadiranHariIni }}</p>
                         <p class="text-xs text-white/60 mt-1">Hari ini</p>
                     </div>
                     <div class="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center">
@@ -27,7 +27,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Tugas Tersedia</p>
-                        <p class="text-4xl font-bold text-[#171c1f] mt-1">3</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalTugasBelumKumpul }}</p>
                         <p class="text-xs text-[#5c5f61] mt-1">Tugas aktif</p>
                     </div>
                     <div class="w-12 h-12 bg-[#eaeef2] rounded-xl flex items-center justify-center">
@@ -40,8 +40,8 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Peringatan</p>
-                        <p class="text-4xl font-bold text-[#171c1f] mt-1">0</p>
-                        <p class="text-xs text-[#5c5f61] mt-1">Tidak ada peringatan</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $peringatanCount }}</p>
+                        <p class="text-xs text-[#5c5f61] mt-1">{{ $peringatanCount > 0 ? $peringatanCount . ' peringatan aktif' : 'Tidak ada peringatan' }}</p>
                     </div>
                     <div class="w-12 h-12 bg-[#eaeef2] rounded-xl flex items-center justify-center">
                         <span class="material-symbols-outlined text-[#005f2d]">notifications_none</span>
@@ -59,42 +59,43 @@
                     <a href="{{ route('laporan.index') }}" class="text-xs font-semibold text-[#005f2d] hover:underline">Lihat Semua</a>
                 </div>
                 <ul class="space-y-3">
-                    <li class="flex items-center justify-between py-2.5 px-3 rounded-xl bg-[#f0fdf4] border border-[#0e7a3d]/10">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-[#0e7a3d]/10 rounded-lg flex items-center justify-center">
-                                <span class="material-symbols-outlined text-[#0e7a3d] text-[18px] filled-icon">check_circle</span>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-[#171c1f]">Matematika</p>
-                                <p class="text-xs text-[#5c5f61]">Selesai dikumpulkan</p>
-                            </div>
-                        </div>
-                        <span class="px-2.5 py-1 text-[10px] font-bold bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20 rounded-full uppercase">Selesai</span>
-                    </li>
-                    <li class="flex items-center justify-between py-2.5 px-3 rounded-xl bg-amber-50 border border-amber-200">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
-                                <span class="material-symbols-outlined text-amber-600 text-[18px]">schedule</span>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-[#171c1f]">IPA</p>
-                                <p class="text-xs text-[#5c5f61]">Belum dikumpulkan</p>
-                            </div>
-                        </div>
-                        <span class="px-2.5 py-1 text-[10px] font-bold bg-amber-100 text-amber-700 rounded-full uppercase">Belum</span>
-                    </li>
-                    <li class="flex items-center justify-between py-2.5 px-3 rounded-xl bg-[#f0fdf4] border border-[#0e7a3d]/10">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-[#0e7a3d]/10 rounded-lg flex items-center justify-center">
-                                <span class="material-symbols-outlined text-[#0e7a3d] text-[18px] filled-icon">check_circle</span>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-[#171c1f]">Bahasa Inggris</p>
-                                <p class="text-xs text-[#5c5f61]">Selesai dikumpulkan</p>
-                            </div>
-                        </div>
-                        <span class="px-2.5 py-1 text-[10px] font-bold bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20 rounded-full uppercase">Selesai</span>
-                    </li>
+                    @forelse($tugasAnak as $item)
+                        @php
+                            $pengumpulan = $item->pengumpulan->first();
+                            $sudahKumpul = $pengumpulan && $pengumpulan->status === 'sudah';
+                        @endphp
+                        @if($sudahKumpul)
+                            <li class="flex items-center justify-between py-2.5 px-3 rounded-xl bg-[#f0fdf4] border border-[#0e7a3d]/10">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-[#0e7a3d]/10 rounded-lg flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-[#0e7a3d] text-[18px] filled-icon">check_circle</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-[#171c1f]">{{ $item->judul }}</p>
+                                        <p class="text-xs text-[#5c5f61]">{{ $pengumpulan->siswa->name }} - Selesai dikumpulkan</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 text-[10px] font-bold bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20 rounded-full uppercase">Selesai</span>
+                            </li>
+                        @else
+                            <li class="flex items-center justify-between py-2.5 px-3 rounded-xl bg-amber-50 border border-amber-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-amber-600 text-[18px]">schedule</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-[#171c1f]">{{ $item->judul }}</p>
+                                        <p class="text-xs text-[#5c5f61]">Belum dikumpulkan</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 text-[10px] font-bold bg-amber-100 text-amber-700 rounded-full uppercase">Belum</span>
+                            </li>
+                        @endif
+                    @empty
+                        <li class="py-6 text-center text-xs text-[#5c5f61]">
+                            Tidak ada tugas aktif untuk anak Anda saat ini.
+                        </li>
+                    @endforelse
                 </ul>
             </div>
 
@@ -105,11 +106,25 @@
                     <a href="{{ route('laporan.index') }}" class="text-xs font-semibold text-[#005f2d] hover:underline">Lihat Laporan</a>
                 </div>
                 <div class="flex flex-col items-center py-6">
-                    <div class="w-16 h-16 bg-[#f0fdf4] rounded-full flex items-center justify-center mb-3">
-                        <span class="material-symbols-outlined text-[#0e7a3d] filled-icon text-3xl">shield_with_heart</span>
-                    </div>
-                    <p class="text-sm font-medium text-[#171c1f]">Semua Baik!</p>
-                    <p class="text-xs text-[#5c5f61] text-center mt-1">Tidak ada peringatan untuk anak Anda saat ini.</p>
+                    @if($laporanTerbaru && $laporanTerbaru->level_peringatan === 'kritis')
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="material-symbols-outlined text-red-600 filled-icon text-3xl">warning</span>
+                        </div>
+                        <p class="text-sm font-medium text-[#171c1f]">Status Kritis!</p>
+                        <p class="text-xs text-red-600 text-center mt-1">Perlu tindakan segera terhadap kehadiran/tugas anak Anda.</p>
+                    @elseif($laporanTerbaru && $laporanTerbaru->level_peringatan === 'perhatian')
+                        <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-3">
+                            <span class="material-symbols-outlined text-amber-600 filled-icon text-3xl">error_outline</span>
+                        </div>
+                        <p class="text-sm font-medium text-[#171c1f]">Butuh Perhatian!</p>
+                        <p class="text-xs text-amber-600 text-center mt-1">Terdapat pola kehadiran/tugas yang memerlukan evaluasi.</p>
+                    @else
+                        <div class="w-16 h-16 bg-[#f0fdf4] rounded-full flex items-center justify-center mb-3">
+                            <span class="material-symbols-outlined text-[#0e7a3d] filled-icon text-3xl">shield_with_heart</span>
+                        </div>
+                        <p class="text-sm font-medium text-[#171c1f]">Semua Baik!</p>
+                        <p class="text-xs text-[#5c5f61] text-center mt-1">Tidak ada peringatan untuk anak Anda saat ini.</p>
+                    @endif
                 </div>
                 <a href="{{ route('laporan.index') }}"
                    class="w-full mt-2 border border-[#005f2d] text-[#005f2d] py-2.5 rounded-xl text-sm font-semibold hover:bg-[#f0fdf4] transition-colors text-center block">
@@ -124,7 +139,11 @@
             <div>
                 <h5 class="text-sm font-semibold text-[#005f2d] mb-1">AI Insight Mingguan</h5>
                 <p class="text-sm text-[#3f493f]">
-                    Anak Anda menunjukkan konsistensi yang baik dalam kehadiran. Tingkat kehadiran yang tinggi berkorelasi positif dengan peningkatan prestasi akademik.
+                    @if($laporanTerbaru)
+                        {{ Str::limit($laporanTerbaru->hasil_analisis, 300) }}
+                    @else
+                        Belum ada analisis AI mingguan untuk anak Anda saat ini. Analisis dijalankan secara otomatis setiap hari Senin.
+                    @endif
                 </p>
             </div>
         </div>

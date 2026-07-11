@@ -14,9 +14,9 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard/siswa', [DashboardController::class, 'siswa'])->name('dashboard.siswa');
-    Route::get('/dashboard/guru', [DashboardController::class, 'guru'])->name('dashboard.guru');
-    Route::get('/dashboard/orang-tua', [DashboardController::class, 'orangTua'])->name('dashboard.orang_tua');
+    Route::get('/dashboard/siswa', [DashboardController::class, 'siswa'])->name('dashboard.siswa')->middleware('role:siswa');
+    Route::get('/dashboard/guru', [DashboardController::class, 'guru'])->name('dashboard.guru')->middleware('role:guru');
+    Route::get('/dashboard/orang-tua', [DashboardController::class, 'orangTua'])->name('dashboard.orang_tua')->middleware('role:orang_tua');
 });
 
 Route::middleware('auth')->group(function () {
@@ -26,12 +26,11 @@ Route::middleware('auth')->group(function () {
 });
 
 // === Presensi QR ===
-Route::get('/presensi/scan/{token}', function ($token) {
-    return view('presensi.scan', compact('token'));
-})->name('presensi.scan.token');
-
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/presensi/scan', [PresensiController::class, 'showScanPage'])->name('presensi.scan');
+    Route::get('/presensi/scan/{token}', function ($token) {
+        return view('presensi.scan', compact('token'));
+    })->name('presensi.scan.token');
     Route::post('/presensi/validasi', [PresensiController::class, 'validasiToken'])->name('presensi.validasi');
 });
 
@@ -58,9 +57,12 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::post('/materi', [MateriController::class, 'store'])->name('materi.store');
 });
 
-Route::middleware(['auth', 'role:siswa'])->group(function () {
+Route::middleware(['auth', 'role:guru,siswa'])->group(function () {
     Route::get('/materi', [MateriController::class, 'index'])->name('materi.index');
     Route::get('/materi/{materi}', [MateriController::class, 'show'])->name('materi.show');
+});
+
+Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::post('/materi/{materi}/ringkas', [MateriController::class, 'ringkas'])->name('materi.ringkas');
 });
 

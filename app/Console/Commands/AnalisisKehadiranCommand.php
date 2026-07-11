@@ -2,9 +2,16 @@
 
 namespace App\Console\Commands;
 
+use App\Models\LaporanAi;
+use App\Models\PengumpulanTugas;
+use App\Models\Presensi;
+use App\Models\SiswaKelas;
+use App\Models\Tugas;
+use App\Models\User;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 
 #[Signature('app:analisis-kehadiran')]
 #[Description('Analisis pola kehadiran & pengumpulan tugas siswa via AI secara periodik')]
@@ -12,22 +19,24 @@ class AnalisisKehadiranCommand extends Command
 {
     public function handle()
     {
-        $siswaIds = \App\Models\SiswaKelas::distinct()->pluck('siswa_id');
-        $periode = now()->startOfWeek()->format('Y-m-d') . ' - ' . now()->endOfWeek()->format('Y-m-d');
+        $siswaIds = SiswaKelas::distinct()->pluck('siswa_id');
+        $periode = now()->startOfWeek()->format('Y-m-d').' - '.now()->endOfWeek()->format('Y-m-d');
 
         foreach ($siswaIds as $siswaId) {
-            $siswa = \App\Models\User::find($siswaId);
-            if (!$siswa) continue;
+            $siswa = User::find($siswaId);
+            if (! $siswa) {
+                continue;
+            }
 
-            $presensi = \App\Models\Presensi::where('siswa_id', $siswaId)
+            $presensi = Presensi::where('siswa_id', $siswaId)
                 ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
                 ->get();
 
-            $tugas = \App\Models\Tugas::whereIn('kelas_id', function ($q) use ($siswaId) {
+            $tugas = Tugas::whereIn('kelas_id', function ($q) use ($siswaId) {
                 $q->select('kelas_id')->from('siswa_kelas')->where('siswa_id', $siswaId);
             })->whereBetween('deadline', [now()->startOfWeek(), now()->endOfWeek()])->get();
 
-            $dikumpulkan = \App\Models\PengumpulanTugas::where('siswa_id', $siswaId)
+            $dikumpulkan = PengumpulanTugas::where('siswa_id', $siswaId)
                 ->where('status', 'sudah')
                 ->whereBetween('waktu_kumpul', [now()->startOfWeek(), now()->endOfWeek()])
                 ->count();
@@ -39,10 +48,10 @@ class AnalisisKehadiranCommand extends Command
             $data = "Siswa: {$siswa->name}\nHadir: {$totalHadir}\nTelat: {$totalTelat}\nTotal Tugas: {$totalTugas}\nTugas Dikumpulkan: {$dikumpulkan}";
 
             try {
-                $response = \Illuminate\Support\Facades\Http::withOptions([
-                        'base_uri' => config('services.ai.base_url'),
-                        'verify' => false,
-                    ])
+                $response = Http::withOptions([
+                    'base_uri' => config('services.ai.base_url'),
+                    'verify' => false,
+                ])
                     ->withHeaders([
                         'x-api-key' => config('services.ai.api_key'),
                         'anthropic-version' => config('services.ai.version'),
@@ -52,8 +61,8 @@ class AnalisisKehadiranCommand extends Command
                         'max_tokens' => 1000,
                         'messages' => [[
                             'role' => 'user',
-                            'content' => "Analisis pola kehadiran dan tugas siswa berikut. Berikan level peringatan (aman/perhatian/kritis) dan rekomendasi:\n\n{$data}"
-                        ]]
+                            'content' => "Analisis pola kehadiran dan tugas siswa berikut. Berikan level peringatan (aman/perhatian/kritis) dan rekomendasi:\n\n{$data}",
+                        ]],
                     ]);
 
                 $hasil = $response->json('content.0.text') ?? 'Tidak ada analisis.';
@@ -66,7 +75,7 @@ class AnalisisKehadiranCommand extends Command
                     $level = 'kritis';
                 }
 
-                \App\Models\LaporanAi::create([
+                LaporanAi::create([
                     'siswa_id' => $siswaId,
                     'periode' => $periode,
                     'hasil_analisis' => $hasil,
