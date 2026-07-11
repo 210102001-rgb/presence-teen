@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Kelas;
 use App\Models\SesiPresensi;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -14,11 +15,15 @@ class QrPresensi extends Component
 
     public ?SesiPresensi $sesiAktif = null;
 
-    public int $durasiExpired = 30; // detik, sesuai catatan [ISI SENDIRI]
+    public int $durasiExpired = 30; // detik
 
     public function mount($kelasId)
     {
         $this->kelasId = $kelasId;
+        $kelas = Kelas::find($kelasId);
+        if ($kelas) {
+            $this->durasiExpired = $kelas->durasi_qr_detik ?? 30;
+        }
     }
 
     public function mulaiSesi()

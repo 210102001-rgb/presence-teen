@@ -1,116 +1,125 @@
 <x-guest-layout>
-    <div class="w-full lg:w-[55%] flex items-center justify-center p-8 lg:p-12 bg-[#f6fafe]">
-        <div class="w-full max-w-md">
+    <div class="w-full lg:w-[50%] flex items-center justify-center p-8 lg:p-12 bg-white">
+    <div class="w-full max-w-md flex flex-col items-center">
 
-            {{-- Mobile Logo --}}
-            <div class="flex items-center gap-3 mb-8 lg:hidden">
-                <div class="w-10 h-10 bg-[#0e7a3d] rounded-xl flex items-center justify-center">
-                    <span class="material-symbols-outlined text-white filled-icon">school</span>
-                </div>
-                <span class="font-bold text-lg text-[#171c1f]">Presence-Teen</span>
+        {{-- Logo (Figma style green crest logo) --}}
+        <div class="mb-4">
+            <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center border border-[#005f2d]/20 shadow-soft overflow-hidden">
+                <img src="{{ asset('smansa.png') }}" class="w-full h-full object-contain" alt="Smansa Logo">
             </div>
+        </div>
 
-            {{-- Heading --}}
-            <div class="mb-8">
-                <h1 class="text-2xl font-bold text-[#171c1f]">Selamat Datang</h1>
-                <p class="mt-1.5 text-sm text-[#5c5f61]">Masuk ke akun Anda untuk melanjutkan</p>
+        {{-- Heading --}}
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-[#005f2d]">Presence Teen</h1>
+            <p class="mt-1 text-xs text-[#5c5f61]">Sign in to manage your school</p>
+        </div>
+
+        {{-- Session Status --}}
+        @if(session('status'))
+            <div class="w-full mb-5 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-2 text-xs text-[#005f2d]">
+                <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                {{ session('status') }}
             </div>
+        @endif
 
-            {{-- Session Status --}}
-            @if(session('status'))
-                <div class="mb-5 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-2 text-sm text-[#005f2d]">
-                    <span class="material-symbols-outlined filled-icon text-[18px]">check_circle</span>
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <form method="POST" action="{{ route('login') }}" class="space-y-5">
+        {{-- Login Card Container --}}
+        <div class="w-full bg-[#f6fafe] p-6 rounded-2xl border border-[#eaeef2] shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+            <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
 
                 {{-- Email --}}
                 <div>
-                    <label for="email" class="block text-sm font-semibold text-[#171c1f] mb-1.5">Email</label>
-                    <input id="email" name="email" type="email"
-                           value="{{ old('email') }}"
-                           placeholder="nama@email.com"
-                           required autofocus autocomplete="username"
-                           class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
-                                  focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all
-                                  @error('email') border-[#ba1a1a] @enderror">
+                    <label for="email" class="block text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider mb-1">Username / Email</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px]">person</span>
+                        <input id="email" name="email" type="email"
+                               value="{{ old('email') }}"
+                               placeholder="Enter your username"
+                               required autofocus autocomplete="username"
+                               class="w-full pl-10 pr-4 py-2.5 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                      focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-transparent transition-all
+                                      @error('email') border-[#ba1a1a] @enderror">
+                    </div>
                     @error('email')
-                        <p class="mt-1.5 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                        <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>
                     @enderror
                 </div>
 
                 {{-- Password --}}
                 <div>
-                    <div class="flex justify-between items-center mb-1.5">
-                        <label for="password" class="text-sm font-semibold text-[#171c1f]">Password</label>
-                        @if(Route::has('password.request'))
-                            <a href="{{ route('password.request') }}"
-                               class="text-xs text-[#005f2d] hover:text-[#0e7a3d] font-medium transition-colors">
-                                Lupa password?
-                            </a>
-                        @endif
+                    <label for="password" class="block text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider mb-1">Password</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px]">lock</span>
+                        <input id="password" name="password" type="password"
+                               placeholder="Enter your password"
+                               required autocomplete="current-password"
+                               class="w-full pl-10 pr-10 py-2.5 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                      focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-transparent transition-all
+                                      @error('password') border-[#ba1a1a] @enderror">
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px] cursor-pointer">visibility</span>
                     </div>
-                    <input id="password" name="password" type="password"
-                           placeholder="••••••••"
-                           required autocomplete="current-password"
-                           class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
-                                  focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all
-                                  @error('password') border-[#ba1a1a] @enderror">
                     @error('password')
-                        <p class="mt-1.5 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                        <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>
                     @enderror
                 </div>
 
-                {{-- Remember Me --}}
-                <div class="flex items-center gap-2">
-                    <input id="remember_me" name="remember" type="checkbox"
-                           class="w-4 h-4 rounded border-[#becabc] text-[#005f2d] focus:ring-[#005f2d] cursor-pointer">
-                    <label for="remember_me" class="text-sm text-[#5c5f61] cursor-pointer">Ingat saya</label>
+                {{-- Remember Me & Forgot Password --}}
+                <div class="flex justify-between items-center text-xs">
+                    <div class="flex items-center gap-2">
+                        <input id="remember_me" name="remember" type="checkbox"
+                               class="w-4 h-4 rounded border-[#becabc] text-[#005f2d] focus:ring-[#005f2d] cursor-pointer">
+                        <label for="remember_me" class="text-[#5c5f61] cursor-pointer">Remember me</label>
+                    </div>
+                    @if(Route::has('password.request'))
+                        <a href="{{ route('password.request') }}"
+                           class="text-[#005f2d] font-bold hover:underline">
+                            Forgot password?
+                        </a>
+                    @endif
                 </div>
 
-                {{-- Submit --}}
+                {{-- Submit Button --}}
                 <button type="submit"
-                        class="w-full py-3 bg-[#005f2d] text-white text-sm font-semibold rounded-xl
-                               hover:bg-[#0e7a3d] transition-all active:scale-[0.98] shadow-soft
-                               focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:ring-offset-2">
-                    Masuk
+                        class="w-full py-3 bg-[#005f2d] text-white text-xs font-bold rounded-xl
+                               hover:bg-[#0e7a3d] transition-all active:scale-[0.98] shadow-soft mt-2">
+                    Sign In
                 </button>
             </form>
+        </div>
 
-            @if(Route::has('register'))
-                <p class="mt-7 text-center text-sm text-[#5c5f61]">
-                    Belum punya akun?
-                    <a href="{{ route('register') }}" class="text-[#005f2d] hover:text-[#0e7a3d] font-semibold transition-colors">
-                        Daftar Sekarang
-                    </a>
-                </p>
-            @endif
+        {{-- Footer Links --}}
+        <footer class="mt-12 flex gap-4 text-[10px] text-[#5c5f61] font-bold">
+            <a href="#" class="hover:underline">Privacy Policy</a>
+            <span>•</span>
+            <a href="#" class="hover:underline">Terms of Service</a>
+            <span>•</span>
+            <a href="#" class="hover:underline">Help Center</a>
+        </footer>
 
-            {{-- Demo Accounts --}}
-            <div class="mt-8 p-4 bg-white rounded-xl border border-[#eaeef2] shadow-soft">
-                <p class="text-[11px] font-semibold text-[#5c5f61] uppercase tracking-wider mb-3">Akun Demo</p>
-                <div class="space-y-2">
-                    <div class="flex justify-between text-xs">
-                        <span class="text-[#5c5f61]">Guru</span>
-                        <span class="font-mono text-[#171c1f]">guru@presensi.test</span>
-                    </div>
-                    <div class="flex justify-between text-xs">
-                        <span class="text-[#5c5f61]">Siswa</span>
-                        <span class="font-mono text-[#171c1f]">siswa@presensi.test</span>
-                    </div>
-                    <div class="flex justify-between text-xs">
-                        <span class="text-[#5c5f61]">Orang Tua</span>
-                        <span class="font-mono text-[#171c1f]">ortu@presensi.test</span>
-                    </div>
-                    <div class="flex justify-between text-xs border-t border-[#eaeef2] pt-2 mt-1">
-                        <span class="text-[#5c5f61]">Password</span>
-                        <span class="font-mono text-[#171c1f]">password</span>
-                    </div>
+        {{-- Demo Accounts (Floating Panel) --}}
+        <div class="w-full mt-6 p-4 bg-white rounded-xl border border-[#eaeef2] shadow-soft">
+            <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider mb-2">Akun Demo</p>
+            <div class="space-y-1.5 text-[11px]">
+                <div class="flex justify-between">
+                    <span class="text-[#5c5f61]">Guru</span>
+                    <span class="font-mono text-[#171c1f]">guru@presensi.test</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-[#5c5f61]">Siswa</span>
+                    <span class="font-mono text-[#171c1f]">siswa@presensi.test</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-[#5c5f61]">Orang Tua</span>
+                    <span class="font-mono text-[#171c1f]">ortu@presensi.test</span>
+                </div>
+                <div class="flex justify-between border-t border-[#eaeef2] pt-1.5 mt-1">
+                    <span class="text-[#5c5f61]">Password</span>
+                    <span class="font-mono text-[#171c1f]">password</span>
                 </div>
             </div>
         </div>
+
     </div>
+</div>
 </x-guest-layout>

@@ -2,11 +2,12 @@
     $role = Auth::check() ? Auth::user()->role : null;
 @endphp
 
-<aside class="bg-[#0e7a3d] text-[#a5ffb7] h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col py-6 px-4 z-50 overflow-y-auto">
+<aside :class="mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+       class="bg-[#0e7a3d] text-[#a5ffb7] h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col py-6 px-4 z-50 overflow-y-auto transform transition-transform duration-300 ease-in-out">
     {{-- Brand --}}
     <div class="flex items-center gap-3 mb-8 px-2">
-        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-            <span class="material-symbols-outlined filled-icon text-white">school</span>
+        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 overflow-hidden">
+            <img src="{{ asset('smansa.png') }}" class="w-full h-full object-contain" alt="Smansa Logo">
         </div>
         <div>
             <h1 class="text-base font-bold text-white leading-none">Presence-Teen</h1>
@@ -26,7 +27,7 @@
         <a href="{{ route('dashboard') }}"
            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                   {{ request()->routeIs('dashboard') || request()->routeIs('dashboard.*')
-                     ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                     ? 'bg-white/15 text-white font-semibold'
                      : 'text-white/75 hover:text-white hover:bg-white/10' }}">
             <span class="material-symbols-outlined {{ request()->routeIs('dashboard') || request()->routeIs('dashboard.*') ? 'filled-icon' : '' }}">dashboard</span>
             <span class="text-sm">Dashboard</span>
@@ -36,7 +37,7 @@
             <a href="{{ route('presensi.scan') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('presensi.scan')
-                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('presensi.scan') ? 'filled-icon' : '' }}">qr_code_scanner</span>
                 <span class="text-sm">Scan Presensi</span>
@@ -44,7 +45,7 @@
             <a href="{{ route('tugas.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('tugas.*')
-                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('tugas.*') ? 'filled-icon' : '' }}">assignment</span>
                 <span class="text-sm">Tugas</span>
@@ -52,17 +53,41 @@
             <a href="{{ route('materi.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('materi.*')
-                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('materi.*') ? 'filled-icon' : '' }}">menu_book</span>
                 <span class="text-sm">Materi</span>
+            </a>
+            <a href="{{ route('aktivitas.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('aktivitas.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('aktivitas.*') ? 'filled-icon' : '' }}">timer</span>
+                <span class="text-sm">Aktivitas Belajar</span>
+            </a>
+            <a href="{{ route('motivasi.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('motivasi.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('motivasi.*') ? 'filled-icon' : '' }}">auto_awesome</span>
+                <span class="text-sm">AI Motivasi</span>
+            </a>
+            <a href="{{ route('pengumuman.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('pengumuman.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('pengumuman.*') ? 'filled-icon' : '' }}">campaign</span>
+                <span class="text-sm">Pengumuman</span>
             </a>
 
         @elseif($role === 'guru')
             <a href="{{ route('presensi.guru') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('presensi.guru*')
-                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('presensi.guru*') ? 'filled-icon' : '' }}">qr_code_2</span>
                 <span class="text-sm">QR Presensi</span>
@@ -70,7 +95,7 @@
             <a href="{{ route('materi.create') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('materi.create')
-                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('materi.create') ? 'filled-icon' : '' }}">upload_file</span>
                 <span class="text-sm">Upload Materi</span>
@@ -78,7 +103,7 @@
             <a href="{{ route('tugas.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('tugas.*')
-                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('tugas.*') ? 'filled-icon' : '' }}">assignment</span>
                 <span class="text-sm">Kelola Tugas</span>
@@ -86,20 +111,60 @@
             <a href="{{ route('laporan.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('laporan.*')
-                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('laporan.*') ? 'filled-icon' : '' }}">monitoring</span>
                 <span class="text-sm">Laporan Siswa</span>
+            </a>
+            <a href="{{ route('pengumuman.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('pengumuman.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('pengumuman.*') ? 'filled-icon' : '' }}">campaign</span>
+                <span class="text-sm">Pengumuman</span>
             </a>
 
         @elseif($role === 'orang_tua')
             <a href="{{ route('laporan.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('laporan.*')
-                         ? 'bg-white/15 text-white font-semibold border-l-4 border-[#97f7ac]'
+                         ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('laporan.*') ? 'filled-icon' : '' }}">monitoring</span>
                 <span class="text-sm">Laporan Anak</span>
+            </a>
+            <a href="{{ route('aktivitas.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('aktivitas.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('aktivitas.*') ? 'filled-icon' : '' }}">timer</span>
+                <span class="text-sm">Aktivitas Anak</span>
+            </a>
+            <a href="{{ route('motivasi.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('motivasi.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('motivasi.*') ? 'filled-icon' : '' }}">auto_awesome</span>
+                <span class="text-sm">AI Motivasi Anak</span>
+            </a>
+            <a href="{{ route('prediksi.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('prediksi.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('prediksi.*') ? 'filled-icon' : '' }}">stacked_line_chart</span>
+                <span class="text-sm">Prediksi Absensi</span>
+            </a>
+            <a href="{{ route('pengumuman.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('pengumuman.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('pengumuman.*') ? 'filled-icon' : '' }}">campaign</span>
+                <span class="text-sm">Pengumuman</span>
             </a>
         @endif
     </nav>

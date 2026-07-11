@@ -99,6 +99,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $anakIds = $user->anak()->pluck('users.id');
+        $anak = $user->anak()->with('kelasSaya')->first();
 
         // Kehadiran Hari Ini
         $kehadiranHariIni = Presensi::whereIn('siswa_id', $anakIds)
@@ -123,9 +124,13 @@ class DashboardController extends Controller
             ->count();
 
         // Status Tugas Anak (List)
-        $tugasAnak = Tugas::with(['kelas', 'pengumpulan' => function ($q) use ($anakIds) {
-            $q->whereIn('siswa_id', $anakIds);
-        }])
+        $tugasAnak = Tugas::with([
+            'kelas.siswa',
+            'pengumpulan' => function ($q) use ($anakIds) {
+                $q->whereIn('siswa_id', $anakIds);
+            },
+            'pengumpulan.siswa',
+        ])
             ->whereIn('kelas_id', $kelasAnakIds)
             ->orderBy('created_at', 'desc')
             ->take(3)
@@ -136,13 +141,42 @@ class DashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->first();
 
+        // Hitung Statistik Anak Pertama untuk Dashboard Bento
+        $totalSesi = 0;
+        $totalHadir = 0;
+        $totalTelat = 0;
+        $totalAlpha = 0;
+        $kelasNama = 'Belum ada kelas';
+
+        if ($anak) {
+            $kelasIds = $anak->kelasSaya->pluck('id');
+            $kelasNama = $anak->kelasSaya->first()->nama_kelas ?? 'Belum ada kelas';
+
+            $totalSesi = SesiPresensi::whereIn('kelas_id', $kelasIds)->count();
+            $presensi = Presensi::where('siswa_id', $anak->id)->get();
+            $totalHadir = $presensi->where('status', 'hadir')->count();
+            $totalTelat = $presensi->where('status', 'telat')->count();
+            $totalAlpha = max(0, $totalSesi - $presensi->count());
+        }
+
+        $presentPercent = $totalSesi > 0
+            ? round((($totalHadir + $totalTelat) / $totalSesi) * 100)
+            : 100;
+
         return view('dashboard.orang_tua', compact(
             'kehadiranHariIni',
             'totalTugasBelumKumpul',
             'peringatanCount',
             'tugasAnak',
             'laporanTerbaru',
-            'anakIds'
+            'anakIds',
+            'anak',
+            'kelasNama',
+            'totalSesi',
+            'totalHadir',
+            'totalTelat',
+            'totalAlpha',
+            'presentPercent'
         ));
     }
 }

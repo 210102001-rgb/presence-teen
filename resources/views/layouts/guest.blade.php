@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Presence-Teen') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('smansa.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,48 +25,21 @@
     <div class="min-h-screen flex flex-col lg:flex-row">
 
         {{-- Left Panel: Branding --}}
-        <div class="hidden lg:flex lg:w-[45%] bg-[#0e7a3d] relative overflow-hidden items-center justify-center p-12 flex-col">
-            {{-- Decorative blobs --}}
-            <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#005f2d] rounded-full opacity-50 blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-[#005f2d] rounded-full opacity-50 blur-3xl pointer-events-none"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#97f7ac]/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="relative text-center">
-                {{-- Logo --}}
-                <div class="mb-8 flex justify-center">
-                    <div class="w-20 h-20 bg-white/15 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
-                        <span class="material-symbols-outlined filled-icon text-white text-5xl">school</span>
-                    </div>
+        <div class="hidden lg:flex lg:w-[50%] bg-[#eef6fc] relative overflow-hidden items-center justify-center p-12 flex-col">
+            
+            <div class="relative text-center max-w-lg space-y-8">
+                {{-- Figma Mockup Illustration Container --}}
+                <div class="bg-white p-8 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.04)] border border-[#eaeef2] flex flex-col items-center">
+                    <img class="w-full h-auto object-contain rounded-2xl" 
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7NHPFnEgn_xB8QNk1RUGVKAK052O0mIYENRtBkc8OC_QtHF-CaLWW1FmwnsVi4JUzkBf3VuZBWG_mJl1ByZx4KGccL-EZGu3usY6nXdcTdkGG24yo9UEpJks3mA3TMbrhQ_Sd5lnGgQumPt-SOzHKpsbAswajYqrgFSHdI-DHxdcjsHrDggeaE34oZHmJ8YiEQw1yj8k7KHnLgFxZp2nZFehMXiCRItt9azdIe0W6GNz_-J_gtKvCJwK167BUqXP8sWI_bAk8Haug" 
+                         alt="Empowering Education">
                 </div>
 
-                <h1 class="text-4xl font-extrabold text-white mb-3 tracking-tight">Presence-Teen</h1>
-                <p class="text-lg text-[#a5ffb7]/80 max-w-sm mx-auto leading-relaxed">
-                    Sistem Presensi &amp; Manajemen Belajar berbasis AI untuk Sekolah Modern
-                </p>
-
-                {{-- Feature Pills --}}
-                <div class="mt-10 grid grid-cols-3 gap-3 max-w-sm mx-auto">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                        <span class="material-symbols-outlined text-[#a5ffb7] filled-icon block mb-1.5">qr_code_scanner</span>
-                        <p class="text-xs font-semibold text-white">Siswa</p>
-                        <p class="text-[10px] text-white/60 mt-0.5">Presensi & Tugas</p>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                        <span class="material-symbols-outlined text-[#a5ffb7] filled-icon block mb-1.5">class</span>
-                        <p class="text-xs font-semibold text-white">Guru</p>
-                        <p class="text-[10px] text-white/60 mt-0.5">Kelola Kelas</p>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                        <span class="material-symbols-outlined text-[#a5ffb7] filled-icon block mb-1.5">monitoring</span>
-                        <p class="text-xs font-semibold text-white">Orang Tua</p>
-                        <p class="text-[10px] text-white/60 mt-0.5">Pantau Anak</p>
-                    </div>
-                </div>
-
-                {{-- AI Badge --}}
-                <div class="mt-8 inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2">
-                    <span class="material-symbols-outlined text-[#a5ffb7] filled-icon text-[18px]">auto_awesome</span>
-                    <span class="text-xs text-white/80 font-medium">Powered by Claude AI</span>
+                <div class="space-y-3">
+                    <h2 class="text-3xl font-extrabold text-[#171c1f] tracking-tight">Empowering Education</h2>
+                    <p class="text-sm text-[#5c5f61] leading-relaxed">
+                        Streamline your school's daily operations with our comprehensive management system designed for modern educators and students.
+                    </p>
                 </div>
             </div>
         </div>

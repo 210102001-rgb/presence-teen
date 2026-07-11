@@ -25,6 +25,26 @@ class PresensiController extends Controller
         ]);
     }
 
+    public function updateSettings(Request $request, Kelas $kelas)
+    {
+        if ($kelas->guru_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'batas_terlambat_menit' => 'required|integer|min:0|max:180',
+            'durasi_qr_detik' => 'required|integer|min:5|max:3600',
+            'email_pengirim_notifikasi' => 'nullable|email|max:255',
+            'kirim_notifikasi_otomatis' => 'sometimes|boolean',
+        ]);
+
+        $validated['kirim_notifikasi_otomatis'] = $request->has('kirim_notifikasi_otomatis');
+
+        $kelas->update($validated);
+
+        return back()->with('status', 'settings-updated');
+    }
+
     public function validasiToken(Request $request)
     {
         $request->validate(['token' => 'required|string']);
@@ -70,19 +90,31 @@ class PresensiController extends Controller
             ]);
         }
 
+        // Cek keterlambatan berdasarkan toleransi menit dari kelas
+        $waktuSesiMulai = $sesi->created_at;
+        $batasTerlambatMenit = $sesi->kelas->batas_terlambat_menit ?? 15;
+        $status = 'hadir';
+        if ($waktuSesiMulai && now()->diffInMinutes($waktuSesiMulai) > $batasTerlambatMenit) {
+            $status = 'telat';
+        }
+
         $presensi = Presensi::create([
             'sesi_presensi_id' => $sesi->id,
             'siswa_id' => $siswaId,
             'waktu_absen' => now(),
-            'status' => 'hadir', // logic telat bisa ditambah kalau ada jam mulai kelas
+            'status' => $status,
         ]);
 
-        // Trigger notifikasi ke orang tua jika ada
+        // Trigger notifikasi ke orang tua jika diizinkan di preferensi kelas
         $userSiswa = auth()->user();
-        if ($userSiswa->orangTua) {
+        if ($sesi->kelas->kirim_notifikasi_otomatis && $userSiswa->orangTua) {
             $ortu = $userSiswa->orangTua->orangTua;
             if ($ortu) {
                 try {
+                    // Set email pengirim khusus dari preferensi kelas jika diisi
+                    if ($sesi->kelas->email_pengirim_notifikasi) {
+                        config(['mail.from.address' => $sesi->kelas->email_pengirim_notifikasi]);
+                    }
                     $ortu->notify(new PresensiTercatat($presensi));
                 } catch (\Exception $e) {
                     // Fail-safe jika driver mail belum dikonfigurasi sepenuhnya

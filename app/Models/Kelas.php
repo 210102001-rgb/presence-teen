@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kelas extends Model
 {
-    protected $fillable = ['nama_kelas', 'guru_id', 'mata_pelajaran'];
+    protected $fillable = [
+        'nama_kelas',
+        'guru_id',
+        'mata_pelajaran',
+        'batas_terlambat_menit',
+        'durasi_qr_detik',
+        'email_pengirim_notifikasi',
+        'kirim_notifikasi_otomatis',
+    ];
 
     public function sesiPresensi()
     {

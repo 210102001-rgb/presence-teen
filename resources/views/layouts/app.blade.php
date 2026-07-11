@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Presence-Teen') }} — @yield('title', 'Dashboard')</title>
+    <link rel="icon" type="image/png" href="{{ asset('smansa.png') }}">
 
     <!-- Google Fonts: Inter + Material Symbols -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,16 +32,32 @@
         ::-webkit-scrollbar-thumb { background: #dfe3e7; border-radius: 10px; }
     </style>
 </head>
-<body class="text-[#171c1f] antialiased">
+<body class="text-[#171c1f] antialiased" x-data="{ mobileSidebarOpen: false }">
+
+    {{-- Mobile Sidebar Backdrop --}}
+    <div x-show="mobileSidebarOpen" 
+         x-transition:enter="transition-opacity ease-linear duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-linear duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-black/50 z-45 lg:hidden"
+         @click="mobileSidebarOpen = false"
+         style="display: none;">
+    </div>
 
     {{-- Sidebar --}}
     @include('layouts.navigation')
 
     {{-- Top Header Bar --}}
-    <header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-[#f6fafe] shadow-sm flex justify-between items-center px-10 z-40 border-b border-[#eaeef2]">
+    <header class="fixed top-0 right-0 w-full lg:w-[calc(100%-16rem)] h-16 bg-[#f6fafe] shadow-sm flex justify-between items-center px-4 md:px-10 z-40 border-b border-[#eaeef2]">
         <div class="flex items-center gap-3">
+            <button @click="mobileSidebarOpen = !mobileSidebarOpen" class="p-2 text-[#3f493f] hover:text-[#005f2d] lg:hidden rounded-lg transition-colors focus:outline-none">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
             @isset($header)
-                <div class="font-semibold text-xl text-[#005f2d]">{{ $header }}</div>
+                <div class="font-semibold text-lg lg:text-xl text-[#005f2d]">{{ $header }}</div>
             @endisset
         </div>
         <div class="flex items-center gap-5">
@@ -57,7 +74,7 @@
     </header>
 
     {{-- Main Content --}}
-    <main class="ml-64 pt-16 min-h-screen">
+    <main class="lg:ml-64 ml-0 pt-16 min-h-screen">
         {{ $slot }}
     </main>
 

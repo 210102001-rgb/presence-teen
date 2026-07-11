@@ -35,20 +35,42 @@
             </div>
 
             {{-- QR Code --}}
-            <div class="flex flex-col items-center py-6 bg-white rounded-xl border border-[#eaeef2]">
-                <div class="p-4 bg-white rounded-2xl shadow-soft border border-[#eaeef2] mb-4">
-                    {!! QrCode::size(240)->generate(route('presensi.scan.token', $sesiAktif->qr_token)) !!}
+            <div x-data="{ isFullscreen: false }" 
+                 :class="isFullscreen ? 'fixed inset-0 z-50 bg-[#f6fafe] flex flex-col items-center justify-center p-8' : 'flex flex-col items-center py-6 bg-white rounded-xl border border-[#eaeef2]'">
+                
+                {{-- Fullscreen Close button --}}
+                <template x-if="isFullscreen">
+                    <button @click="isFullscreen = false" class="absolute top-6 right-6 p-3 bg-white hover:bg-gray-100 rounded-full border border-gray-200 text-gray-700 shadow-soft flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[24px]">close</span>
+                    </button>
+                </template>
+
+                <div class="p-4 bg-white rounded-2xl shadow-soft border border-[#eaeef2] mb-4 flex items-center justify-center"
+                     :class="isFullscreen ? 'w-[420px] h-[420px]' : 'w-[272px] h-[272px]'">
+                    <div :class="isFullscreen ? 'scale-[1.6]' : ''" class="transition-transform duration-200">
+                        {!! QrCode::size(240)->generate(route('presensi.scan.token', $sesiAktif->qr_token)) !!}
+                    </div>
                 </div>
-                <p class="text-sm text-[#5c5f61] text-center">
+
+                <div class="flex items-center gap-3">
+                    <button @click="isFullscreen = !isFullscreen" 
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#f0fdf4] border border-[#0e7a3d]/20 text-[#005f2d] hover:bg-[#0e7a3d] hover:text-white transition-all text-xs font-semibold rounded-lg">
+                        <span class="material-symbols-outlined text-[16px]" x-text="isFullscreen ? 'fullscreen_exit' : 'fullscreen'">fullscreen</span>
+                        <span x-text="isFullscreen ? 'Kecilkan QR' : 'Perbesar QR'">Perbesar QR</span>
+                    </button>
+                </div>
+
+                <p class="text-sm text-[#5c5f61] text-center mt-3">
                     Tampilkan QR ini ke siswa untuk scan presensi
                 </p>
-                <p class="text-xs text-[#5c5f61]/70 mt-1 font-mono">
+                <p class="text-sm text-[#171c1f] mt-2 font-mono font-bold bg-[#eaeef2] px-3 py-1 rounded-lg border border-[#becabc]">
                     Token: {{ $sesiAktif->qr_token }}
                 </p>
             </div>
 
             {{-- Akhiri sesi --}}
             <button wire:click="akhiriSesi"
+                    wire:confirm="Apakah Anda yakin ingin mengakhiri sesi presensi ini? Siswa tidak akan bisa melakukan scan lagi."
                     class="inline-flex items-center gap-2 px-6 py-3 bg-[#ffdad6] border border-[#ba1a1a]/20 text-[#93000a]
                            text-sm font-semibold rounded-xl hover:bg-[#ba1a1a] hover:text-white transition-all active:scale-95">
                 <span class="material-symbols-outlined text-[18px]">stop_circle</span>

@@ -9,7 +9,7 @@ use App\Http\Controllers\TugasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/dashboard');
+    return view('welcome');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/anak/{siswa}', [ProfileController::class, 'showAnak'])->name('profile.anak');
 });
 
 // === Presensi QR ===
@@ -37,6 +38,7 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/presensi/guru', [PresensiController::class, 'guruQr'])->name('presensi.guru');
     Route::get('/presensi/guru/{kelas}', [PresensiController::class, 'guruQr'])->name('presensi.guru.qr');
+    Route::post('/presensi/guru/{kelas}/settings', [PresensiController::class, 'updateSettings'])->name('presensi.guru.settings');
 });
 
 // === Tugas ===
@@ -70,6 +72,25 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 Route::middleware(['auth', 'role:guru,orang_tua'])->group(function () {
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/{laporan}', [LaporanController::class, 'show'])->name('laporan.show');
+});
+
+// === Fitur Tambahan (Figma UI/UX) ===
+Route::middleware('auth')->group(function () {
+    Route::get('/pengumuman', function () {
+        return view('features.pengumuman');
+    })->name('pengumuman.index');
+
+    Route::get('/prediksi-absensi', function () {
+        return view('features.prediksi_absensi');
+    })->name('prediksi.index');
+
+    Route::get('/ai-motivasi', function () {
+        return view('features.ai_motivasi');
+    })->name('motivasi.index');
+
+    Route::get('/aktivitas-belajar', function () {
+        return view('features.aktivitas_belajar');
+    })->name('aktivitas.index');
 });
 
 require __DIR__.'/auth.php';
