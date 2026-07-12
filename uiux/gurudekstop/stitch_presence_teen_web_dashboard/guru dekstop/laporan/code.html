@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Laporan - Presence Teen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#005323",
+                    "inverse-on-surface": "#eaf1ff",
+                    "tertiary": "#6e5300",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#00210a",
+                    "tertiary-container": "#8c6a00",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#006d30",
+                    "surface-variant": "#d3e4fe",
+                    "outline-variant": "#becabc",
+                    "on-primary-container": "#d3ffd5",
+                    "background": "#f8f9ff",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-surface": "#0b1c30",
+                    "primary-fixed-dim": "#79db8d",
+                    "on-surface-variant": "#3f493f",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary-fixed": "#002109",
+                    "secondary-container": "#7cf994",
+                    "primary-container": "#15803d",
+                    "secondary": "#006e2d",
+                    "primary": "#00652c",
+                    "surface-dim": "#cbdbf5",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-secondary-container": "#007230",
+                    "outline": "#6f7a6e",
+                    "tertiary-fixed-dim": "#f7be1d",
+                    "tertiary-fixed": "#ffdf9a",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#79db8d",
+                    "on-secondary-fixed-variant": "#005320",
+                    "surface-container-high": "#dce9ff",
+                    "on-background": "#0b1c30",
+                    "primary-fixed": "#95f8a7",
+                    "secondary-fixed-dim": "#62df7d",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-container": "#fff2dd",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed": "#7ffc97",
+                    "inverse-surface": "#213145"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sidebar-width": "280px",
+                    "gutter": "24px",
+                    "container-padding": "32px",
+                    "unit": "8px",
+                    "card-padding": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Poppins"],
+                    "label-sm": ["Poppins"],
+                    "headline-lg": ["Poppins"],
+                    "title-md": ["Poppins"],
+                    "title-lg": ["Poppins"],
+                    "body-lg": ["Poppins"],
+                    "body-md": ["Poppins"],
+                    "caption": ["Poppins"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+            },
+            "boxShadow": {
+                "sm": "0 1px 3px rgba(0,0,0,0.1)",
+                "md": "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)",
+                "lg": "0 10px 15px -3px rgba(0,0,0,0.1)"
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { background-color: #F8FAFC; }
+    </style>
+</head>
+<body class="font-body-md text-body-md text-on-surface bg-background">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface-container-lowest dark:bg-inverse-surface shadow-md dark:shadow-none fixed left-0 top-0 h-screen w-[280px] flex-col py-6 z-50">
+<div class="px-gutter mb-8 flex items-center gap-4">
+<img class="w-10 h-10 rounded-lg object-cover" alt="Presence Teen School Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOsbfV3a8ginvIoJgjuAFuPCUnQNq1u2kOHnEClShmIYOFkzqmNafcrVirEy-S0LRP8p7patY024XvD1C0FFjl-kKu9tzIMIxnsb2HT1kyzF-ovF_86zbzzhip_KkCJBd7mMvGjq48Cw-ROJ7QbZHjowNz0Y5OhNdwHDkFo4OH0_jcP2Ch-WTdn4IyMpm6qLJp69Tyh2N2otSAZ4LV3w3mK5rY23r5R-Og99tS__T5wDd__txA1-QdEQxfdo9Lj8UpmCiocBBCMDNH">
+<div>
+<h1 class="text-title-lg font-title-lg font-bold text-primary dark:text-primary-fixed">Presence Teen</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">School Management</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-4 space-y-2">
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+<span class="">Sesi Presensi</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="">Kelas</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="">Siswa</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="">Jadwal</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="">Materi</span>
+</a>
+<!-- Active -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-l-4 border-primary bg-secondary-container/20 transition-transform active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" data-weight="fill">analytics</span>
+<span class="">Laporan</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="">Profil</span>
+</a>
+</div>
+<div class="px-4 mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="">Keluar</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="md:ml-[280px] min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-background fixed top-0 right-0 left-0 md:left-[280px] h-16 flex justify-between items-center px-gutter w-full z-40 transition-all">
+<div class="flex items-center gap-4 w-full max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant z-10" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-[#E2E8F0] rounded-xl focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-all font-body-md text-on-surface outline-none" placeholder="Search..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-[#E2E8F0] cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all">
+<img alt="Teacher Profile Photo" class="w-full h-full object-cover" data-alt="A professional headshot of a teacher or school administrator, looking friendly and approachable, set against a neutral, light-mode background, suitable for a user profile avatar in a dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2NmANvXdzKC3WbCDS97yfAILpcN5ky4-Y-j7dLRX1w9Lro8SzILkV3249XPhllSO8tVJumqEOie8PcVXB3hYMv9SCp-JQKNZXGbR11-NCkXc3kxcCfF1UPEEWdyvh8eZKxGiH_oBIRyVNjy4qnEuQ_WPuNNE8o2cDthqdkwZmJDegHQfGL6JIAecCzNnPSjJn19w1eyb1R_NjUFCdbDFoBlQIsO5W1hOCIUiHgX6M6fkLu3aOj1NMVf7RprJ1hmcEACZlIND2c2IR">
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 pt-24 px-container-padding pb-12 w-full max-w-7xl mx-auto">
+<!-- Page Header & Filters -->
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Laporan Kehadiran</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Overview of student attendance metrics and trends.</p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<!-- Filters -->
+<select class="bg-surface border border-[#E2E8F0] text-on-surface font-body-md rounded-xl px-4 py-2 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 outline-none cursor-pointer">
+<option>This Month</option>
+<option>Last Month</option>
+<option>This Semester</option>
+</select>
+<select class="bg-surface border border-[#E2E8F0] text-on-surface font-body-md rounded-xl px-4 py-2 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 outline-none cursor-pointer">
+<option>All Classes</option>
+<option>Class 10A</option>
+<option>Class 10B</option>
+</select>
+<!-- Export Actions -->
+<button class="flex items-center gap-2 bg-surface text-primary border border-[#E2E8F0] font-title-md text-title-md px-4 py-2 rounded-[16px] hover:bg-surface-container-low transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="picture_as_pdf">picture_as_pdf</span>
+                        PDF
+                    </button>
+<button class="flex items-center gap-2 bg-primary-container text-white font-title-md text-title-md px-4 py-2 rounded-[16px] hover:bg-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="table_chart">table_chart</span>
+                        Excel
+                    </button>
+</div>
+</div>
+<!-- KPI Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<!-- Card 1 -->
+<div class="bg-surface rounded-xl p-card-padding shadow-md border border-[#E2E8F0] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Average Attendance</p>
+<span class="material-symbols-outlined text-primary bg-primary-container/10 p-2 rounded-lg" data-icon="trending_up">trending_up</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">94.2%</h3>
+<p class="font-caption text-caption text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="arrow_upward">arrow_upward</span>
+                        +2.4% vs last month
+                    </p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface rounded-xl p-card-padding shadow-md border border-[#E2E8F0] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Total Absences</p>
+<span class="material-symbols-outlined text-error bg-error-container/50 p-2 rounded-lg" data-icon="warning">warning</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">128</h3>
+<p class="font-caption text-caption text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="arrow_downward">arrow_downward</span>
+                        -12 vs last month
+                    </p>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface rounded-xl p-card-padding shadow-md border border-[#E2E8F0] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Late Arrivals</p>
+<span class="material-symbols-outlined text-tertiary bg-tertiary-container/20 p-2 rounded-lg" data-icon="schedule">schedule</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">45</h3>
+<p class="font-caption text-caption text-on-surface-variant flex items-center gap-1">
+                        Consistent
+                    </p>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface rounded-xl p-card-padding shadow-md border border-[#E2E8F0] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Active Sessions</p>
+<span class="material-symbols-outlined text-primary bg-primary-container/10 p-2 rounded-lg" data-icon="class">class</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">320</h3>
+<p class="font-caption text-caption text-on-surface-variant flex items-center gap-1">
+                        This month
+                    </p>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<!-- Main Trend Line Chart -->
+<div class="bg-surface rounded-xl p-card-padding shadow-md border border-[#E2E8F0] lg:col-span-2">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-6">Attendance Trends (Monthly)</h3>
+<div class="relative h-72 w-full">
+<canvas id="trendChart" width="850" height="432" style="display: block; box-sizing: border-box; height: 288px; width: 566.7px;"></canvas>
+</div>
+</div>
+<!-- Distribution Pie Chart -->
+<div class="bg-surface rounded-xl p-card-padding shadow-md border border-[#E2E8F0]">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-6">Status Distribution</h3>
+<div class="relative h-64 w-full flex justify-center">
+<canvas id="distributionChart" width="370" height="384" style="display: block; box-sizing: border-box; height: 256px; width: 246.7px;"></canvas>
+</div>
+</div>
+</div>
+<!-- Subject Breakdown Bar Chart -->
+<div class="bg-surface rounded-xl p-card-padding shadow-md border border-[#E2E8F0] mb-8">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-6">Attendance by Subject</h3>
+<div class="relative h-80 w-full">
+<canvas id="subjectChart" width="1330" height="480" style="display: block; box-sizing: border-box; height: 320px; width: 886.7px;"></canvas>
+</div>
+</div>
+</main>
+</div>
+<!-- Chart.js Initialization -->
+<script>
+        // Common Chart Options
+        Chart.defaults.font.family = 'Poppins';
+        Chart.defaults.color = '#3f493f'; // text-on-surface-variant
+        const gridColor = '#e2e8f0';
+
+        // Trend Line Chart
+        const ctxTrend = document.getElementById('trendChart').getContext('2d');
+        new Chart(ctxTrend, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Present %',
+                    data: [92, 95, 93, 96],
+                    borderColor: '#15803d', // primary-container
+                    backgroundColor: 'rgba(21, 128, 61, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#15803d',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 80, max: 100, grid: { color: gridColor } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // Distribution Pie Chart
+        const ctxDist = document.getElementById('distributionChart').getContext('2d');
+        new Chart(ctxDist, {
+            type: 'doughnut',
+            data: {
+                labels: ['Present', 'Absent', 'Late'],
+                datasets: [{
+                    data: [85, 10, 5],
+                    backgroundColor: [
+                        '#15803d', // primary-container
+                        '#ba1a1a', // error
+                        '#f7be1d'  // tertiary-fixed-dim
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
+                }
+            }
+        });
+
+        // Subject Bar Chart
+        const ctxSubj = document.getElementById('subjectChart').getContext('2d');
+        new Chart(ctxSubj, {
+            type: 'bar',
+            data: {
+                labels: ['Math', 'Science', 'History', 'English', 'Art', 'PE'],
+                datasets: [{
+                    label: 'Attendance Rate',
+                    data: [96, 94, 88, 92, 98, 99],
+                    backgroundColor: '#006e2d', // secondary
+                    borderRadius: 6,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 70, max: 100, grid: { color: gridColor } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+
+
+</body></html>

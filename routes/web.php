@@ -6,6 +6,13 @@ use App\Http\Controllers\MateriController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TugasController;
+use App\Models\Kelas;
+use App\Models\Materi;
+use App\Models\PengumpulanTugas;
+use App\Models\Pengumuman;
+use App\Models\Presensi;
+use App\Models\SesiPresensi;
+use App\Models\Tugas;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +34,11 @@ Route::middleware('auth')->group(function () {
 });
 
 // === Presensi QR ===
+Route::middleware('auth')->group(function () {
+    Route::get('/presensi/riwayat', [PresensiController::class, 'riwayat'])->name('presensi.riwayat');
+    Route::get('/presensi/detail/{presensi}', [PresensiController::class, 'detail'])->name('presensi.detail');
+});
+
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/presensi/scan', [PresensiController::class, 'showScanPage'])->name('presensi.scan');
     Route::get('/presensi/scan/{token}', function ($token) {
@@ -39,6 +51,20 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/presensi/guru', [PresensiController::class, 'guruQr'])->name('presensi.guru');
     Route::get('/presensi/guru/{kelas}', [PresensiController::class, 'guruQr'])->name('presensi.guru.qr');
     Route::post('/presensi/guru/{kelas}/settings', [PresensiController::class, 'updateSettings'])->name('presensi.guru.settings');
+    Route::get('/presensi/manual', [PresensiController::class, 'manualInput'])->name('presensi.manual');
+    Route::post('/presensi/manual', [PresensiController::class, 'storeManualInput'])->name('presensi.manual.store');
+
+    Route::get('/jadwal', function () {
+        $kelas = Kelas::where('guru_id', auth()->id())->get();
+
+        return view('guru.jadwal', compact('kelas'));
+    })->name('guru.jadwal');
+
+    Route::get('/kelas-siswa', function () {
+        $kelas = Kelas::with('siswa')->where('guru_id', auth()->id())->get();
+
+        return view('guru.kelas_siswa', compact('kelas'));
+    })->name('guru.kelas_siswa');
 });
 
 // === Tugas ===
@@ -77,7 +103,9 @@ Route::middleware(['auth', 'role:guru,orang_tua'])->group(function () {
 // === Fitur Tambahan (Figma UI/UX) ===
 Route::middleware('auth')->group(function () {
     Route::get('/pengumuman', function () {
-        return view('features.pengumuman');
+        $pengumuman = Pengumuman::latest()->get();
+
+        return view('features.pengumuman', compact('pengumuman'));
     })->name('pengumuman.index');
 
     Route::get('/prediksi-absensi', function () {
@@ -89,7 +117,38 @@ Route::middleware('auth')->group(function () {
     })->name('motivasi.index');
 
     Route::get('/aktivitas-belajar', function () {
-        return view('features.aktivitas_belajar');
+        $user = auth()->user();
+        if ($user->role === 'orang_tua') {
+            $siswa = $user->anak()->first();
+        } else {
+            $siswa = $user;
+        }
+
+        if (! $siswa) {
+            abort(404, 'Siswa tidak ditemukan.');
+        }
+
+        $kelasIds = $siswa->kelasSaya->pluck('id');
+
+        // Count Tugas Selesai vs Total Tugas
+        $totalTugas = Tugas::whereIn('kelas_id', $kelasIds)->count();
+        $tugasSelesai = PengumpulanTugas::where('siswa_id', $siswa->id)->where('status', 'sudah')->count();
+
+        // Count Total Materi (Modules)
+        $totalMateri = Materi::count();
+
+        // Get latest attendance log
+        $latestPresensi = Presensi::where('siswa_id', $siswa->id)
+            ->with('sesiPresensi.kelas')
+            ->orderBy('waktu_absen', 'desc')
+            ->first();
+
+        // Calculate rate
+        $totalSesi = SesiPresensi::whereIn('kelas_id', $kelasIds)->count();
+        $hadir = Presensi::where('siswa_id', $siswa->id)->whereIn('status', ['hadir', 'telat'])->count();
+        $attendanceRate = $totalSesi > 0 ? round(($hadir / $totalSesi) * 100) : 100;
+
+        return view('features.aktivitas_belajar', compact('siswa', 'totalTugas', 'tugasSelesai', 'totalMateri', 'latestPresensi', 'attendanceRate'));
     })->name('aktivitas.index');
 });
 

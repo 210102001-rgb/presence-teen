@@ -21,6 +21,11 @@ class Presensi extends Model
         return $this->belongsTo(SesiPresensi::class, 'sesi_presensi_id');
     }
 
+    public function sesiPresensi()
+    {
+        return $this->belongsTo(SesiPresensi::class, 'sesi_presensi_id');
+    }
+
     public function siswa()
     {
         return $this->belongsTo(User::class, 'siswa_id');

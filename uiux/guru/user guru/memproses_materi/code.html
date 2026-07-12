@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Processing Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#005111",
+                        "surface-container": "#eeeeee",
+                        "outline": "#6f7a6f",
+                        "tertiary-fixed-dim": "#88d982",
+                        "surface": "#f9f9f9",
+                        "background": "#f9f9f9",
+                        "surface-variant": "#e2e2e2",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dadada",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f9f9f9",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-container": "#5b675e",
+                        "secondary": "#556158",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#81da95",
+                        "tertiary-fixed": "#a3f69c",
+                        "on-primary-fixed-variant": "#005226",
+                        "outline-variant": "#becabd",
+                        "on-tertiary-fixed-variant": "#005312",
+                        "tertiary-container": "#196b22",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#8fe9a3",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-fixed-dim": "#81da95",
+                        "on-surface-variant": "#3f493f",
+                        "primary-container": "#006b33",
+                        "secondary-fixed-dim": "#bdcabe",
+                        "inverse-surface": "#2f3131",
+                        "surface-tint": "#056d35",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#97e990",
+                        "inverse-on-surface": "#f1f1f1",
+                        "primary": "#005025",
+                        "secondary-fixed": "#d9e6da",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#3e4a41",
+                        "primary-fixed": "#9cf6af",
+                        "on-tertiary-fixed": "#002204",
+                        "on-primary-fixed": "#00210b",
+                        "on-secondary-fixed": "#131e17",
+                        "on-background": "#1a1c1c",
+                        "surface-container-highest": "#e2e2e2",
+                        "secondary-container": "#d9e6da"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .loader-ring {
+            border: 4px solid #e2e2e2;
+            border-top: 4px solid #006B33; /* Use primary accent for loading spinner */
+            border-radius: 50%;
+            width: 160px;
+            height: 160px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest font-body-md text-on-surface antialiased h-screen flex flex-col w-full max-w-[480px] mx-auto md:shadow-lg relative overflow-hidden">
+<!-- TopAppBar (Modified for specific use case per instructions) -->
+<header class="bg-surface dark:bg-surface-dim shadow-sm w-full top-0 sticky flex justify-between items-center px-margin-mobile h-16 z-10" data-component="TopAppBar">
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed truncate px-4">Memproses Materi</h1>
+<div class="w-10"></div> <!-- Placeholder for balance -->
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col justify-center items-center px-margin-mobile py-lg">
+<!-- Center Animation & Loader -->
+<div class="relative w-40 h-40 mb-lg flex justify-center items-center">
+<!-- Circular Loader -->
+<div class="loader-ring absolute inset-0 rounded-full z-0 pointer-events-none"></div>
+<!-- Embedded Animation -->
+<div class="w-32 h-32 rounded-full overflow-hidden relative z-10 bg-surface-container flex items-center justify-center shadow-sm">
+<!-- STITCH_THREEJS_START:ANIMATION_19 class="absolute inset-0 w-full h-full object-cover" -->
+<div class="absolute inset-0 w-full h-full object-cover" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_19" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_19');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+camera.position.z = 5;
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+// Create the sparkle/star shape
+const createSparkle = () => {
+    const group = new THREE.Group();
+    const material = new THREE.MeshBasicMaterial({ color: 0x006B33 });
+    
+    // Vertical part
+    const verticalGeom = new THREE.CapsuleGeometry(0.1, 1.5, 4, 8);
+    const vertical = new THREE.Mesh(verticalGeom, material);
+    group.add(vertical);
+    
+    // Horizontal part
+    const horizontalGeom = new THREE.CapsuleGeometry(0.1, 1.5, 4, 8);
+    const horizontal = new THREE.Mesh(horizontalGeom, material);
+    horizontal.rotation.z = Math.PI / 2;
+    group.add(horizontal);
+    
+    // Small diagonal sparkles
+    const diag1 = new THREE.Mesh(new THREE.CapsuleGeometry(0.05, 0.8, 4, 8), material);
+    diag1.rotation.z = Math.PI / 4;
+    group.add(diag1);
+    
+    const diag2 = new THREE.Mesh(new THREE.CapsuleGeometry(0.05, 0.8, 4, 8), material);
+    diag2.rotation.z = -Math.PI / 4;
+    group.add(diag2);
+    
+    return group;
+};
+
+const sparkle = createSparkle();
+scene.add(sparkle);
+
+// Add a glowing circle around it
+const circleGeom = new THREE.TorusGeometry(1.2, 0.05, 16, 100);
+const circleMat = new THREE.MeshBasicMaterial({ color: 0x006B33, transparent: true, opacity: 0.3 });
+const circle = new THREE.Mesh(circleGeom, circleMat);
+scene.add(circle);
+
+const animate = () => {
+    requestAnimationFrame(animate);
+    
+    const time = Date.now() * 0.002;
+    
+    // Pulse the sparkle
+    const scale = 1 + Math.sin(time) * 0.1;
+    sparkle.scale.set(scale, scale, scale);
+    sparkle.rotation.y += 0.01;
+    
+    // Rotate the ring
+    circle.rotation.z += 0.02;
+    circle.scale.set(1 + Math.sin(time * 0.5) * 0.05, 1 + Math.sin(time * 0.5) * 0.05, 1);
+    
+    renderer.render(scene, camera);
+};
+
+animate();
+
+window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth || window.innerWidth;
+    const newHeight = container.clientHeight || window.innerHeight;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+});
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_19 -->
+</div>
+</div>
+<!-- Loading Text -->
+<div class="text-center mb-xl w-full">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-unit">AI sedang merangkum materi...</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mx-auto">Mohon tunggu sebentar, proses ini memakan waktu beberapa detik.</p>
+</div>
+<!-- Skeleton Loader Section -->
+<div class="w-full max-w-sm space-y-sm px-4">
+<div class="h-4 bg-surface-variant rounded-full animate-pulse w-[90%]"></div>
+<div class="h-4 bg-surface-variant rounded-full animate-pulse w-[75%]"></div>
+<div class="h-4 bg-surface-variant rounded-full animate-pulse w-[85%]"></div>
+<div class="h-4 bg-surface-variant rounded-full animate-pulse w-[60%] mt-md"></div>
+</div>
+</main>
+<!-- Suppress Nav Shell (Linear/Transactional task per rules) -->
+</body></html>

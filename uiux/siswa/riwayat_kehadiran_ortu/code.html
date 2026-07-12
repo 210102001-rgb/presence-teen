@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Presence Teen | Attendance History</title>
+<!-- Fonts and Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1d",
+                    "tertiary": "#5b5f63",
+                    "secondary-container": "#f9e534",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2e3132",
+                    "inverse-primary": "#66df75",
+                    "secondary-fixed-dim": "#dbc90a",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#181c20",
+                    "surface": "#f8f9fa",
+                    "primary-fixed": "#83fc8e",
+                    "surface-variant": "#e1e3e4",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#3e4a3c",
+                    "primary": "#006e25",
+                    "primary-fixed-dim": "#66df75",
+                    "outline-variant": "#bdcab9",
+                    "tertiary-fixed": "#e0e3e8",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#43474c",
+                    "on-primary-fixed": "#002106",
+                    "secondary-fixed": "#f9e534",
+                    "on-tertiary-container": "#272b2f",
+                    "on-secondary-container": "#706500",
+                    "surface-container-high": "#e7e8e9",
+                    "surface-container": "#edeeef",
+                    "secondary": "#695f00",
+                    "on-surface": "#191c1d",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#201c00",
+                    "surface-tint": "#006e25",
+                    "on-primary-fixed-variant": "#00531a",
+                    "primary-container": "#28a745",
+                    "on-primary-container": "#00330d",
+                    "tertiary-container": "#8e9297",
+                    "tertiary-fixed-dim": "#c3c7cc",
+                    "surface-bright": "#f8f9fa",
+                    "on-secondary": "#ffffff",
+                    "outline": "#6e7b6b",
+                    "background": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#4f4800",
+                    "surface-container-low": "#f3f4f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "base": "8px",
+                    "md": "16px",
+                    "margin-mobile": "20px",
+                    "sm": "12px",
+                    "xl": "32px",
+                    "xs": "4px",
+                    "gutter-mobile": "12px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .calendar-dot::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+        }
+        .dot-present::after { background-color: #006e25; }
+        .dot-absent::after { background-color: #ba1a1a; }
+        .dot-excused::after { background-color: #695f00; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center px-margin-mobile py-md w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional studio headshot of a friendly teenage student with a warm smile, wearing a clean white polo shirt. The background is a soft, out-of-focus modern educational setting with light green and yellow accents, matching the brand's optimistic and youthful professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGfwDg52X5Ywwwy7VqM05gX0Ezu9e2sE5dBLZU8GNJWPR5z9tCB-v9_lRRqjPg_yokQRmc3TXt8kYEgfCbLNcumidd78OXwl6cAGsHExulo8TEZsOb9n0UCTgsP_MNDurukakxcXdomkrxarpYIpfbU3jCnY52Iuf_BcuERVNSAd5qc2yW8L2fgnbglo_ezAH0QnlrgMZ2Ohu3NeRTeOEmKU6IXEAduDR2HHqVx7N9Ko7K-WZ5SiYzZAp5r7ouwVH3qZ-dABDp_Y0"/>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Presence Teen</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">notifications</span>
+</button>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-margin-mobile pt-lg space-y-lg">
+<!-- Page Header & Stats Summary -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Attendance History</h2>
+<p class="font-body-md text-tertiary">Monitoring patterns for Leo Harrison</p>
+</div>
+<div class="flex gap-sm overflow-x-auto pb-xs">
+<div class="bg-white p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] min-w-[100px] border-l-4 border-primary">
+<p class="font-label-md text-tertiary">Present</p>
+<p class="font-headline-sm text-primary">94%</p>
+</div>
+<div class="bg-white p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] min-w-[100px] border-l-4 border-secondary">
+<p class="font-label-md text-tertiary">Excused</p>
+<p class="font-headline-sm text-secondary">4%</p>
+</div>
+<div class="bg-white p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] min-w-[100px] border-l-4 border-error">
+<p class="font-label-md text-tertiary">Absent</p>
+<p class="font-headline-sm text-error">2%</p>
+</div>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Calendar View (8 Columns) -->
+<section class="md:col-span-8 bg-white rounded-xl p-lg shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-sm text-on-background">October 2023</h3>
+<div class="flex gap-base">
+<button class="p-base rounded-full hover:bg-surface-container transition-colors"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-base rounded-full hover:bg-surface-container transition-colors"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-xs text-center">
+<!-- Day Labels -->
+<div class="font-label-lg text-tertiary py-base">S</div>
+<div class="font-label-lg text-tertiary py-base">M</div>
+<div class="font-label-lg text-tertiary py-base">T</div>
+<div class="font-label-lg text-tertiary py-base">W</div>
+<div class="font-label-lg text-tertiary py-base">T</div>
+<div class="font-label-lg text-tertiary py-base">F</div>
+<div class="font-label-lg text-tertiary py-base">S</div>
+<!-- Calendar Days -->
+<div class="p-md rounded-lg text-tertiary-fixed-dim opacity-40">24</div>
+<div class="p-md rounded-lg text-tertiary-fixed-dim opacity-40">25</div>
+<div class="p-md rounded-lg text-tertiary-fixed-dim opacity-40">26</div>
+<div class="p-md rounded-lg text-tertiary-fixed-dim opacity-40">27</div>
+<div class="p-md rounded-lg text-tertiary-fixed-dim opacity-40">28</div>
+<div class="p-md rounded-lg text-tertiary-fixed-dim opacity-40">29</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present bg-surface text-on-surface">1</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">2</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">3</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">4</div>
+<div class="p-md rounded-lg relative calendar-dot dot-excused">5</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">6</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">7</div>
+<div class="p-md rounded-lg">8</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">9</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">10</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">11</div>
+<div class="p-md rounded-lg relative calendar-dot dot-absent font-bold text-error">12</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">13</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present">14</div>
+<div class="p-md rounded-lg">15</div>
+<div class="p-md rounded-lg relative calendar-dot dot-present bg-primary-container text-white font-bold ring-2 ring-primary ring-offset-2">16</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">17</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">18</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">19</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">20</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">21</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">22</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">23</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">24</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">25</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">26</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">27</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">28</div>
+<div class="p-md rounded-lg hover:bg-surface-variant transition-colors cursor-pointer">29</div>
+</div>
+<div class="mt-lg flex flex-wrap gap-md pt-lg border-t border-surface-container">
+<div class="flex items-center gap-base">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-label-md text-tertiary">Present</span>
+</div>
+<div class="flex items-center gap-base">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-label-md text-tertiary">Excused</span>
+</div>
+<div class="flex items-center gap-base">
+<span class="w-3 h-3 rounded-full bg-error"></span>
+<span class="font-label-md text-tertiary">Absent</span>
+</div>
+</div>
+</section>
+<!-- Quick Analysis (4 Columns) -->
+<section class="md:col-span-4 space-y-lg">
+<div class="bg-primary-container p-lg rounded-xl text-on-primary-container relative overflow-hidden h-full min-h-[200px] flex flex-col justify-end">
+<div class="absolute top-0 right-0 p-lg opacity-20 transform translate-x-4 -translate-y-4">
+<span class="material-symbols-outlined text-[80px]">trending_up</span>
+</div>
+<h4 class="font-headline-sm mb-base">Consistency Award</h4>
+<p class="font-body-sm mb-md opacity-90">Leo has maintained a 100% presence in Science class for 4 consecutive weeks.</p>
+<button class="bg-white text-primary px-md py-base rounded-full font-label-lg w-fit hover:bg-surface-variant transition-colors">View Streak</button>
+</div>
+</section>
+</div>
+<!-- Detailed Logs List -->
+<section class="space-y-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-on-background">Detailed Logs</h3>
+<button class="flex items-center gap-xs font-label-lg text-primary hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+                    Filter
+                </button>
+</div>
+<!-- Log Cards -->
+<div class="space-y-sm">
+<!-- Log Entry 1 -->
+<div class="bg-white rounded-xl p-md shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border-l-4 border-error flex flex-col md:flex-row md:items-center justify-between gap-md group hover:shadow-lg transition-shadow">
+<div class="flex items-start gap-md">
+<div class="w-12 h-12 rounded-lg bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined">event_busy</span>
+</div>
+<div>
+<p class="font-label-lg text-on-background">Unexcused Absence</p>
+<p class="font-body-sm text-tertiary">Mathematics • Oct 12, 2023</p>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="text-right hidden md:block">
+<p class="font-label-md text-tertiary">Checked in by</p>
+<p class="font-label-lg text-on-background">System Auto-Scan</p>
+</div>
+<button class="bg-surface text-tertiary px-md py-base rounded-lg font-label-lg group-hover:bg-primary-container group-hover:text-white transition-colors">Resolve Now</button>
+</div>
+</div>
+<!-- Log Entry 2 -->
+<div class="bg-white rounded-xl p-md shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border-l-4 border-secondary flex flex-col md:flex-row md:items-center justify-between gap-md group hover:shadow-lg transition-shadow">
+<div class="flex items-start gap-md">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">medical_services</span>
+</div>
+<div>
+<p class="font-label-lg text-on-background">Excused Absence</p>
+<p class="font-body-sm text-tertiary">All Classes • Oct 5, 2023</p>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="text-right hidden md:block">
+<p class="font-label-md text-tertiary">Documentation</p>
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-[16px]">task_alt</span>
+<span class="font-label-lg">Doctor's Note Attached</span>
+</div>
+</div>
+<button class="bg-surface text-tertiary px-md py-base rounded-lg font-label-lg group-hover:bg-surface-variant transition-colors">View Details</button>
+</div>
+</div>
+<!-- Log Entry 3 -->
+<div class="bg-white rounded-xl p-md shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border-l-4 border-primary flex flex-col md:flex-row md:items-center justify-between gap-md group hover:shadow-lg transition-shadow">
+<div class="flex items-start gap-md">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<p class="font-label-lg text-on-background">Regular Check-in</p>
+<p class="font-body-sm text-tertiary">Literature • Oct 4, 2023</p>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="text-right hidden md:block">
+<p class="font-label-md text-tertiary">Time</p>
+<p class="font-label-lg text-on-background">08:52 AM</p>
+</div>
+<button class="bg-surface text-tertiary px-md py-base rounded-lg font-label-lg group-hover:bg-surface-variant transition-colors">Details</button>
+</div>
+</div>
+</div>
+<button class="w-full py-md text-primary font-label-lg hover:bg-surface-container transition-colors rounded-xl border-2 border-dashed border-outline-variant">
+                Load More History
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim relative after:content-[''] after:w-1 after:h-1 after:bg-primary after:rounded-full after:mt-1 hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md-mobile">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-md text-label-md-mobile">Learning</span>
+</a>
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md-mobile">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple interactivity for the calendar days
+        document.querySelectorAll('.calendar-dot.hover\\:bg-surface-variant').forEach(day => {
+            day.addEventListener('click', () => {
+                // Remove active ring from others
+                document.querySelectorAll('.calendar-dot').forEach(d => d.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'bg-primary-container', 'text-white'));
+                
+                // Add active state to clicked
+                day.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'bg-primary-container', 'text-white');
+            });
+        });
+
+        // Atmosphere - light subtle shimmer for primary container
+        const bentoStats = document.querySelector('.bg-primary-container');
+        if(bentoStats) {
+            bentoStats.addEventListener('mousemove', (e) => {
+                const rect = bentoStats.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                bentoStats.style.background = `radial-gradient(circle at ${x}px ${y}px, #28a745 0%, #006e25 80%)`;
+            });
+            bentoStats.addEventListener('mouseleave', () => {
+                bentoStats.style.background = '';
+            });
+        }
+    </script>
+</body></html>

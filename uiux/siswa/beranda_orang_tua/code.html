@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Presence Teen - Parent App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-dot::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background-color: #006e25;
+            border-radius: 50%;
+            margin-top: 4px;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1d",
+                        "tertiary": "#5b5f63",
+                        "secondary-container": "#f9e534",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2e3132",
+                        "inverse-primary": "#66df75",
+                        "secondary-fixed-dim": "#dbc90a",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#181c20",
+                        "surface": "#f8f9fa",
+                        "primary-fixed": "#83fc8e",
+                        "surface-variant": "#e1e3e4",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#3e4a3c",
+                        "primary": "#006e25",
+                        "primary-fixed-dim": "#66df75",
+                        "outline-variant": "#bdcab9",
+                        "tertiary-fixed": "#e0e3e8",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-primary-fixed": "#002106",
+                        "secondary-fixed": "#f9e534",
+                        "on-tertiary-container": "#272b2f",
+                        "on-secondary-container": "#706500",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container": "#edeeef",
+                        "secondary": "#695f00",
+                        "on-surface": "#191c1d",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#201c00",
+                        "surface-tint": "#006e25",
+                        "on-primary-fixed-variant": "#00531a",
+                        "primary-container": "#28a745",
+                        "on-primary-container": "#00330d",
+                        "tertiary-container": "#8e9297",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-bright": "#f8f9fa",
+                        "on-secondary": "#ffffff",
+                        "outline": "#6e7b6b",
+                        "background": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#4f4800",
+                        "surface-container-low": "#f3f4f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "base": "8px",
+                        "md": "16px",
+                        "margin-mobile": "20px",
+                        "sm": "12px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- Top AppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface flex justify-between items-center px-margin-mobile py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden ring-2 ring-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="A portrait of a professional Indonesian parent smiling warmly at the camera. The background is a soft-focus modern home interior with bright, airy natural lighting. The overall aesthetic is clean and high-end, using a soft color palette of whites and light greys to match the modern parent application design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBpcNI1JwPxJZditkDOscqzwb-IVukwuVSLbvlPbzHg059MKyrPyI9tXd3lvl8RseTuB9lWImxfiRBNLcV3smNlDNFzVw3cY51Z2hedAp59FY1ITf-JjIi62Br52QIa9YKST_fOWW9hHgA8rGuNPNWQ7T7EWf_DgnE-Zof_t8CU6r1Ylr75qp9YcrQA5YIGvj2dYsRfyJmIo6F1mEJhGHCseN_67QT7J45ZUnuiQCycEfGR8QleJgbI7oK8D2q3VFMDgJakw3Ay1c"/>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-tertiary">Selamat Datang,</p>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Ibu/Bapak 👋</h1>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="mt-24 px-margin-mobile space-y-lg">
+<!-- Child Profile Bento Section -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-md">
+<!-- Main Child Card -->
+<div class="md:col-span-8 bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-xl"></div>
+<div class="flex items-center gap-lg">
+<div class="w-20 h-20 rounded-xl overflow-hidden shadow-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A studio portrait of a confident teenage boy named Saverio wearing a neat school uniform. He has a friendly and bright expression. The lighting is professional and soft-tech, with a clean background. The visual style is modern, optimistic, and highly legible, reflecting a premium educational presence app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4FoMsWvQ4_nlyPVt5lo5Vlz4Q4pW9NEp8L9SNbY-I0KHZSdq49sVUxln8uuRk8KIKCU0lYASXbGt_uU7tDgtali1Z0h7_VDYWW2JBguLIPryyLnBO0OczMVI0NTwvqin4S8iBh92D2CXwOju_fNDpjkjFK8KN3dh3Nqo888N86LiHTFe7ClXa5DI73dHi15Jn87is-Ygc-jhhdO77p7OMHdmYtmqwe0yw_L4NMdoJXLX7Kwv3_slNw7K8xQIu4bb-8AuAICRxInk"/>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-on-surface">Saverio</h2>
+<p class="font-body-sm text-body-sm text-tertiary">Kelas 11 - IPA 2</p>
+<div class="mt-base flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-md text-label-md text-primary">Status Terverifikasi</span>
+</div>
+</div>
+<button class="hidden md:flex items-center justify-center p-md bg-surface-variant rounded-full text-primary hover:bg-primary-container hover:text-on-primary-container transition-all">
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Today's Attendance Summary -->
+<div class="md:col-span-4 bg-primary text-on-primary p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div>
+<p class="font-label-lg text-label-lg opacity-90">Kehadiran Hari Ini</p>
+<h3 class="font-headline-md text-headline-md mt-xs">07:12 WIB</h3>
+</div>
+<div class="mt-lg flex items-center justify-between">
+<span class="px-md py-xs bg-on-primary/20 rounded-full font-label-md text-label-md">Hadir Tepat Waktu</span>
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</section>
+<!-- Quick Links -->
+<section class="grid grid-cols-2 gap-md">
+<button class="bg-surface-container-high p-md rounded-xl flex items-center gap-md hover:bg-surface-variant transition-colors active:scale-95 duration-100">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Riwayat</span>
+</button>
+<button class="bg-surface-container-high p-md rounded-xl flex items-center gap-md hover:bg-surface-variant transition-colors active:scale-95 duration-100">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Izin & Sakit</span>
+</button>
+</section>
+<!-- Notifications Section -->
+<section class="space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Notifikasi Terbaru</h3>
+<button class="font-label-lg text-label-lg text-primary">Lihat Semua</button>
+</div>
+<div class="space-y-base">
+<!-- Notification Item 1 -->
+<div class="bg-surface-container-lowest p-md rounded-xl flex gap-md items-start shadow-sm hover:shadow-md transition-shadow">
+<div class="w-10 h-10 rounded-full bg-error-container/20 flex-shrink-0 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface">Pengumuman Sekolah</h4>
+<span class="font-label-md text-label-md text-tertiary">Baru saja</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary mt-xs line-clamp-2">Pertemuan orang tua murid kelas 11 akan diadakan pada hari Sabtu, 15 Oktober pukul 09:00.</p>
+</div>
+</div>
+<!-- Notification Item 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl flex gap-md items-start shadow-sm border-l-4 border-primary">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface">Check-in Berhasil</h4>
+<span class="font-label-md text-label-md text-tertiary">2j yang lalu</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary mt-xs">Saverio telah melakukan absensi kedatangan di gerbang utama pada pukul 07:12.</p>
+</div>
+</div>
+<!-- Notification Item 3 -->
+<div class="bg-surface-container-lowest p-md rounded-xl flex gap-md items-start shadow-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex-shrink-0 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface">Laporan Mingguan</h4>
+<span class="font-label-md text-label-md text-tertiary">1 hari lalu</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary mt-xs">Laporan kehadiran mingguan Saverio (Minggu ke-2 Oktober) sudah tersedia untuk diunduh.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Insight Card (Bento Style) -->
+<section class="bg-inverse-surface text-on-tertiary p-xl rounded-2xl relative overflow-hidden">
+<div class="relative z-10 space-y-md">
+<span class="px-md py-xs bg-primary-fixed text-on-primary-fixed rounded-full font-label-md text-label-md">Info Akademik</span>
+<h3 class="font-headline-md text-headline-md leading-tight">Pantau progres kehadiran dengan grafik interaktif.</h3>
+<p class="font-body-sm text-body-sm opacity-80 max-w-[240px]">Tingkat kehadiran Saverio bulan ini mencapai 98%. Sangat bagus!</p>
+<button class="bg-primary-container text-on-primary-container font-label-lg text-label-lg px-lg py-md rounded-xl active:scale-95 transition-transform">Lihat Statistik</button>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -right-10 -bottom-10 w-48 h-48 bg-primary/20 blur-3xl rounded-full"></div>
+<div class="absolute right-4 bottom-4 opacity-20">
+<span class="material-symbols-outlined text-[120px]" data-icon="monitoring">monitoring</span>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim relative after:content-[''] after:w-1 after:h-1 after:bg-primary after:rounded-full after:mt-1 hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md-mobile mt-1">Home</span>
+</a>
+<!-- History -->
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md-mobile mt-1">History</span>
+</a>
+<!-- Notif -->
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-md text-label-md-mobile mt-1">Notif</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md-mobile mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for smooth scrolling/tapping behavior
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('touchstart', () => {
+                elem.style.transform = 'scale(0.95)';
+            });
+            elem.addEventListener('touchend', () => {
+                elem.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Simple Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-4');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+            observer.observe(section);
+        });
+    </script>
+</body></html>

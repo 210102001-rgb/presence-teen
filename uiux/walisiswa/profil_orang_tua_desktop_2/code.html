@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profil Orang Tua - Academy Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#171c1f",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "inverse-primary": "#7bda92",
+                    "on-primary-fixed-variant": "#005226",
+                    "on-background": "#171c1f",
+                    "secondary": "#5c5f61",
+                    "surface-container-low": "#f0f4f8",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "background": "#f6fafe",
+                    "surface-variant": "#dfe3e7",
+                    "on-secondary-fixed-variant": "#444749",
+                    "outline": "#6f7a6e",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#616b7b",
+                    "on-primary-container": "#a5ffb7",
+                    "surface-container-highest": "#dfe3e7",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#e0e3e5",
+                    "surface-container": "#eaeef2",
+                    "on-tertiary-fixed-variant": "#3d4756",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#3f493f",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e3e5",
+                    "surface-container-high": "#e4e9ed",
+                    "on-primary-fixed": "#00210b",
+                    "tertiary-fixed-dim": "#bdc7d9",
+                    "primary": "#005f2d",
+                    "on-secondary-fixed": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#edf1f5",
+                    "surface-tint": "#006d34",
+                    "tertiary": "#495362",
+                    "surface-bright": "#f6fafe",
+                    "on-tertiary-container": "#e2ecff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "primary-fixed-dim": "#7bda92",
+                    "primary-fixed": "#97f7ac",
+                    "tertiary-fixed": "#d9e3f6",
+                    "inverse-surface": "#2c3134",
+                    "primary-container": "#0e7a3d",
+                    "outline-variant": "#becabc",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#626567",
+                    "on-tertiary-fixed": "#121c2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1440px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "2xl": "48px",
+                    "gutter": "24px",
+                    "base": "4px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "title-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-item {
+            font-weight: 700;
+        }
+        body {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- App Shell Wrapper -->
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="docked left-0 h-full w-64 hidden md:flex flex-col bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none transition-colors duration-200 p-md gap-sm border-r border-outline-variant/30">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary leading-tight">Academy Premium</h1>
+<p class="font-body-md text-secondary text-sm">Parental Portal</p>
+</div>
+<nav class="flex-1 overflow-y-auto space-y-1">
+<!-- Navigation Items Loop -->
+<a class="flex items-center gap-md px-md py-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Student Profile</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span>Attendance</span>
+</a>
+<!-- ... other items skipped for brevity in mock but maintained in logic ... -->
+<a class="flex items-center gap-md px-md py-sm text-primary dark:text-inverse-primary font-bold bg-secondary-container dark:bg-on-secondary-fixed-variant rounded-lg transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span>Parent Profile</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-md">
+<a class="flex items-center gap-md px-md py-sm text-error hover:bg-error-container/20 rounded-lg transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- TopNavBar (Shared Component) -->
+<header class="docked full-width top-0 z-40 bg-surface dark:bg-on-background flex justify-between items-center px-margin-desktop py-sm w-full border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+<span class="font-headline-lg text-title-md font-bold text-primary">Academy Premium</span>
+</div>
+<div class="hidden lg:flex items-center border border-outline-variant rounded-full px-md py-xs bg-surface-container-low">
+<span class="material-symbols-outlined text-secondary text-sm mr-xs" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64" placeholder="Cari data akademik..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<nav class="hidden md:flex gap-md">
+<a class="text-primary border-b-2 border-primary py-xs font-title-md text-body-md" href="#">2023-2024 Year</a>
+</nav>
+<div class="flex items-center gap-md border-l border-outline-variant pl-lg">
+<button class="relative hover:text-primary transition-all active:opacity-80 scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border border-surface"></span>
+</button>
+<div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-high p-xs rounded-lg transition-all">
+<img class="w-8 h-8 rounded-full border border-primary/20 object-cover" data-alt="A professional headshot of a middle-aged parent with a warm, friendly smile, dressed in business casual attire. The lighting is soft and natural, suggesting a high-end studio setting with a clean, neutral background. The overall aesthetic is polished and trustworthy, fitting for a premium educational portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgsxIQ0-y1aXMd94Sx_tcIjXyjGl959FIoYmdYALpALBJxdTizMTps9lQ12bgjCrVGWsR6B-LSXil3y0SoQDtMpnG6g_dF_FUS1blfJZ4dN3PP_zdglgiVEfXc3DXkSzlGogKG5nnBVKsg6kHrebLhxoj-idcZkkb7yrbAZ84UXYMP7njeMHPubifKndhwjtQ01VbBfa2EOxcDWzApGmPGrrALm8Xij5gVYzTTipi5XjmJxOuhXZhpOzytxPY3r6FCzaPfWCgDMe2V"/>
+<span class="font-title-md text-body-md hidden sm:block">Ahmad Prasetyo</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-margin-desktop max-w-max-width mx-auto w-full">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-xl">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Profil Saya</h2>
+<nav class="flex gap-xs text-secondary text-sm">
+<span>Beranda</span>
+<span>/</span>
+<span class="text-primary font-semibold">Profil Orang Tua</span>
+</nav>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-sm border border-primary text-primary font-semibold rounded-xl hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock">lock</span>
+                            Ganti Password
+                        </button>
+<button class="flex items-center gap-xs px-lg py-sm bg-primary text-on-primary font-semibold rounded-xl hover:bg-primary-container transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                            Edit Profil
+                        </button>
+</div>
+</div>
+<!-- Profile Layout: Bento-style Grid -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column: Identity Card -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_1px_3px_rgba(0,0,0,0.05),0_4px_6px_rgba(0,0,0,0.02)] text-center relative overflow-hidden group">
+<!-- Background Accent -->
+<div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-primary to-primary-container opacity-10"></div>
+<div class="relative mt-4 mb-lg">
+<div class="relative inline-block">
+<img class="w-32 h-32 rounded-full border-4 border-surface shadow-md mx-auto object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A professional studio portrait of a father in his 40s, featuring a crisp white shirt and a friendly, confident expression. The photography uses high-key lighting with soft shadows, creating a bright and approachable corporate modern look. The background is a very subtle gray gradient, reinforcing a clean, high-density professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYQDOFrp6QgtiGlt6Qt6z-C66MeLkew9PEIT0Gv8ukIPtSCTvrL9E-QfIMPfKYLKh7VyI8pJ2mJVdZhvOgxRooHwCbdq_k3qcTJDWMZNslt4T7XMOXat6mJ-JFfowykvyhZJVGxhIaMIIsiAOydE_2TT5mL-F6BCsWSRgmL1acofGhg-gJubn6hEPHaAQ56Ee3ETMACtRmQcr-Wzh4uVn21cP7CSuN8X0JvdLDEJBNrVvF-duQecNOUw7NnBvRUXnKEfilH08wlDtU"/>
+<button class="absolute bottom-1 right-1 w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="photo_camera">photo_camera</span>
+</button>
+</div>
+<h3 class="font-headline-lg text-title-md mt-md mb-xs">Ahmad Prasetyo, M.T.</h3>
+<span class="bg-primary/10 text-primary px-md py-1 rounded-full text-xs font-bold uppercase tracking-wider">Wali Murid Utama</span>
+</div>
+<div class="border-t border-outline-variant pt-lg flex flex-col gap-md text-left">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+</div>
+<div>
+<p class="text-xs text-secondary font-semibold uppercase tracking-tight">Anak Terdaftar</p>
+<p class="text-body-md font-semibold">Budi Prasetyo (Kelas XI-A)</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<p class="text-xs text-secondary font-semibold uppercase tracking-tight">Status Akun</p>
+<p class="text-body-md font-semibold text-primary flex items-center gap-xs">
+                                            Terverifikasi
+                                            <span class="material-symbols-outlined text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Sidebar Card: Quick Insight -->
+<div class="bg-gradient-to-br from-[#F0FDF4] to-[#E2E8F0] border border-primary/10 rounded-xl p-lg shadow-sm">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+<h4 class="font-title-md text-body-lg text-primary">AI Insight</h4>
+</div>
+<p class="text-body-md text-on-surface-variant leading-relaxed">
+                                Kehadiran Anda dalam rapat wali murid terakhir menunjukkan keterlibatan yang sangat positif bagi motivasi belajar Budi.
+                            </p>
+</div>
+</div>
+<!-- Right Column: Form Fields -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_1px_3px_rgba(0,0,0,0.05),0_4px_6px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-xl border-b border-outline-variant pb-md">
+<h3 class="font-title-md text-title-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="contact_page">contact_page</span>
+                                    Informasi Personal
+                                </h3>
+<span class="text-xs text-secondary italic">Terakhir diperbarui: 12 Jan 2024</span>
+</div>
+<form class="space-y-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-sm">
+<label class="font-label-sm text-secondary uppercase tracking-wider block">Nama Lengkap</label>
+<input class="w-full rounded-xl border-outline-variant py-md px-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md bg-background/50" type="text" value="Ahmad Prasetyo, M.T."/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-sm text-secondary uppercase tracking-wider block">Nomor Telepon</label>
+<div class="relative">
+<span class="absolute left-lg top-1/2 -translate-y-1/2 text-secondary text-sm">+62</span>
+<input class="w-full rounded-xl border-outline-variant py-md pl-14 pr-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md bg-background/50" type="tel" value="812-3456-7890"/>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-sm">
+<label class="font-label-sm text-secondary uppercase tracking-wider block">Alamat Email</label>
+<input class="w-full rounded-xl border-outline-variant py-md px-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md bg-background/50" type="email" value="ahmad.prasetyo@email.com"/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-sm text-secondary uppercase tracking-wider block">Pekerjaan</label>
+<input class="w-full rounded-xl border-outline-variant py-md px-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md bg-background/50" type="text" value="Senior Software Engineer"/>
+</div>
+</div>
+<div class="space-y-sm">
+<label class="font-label-sm text-secondary uppercase tracking-wider block">Alamat Rumah</label>
+<textarea class="w-full rounded-xl border-outline-variant py-md px-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md bg-background/50" rows="3">Jl. Melati No. 45, Kebayoran Baru, Jakarta Selatan, 12110</textarea>
+</div>
+<!-- Maps Integration Placeholder (as requested by data-location logic if applicable) -->
+<div class="rounded-xl overflow-hidden border border-outline-variant h-48 relative group">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-[2s] group-hover:scale-110" data-alt="A clean, minimalist digital map of a residential area in Jakarta, featuring subtle green spaces and clearly marked streets. The map uses a sophisticated tonal palette of light grays and primary greens for park areas, avoiding cluttered icons for a high-end UI look. The lighting is bright and even, consistent with a modern light-mode dashboard interface." data-location="Jakarta" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHR_Nacp4gdHJveBc5Nw566HihBjHVtOadkRyq-AmFvhwber1QcJuohMaW0bH9bsFMEBp3vGhOSQ5c2COciTEpof_CLG6E90eYvJIbD2an38ZnVW2azIdBOWLAYuaqVHNRINjbk1BU-jy9NSqtFK5DR7wWS36v-__dM_S_XjKHtFd7CxQ-mGOWiBF2NtQZbj50oL1AyxmEv_sUM_PB0-Y1ZIx1roEAigA4PwHgIhCX17jgNmQPHgELxp1EokxzMAIIG_ji9zQUWp_6')"></div>
+<div class="absolute inset-0 bg-on-surface/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-surface px-md py-sm rounded-full font-semibold shadow-lg text-sm">Lihat di Peta</button>
+</div>
+</div>
+<div class="pt-lg border-t border-outline-variant flex justify-end gap-md">
+<button class="px-xl py-md text-secondary font-semibold hover:text-on-surface transition-colors" type="button">Batalkan</button>
+<button class="px-2xl py-md bg-primary text-on-primary font-bold rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all" type="submit">
+                                        Simpan Perubahan
+                                    </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- Decorative Atmospheric Element -->
+<div class="fixed bottom-margin-desktop right-margin-desktop pointer-events-none opacity-40">
+<div class="w-64 h-64 bg-primary-fixed blur-[100px] rounded-full"></div>
+</div>
+</div>
+</main>
+</div>
+<!-- Notification Toast (Micro-interaction) -->
+<div class="fixed bottom-lg left-1/2 -translate-x-1/2 translate-y-20 bg-inverse-surface text-inverse-on-surface px-xl py-md rounded-full shadow-2xl flex items-center gap-md transition-all duration-500 opacity-0 z-50" id="toast">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="font-body-md">Profil berhasil diperbarui</p>
+</div>
+<script>
+        // Simple micro-interaction for form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        });
+
+        // Interactive hover states for sidebar
+        const navLinks = document.querySelectorAll('aside nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                if(!link.classList.contains('bg-secondary-container')) {
+                    link.classList.add('translate-x-1');
+                }
+            });
+            link.addEventListener('mouseleave', () => {
+                link.classList.remove('translate-x-1');
+            });
+        });
+    </script>
+</body></html>

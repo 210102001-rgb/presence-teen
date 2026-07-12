@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Presence History | Presence Teen</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#191c1d",
+                      "tertiary": "#5b5f63",
+                      "secondary-container": "#f9e534",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#2e3132",
+                      "inverse-primary": "#66df75",
+                      "secondary-fixed-dim": "#dbc90a",
+                      "on-error": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed": "#181c20",
+                      "surface": "#f8f9fa",
+                      "primary-fixed": "#83fc8e",
+                      "surface-variant": "#e1e3e4",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#3e4a3c",
+                      "primary": "#006e25",
+                      "primary-fixed-dim": "#66df75",
+                      "outline-variant": "#bdcab9",
+                      "tertiary-fixed": "#e0e3e8",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-error-container": "#93000a",
+                      "surface-dim": "#d9dadb",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-tertiary-fixed-variant": "#43474c",
+                      "on-primary-fixed": "#002106",
+                      "secondary-fixed": "#f9e534",
+                      "on-tertiary-container": "#272b2f",
+                      "on-secondary-container": "#706500",
+                      "surface-container-high": "#e7e8e9",
+                      "surface-container": "#edeeef",
+                      "secondary": "#695f00",
+                      "on-surface": "#191c1d",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed": "#201c00",
+                      "surface-tint": "#006e25",
+                      "on-primary-fixed-variant": "#00531a",
+                      "primary-container": "#28a745",
+                      "on-primary-container": "#00330d",
+                      "tertiary-fixed-dim": "#c3c7cc",
+                      "surface-bright": "#f8f9fa",
+                      "on-secondary": "#ffffff",
+                      "outline": "#6e7b6b",
+                      "background": "#f8f9fa",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#4f4800",
+                      "surface-container-low": "#f3f4f5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "base": "8px",
+                      "md": "16px",
+                      "margin-mobile": "20px",
+                      "sm": "12px",
+                      "xl": "32px",
+                      "xs": "4px",
+                      "gutter-mobile": "12px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Plus Jakarta Sans"],
+                      "label-md": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "label-lg": ["Plus Jakarta Sans"],
+                      "body-md": ["Plus Jakarta Sans"],
+                      "body-lg": ["Plus Jakarta Sans"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "headline-sm": ["Plus Jakarta Sans"],
+                      "headline-lg-mobile": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .presence-card {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .presence-card:active {
+            transform: scale(0.98);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-40 bg-surface dark:bg-on-background px-margin-mobile py-md flex justify-between items-center">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high border-2 border-primary/10">
+<img class="w-full h-full object-cover" data-alt="A portrait of a cheerful Indonesian teenage student with a friendly expression, wearing a neat school uniform. The lighting is soft and natural, emphasizing a professional yet youthful atmosphere. The background is a blurred modern classroom setting with bright green and white tones, matching the Presence Teen app brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCGh3ZMLZ5vgK8-KvMuCgKdVFtI57DbGG4wXRO0YJFNg4RUtryisP9bFYHB68G2E1DD5SPbdxWRZSuNxp3CqUx2VkyOvHe4zjHw62Hmk1Jtr0CB8p4C8AQDlRsrj8o4THFqc9euy8mOvUh91vENtbblYx-171gNukrlMBi8378KJCcHtjA7N0L_5rEuR6Mxvl6G5yf8nnPcCeaFFyalQkgW8CL6ko-XyrNoiCD6CaDfZtwf_FtdkgQAg9_syAz8SaBImjJyJFi4G0"/>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Presence Teen</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant dark:hover:bg-inverse-surface transition-colors active:scale-95">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile max-w-lg mx-auto">
+<!-- Screen Title -->
+<section class="mb-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">History</h2>
+<p class="font-body-sm text-body-sm text-tertiary">Track your academic presence logs</p>
+</section>
+<!-- Stats Overview Bento -->
+<section class="grid grid-cols-2 gap-md mb-xl">
+<div class="bg-white p-md rounded-xl presence-card flex flex-col justify-between border-l-4 border-primary">
+<span class="font-label-md text-label-md text-tertiary">Attendance Rate</span>
+<div class="mt-base">
+<span class="font-headline-md text-headline-md text-on-surface">94%</span>
+<span class="font-label-md text-label-md text-primary ml-1">Excellent</span>
+</div>
+</div>
+<div class="bg-white p-md rounded-xl presence-card flex flex-col justify-between border-l-4 border-secondary">
+<span class="font-label-md text-label-md text-tertiary">Total Days</span>
+<div class="mt-base">
+<span class="font-headline-md text-headline-md text-on-surface">128</span>
+<span class="font-label-md text-label-md text-tertiary ml-1">Present</span>
+</div>
+</div>
+</section>
+<!-- Search / Filter -->
+<div class="relative mb-lg">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-tertiary text-lg">search</span>
+<input class="w-full pl-xl pr-md py-md bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all font-body-sm" placeholder="Search subjects..." type="text"/>
+</div>
+<!-- History Groups -->
+<div class="space-y-xl">
+<!-- Group: September -->
+<section>
+<div class="flex items-center gap-md mb-md">
+<h3 class="font-label-lg text-label-lg text-primary bg-primary/10 px-md py-1 rounded-full uppercase tracking-wider">September 2023</h3>
+<div class="flex-grow h-px bg-surface-variant"></div>
+</div>
+<div class="space-y-md">
+<!-- Attendance Row 1 -->
+<div class="bg-white p-md rounded-xl presence-card border-l-4 border-primary flex items-center gap-md">
+<div class="w-12 h-12 bg-primary/5 rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary">functions</span>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">Mathematics</h4>
+<span class="text-[10px] font-label-md text-tertiary uppercase">08:00 AM</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary">Mon, 18 Sep</p>
+</div>
+<div class="flex-shrink-0 px-md py-1 bg-primary/10 rounded-full">
+<span class="font-label-md text-label-md text-primary">Hadir</span>
+</div>
+</div>
+<!-- Attendance Row 2 -->
+<div class="bg-white p-md rounded-xl presence-card border-l-4 border-secondary flex items-center gap-md">
+<div class="w-12 h-12 bg-secondary/5 rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary">science</span>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">Physics Lab</h4>
+<span class="text-[10px] font-label-md text-tertiary uppercase">10:30 AM</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary">Fri, 15 Sep</p>
+</div>
+<div class="flex-shrink-0 px-md py-1 bg-secondary-container/20 rounded-full">
+<span class="font-label-md text-label-md text-secondary">Izin</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Group: August -->
+<section>
+<div class="flex items-center gap-md mb-md">
+<h3 class="font-label-lg text-label-lg text-primary bg-primary/10 px-md py-1 rounded-full uppercase tracking-wider">August 2023</h3>
+<div class="flex-grow h-px bg-surface-variant"></div>
+</div>
+<div class="space-y-md">
+<!-- Attendance Row 3 -->
+<div class="bg-white p-md rounded-xl presence-card border-l-4 border-primary flex items-center gap-md">
+<div class="w-12 h-12 bg-primary/5 rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary">language</span>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">English Literature</h4>
+<span class="text-[10px] font-label-md text-tertiary uppercase">09:15 AM</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary">Wed, 30 Aug</p>
+</div>
+<div class="flex-shrink-0 px-md py-1 bg-primary/10 rounded-full">
+<span class="font-label-md text-label-md text-primary">Hadir</span>
+</div>
+</div>
+<!-- Attendance Row 4 -->
+<div class="bg-white p-md rounded-xl presence-card border-l-4 border-error flex items-center gap-md">
+<div class="w-12 h-12 bg-error/5 rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-error">history_edu</span>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">World History</h4>
+<span class="text-[10px] font-label-md text-tertiary uppercase">01:00 PM</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary">Mon, 28 Aug</p>
+</div>
+<div class="flex-shrink-0 px-md py-1 bg-error-container/50 rounded-full">
+<span class="font-label-md text-label-md text-on-error-container">Alpa</span>
+</div>
+</div>
+<!-- Attendance Row 5 -->
+<div class="bg-white p-md rounded-xl presence-card border-l-4 border-primary flex items-center gap-md">
+<div class="w-12 h-12 bg-primary/5 rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary">palette</span>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">Visual Arts</h4>
+<span class="text-[10px] font-label-md text-tertiary uppercase">03:00 PM</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary">Fri, 25 Aug</p>
+</div>
+<div class="flex-shrink-0 px-md py-1 bg-primary/10 rounded-full">
+<span class="font-label-md text-label-md text-primary">Hadir</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md-mobile mt-1">Home</span>
+</a>
+<!-- History (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim relative after:content-[''] after:w-1 after:h-1 after:bg-primary after:rounded-full after:mt-1 hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-label-md text-label-md-mobile">History</span>
+</a>
+<!-- Learning -->
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-md text-label-md-mobile mt-1">Learning</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-tertiary dark:text-tertiary-fixed-dim hover:opacity-80 transition-opacity active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md-mobile mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.presence-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Future expansion: open detail view
+                console.log('Card clicked: ' + this.querySelector('h4').innerText);
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Buat Sesi Baru - Teacher App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#88d982",
+                        "primary-container": "#006b33",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#00210b",
+                        "surface-variant": "#e2e2e2",
+                        "secondary-fixed": "#d9e6da",
+                        "on-background": "#1a1c1c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "background": "#f9f9f9",
+                        "on-tertiary-fixed-variant": "#005312",
+                        "surface-dim": "#dadada",
+                        "secondary-container": "#d9e6da",
+                        "on-secondary-fixed-variant": "#3e4a41",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#9cf6af",
+                        "on-secondary-container": "#5b675e",
+                        "tertiary-container": "#196b22",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#81da95",
+                        "outline": "#6f7a6f",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed-dim": "#bdcabe",
+                        "tertiary-fixed": "#a3f69c",
+                        "on-primary-fixed-variant": "#005226",
+                        "on-surface-variant": "#3f493f",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary-container": "#8fe9a3",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#81da95",
+                        "on-secondary-fixed": "#131e17",
+                        "surface-tint": "#056d35",
+                        "on-tertiary-fixed": "#002204",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-container": "#eeeeee",
+                        "outline-variant": "#becabd",
+                        "tertiary": "#005111",
+                        "inverse-on-surface": "#f1f1f1",
+                        "secondary": "#556158",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2f3131",
+                        "surface-bright": "#f9f9f9",
+                        "primary": "#005025",
+                        "on-tertiary-container": "#97e990"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "xl": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Custom Toggle Switch CSS */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #006b33; /* primary-container */
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #006b33; /* primary-container */
+        }
+        .toggle-checkbox:checked + .toggle-label::after {
+            transform: translateX(100%);
+            border-color: #fff;
+        }
+        
+        /* Modern Select Arrow */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236f7a6f%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px auto;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- Header (Transactional Context: Back Arrow, No Shell Navigation) -->
+<header class="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-surface-container-high">
+<div class="flex items-center justify-between px-margin-mobile py-4 w-full mx-auto">
+<button aria-label="Go back" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface" style="font-variation-settings: 'FILL' 0, 'wght' 300;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-on-surface flex-1 text-center pr-10">Buat Sesi Baru</h1>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-margin-mobile py-lg pb-32 flex flex-col gap-lg max-w-container-max mx-auto w-full">
+<!-- Form Section -->
+<section class="flex flex-col gap-md">
+<!-- Pilih Kelas (Dropdown) -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="kelas">Pilih Kelas</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all shadow-sm" id="kelas">
+<option selected="" value="xi-rpl-1">XI RPL 1</option>
+<option value="xi-rpl-2">XI RPL 2</option>
+<option value="xii-tkj-1">XII TKJ 1</option>
+</select>
+</div>
+</div>
+<!-- Mata Pelajaran (Dropdown) -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="mapel">Mata Pelajaran</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all shadow-sm" id="mapel">
+<option selected="" value="matematika">Matematika</option>
+<option value="pemrograman">Pemrograman Dasar</option>
+<option value="basis-data">Basis Data</option>
+</select>
+</div>
+</div>
+<!-- Topik Materi (Text Area) -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="topik">Topik Materi</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all shadow-sm resize-none" id="topik" rows="3">Persamaan Kuadrat</textarea>
+</div>
+<!-- Time Pickers (Side-by-side) -->
+<div class="grid grid-cols-2 gap-md mt-sm">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="waktu-mulai">Waktu Mulai</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all shadow-sm appearance-none" id="waktu-mulai" type="time" value="08:00"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="waktu-selesai">Waktu Selesai</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all shadow-sm appearance-none" id="waktu-selesai" type="time" value="09:30"/>
+</div>
+</div>
+</div>
+<!-- AI Summary Toggle -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md mt-sm shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-md text-on-surface font-medium">Aktifkan Ringkasan AI untuk Sesi Ini</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Otomatis buat ringkasan absensi</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out" id="toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-colors duration-200 ease-in-out" for="toggle"></label>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Action -->
+<div class="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-md border-t border-surface-container-highest px-margin-mobile py-md shadow-[0px_-4px_12px_rgba(0,0,0,0.05)] z-50">
+<div class="max-w-container-max mx-auto">
+<button class="w-full bg-primary-container hover:bg-tertiary-container text-on-primary font-body-md font-semibold py-4 rounded-lg flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0, 'wght' 400;">qr_code</span>
+                Generate QR Code
+            </button>
+</div>
+</div>
+</body></html>

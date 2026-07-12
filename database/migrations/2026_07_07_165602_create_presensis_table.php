@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('sesi_presensi_id');
             $table->foreignId('siswa_id')->constrained('users')->cascadeOnDelete();
             $table->timestamp('waktu_absen');
-            $table->enum('status', ['hadir', 'telat'])->default('hadir');
+            $table->enum('status', ['hadir', 'telat', 'sakit', 'izin', 'alpha'])->default('hadir');
             $table->timestamps();
 
             // satu siswa cuma boleh absen sekali per sesi

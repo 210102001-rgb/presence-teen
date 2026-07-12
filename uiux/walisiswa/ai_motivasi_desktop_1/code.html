@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Motivasi - Academy Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#171c1f",
+                        "secondary-fixed-dim": "#c4c7c9",
+                        "inverse-primary": "#7bda92",
+                        "on-primary-fixed-variant": "#005226",
+                        "on-background": "#171c1f",
+                        "secondary": "#5c5f61",
+                        "surface-container-low": "#f0f4f8",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "background": "#f6fafe",
+                        "surface-variant": "#dfe3e7",
+                        "on-secondary-fixed-variant": "#444749",
+                        "outline": "#6f7a6e",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#616b7b",
+                        "on-primary-container": "#a5ffb7",
+                        "surface-container-highest": "#dfe3e7",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#e0e3e5",
+                        "surface-container": "#eaeef2",
+                        "on-tertiary-fixed-variant": "#3d4756",
+                        "surface-dim": "#d6dade",
+                        "on-surface-variant": "#3f493f",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e0e3e5",
+                        "surface-container-high": "#e4e9ed",
+                        "on-primary-fixed": "#00210b",
+                        "tertiary-fixed-dim": "#bdc7d9",
+                        "primary": "#005f2d",
+                        "on-secondary-fixed": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#edf1f5",
+                        "surface-tint": "#006d34",
+                        "tertiary": "#495362",
+                        "surface-bright": "#f6fafe",
+                        "on-tertiary-container": "#e2ecff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f6fafe",
+                        "primary-fixed-dim": "#7bda92",
+                        "primary-fixed": "#97f7ac",
+                        "tertiary-fixed": "#d9e3f6",
+                        "inverse-surface": "#2c3134",
+                        "primary-container": "#0e7a3d",
+                        "outline-variant": "#becabc",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#626567",
+                        "on-tertiary-fixed": "#121c2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "max-width": "1440px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "2xl": "48px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f6fafe; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .bento-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .ai-glow {
+            box-shadow: 0 0 20px rgba(14, 122, 61, 0.1);
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+        }
+        .quote-gradient {
+            background: linear-gradient(45deg, #005f2d, #0e7a3d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="docked left-0 h-full w-64 hidden md:flex flex-col bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none transition-colors duration-200">
+<div class="flex flex-col gap-sm p-md h-full">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary tracking-tight">Academy Premium</h1>
+<p class="font-body-md text-body-md text-secondary">Parental Portal</p>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto">
+<!-- Dashboard -->
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Student Profile -->
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body-md text-body-md">Student Profile</span>
+</a>
+<!-- Attendance -->
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-body-md text-body-md">Attendance</span>
+</a>
+<!-- AI Insight / AI Motivasi - Active Tab -->
+<a class="flex items-center gap-md p-sm text-primary dark:text-inverse-primary font-bold bg-secondary-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-body-md text-body-md">AI Insight</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<!-- Learning Materials -->
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-body-md text-body-md">Learning Materials</span>
+</a>
+<!-- Tasks -->
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-body-md text-body-md">Tasks</span>
+</a>
+<!-- Settings -->
+<div class="mt-auto pt-lg">
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-md p-sm text-error hover:bg-error-container/20 rounded-lg transition-colors duration-200 mt-2" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</nav>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden relative">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 z-40 bg-surface dark:bg-on-background flex justify-between items-center px-margin-desktop py-sm w-full border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-lg">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-md focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Search insights..." type="text"/>
+</div>
+<nav class="hidden lg:flex items-center gap-md">
+<a class="text-primary font-title-md border-b-2 border-primary py-2 px-2" href="#">2023-2024 Year</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-secondary hover:text-primary transition-all scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-sm cursor-pointer group">
+<div class="text-right hidden sm:block">
+<p class="font-label-sm text-label-sm text-on-surface">Budi Santoso</p>
+<p class="text-[10px] text-secondary">Wali Murid</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" data-alt="A professional and friendly headshot of a middle-aged Indonesian father with short dark hair, wearing a casual polo shirt. The background is a softly blurred office setting with warm, natural lighting. The image captures a sense of reliable and engaged parenthood, consistent with a high-end educational platform's aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVpJiSSy5Kuaf09L04ttWNhfMvuECSK9DJaU6SsEBHClbwnS0f6GD_s9mjKOG19HaQK4UYqG1R0AKmxtWKpqt6sozqMdytkfw61PAJp9NuUf6x6WOk_WdzAHYURWinNRMAPWyGxDQzeE_eFCKGx1iVd6RnszvrkGNXsrzSjjEdQ3Tji-zGUYoml9ORtz55rx3IyQaqdQonViXoff48_s2X3jgssAxjYhTsprhusHJ0nTj6r2IGnh3e980BNvM-WjH8vn2CzRh7FbNp"/>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label-sm text-label-sm hover:bg-primary-container transition-all">
+                        Child Selector
+                    </button>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-desktop space-y-xl max-w-max-width mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<nav class="flex mb-2 gap-2 text-label-sm font-label-sm text-secondary">
+<span class="hover:text-primary cursor-pointer">Dashboard</span>
+<span>/</span>
+<span class="text-primary">AI Insight</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">AI Motivasi &amp; Rekomendasi</h2>
+<p class="font-body-lg text-body-lg text-secondary">Wawasan cerdas berbasis data aktivitas harian siswa.</p>
+</div>
+<div class="flex items-center gap-sm bg-white p-3 rounded-xl shadow-sm border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="update" style="font-size: 20px;">update</span>
+<span class="text-label-sm font-label-sm text-secondary">Terakhir diupdate: Hari ini, 08:30 AM</span>
+</div>
+</div>
+<!-- Main Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Feature Card: AI Motivation Hero -->
+<div class="col-span-12 lg:col-span-8 bento-card ai-glow flex flex-col md:flex-row items-center gap-xl border border-primary/10 overflow-hidden relative">
+<!-- Abstract AI Visual -->
+<div class="w-full md:w-1/3 flex justify-center relative">
+<div class="absolute inset-0 bg-primary/5 rounded-full blur-3xl"></div>
+<img class="relative z-10 w-full max-w-[240px] drop-shadow-xl animate-pulse duration-[3000ms]" data-alt="A high-tech 3D abstract illustration representing artificial intelligence and growth. It features a glowing translucent green tree made of neural connections and data points, emerging from a sleek metallic base. The background is a clean white studio setting with soft mint-green lighting accents, conveying a premium and futuristic educational tone." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjTGOVXS73EosI-Kj1mJrHZ9v_5sxURgZJfKX9JwynoV23rqwBSmACYU6DsSwRkMkjYVSl65GgG8M_eJfdWzBx0BXamOjtLDJcAZgephVNzr2rSmCZeZkLDDgCHHTBcQ6Hu1uaiw4_Z1brnslL5pwNeUhC0t5I3ZmgUV2o49dXs9cQmrDIg9Zh_0DhehlPzDXoh4aR9v6s_9I3mK5m15sMA6tXJe3Tvu3Z37YHny6qKg6kmc04CLXuQ7N6gGlVsF0KtND3wj0gb15s"/>
+</div>
+<!-- Content -->
+<div class="w-full md:w-2/3 space-y-md relative z-10 text-center md:text-left">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full font-label-sm text-label-sm">
+<span class="material-symbols-outlined !text-[16px]" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                                AI-Generated Insight
+                            </div>
+<div class="space-y-sm">
+<h3 class="font-title-md text-title-md text-primary">Quote Hari Ini</h3>
+<p class="font-display-lg text-[28px] leading-tight font-extrabold quote-gradient italic">
+                                    "Kesuksesan bukan milik orang yang pintar, tetapi milik mereka yang tidak pernah berhenti belajar."
+                                </p>
+</div>
+<div class="pt-4 border-t border-outline-variant/30 flex items-center justify-center md:justify-start gap-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest text-secondary font-bold">Confidence Score</span>
+<div class="flex items-center gap-2">
+<div class="w-24 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="w-[94%] h-full bg-primary"></div>
+</div>
+<span class="font-label-sm text-label-sm text-primary">94%</span>
+</div>
+</div>
+<button class="ml-auto flex items-center gap-1 text-primary hover:underline font-label-sm text-label-sm">
+                                    Bagikan Motivasi <span class="material-symbols-outlined !text-[14px]" data-icon="share">share</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Status & Score -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Student Status Card -->
+<div class="bento-card border border-outline-variant/30 bg-surface-bright flex flex-col items-center justify-center text-center py-xl">
+<div class="relative mb-md">
+<div class="w-24 h-24 rounded-full border-4 border-primary/20 flex items-center justify-center p-2">
+<img class="w-16 h-16" data-alt="A detailed digital 3D icon of a golden laurel wreath surrounding a stylized academic mortarboard cap. The icon is rendered with high-quality textures and soft shadows, symbolizing high achievement and excellence. The color palette uses deep forest green and shimmering gold accents on a pure white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmBG4Y-p1z3L8oWEXmcuir0gnHQWQIzFzG-3BCM_O1iM_3FF7bhL_rlz9Diwjvli6qP4kpaM7I21RXZJaiJ0UuJjkJ8d7f8UkjBYvr8xOyMvScuv1h8WCzJQMSALwfwdkFA0_WC49GdHLbjmKvK34m9hHqhd7xKJq-_q5UTcUylpK3VFOxhAcc3Ga-7oFtu9VKbKXzVrkDNU8CeWBlAJCPTAT-kcv-v2kgHl5Po0pF693offzognDQi0Q2kOo_qZDI3XatIDvS3BDQ"/>
+</div>
+<span class="absolute -bottom-2 -right-2 bg-primary text-white p-1 rounded-full border-2 border-white">
+<span class="material-symbols-outlined !text-[16px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</span>
+</div>
+<h4 class="font-title-md text-title-md">Sangat Aktif</h4>
+<p class="font-body-md text-body-md text-secondary mt-1">Ananda menunjukkan konsistensi belajar yang luar biasa minggu ini.</p>
+<button class="mt-lg w-full py-2 bg-primary-container/10 text-primary-container font-label-sm text-label-sm rounded-lg hover:bg-primary-container/20 transition-all">
+                                Lihat Detail Capaian
+                            </button>
+</div>
+<!-- Mini Chart / Activity -->
+<div class="bento-card border border-outline-variant/30 overflow-hidden !p-0">
+<div class="p-md border-b border-outline-variant/20 flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface">Trend Fokus</span>
+<span class="text-primary font-bold text-label-sm">+12%</span>
+</div>
+<div class="h-24 bg-surface-container-low w-full relative">
+<svg class="w-full h-full p-2" preserveaspectratio="none" viewbox="0 0 400 100">
+<path d="M0 80 Q 50 70, 100 85 T 200 40 T 300 30 T 400 10" fill="none" stroke="#005f2d" stroke-width="3"></path>
+<path d="M0 80 Q 50 70, 100 85 T 200 40 T 300 30 T 400 10 V 100 H 0 Z" fill="url(#grad1)" opacity="0.1"></path>
+<defs>
+<lineargradient id="grad1" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#005f2d;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#005f2d;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+</div>
+<!-- Recommendations Section -->
+<div class="col-span-12 bento-card space-y-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="lightbulb">lightbulb</span>
+<h3 class="font-title-md text-title-md">Rekomendasi Strategis</h3>
+</div>
+<span class="text-label-sm font-label-sm text-secondary">Personalisasi untuk Siswa</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Rec 1 -->
+<div class="p-lg rounded-xl bg-surface-container-low border border-outline-variant/10 hover:border-primary/40 transition-all group cursor-default">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+<h4 class="font-label-sm text-label-sm text-on-surface mb-xs">Konsistensi Belajar</h4>
+<p class="font-body-md text-body-md text-secondary">Pertahankan konsistensi belajar pada jam malam untuk hasil optimal.</p>
+</div>
+<!-- Rec 2 -->
+<div class="p-lg rounded-xl bg-surface-container-low border border-outline-variant/10 hover:border-primary/40 transition-all group cursor-default">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 text-tertiary flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+</div>
+<h4 class="font-label-sm text-label-sm text-on-surface mb-xs">Aktivitas Literasi</h4>
+<p class="font-body-md text-body-md text-secondary">Tingkatkan aktivitas membaca mandiri minimal 20 menit sehari.</p>
+</div>
+<!-- Rec 3 -->
+<div class="p-lg rounded-xl bg-surface-container-low border border-outline-variant/10 hover:border-primary/40 transition-all group cursor-default">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 text-primary-container flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+</div>
+<h4 class="font-label-sm text-label-sm text-on-surface mb-xs">Interaksi Sosial</h4>
+<p class="font-body-md text-body-md text-secondary">Apresiasi keberanian ananda dalam sesi diskusi kelompok pekan lalu.</p>
+</div>
+</div>
+</div>
+<!-- Lower Section: Action & AI Chat Placeholder -->
+<div class="col-span-12 lg:col-span-6 bento-card flex items-center gap-lg bg-inverse-surface text-white">
+<div class="p-4 bg-white/10 rounded-xl">
+<span class="material-symbols-outlined !text-[32px]" data-icon="psychology">psychology</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md">Tanya AI Assistant?</h4>
+<p class="font-body-md text-body-md opacity-80">Dapatkan saran pola asuh spesifik untuk perkembangan akademik anak.</p>
+</div>
+<button class="bg-primary-fixed text-on-primary-fixed px-6 py-2 rounded-full font-label-sm text-label-sm hover:opacity-90 transition-all">
+                            Mulai Chat
+                        </button>
+</div>
+<div class="col-span-12 lg:col-span-6 bento-card flex items-center gap-lg border-2 border-dashed border-outline-variant">
+<div class="p-4 bg-surface-container rounded-xl">
+<span class="material-symbols-outlined !text-[32px] text-secondary" data-icon="auto_stories">auto_stories</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md text-secondary">E-Magazine Parenting</h4>
+<p class="font-body-md text-body-md text-secondary/70">Artikel pilihan mingguan untuk mendampingi masa remaja.</p>
+</div>
+<button class="text-secondary hover:text-primary font-label-sm text-label-sm flex items-center gap-1 transition-all">
+                            Buka <span class="material-symbols-outlined !text-[16px]" data-icon="open_in_new">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Atmospheric Shader for AI background -->
+<div class="absolute bottom-0 right-0 w-1/3 h-1/3 pointer-events-none opacity-20 z-0 overflow-hidden">
+<div class="w-full h-full bg-[radial-gradient(circle_at_bottom_right,#0e7a3d_0%,transparent_70%)]"></div>
+</div>
+</main>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+                card.style.boxShadow = '0 10px 15px rgba(0,0,0,0.05)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.02)';
+            });
+        });
+    </script>
+</body></html>

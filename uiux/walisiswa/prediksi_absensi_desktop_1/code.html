@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Prediksi & Analisis Kehadiran - Academy Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#171c1f",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "inverse-primary": "#7bda92",
+                    "on-primary-fixed-variant": "#005226",
+                    "on-background": "#171c1f",
+                    "secondary": "#5c5f61",
+                    "surface-container-low": "#f0f4f8",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "background": "#f6fafe",
+                    "surface-variant": "#dfe3e7",
+                    "on-secondary-fixed-variant": "#444749",
+                    "outline": "#6f7a6e",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#616b7b",
+                    "on-primary-container": "#a5ffb7",
+                    "surface-container-highest": "#dfe3e7",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#e0e3e5",
+                    "surface-container": "#eaeef2",
+                    "on-tertiary-fixed-variant": "#3d4756",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#3f493f",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#3d4756",
+                    "primary": "#005f2d",
+                    "on-secondary-fixed": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#edf1f5",
+                    "surface-tint": "#006d34",
+                    "tertiary": "#495362",
+                    "surface-bright": "#f6fafe",
+                    "on-tertiary-container": "#e2ecff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "primary-fixed-dim": "#7bda92",
+                    "primary-fixed": "#97f7ac",
+                    "tertiary-fixed": "#d9e3f6",
+                    "inverse-surface": "#2c3134",
+                    "primary-container": "#0e7a3d",
+                    "outline-variant": "#becabc",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#626567",
+                    "on-tertiary-fixed": "#121c2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1440px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "2xl": "48px",
+                    "gutter": "24px",
+                    "base": "4px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "title-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        line-height: 1;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+      }
+      .gauge-container {
+        position: relative;
+        width: 240px;
+        height: 240px;
+      }
+      .gauge-svg {
+        transform: rotate(-90deg);
+      }
+      .gauge-circle-bg {
+        fill: none;
+        stroke: #e2e8f0;
+        stroke-width: 12;
+      }
+      .gauge-circle-val {
+        fill: none;
+        stroke: #0e7a3d;
+        stroke-width: 12;
+        stroke-linecap: round;
+        stroke-dasharray: 628; /* 2 * PI * 100 */
+        stroke-dashoffset: 25.12; /* 628 - (628 * 0.96) */
+        transition: stroke-dashoffset 1s ease-out;
+      }
+      .ai-border {
+        position: relative;
+        border-radius: 12px;
+        background: linear-gradient(white, white) padding-box,
+                    linear-gradient(135deg, #005f2d, #495362) border-box;
+        border: 1px solid transparent;
+      }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 h-full w-64 bg-surface-container-lowest dark:bg-inverse-surface shadow-sm hidden md:flex flex-col z-50">
+<div class="flex flex-col gap-sm p-md h-full">
+<div class="py-lg px-sm">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary leading-tight">Academy Premium</h1>
+<p class="text-secondary text-label-sm uppercase tracking-wider mt-xs">Parental Portal</p>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto pr-2">
+<!-- Navigation Items -->
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Student Profile</span>
+</a>
+<!-- Active Item -->
+<a class="flex items-center gap-md p-md text-primary dark:text-inverse-primary font-bold bg-secondary-container dark:bg-on-secondary-fixed-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">event_available</span>
+<span>Attendance</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">local_library</span>
+<span>Learning Activity</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span>Academic Performance</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span>Learning Materials</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span>Tasks</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span>Academic Prediction</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span>AI Insight</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span>Reports</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-md">
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-error hover:bg-error-container transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-w-0">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-40 bg-surface dark:bg-on-background flex justify-between items-center px-margin-desktop py-sm w-full border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-xl">
+<div class="flex items-center gap-sm bg-surface-container-low px-md py-xs rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-secondary">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64" placeholder="Cari data akademik..." type="text"/>
+</div>
+<div class="hidden lg:flex gap-md">
+<a class="text-primary border-b-2 border-primary font-title-md py-xs" href="#">2023-2024 Year</a>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button class="relative p-xs text-secondary hover:text-primary transition-all scale-95 active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-md bg-primary-container text-on-primary px-md py-sm rounded-lg cursor-pointer hover:opacity-90 transition-all active:scale-95">
+<span class="font-title-md">Child Selector</span>
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a professional parent looking at the camera with a friendly smile, clean studio background, high quality, corporate photography style with soft natural lighting and warm tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA833J-_9d2I3IOvrJ6iD5Om_NOAyZ6_4TZCJe2YaJaGuWvw1rDHJqiGtQDyxbKh0fMi7GwHx-n5RVHFQva-A5m_35ECwY0xxsG3i3J1H9zvbd7X2mWsWFILSQvRXjM-Eg_cr-x8oe8PpWlj5jXSV1pA3K_Bhwtc-5FSpPVZk4PTSKwluElzuMtG2x0dCjXS4Dhl-8jodrid5AoE9Kpsm44J_sBPYl_ihl4YZ1f2B35NL5Fx2ImDFPC7eaaP0Gelp5db9AItXFIptU_"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-margin-desktop max-w-max-width mx-auto w-full">
+<!-- Breadcrumbs / Header -->
+<div class="mb-xl flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface mb-xs">Prediksi & Analisis Kehadiran</h2>
+<p class="text-secondary font-body-lg">Analisis cerdas berdasarkan historis dan pola perilaku siswa.</p>
+</div>
+<div class="flex gap-md">
+<button class="bg-white border border-outline text-primary px-lg py-sm rounded-lg font-semibold flex items-center gap-sm hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">download</span>
+                        Ekspor PDF
+                    </button>
+<button class="bg-primary text-white px-lg py-sm rounded-lg font-semibold flex items-center gap-sm hover:opacity-90 transition-all shadow-sm">
+<span class="material-symbols-outlined">history</span>
+                        Lihat Detail Historis
+                    </button>
+</div>
+</div>
+<!-- Dashboard Bento Grid -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Main Gauge Card -->
+<div class="col-span-12 lg:col-span-5 glass-card rounded-xl p-lg shadow-sm flex flex-col items-center justify-center min-h-[400px]">
+<h3 class="font-title-md text-title-md text-secondary mb-xl text-center w-full">Indeks Probabilitas Kehadiran</h3>
+<div class="gauge-container mb-lg">
+<svg class="gauge-svg w-full h-full" viewbox="0 0 220 220">
+<circle class="gauge-circle-bg" cx="110" cy="110" r="100"></circle>
+<circle class="gauge-circle-val" cx="110" cy="110" r="100"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg text-primary">96%</span>
+<span class="text-primary font-bold px-md py-xs bg-primary-container/20 rounded-full mt-sm">Sangat Baik</span>
+</div>
+</div>
+<div class="w-full mt-auto pt-lg border-t border-outline-variant text-center">
+<p class="text-secondary font-body-md italic">"Prediksi menunjukkan kehadiran stabil dalam 30 hari ke depan."</p>
+</div>
+</div>
+<!-- Right Column Cards -->
+<div class="col-span-12 lg:col-span-7 grid grid-cols-2 gap-lg">
+<!-- Risk Analysis Card -->
+<div class="col-span-2 md:col-span-1 bg-white rounded-xl p-lg shadow-sm border border-outline-variant flex flex-col">
+<div class="flex justify-between items-start mb-md">
+<span class="p-sm bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined">verified_user</span>
+</span>
+<span class="text-label-sm font-bold uppercase text-primary tracking-tighter">Status Aman</span>
+</div>
+<h4 class="text-secondary text-body-md font-semibold mb-xs">Risiko Ketidakhadiran</h4>
+<div class="flex items-baseline gap-sm mb-lg">
+<span class="text-headline-lg font-bold text-on-surface">Rendah</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2.5 mb-md overflow-hidden">
+<div class="bg-primary h-2.5 rounded-full" style="width: 12%"></div>
+</div>
+<p class="text-secondary text-body-md mt-auto">Siswa menunjukkan kedisiplinan yang konsisten terhadap jadwal sekolah.</p>
+</div>
+<!-- Semester Prediction Card -->
+<div class="col-span-2 md:col-span-1 bg-white rounded-xl p-lg shadow-sm border border-outline-variant flex flex-col">
+<div class="flex justify-between items-start mb-md">
+<span class="p-sm bg-tertiary-container/10 text-tertiary-container rounded-lg">
+<span class="material-symbols-outlined">trending_up</span>
+</span>
+<span class="text-label-sm font-bold uppercase text-tertiary tracking-tighter">Proyeksi Akhir</span>
+</div>
+<h4 class="text-secondary text-body-md font-semibold mb-xs">Prediksi Semester</h4>
+<div class="flex items-baseline gap-sm mb-lg">
+<span class="text-headline-lg font-bold text-on-surface">Baik</span>
+</div>
+<div class="flex gap-2">
+<div class="flex-1 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
+<div class="w-1/2 h-1/2 bg-primary rounded-sm opacity-60"></div>
+</div>
+<div class="flex-1 h-12 bg-primary/40 rounded-lg flex items-center justify-center">
+<div class="w-2/3 h-2/3 bg-primary rounded-sm opacity-80"></div>
+</div>
+<div class="flex-1 h-12 bg-primary rounded-lg flex items-center justify-center">
+<div class="w-3/4 h-3/4 bg-white rounded-sm opacity-40"></div>
+</div>
+</div>
+<p class="text-secondary text-body-md mt-auto">Estimasi total kehadiran semester ini mencapai 98.4%.</p>
+</div>
+<!-- AI Insight Section -->
+<div class="col-span-2 ai-border p-lg shadow-sm">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h4 class="font-title-md text-primary">Insight AI Analitik</h4>
+</div>
+<p class="text-on-surface-variant leading-relaxed font-body-lg">
+                            Berdasarkan pola historis, siswa memiliki kecenderungan hadir lebih awal pada hari Selasa dan Kamis. Kami mendeteksi sedikit penurunan durasi fokus di jam terakhir pada hari Jumat, namun tidak mempengaruhi absensi secara keseluruhan.
+                        </p>
+</div>
+</div>
+<!-- Detailed Risk Factors List -->
+<div class="col-span-12 glass-card rounded-xl p-lg shadow-sm">
+<h3 class="font-title-md text-title-md text-on-surface mb-lg">Analisis Faktor Risiko</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<div class="flex gap-md items-start">
+<div class="w-12 h-12 rounded-full bg-surface-container flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">distance</span>
+</div>
+<div>
+<p class="font-bold text-on-surface mb-xs">Jarak & Transportasi</p>
+<p class="text-secondary text-body-md">Siswa berlokasi 3km dari sekolah. Waktu tempuh rata-rata 15 menit. Risiko rendah dari hambatan logistik.</p>
+<div class="mt-sm flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-label-sm text-primary">STABIL</span>
+</div>
+</div>
+</div>
+<div class="flex gap-md items-start">
+<div class="w-12 h-12 rounded-full bg-surface-container flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">health_and_safety</span>
+</div>
+<div>
+<p class="font-bold text-on-surface mb-xs">Riwayat Kesehatan</p>
+<p class="text-secondary text-body-md">Tidak ada catatan penyakit kronis. Ketidakhadiran karena sakit tercatat hanya 1 hari pada semester lalu.</p>
+<div class="mt-sm flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-label-sm text-primary">SANGAT SEHAT</span>
+</div>
+</div>
+</div>
+<div class="flex gap-md items-start">
+<div class="w-12 h-12 rounded-full bg-surface-container flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">history_edu</span>
+</div>
+<div>
+<p class="font-bold text-on-surface mb-xs">Tren Historis</p>
+<p class="text-secondary text-body-md">Tingkat kehadiran 12 bulan terakhir mencapai 99.2%. Menunjukkan komitmen akademik yang tinggi.</p>
+<div class="mt-sm flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-label-sm text-primary">OPTIMAL</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Prediction Chart Mockup -->
+<div class="col-span-12 bg-white rounded-xl p-lg shadow-sm border border-outline-variant overflow-hidden">
+<div class="flex justify-between items-center mb-xl">
+<h3 class="font-title-md text-title-md text-on-surface">Estimasi Kehadiran Bulanan (Mendatang)</h3>
+<div class="flex gap-sm">
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-label-sm text-secondary">Target</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 rounded-full bg-primary/30"></span>
+<span class="text-label-sm text-secondary">Prediksi</span>
+</div>
+</div>
+</div>
+<div class="relative h-64 w-full flex items-end justify-between px-lg gap-lg">
+<!-- Bar chart simulation -->
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-lg h-[95%] relative transition-all group-hover:bg-primary/30">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-[90%] rounded-t-lg"></div>
+</div>
+<span class="text-label-sm text-secondary">Sep</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-lg h-[98%] relative transition-all group-hover:bg-primary/30">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-[96%] rounded-t-lg"></div>
+</div>
+<span class="text-label-sm text-secondary">Okt</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-lg h-[92%] relative transition-all group-hover:bg-primary/30">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-[88%] rounded-t-lg"></div>
+</div>
+<span class="text-label-sm text-secondary">Nov</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-lg h-[96%] relative transition-all group-hover:bg-primary/30">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-[94%] rounded-t-lg"></div>
+</div>
+<span class="text-label-sm text-secondary">Des</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-lg h-[100%] relative transition-all group-hover:bg-primary/30">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-[98%] rounded-t-lg"></div>
+</div>
+<span class="text-label-sm text-secondary">Jan</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Info -->
+<footer class="mt-auto py-lg px-margin-desktop bg-surface-container-low border-t border-outline-variant flex justify-between items-center">
+<p class="text-secondary text-body-md">© 2024 Academy Premium Portal Wali Murid. All Rights Reserved.</p>
+<div class="flex gap-lg">
+<a class="text-secondary hover:text-primary transition-colors font-semibold" href="#">Kebijakan Privasi</a>
+<a class="text-secondary hover:text-primary transition-colors font-semibold" href="#">Pusat Bantuan</a>
+</div>
+</footer>
+</main>
+<script>
+        // Simple Micro-interaction for the gauge
+        document.addEventListener('DOMContentLoaded', () => {
+            const gauge = document.querySelector('.gauge-circle-val');
+            if(gauge) {
+                // Trigger animation after load
+                setTimeout(() => {
+                    gauge.style.strokeDashoffset = '25.12';
+                }, 300);
+            }
+
+            // Interactive hover effect for cards
+            const cards = document.querySelectorAll('.glass-card, .bg-white');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.classList.add('shadow-md');
+                    card.style.transform = 'translateY(-2px)';
+                    card.style.transition = 'all 0.3s ease';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.classList.remove('shadow-md');
+                    card.style.transform = 'translateY(0px)';
+                });
+            });
+        });
+    </script>
+</body></html>

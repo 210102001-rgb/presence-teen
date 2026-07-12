@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Insight & Portal Wali Murid</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#005f2d",
+                    "tertiary-fixed-dim": "#bdc7d9",
+                    "on-primary-fixed": "#00210b",
+                    "surface-container-high": "#e4e9ed",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#3d4756",
+                    "surface-container": "#eaeef2",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#3f493f",
+                    "secondary-fixed": "#e0e3e5",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#dfe3e7",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#616b7b",
+                    "on-primary-container": "#a5ffb7",
+                    "outline": "#6f7a6e",
+                    "background": "#f6fafe",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#dfe3e7",
+                    "on-secondary-fixed-variant": "#444749",
+                    "surface-container-low": "#f0f4f8",
+                    "on-error": "#ffffff",
+                    "secondary": "#5c5f61",
+                    "on-primary-fixed-variant": "#005226",
+                    "on-background": "#171c1f",
+                    "on-surface": "#171c1f",
+                    "inverse-primary": "#7bda92",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "on-tertiary-fixed": "#121c2a",
+                    "inverse-surface": "#2c3134",
+                    "on-secondary-container": "#626567",
+                    "primary-container": "#0e7a3d",
+                    "outline-variant": "#becabc",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#d9e3f6",
+                    "surface": "#f6fafe",
+                    "primary-fixed": "#97f7ac",
+                    "primary-fixed-dim": "#7bda92",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#e2ecff",
+                    "surface-bright": "#f6fafe",
+                    "tertiary": "#495362",
+                    "surface-tint": "#006d34",
+                    "inverse-on-surface": "#edf1f5",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#191c1e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1440px",
+                    "gutter": "24px",
+                    "2xl": "48px",
+                    "margin-desktop": "40px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "title-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .radar-chart-bg {
+            background-image: radial-gradient(circle at center, transparent 30%, #e4e9ed 31%, transparent 32%, transparent 50%, #e4e9ed 51%, transparent 52%, transparent 70%, #e4e9ed 71%, transparent 72%);
+        }
+        .ai-gradient-border {
+            position: relative;
+            background: #ffffff;
+            border-radius: 12px;
+        }
+        .ai-gradient-border::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, #005f2d, #495362, #005f2d);
+            border-radius: 14px;
+            opacity: 0.3;
+        }
+        .chat-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 z-40 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-desktop py-sm w-full">
+<div class="flex items-center gap-md">
+<span class="font-headline-lg text-headline-lg font-bold text-primary">Academy Premium</span>
+<div class="hidden md:flex items-center bg-surface-container-low px-md py-xs rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-secondary mr-xs">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64" placeholder="Cari data akademik..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<nav class="hidden md:flex gap-md">
+<a class="font-title-md text-title-md text-primary border-b-2 border-primary" href="#">2023-2024 Year</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="p-xs text-on-surface-variant hover:text-primary transition-all scale-95 active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-xs"></div>
+<button class="flex items-center gap-xs bg-primary text-on-primary px-md py-xs rounded-full font-label-sm shadow-sm scale-95 active:opacity-80">
+<span>Child Selector</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<img class="w-10 h-10 rounded-full border-2 border-primary object-cover" data-alt="A professional high-resolution headshot of a smiling middle-aged parent, dressed in smart-casual business attire. The lighting is bright and warm, suggesting an inviting and supportive persona. The background is a soft-focus office or library setting with subtle green and grey tones that match the Academy Premium brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqeTsplwBoJ_hXxBvq8OvUc4rWKhe24Opa4yAYC14zrkbqe7t4xIVarvuLhSK7QaSMAZp1vtglYAGhj3LB44OjTnlViGytHrLPVI2Pf4FsKQ8hY2AW4hXKYbg5t07hCyxysW2cON0mMzDc2OMyt0DB-Vit8NqVIa6TNJmOsb0d92yLRWCCrPKBE3Xm8ZzvfgZauDDvx-UfPAyuHUQSCgbnzDvDJ1C6-hMeE6Tka9m6K3zTlaosII8a0ue7HEZpByg_1xbEV6na4iK9"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="docked left-0 h-full w-64 hidden md:flex flex-col bg-surface-container-lowest shadow-sm p-md gap-sm">
+<div class="mb-lg px-xs">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<p class="font-bold text-primary leading-tight">Academy Premium</p>
+<p class="text-xs text-secondary">Parental Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-xs overflow-y-auto pr-xs">
+<!-- Dashboard -->
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md">Student Profile</span>
+</a>
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">event_available</span>
+<span class="font-body-md">Attendance</span>
+</a>
+<!-- AI Insight Active -->
+<a class="flex items-center gap-md p-sm text-primary font-bold bg-secondary-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-body-md">AI Insight</span>
+</a>
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-body-md">Academic Performance</span>
+</a>
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-body-md">Tasks</span>
+</a>
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-body-md">Academic Prediction</span>
+</a>
+<div class="h-px bg-outline-variant my-sm"></div>
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-md p-sm text-error hover:bg-error-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md">Logout</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-lg flex flex-col gap-lg">
+<header class="flex justify-between items-end">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Analisis Kecerdasan Buatan</h1>
+<p class="text-secondary font-body-lg">Laporan mendalam berdasarkan aktivitas belajar siswa semester ini.</p>
+</div>
+<div class="flex gap-sm">
+<button class="bg-surface border border-outline px-md py-sm rounded-lg font-label-sm text-on-surface hover:bg-surface-variant flex items-center gap-xs transition-all">
+<span class="material-symbols-outlined text-[20px]">download</span> Unduh PDF
+                    </button>
+<button class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-sm flex items-center gap-xs shadow-sm hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-[20px]">refresh</span> Perbarui Analisis
+                    </button>
+</div>
+</header>
+<!-- Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg h-full">
+<!-- Radar Chart Card -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-lg shadow-sm border border-outline-variant flex flex-col">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-title-md text-title-md">Analisis Perilaku Belajar</h3>
+<span class="text-xs bg-surface-container-high px-sm py-xs rounded text-secondary font-label-sm">REAL-TIME DATA</span>
+</div>
+<div class="relative flex-1 flex items-center justify-center min-h-[350px]">
+<div class="absolute inset-0 radar-chart-bg rounded-full opacity-40"></div>
+<!-- Simulated Radar Shape -->
+<div class="relative w-64 h-64 border-2 border-primary/20 rounded-full flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-18 scale-110" viewbox="0 0 100 100">
+<polygon fill="rgba(0, 95, 45, 0.15)" points="50,10 85,35 75,80 25,80 15,35" stroke="#005f2d" stroke-width="2"></polygon>
+<circle cx="50" cy="10" fill="#005f2d" r="2"></circle>
+<circle cx="85" cy="35" fill="#005f2d" r="2"></circle>
+<circle cx="75" cy="80" fill="#005f2d" r="2"></circle>
+<circle cx="25" cy="80" fill="#005f2d" r="2"></circle>
+<circle cx="15" cy="35" fill="#005f2d" r="2"></circle>
+</svg>
+<!-- Labels -->
+<div class="absolute -top-6 text-center">
+<p class="font-label-sm text-primary">Akademik</p>
+<p class="text-[10px] text-secondary">Tinggi (88%)</p>
+</div>
+<div class="absolute -right-12 top-24 text-left">
+<p class="font-label-sm text-primary">Tugas</p>
+<p class="text-[10px] text-secondary">Sangat Tinggi (94%)</p>
+</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-center">
+<p class="font-label-sm text-primary">Kehadiran</p>
+<p class="text-[10px] text-secondary">Stabil (96%)</p>
+</div>
+<div class="absolute -left-12 top-24 text-right">
+<p class="font-label-sm text-primary">Disiplin</p>
+<p class="text-[10px] text-secondary">Baik (82%)</p>
+</div>
+<div class="absolute -right-2 top-0 text-right opacity-0 md:opacity-100">
+<p class="font-label-sm text-primary">Aktivitas</p>
+<p class="text-[10px] text-secondary">Sedang (70%)</p>
+</div>
+</div>
+</div>
+<div class="mt-lg p-md bg-surface-container-low rounded-lg border border-outline-variant/30">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div>
+<p class="font-label-sm text-on-surface">Insight Singkat:</p>
+<p class="text-body-md text-secondary leading-relaxed">Siswa menunjukkan konsistensi luar biasa pada pengerjaan tugas, namun interaksi dalam forum diskusi kelas bisa ditingkatkan untuk mengoptimalkan nilai Aktivitas.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Prediction Cards -->
+<div class="lg:col-span-5 flex flex-col gap-lg">
+<!-- Value Prediction -->
+<div class="ai-gradient-border p-lg shadow-sm flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 bg-on-tertiary-container rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<span class="text-primary font-bold text-headline-lg">89.4</span>
+</div>
+<div>
+<h4 class="font-title-md text-on-surface">Prediksi Nilai Akhir</h4>
+<p class="text-body-md text-secondary">Berdasarkan tren 3 bulan terakhir, estimasi nilai akhir semester meningkat sebesar 8.2%.</p>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 89%;"></div>
+</div>
+</div>
+<!-- Attendance Prediction -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm border border-outline-variant flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 bg-secondary-container rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">event_note</span>
+</div>
+<div class="text-right">
+<p class="text-xs text-secondary font-label-sm">TARGET KEHADIRAN</p>
+<p class="text-headline-lg font-bold text-on-surface">98%</p>
+</div>
+</div>
+<div>
+<h4 class="font-title-md text-on-surface">Konsistensi Kehadiran</h4>
+<p class="text-body-md text-secondary">Tingkat kehadiran diprediksi tetap stabil tanpa kendala signifikan dalam 30 hari ke depan.</p>
+</div>
+<div class="flex gap-xs">
+<div class="h-4 w-full bg-primary-fixed rounded-sm"></div>
+<div class="h-4 w-full bg-primary-fixed rounded-sm"></div>
+<div class="h-4 w-full bg-primary-fixed rounded-sm"></div>
+<div class="h-4 w-full bg-primary-fixed rounded-sm"></div>
+<div class="h-4 w-4/5 bg-outline-variant rounded-sm"></div>
+</div>
+</div>
+<!-- Trend Insights -->
+<div class="bg-primary-container p-lg rounded-xl shadow-md text-on-primary flex flex-col gap-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined">trending_up</span>
+<h4 class="font-title-md">Tren Belajar Positif</h4>
+</div>
+<p class="text-body-md text-on-primary-container leading-relaxed">AI mendeteksi lonjakan pemahaman pada mata pelajaran Matematika dan Fisika. Direkomendasikan untuk memberikan apresiasi lebih.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Right/Overlay Chat Window (Copilot Style) -->
+<aside class="fixed right-6 bottom-6 top-24 w-full max-w-[400px] hidden md:flex flex-col bg-white shadow-2xl rounded-2xl border border-outline-variant z-50 overflow-hidden transform transition-all duration-300">
+<!-- Chat Header -->
+<div class="bg-primary p-md text-on-primary flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="bg-on-primary rounded-full p-xs text-primary">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div>
+<p class="font-bold text-body-lg">Chat Pendamping AI</p>
+<p class="text-[10px] opacity-80">Academy Premium Intelligence</p>
+</div>
+</div>
+<button class="text-on-primary/70 hover:text-on-primary">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Chat History -->
+<div class="flex-1 overflow-y-auto p-md space-y-lg chat-scroll bg-surface-container-lowest">
+<!-- User Message -->
+<div class="flex justify-end">
+<div class="bg-secondary-container text-on-secondary-container p-md rounded-2xl rounded-tr-none max-w-[85%] shadow-sm">
+<p class="text-body-md">Bagaimana performa anak saya?</p>
+</div>
+</div>
+<!-- AI Message -->
+<div class="flex justify-start items-start gap-sm">
+<div class="w-8 h-8 bg-primary rounded-full flex-shrink-0 flex items-center justify-center text-on-primary text-xs">AI</div>
+<div class="bg-white border border-outline-variant p-md rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">
+<p class="text-body-md leading-relaxed text-on-surface">
+                            Berdasarkan data terbaru, performa anak Anda sangat memuaskan. 
+                            <br/><br/>
+                            • Kehadiran: <span class="font-bold text-primary">96%</span> (Sangat Disiplin)
+                            <br/>
+                            • Pengumpulan Tugas: <span class="font-bold text-primary">90%</span> tepat waktu
+                            <br/>
+                            • Prediksi Nilai: Ada potensi peningkatan sebesar <span class="font-bold text-primary">8%</span> pada akhir semester ini jika tren belajar dipertahankan.
+                        </p>
+<div class="mt-md flex gap-xs flex-wrap">
+<span class="text-[10px] px-sm py-xs bg-surface-container rounded text-secondary font-label-sm border border-outline-variant">Laporan Akademik</span>
+<span class="text-[10px] px-sm py-xs bg-surface-container rounded text-secondary font-label-sm border border-outline-variant">Absensi</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Suggested Prompts -->
+<div class="p-md bg-surface-container-low border-t border-outline-variant">
+<p class="text-[10px] text-secondary font-label-sm mb-sm uppercase tracking-wider">Saran Pertanyaan</p>
+<div class="flex flex-col gap-xs">
+<button class="text-left text-xs bg-white border border-outline-variant hover:border-primary hover:text-primary p-sm rounded-lg transition-all flex justify-between items-center group">
+                        Kenapa anak saya sering alpha?
+                        <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+</button>
+<button class="text-left text-xs bg-white border border-outline-variant hover:border-primary hover:text-primary p-sm rounded-lg transition-all flex justify-between items-center group">
+                        Rekomendasi belajar minggu ini?
+                        <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-md bg-white border-t border-outline-variant">
+<div class="flex items-center gap-sm bg-surface-container-high rounded-xl px-md py-sm">
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-body-md" placeholder="Tanyakan sesuatu..." type="text"/>
+<button class="text-primary hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+<!-- Mobile FAB for Chat (Visible only on mobile since sidebar is hidden) -->
+<button class="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center z-50">
+<span class="material-symbols-outlined">chat</span>
+</button>
+<script>
+        // Micro-interactions and state management
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatToggle = document.querySelector('button.md\\:hidden');
+            const chatWindow = document.querySelector('aside.fixed.right-6');
+            
+            if (chatToggle) {
+                chatToggle.addEventListener('click', () => {
+                    chatWindow.classList.toggle('hidden');
+                    chatWindow.classList.toggle('flex');
+                    chatWindow.classList.add('top-6', 'bottom-6', 'left-6', 'right-6', 'max-w-none');
+                });
+            }
+        });
+    </script>
+</body></html>

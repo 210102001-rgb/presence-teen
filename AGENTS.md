@@ -47,6 +47,30 @@ No CI pipeline — `.github/workflows/` does not exist.
 - Text extraction: `smalot/pdfparser` (PDF), `phpoffice/phpword` (DOCX), native `file_get_contents` (TXT)
 - SSL verify is disabled (`'verify' => false`) in AI HTTP calls
 
+## Missing UI/UX Figma/HTML Menus & Features (From `uiux/` & `resources/html/`)
+The following pages/features exist as raw HTML templates but are not yet implemented or integrated into Laravel:
+- **Siswa (Student):**
+  - **Riwayat Presensi** & **Detail Presensi** (`uiux/siswa/riwayat_presensi/code.html` & `detail_presensi/code.html`)
+  - **Profil Siswa Custom** (`uiux/siswa/profil_siswa/code.html`) — currently redirects to Breeze edit profile template.
+  - **Splash Screen** (`uiux/siswa/splash_screen/code.html`)
+- **Guru (Teacher):**
+  - **Jadwal Mengajar** (`uiux/gurudekstop/.../jadwal/code.html`) — teacher class schedules.
+  - **Data Siswa & Data Kelas** (`uiux/gurudekstop/.../data_siswa/code.html`, `data_kelas/code.html`) — student and class management lists.
+  - **Notifikasi** (`uiux/guru/user guru/notifikasi/code.html`)
+  - **Input Manual Kehadiran** (`uiux/guru/user guru/input_manual_kehadiran/code.html`) — teacher manual correction overrides.
+  - **Sesi Presensi Berhasil Dibuat Confirmation Screen** (`uiux/guru/user guru/sesi_berhasil_dibuat/...`)
+  - **Preview & Ekspor Laporan** (`uiux/guru/user guru/preview_ekspor_laporan/code.html`)
+- **Orang Tua (Parent):**
+  - **AI Insight Chat Window** (`uiux/walisiswa/ai_insight_chat_window/code.html`) — interactive AI chatbot assistant.
+  - **Profil Anak** & **Profil Orang Tua Custom** (`uiux/walisiswa/profil_anak_desktop/code.html`, `profil_orang_tua_desktop_1/code.html`)
+  - **Pengaturan & Logout Custom** (`uiux/walisiswa/pengaturan_desktop/code.html`)
+
+## Critical UI/UX Issues to Address (From `.impeccable/critique/`)
+- **Broken Mobile Layout:** The sidebar layout (`layouts/navigation.blade.php`) locks to `w-64 fixed left-0 top-0` and main content is offset by `ml-64`. Needs Alpine.js state for mobile responsive toggling (`-translate-x-full lg:translate-x-0`).
+- **Parent Dashboard Attribution:** Parent task list display shows "Belum dikumpulkan" but fails to specify which child it belongs to when parent has multiple registered children.
+- **Theme Color Token Consistency:** blade views bypass configured Tailwind tokens and use hardcoded hex values (e.g. `bg-[#0e7a3d]`, `bg-[#ffdad6]`). Use custom Material Design 3 tokens defined in `tailwind.config.js` (e.g. `bg-primary`, `bg-error-container`).
+- **Destructive Action Warning:** The "Akhiri Sesi Presensi" button on the teacher dashboard terminates the session immediately with no confirmation. Needs confirmation warning modal or dialogue.
+
 ## Key Gotchas
 - `.env.example` defaults to `DB_CONNECTION=sqlite` but dev `.env` uses `DB_CONNECTION=mysql` — new setup must configure MySQL
 - `QUEUE_CONNECTION=database` in `.env` — `composer dev` starts `queue:listen`; queue tables must be migrated

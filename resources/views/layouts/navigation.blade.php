@@ -42,6 +42,14 @@
                 <span class="material-symbols-outlined {{ request()->routeIs('presensi.scan') ? 'filled-icon' : '' }}">qr_code_scanner</span>
                 <span class="text-sm">Scan Presensi</span>
             </a>
+            <a href="{{ route('presensi.riwayat') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('presensi.riwayat') || request()->routeIs('presensi.detail')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('presensi.riwayat') ? 'filled-icon' : '' }}">history</span>
+                <span class="text-sm">Riwayat Presensi</span>
+            </a>
             <a href="{{ route('tugas.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('tugas.*')
@@ -92,6 +100,30 @@
                 <span class="material-symbols-outlined {{ request()->routeIs('presensi.guru*') ? 'filled-icon' : '' }}">qr_code_2</span>
                 <span class="text-sm">QR Presensi</span>
             </a>
+            <a href="{{ route('presensi.manual') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('presensi.manual*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('presensi.manual*') ? 'filled-icon' : '' }}">edit_calendar</span>
+                <span class="text-sm">Input Manual</span>
+            </a>
+            <a href="{{ route('guru.jadwal') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('guru.jadwal*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('guru.jadwal*') ? 'filled-icon' : '' }}">calendar_today</span>
+                <span class="text-sm">Jadwal Mengajar</span>
+            </a>
+            <a href="{{ route('guru.kelas_siswa') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('guru.kelas_siswa*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('guru.kelas_siswa*') ? 'filled-icon' : '' }}">groups</span>
+                <span class="text-sm">Data Siswa & Kelas</span>
+            </a>
             <a href="{{ route('materi.create') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('materi.create')
@@ -133,6 +165,14 @@
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('laporan.*') ? 'filled-icon' : '' }}">monitoring</span>
                 <span class="text-sm">Laporan Anak</span>
+            </a>
+            <a href="{{ route('presensi.riwayat') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('presensi.riwayat') || request()->routeIs('presensi.detail')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('presensi.riwayat') ? 'filled-icon' : '' }}">history</span>
+                <span class="text-sm">Riwayat Presensi</span>
             </a>
             <a href="{{ route('aktivitas.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95

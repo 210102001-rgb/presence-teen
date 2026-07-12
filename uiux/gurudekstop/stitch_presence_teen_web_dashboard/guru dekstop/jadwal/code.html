@@ -1,0 +1,365 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Presence Teen - Jadwal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#005323",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary": "#6e5300",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#00210a",
+                        "tertiary-container": "#8c6a00",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#006d30",
+                        "surface-variant": "#d3e4fe",
+                        "outline-variant": "#becabc",
+                        "on-primary-container": "#d3ffd5",
+                        "background": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "on-surface": "#0b1c30",
+                        "primary-fixed-dim": "#79db8d",
+                        "on-surface-variant": "#3f493f",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-fixed": "#002109",
+                        "secondary-container": "#7cf994",
+                        "primary-container": "#15803d",
+                        "secondary": "#006e2d",
+                        "primary": "#00652c",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#251a00",
+                        "on-secondary-container": "#007230",
+                        "outline": "#6f7a6e",
+                        "tertiary-fixed-dim": "#f7be1d",
+                        "tertiary-fixed": "#ffdf9a",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#79db8d",
+                        "on-secondary-fixed-variant": "#005320",
+                        "surface-container-high": "#dce9ff",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#95f8a7",
+                        "secondary-fixed-dim": "#62df7d",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#fff2dd",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#5a4300",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#7ffc97",
+                        "inverse-surface": "#213145"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "280px",
+                        "gutter": "24px",
+                        "container-padding": "32px",
+                        "unit": "8px",
+                        "card-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Poppins"],
+                        "label-sm": ["Poppins"],
+                        "headline-lg": ["Poppins"],
+                        "title-md": ["Poppins"],
+                        "title-lg": ["Poppins"],
+                        "body-lg": ["Poppins"],
+                        "body-md": ["Poppins"],
+                        "caption": ["Poppins"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9ff; }
+        .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-background text-on-background flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-screen w-[280px] bg-surface-container-lowest shadow-md flex flex-col py-6 z-20">
+<div class="px-gutter mb-8"><div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg overflow-hidden bg-primary/10 flex items-center justify-center"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-3EQxYqxoufKCHTtbx3bBYjZCaFy-4ZRS1u57qzq6Mahx9ShVxfXPKvxdV1tG6aRbhf5glfpfNY81zzs0RK-3s4YFOq5l7n3h7SVkyc-HH_N98my7_tMfOjU5RFZ5JM9LfcRWwGgAr-ea9WYsEriEdN2cP3b_3S6DhY8boeiBq4wnnZowTiHyJ_piOwFaQg83AwoNBh21zGK19Ib1H3KMoWzi55sW1pv94OTeZGCvmAfXSDhT5bLBo7P-jgKBnvvCqChNRvkDeFqH" alt="School Logo" class="w-8 h-8 object-contain"></div><div><h1 class="font-headline-md text-[20px] leading-tight text-primary">Presence Teen</h1><p class="font-label-sm text-label-sm text-on-surface-variant">School Management</p></div></div></div>
+<ul class="flex-1 overflow-y-auto space-y-2 px-4">
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+                    Sesi Presensi
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">domain</span>
+                    Kelas
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+                    Siswa
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-primary font-bold border-l-4 border-primary bg-secondary-container/20" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                    Jadwal
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">description</span>
+                    Materi
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                    Laporan
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+                    Profil
+                </a>
+</li>
+</ul>
+<div class="px-4 mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-error hover:bg-error-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Keluar
+            </a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="ml-[280px] w-full flex flex-col flex-1 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-[280px] h-16 bg-surface flex justify-between items-center px-gutter z-10">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-xl border border-outline-variant focus-within:border-primary focus-within:ring-2 focus-within:ring-primary focus-within:ring-opacity-50 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder-on-surface-variant focus:ring-0" placeholder="Search..." type="text">
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Teacher Profile Photo" class="w-full h-full object-cover" data-alt="A professional headshot of a smiling female high school teacher in a bright, modern classroom setting. She has short dark hair, wearing a crisp white blouse. Soft, high-key lighting creates an approachable and academic mood. The color palette is natural and light, fitting a modern SaaS dashboard context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpy4CnRi0GPkTMN9EJ_dZIDMXxX-NFQVgf9CJtzfoyMIUkT9URjbMdLy5uK0XWo8EE6-LY0xhPpf_txb7m59jv4Kd3ioC8Wfno0cjADoT7kcq_ws6L2TavVYHmXZHPNoAkEeLQQUR3jaKnlu3nYifFQuNDGXqhJnsWEWDY3hGjgd8UXggVLdKFKMe1836wICCsffXtp0h9N8Q5YR6bEeYOp1P9g94D73wxxSgsMQUAscGYAsMZu3Ejh9q5f5zREuMMksalIsTg8qAJ">
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="mt-16 p-container-padding flex-1">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Jadwal Kelas</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage and view daily class schedules</p>
+</div>
+<button class="bg-primary-container text-on-primary hover:bg-primary transition-colors px-6 py-3 rounded-[16px] font-title-md text-title-md flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                    Tambah Jadwal
+                </button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Calendar View (Spans 8 cols) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-md p-card-padding border border-outline-variant/30 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-4">
+<h3 class="font-title-lg text-title-lg text-on-surface">Oktober 2023</h3>
+<div class="flex gap-1">
+<button class="p-1 rounded hover:bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-1 rounded hover:bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-lg border border-outline-variant text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-low">Bulan</button>
+<button class="px-4 py-1.5 rounded-lg bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">Minggu</button>
+</div>
+</div>
+<!-- Weekly Grid Wrapper -->
+<div class="flex-1 border border-outline-variant/50 rounded-lg overflow-hidden flex flex-col">
+<!-- Days Header -->
+<div class="grid grid-cols-5 border-b border-outline-variant/50 bg-surface-container-low/50">
+<div class="py-3 text-center font-label-sm text-label-sm text-on-surface-variant border-r border-outline-variant/50">Senin <br> <span class="font-body-lg text-body-lg text-on-surface">16</span></div>
+<div class="py-3 text-center font-label-sm text-label-sm text-on-surface-variant border-r border-outline-variant/50">Selasa <br> <span class="font-body-lg text-body-lg text-on-surface">17</span></div>
+<div class="py-3 text-center font-label-sm text-label-sm text-primary font-bold border-r border-outline-variant/50 bg-secondary-container/10">Rabu <br> <span class="font-body-lg text-body-lg text-primary">18</span></div>
+<div class="py-3 text-center font-label-sm text-label-sm text-on-surface-variant border-r border-outline-variant/50">Kamis <br> <span class="font-body-lg text-body-lg text-on-surface">19</span></div>
+<div class="py-3 text-center font-label-sm text-label-sm text-on-surface-variant">Jumat <br> <span class="font-body-lg text-body-lg text-on-surface">20</span></div>
+</div>
+<!-- Time Grid Container -->
+<div class="flex-1 overflow-y-auto relative min-h-[400px] bg-white">
+<!-- Horizontal Time Lines (Background) -->
+<div class="absolute inset-0 pointer-events-none flex flex-col justify-between">
+<div class="h-16 border-b border-outline-variant/20 relative"><span class="absolute -top-3 left-2 text-[10px] text-on-surface-variant/50">08:00</span></div>
+<div class="h-16 border-b border-outline-variant/20 relative"><span class="absolute -top-3 left-2 text-[10px] text-on-surface-variant/50">09:00</span></div>
+<div class="h-16 border-b border-outline-variant/20 relative"><span class="absolute -top-3 left-2 text-[10px] text-on-surface-variant/50">10:00</span></div>
+<div class="h-16 border-b border-outline-variant/20 relative"><span class="absolute -top-3 left-2 text-[10px] text-on-surface-variant/50">11:00</span></div>
+<div class="h-16 border-b border-outline-variant/20 relative"><span class="absolute -top-3 left-2 text-[10px] text-on-surface-variant/50">12:00</span></div>
+</div>
+<!-- Events Grid (Absolute positioning for demo) -->
+<div class="grid grid-cols-5 absolute inset-0 pt-3">
+<!-- Mon -->
+<div class="relative px-1 border-r border-outline-variant/20">
+<div class="absolute top-[10px] left-1 right-1 h-[60px] bg-surface-variant/80 border-l-4 border-primary rounded p-2 text-xs cursor-pointer hover:shadow-sm transition-all group">
+<p class="font-title-sm font-semibold text-on-surface">Matematika</p>
+<p class="text-on-surface-variant text-[10px]">08:00 - 09:30</p>
+</div>
+</div>
+<!-- Tue -->
+<div class="relative px-1 border-r border-outline-variant/20">
+<div class="absolute top-[80px] left-1 right-1 h-[45px] bg-tertiary-container/20 border-l-4 border-tertiary rounded p-2 text-xs cursor-pointer hover:shadow-sm transition-all group">
+<p class="font-title-sm font-semibold text-on-surface">Fisika</p>
+<p class="text-on-surface-variant text-[10px]">09:30 - 11:00</p>
+</div>
+</div>
+<!-- Wed (Active Day) -->
+<div class="relative px-1 border-r border-outline-variant/20 bg-secondary-container/5">
+<div class="absolute top-[10px] left-1 right-1 h-[60px] bg-primary-container text-on-primary border-l-4 border-primary-fixed rounded p-2 text-xs cursor-pointer shadow-sm z-10 transition-transform hover:scale-[1.02]">
+<p class="font-title-sm font-semibold">Bahasa Inggris</p>
+<p class="text-on-primary/80 text-[10px]">08:00 - 09:30 • Kelas 10A</p>
+</div>
+<div class="absolute top-[140px] left-1 right-1 h-[45px] bg-surface-variant/80 border-l-4 border-primary rounded p-2 text-xs cursor-pointer hover:shadow-sm transition-all">
+<p class="font-title-sm font-semibold text-on-surface">Sejarah</p>
+<p class="text-on-surface-variant text-[10px]">11:00 - 12:30</p>
+</div>
+</div>
+<!-- Thu -->
+<div class="relative px-1 border-r border-outline-variant/20"></div>
+<!-- Fri -->
+<div class="relative px-1">
+<div class="absolute top-[10px] left-1 right-1 h-[45px] bg-tertiary-container/20 border-l-4 border-tertiary rounded p-2 text-xs cursor-pointer hover:shadow-sm transition-all">
+<p class="font-title-sm font-semibold text-on-surface">Seni Budaya</p>
+<p class="text-on-surface-variant text-[10px]">08:00 - 09:30</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Daily Agenda Sidebar (Spans 4 cols) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Date Overview Card -->
+<div class="bg-primary-container rounded-xl shadow-md p-card-padding text-on-primary relative overflow-hidden">
+<!-- Abstract decorative shape -->
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary-fixed rounded-full opacity-20 blur-xl"></div>
+<div class="absolute -left-4 -bottom-4 w-24 h-24 bg-secondary-container rounded-full opacity-20 blur-lg"></div>
+<div class="relative z-10">
+<p class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider mb-1">Hari Ini</p>
+<h3 class="font-headline-md text-headline-md font-bold mb-4">Rabu, 18 Okt</h3>
+<div class="flex gap-4">
+<div class="bg-primary/50 rounded-lg px-4 py-2 text-center backdrop-blur-sm border border-primary-fixed/20">
+<p class="font-headline-md text-headline-md">3</p>
+<p class="font-caption text-caption text-on-primary-container">Kelas</p>
+</div>
+<div class="bg-primary/50 rounded-lg px-4 py-2 text-center backdrop-blur-sm border border-primary-fixed/20">
+<p class="font-headline-md text-headline-md">4.5</p>
+<p class="font-caption text-caption text-on-primary-container">Jam</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Agenda List Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-card-padding border border-outline-variant/30 flex-1 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Agenda Harian</h3>
+<button class="p-1 rounded hover:bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="space-y-4 flex-1 overflow-y-auto pr-2">
+<!-- Agenda Item 1 (Active/Next) -->
+<div class="flex gap-4 relative group cursor-pointer">
+<div class="flex flex-col items-center">
+<p class="font-caption text-caption text-primary font-bold">08:00</p>
+<div class="w-[2px] h-full bg-primary/30 my-1 group-last:hidden relative">
+<div class="absolute top-0 w-2 h-2 rounded-full bg-primary -left-[3px]"></div>
+</div>
+</div>
+<div class="bg-secondary-container/20 border border-primary/20 rounded-lg p-3 flex-1 transition-all group-hover:shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-title-md text-title-md text-on-surface font-semibold">Bahasa Inggris</h4>
+<span class="bg-primary px-2 py-0.5 rounded text-[10px] text-white font-medium">Berlangsung</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Kelas 10A • Ruang 204</p>
+<div class="flex gap-2">
+<button class="text-xs bg-surface border border-outline-variant rounded px-2 py-1 text-on-surface hover:bg-surface-container-low flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">edit</span> Edit
+                                        </button>
+<button class="text-xs bg-surface border border-outline-variant rounded px-2 py-1 text-on-surface hover:bg-surface-container-low flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">how_to_reg</span> Presensi
+                                        </button>
+</div>
+</div>
+</div>
+<!-- Agenda Item 2 -->
+<div class="flex gap-4 relative group cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<div class="flex flex-col items-center">
+<p class="font-caption text-caption text-on-surface-variant">11:00</p>
+<div class="w-[2px] h-full bg-outline-variant/50 my-1 group-last:hidden relative">
+<div class="absolute top-0 w-2 h-2 rounded-full bg-outline-variant -left-[3px]"></div>
+</div>
+</div>
+<div class="bg-surface rounded-lg p-3 flex-1 border border-outline-variant/30 transition-all group-hover:shadow-sm">
+<h4 class="font-title-md text-title-md text-on-surface font-semibold mb-1">Sejarah Peminatan</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kelas 11 IPS • Ruang 301</p>
+</div>
+</div>
+<!-- Agenda Item 3 -->
+<div class="flex gap-4 relative group cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<div class="flex flex-col items-center">
+<p class="font-caption text-caption text-on-surface-variant">13:30</p>
+<div class="w-[2px] h-full bg-outline-variant/50 my-1 group-last:hidden relative">
+<div class="absolute top-0 w-2 h-2 rounded-full bg-outline-variant -left-[3px]"></div>
+</div>
+</div>
+<div class="bg-surface rounded-lg p-3 flex-1 border border-outline-variant/30 transition-all group-hover:shadow-sm">
+<h4 class="font-title-md text-title-md text-on-surface font-semibold mb-1">Bimbingan Konseling</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Siswa: Ahmad D. • Ruang BK</p>
+</div>
+</div>
+</div>
+<button class="mt-4 w-full py-2 border border-dashed border-primary text-primary rounded-lg font-label-sm text-label-sm font-medium hover:bg-primary-container/10 transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span> Tambah Catatan
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+
+</body></html>

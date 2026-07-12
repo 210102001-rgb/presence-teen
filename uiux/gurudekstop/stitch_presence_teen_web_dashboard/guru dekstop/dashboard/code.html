@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Presence Teen - Teacher Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#005323",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary": "#6e5300",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#00210a",
+                        "tertiary-container": "#8c6a00",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#006d30",
+                        "surface-variant": "#d3e4fe",
+                        "outline-variant": "#becabc",
+                        "on-primary-container": "#d3ffd5",
+                        "background": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "on-surface": "#0b1c30",
+                        "primary-fixed-dim": "#79db8d",
+                        "on-surface-variant": "#3f493f",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-fixed": "#002109",
+                        "secondary-container": "#7cf994",
+                        "primary-container": "#15803d",
+                        "secondary": "#006e2d",
+                        "primary": "#00652c",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#251a00",
+                        "on-secondary-container": "#007230",
+                        "outline": "#6f7a6e",
+                        "tertiary-fixed-dim": "#f7be1d",
+                        "tertiary-fixed": "#ffdf9a",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#79db8d",
+                        "on-secondary-fixed-variant": "#005320",
+                        "surface-container-high": "#dce9ff",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#95f8a7",
+                        "secondary-fixed-dim": "#62df7d",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#fff2dd",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#5a4300",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#7ffc97",
+                        "inverse-surface": "#213145"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "280px",
+                        "gutter": "24px",
+                        "container-padding": "32px",
+                        "unit": "8px",
+                        "card-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Poppins"],
+                        "label-sm": ["Poppins"],
+                        "headline-lg": ["Poppins"],
+                        "title-md": ["Poppins"],
+                        "title-lg": ["Poppins"],
+                        "body-lg": ["Poppins"],
+                        "body-md": ["Poppins"],
+                        "caption": ["Poppins"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-screen w-[280px] bg-surface-container-lowest dark:bg-inverse-surface shadow-md dark:shadow-none flex flex-col py-6 z-20">
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-surface-container-lowest"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTPwhPIUnsa9ev1wqWN4JlD98zQUKMg1az7-KU-ImOPIJRXHg-oP7xJOzyJG7bB9zE1rVBVCon2BbC-t6cKIAIU86hd6lEoZIRVQCz5tHK6H9PML1htlw1ytD3KsMWUEs3arHUXRnnaKq_3joDyM8owKpUaR2bVwMZp4LnhY9xZlAeHONugZhCEIZ5doG0SqgmtySsi1nsBKlhIR7X2FntaCkp8_x7MuzObBZPLoVbERvB-26VC_is3Js9_btYEIKuavCAzfAhYKY4" alt="School Logo" class="w-full h-full object-cover"></div>
+<div>
+<h1 class="text-title-lg font-title-lg font-bold text-primary dark:text-primary-fixed">Presence Teen</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">School Management</p>
+</div>
+</div>
+<ul class="flex flex-col gap-2 px-4 flex-1">
+<!-- Active Tab: Dashboard -->
+<li class="">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-primary font-bold border-l-4 border-primary bg-secondary-container/20 font-body-md text-body-md Active: scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<!-- Inactive Tabs -->
+<li class="">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+                    Sesi Presensi
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+                    Kelas
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                    Siswa
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                    Jadwal
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                    Materi
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Laporan
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                    Profil
+                </a>
+</li>
+</ul>
+<div class="px-4 mt-auto">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Keluar
+            </a>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-[280px] h-16 bg-surface dark:bg-background flex justify-between items-center px-gutter w-[calc(100%-280px)] z-10">
+<div class="flex-1 max-w-md">
+<div class="relative flex items-center w-full h-10 rounded-[16px] focus-within:ring-2 focus-within:ring-primary focus-within:ring-opacity-50 border border-outline-variant bg-surface-container-lowest">
+<span class="material-symbols-outlined text-on-surface-variant ml-3" data-icon="search">search</span>
+<input class="w-full h-full bg-transparent border-none focus:ring-0 text-body-md font-body-md text-on-surface px-3" placeholder="Search..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4 ml-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden flex-shrink-0 cursor-pointer">
+<img alt="Teacher Profile Photo" class="w-full h-full object-cover" data-alt="A highly detailed close-up professional headshot of a female school teacher in her 30s. She has a warm, welcoming smile and is wearing smart-casual professional attire suitable for a modern educational environment. The lighting is bright and even, set against a soft, out-of-focus light-mode modern school background, emphasizing a clean SaaS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsgXOLR-WM9EKLNh6IE1gT1VRKkJJ4sAduiqSX06UKm0x817CI96Ntu5Uq-nkwTSNC9GlIvHtBSv9MOy8PhjIEFeZvAOwkRLev8oEa_0sjki3jjjvX7JWWSM7FyPjbLO3s2mNM3XtZS70L1vM8MknPVKK1ou3szPaeMbCc7tUaDVWcCd4_GmZGe5J7fUSJuPQ-ba6E3_NaDskcMTrkFPhQsvQ_vY24lVgCAUAwuswEnJaX17VKzOXAan1AtJ2qRCyaY8n8QabbxJoh">
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[280px] pt-[88px] px-container-padding pb-container-padding min-h-screen">
+<!-- Header -->
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Welcome back, Sarah!</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant mt-1">Here is what's happening in your classes today.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-[16px] font-title-md text-title-md flex items-center gap-2 shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Session
+            </button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Stats Column (4 columns wide, stacking vertically) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest p-card-padding rounded-[16px] shadow-md border border-outline-variant/30 flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Sessions</p>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">24</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest p-card-padding rounded-[16px] shadow-md border border-outline-variant/30 flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Avg. Attendance</p>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">94%</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest p-card-padding rounded-[16px] shadow-md border border-outline-variant/30 flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Students</p>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">142</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+</div>
+</div>
+</div>
+<!-- Main Chart Area (8 columns wide) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-card-padding rounded-[16px] shadow-md border border-outline-variant/30 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-lg text-title-lg text-on-surface">Attendance Overview</h3>
+<select class="bg-surface-container-low border border-outline-variant text-body-md rounded-[16px] px-4 py-2 focus:ring-primary focus:border-primary">
+<option>This Week</option>
+<option>Last Week</option>
+<option>This Month</option>
+</select>
+</div>
+<!-- Placeholder for Chart - using a visual approximation -->
+<div class="flex-1 bg-surface-container-low rounded-[12px] flex items-end justify-between p-4 relative min-h-[250px]">
+<!-- Simulated chart bars/lines -->
+<div class="w-1/12 bg-primary/20 h-1/2 rounded-t-sm relative"><div class="absolute bottom-0 w-full bg-primary h-2/3 rounded-t-sm"></div></div>
+<div class="w-1/12 bg-primary/20 h-3/4 rounded-t-sm relative"><div class="absolute bottom-0 w-full bg-primary h-4/5 rounded-t-sm"></div></div>
+<div class="w-1/12 bg-primary/20 h-2/3 rounded-t-sm relative"><div class="absolute bottom-0 w-full bg-primary h-5/6 rounded-t-sm"></div></div>
+<div class="w-1/12 bg-primary/20 h-[90%] rounded-t-sm relative"><div class="absolute bottom-0 w-full bg-primary h-[95%] rounded-t-sm"></div></div>
+<div class="w-1/12 bg-primary/20 h-4/5 rounded-t-sm relative"><div class="absolute bottom-0 w-full bg-primary h-3/4 rounded-t-sm"></div></div>
+<div class="w-1/12 bg-primary/20 h-[85%] rounded-t-sm relative"><div class="absolute bottom-0 w-full bg-primary h-full rounded-t-sm"></div></div>
+<div class="w-1/12 bg-primary/20 h-3/4 rounded-t-sm relative"><div class="absolute bottom-0 w-full bg-primary h-2/3 rounded-t-sm"></div></div>
+</div>
+<div class="flex justify-between mt-4 font-caption text-caption text-on-surface-variant px-2">
+<span class="">Mon</span><span class="">Tue</span><span class="">Wed</span><span class="">Thu</span><span class="">Fri</span><span class="">Sat</span><span class="">Sun</span>
+</div>
+</div>
+<!-- Schedule & Activity Row -->
+<div class="col-span-12 lg:col-span-6 bg-surface-container-lowest p-card-padding rounded-[16px] shadow-md border border-outline-variant/30">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-lg text-title-lg text-on-surface">Today's Schedule</h3>
+<button class="text-primary hover:bg-primary-container/10 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+<div class="space-y-4">
+<!-- Schedule Item -->
+<div class="flex gap-4 p-3 rounded-[12px] hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/50">
+<div class="flex flex-col items-center justify-center w-16 h-16 rounded-[12px] bg-primary/10 text-primary">
+<span class="font-title-md text-title-md font-bold">08</span>
+<span class="font-caption text-caption">AM</span>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<h4 class="font-title-md text-title-md text-on-surface">Mathematics 101</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> Room 12B
+                            </p>
+</div>
+<div class="flex items-center">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">In Progress</span>
+</div>
+</div>
+<!-- Schedule Item -->
+<div class="flex gap-4 p-3 rounded-[12px] hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/50">
+<div class="flex flex-col items-center justify-center w-16 h-16 rounded-[12px] bg-surface-variant text-on-surface-variant">
+<span class="font-title-md text-title-md font-bold">10</span>
+<span class="font-caption text-caption">AM</span>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<h4 class="font-title-md text-title-md text-on-surface">Physics Advanced</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> Lab 3
+                            </p>
+</div>
+<div class="flex items-center">
+<span class="px-3 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm">Upcoming</span>
+</div>
+</div>
+<!-- Schedule Item -->
+<div class="flex gap-4 p-3 rounded-[12px] hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/50">
+<div class="flex flex-col items-center justify-center w-16 h-16 rounded-[12px] bg-surface-variant text-on-surface-variant">
+<span class="font-title-md text-title-md font-bold">01</span>
+<span class="font-caption text-caption">PM</span>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<h4 class="font-title-md text-title-md text-on-surface">Student Counseling</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> Office
+                            </p>
+</div>
+<div class="flex items-center">
+<span class="px-3 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm">Upcoming</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Table -->
+<div class="col-span-12 lg:col-span-6 bg-surface-container-lowest p-card-padding rounded-[16px] shadow-md border border-outline-variant/30 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-lg text-title-lg text-on-surface">Recent Activity</h3>
+<a class="text-primary font-body-md text-body-md hover:underline" href="#">View All</a>
+</div>
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low rounded-t-[8px]">
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider rounded-tl-[8px]">Student</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Action</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Time</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider rounded-tr-[8px]">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface">Alex Johnson</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface-variant">Checked In</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface-variant">08:05 AM</td>
+<td class="py-3 px-4">
+<span class="px-2 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-caption text-caption">Present</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface">Maria Garcia</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface-variant">Checked In</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface-variant">08:12 AM</td>
+<td class="py-3 px-4">
+<span class="px-2 py-1 rounded-full bg-tertiary-container/30 text-tertiary font-caption text-caption">Late</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface">James Smith</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface-variant">System Log</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface-variant">08:30 AM</td>
+<td class="py-3 px-4">
+<span class="px-2 py-1 rounded-full bg-error-container text-on-error-container font-caption text-caption">Absent</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface">Linda Davis</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface-variant">Checked In</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface-variant">09:55 AM</td>
+<td class="py-3 px-4">
+<span class="px-2 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-caption text-caption">Present</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+
+
+</body></html>

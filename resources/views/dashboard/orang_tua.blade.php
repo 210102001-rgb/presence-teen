@@ -38,16 +38,16 @@
             <div class="lg:col-span-8 flex flex-col gap-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-[#0e7a3d] text-[#a5ffb7] rounded-2xl p-6 shadow-soft flex flex-col justify-center items-center text-center">
-                        <span class="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">Hadir</span>
+                        <span class="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">Kehadiran</span>
                         <div class="text-3xl font-bold text-white">{{ $presentPercent }}%</div>
                     </div>
                     <div class="bg-white rounded-2xl p-6 shadow-soft border-t-4 border-[#495362] border-l border-r border-b border-[#eaeef2] flex flex-col justify-center items-center text-center">
                         <span class="text-[10px] uppercase font-bold tracking-widest text-[#5c5f61] mb-1">Izin</span>
-                        <div class="text-3xl font-bold text-[#171c1f]">{{ $totalTelat }}</div>
+                        <div class="text-3xl font-bold text-[#171c1f]">{{ $totalIzin }}</div>
                     </div>
                     <div class="bg-white rounded-2xl p-6 shadow-soft border-t-4 border-amber-400 border-l border-r border-b border-[#eaeef2] flex flex-col justify-center items-center text-center">
                         <span class="text-[10px] uppercase font-bold tracking-widest text-[#5c5f61] mb-1">Sakit</span>
-                        <div class="text-3xl font-bold text-[#171c1f]">1</div>
+                        <div class="text-3xl font-bold text-[#171c1f]">{{ $totalSakit }}</div>
                     </div>
                     <div class="bg-white rounded-2xl p-6 shadow-soft border-t-4 border-[#ba1a1a] border-l border-r border-b border-[#eaeef2] flex flex-col justify-center items-center text-center">
                         <span class="text-[10px] uppercase font-bold tracking-widest text-[#5c5f61] mb-1">Alpha</span>
@@ -192,6 +192,68 @@
                 </div>
             </div>
         </div>
+
+        {{-- Tugas Anak Section --}}
+        <section class="bg-white rounded-2xl p-6 shadow-soft border border-[#eaeef2]">
+            <div class="flex justify-between items-center mb-6">
+                <h4 class="font-bold text-lg text-[#171c1f]">Tugas Anak</h4>
+                <a href="{{ route('tugas.index') }}" class="text-[#005f2d] text-xs font-semibold hover:underline flex items-center gap-1">
+                    Lihat Semua Tugas <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                </a>
+            </div>
+            @if($tugasAnak->isEmpty())
+                <p class="text-xs text-[#5c5f61] text-center py-6">Tidak ada tugas baru.</p>
+            @else
+                <div class="space-y-4">
+                    @foreach($tugasAnak as $tugas)
+                        @php
+                            // Check status for each child (since a parent can have multiple children)
+                            // Get children associated with this task's class
+                            $anakInKelas = Auth::user()->anak->filter(function($a) use ($tugas) {
+                                return $a->kelasSaya->contains('id', $tugas->kelas_id);
+                            });
+                        @endphp
+                        @foreach($anakInKelas as $child)
+                            @php
+                                $kumpul = $tugas->pengumpulan->where('siswa_id', $child->id)->first();
+                                $sudah = $kumpul && $kumpul->status === 'sudah';
+                                $overdue = $tugas->deadline->isPast();
+                            @endphp
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-[#f6fafe] rounded-xl border border-[#eaeef2] gap-4">
+                                <div class="flex gap-3 items-start">
+                                    <div class="w-10 h-10 rounded-lg bg-[#0e7a3d]/10 flex items-center justify-center text-[#005f2d] shrink-0">
+                                        <span class="material-symbols-outlined text-[24px]">assignment</span>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-sm text-[#171c1f]">{{ $tugas->judul }}</h5>
+                                        <p class="text-xs text-[#5c5f61]">
+                                            Siswa: <span class="font-semibold text-[#005f2d]">{{ $child->name }}</span> ({{ $tugas->kelas->nama_kelas }})
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 justify-between sm:justify-end">
+                                    <div class="text-right">
+                                        <p class="text-[10px] text-[#5c5f61] uppercase tracking-wider font-bold">Deadline</p>
+                                        <p class="text-xs font-semibold {{ $overdue && !$sudah ? 'text-[#ba1a1a]' : 'text-[#171c1f]' }}">
+                                            {{ $tugas->deadline->format('d M Y, H:i') }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        @if($sudah)
+                                            <span class="bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Sudah Dikumpulkan</span>
+                                        @elseif($overdue)
+                                            <span class="bg-[#ffdad6] text-[#93000a] border border-[#ba1a1a]/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Belum Dikumpulkan (Terlambat)</span>
+                                        @else
+                                            <span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Belum Dikumpulkan</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
+            @endif
+        </section>
 
         {{-- Bottom Section: Announcements --}}
         <section class="mt-6">

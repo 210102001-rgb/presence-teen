@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_THREEJS_START:ANIMATION_19 class="fixed inset-0 w-full h-full bg-transparent" -->
+<div class="fixed inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_19" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_19');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+camera.position.z = 5;
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+// Create the sparkle/star shape
+const createSparkle = () => {
+    const group = new THREE.Group();
+    const material = new THREE.MeshBasicMaterial({ color: 0x006B33 });
+    
+    // Vertical part
+    const verticalGeom = new THREE.CapsuleGeometry(0.1, 1.5, 4, 8);
+    const vertical = new THREE.Mesh(verticalGeom, material);
+    group.add(vertical);
+    
+    // Horizontal part
+    const horizontalGeom = new THREE.CapsuleGeometry(0.1, 1.5, 4, 8);
+    const horizontal = new THREE.Mesh(horizontalGeom, material);
+    horizontal.rotation.z = Math.PI / 2;
+    group.add(horizontal);
+    
+    // Small diagonal sparkles
+    const diag1 = new THREE.Mesh(new THREE.CapsuleGeometry(0.05, 0.8, 4, 8), material);
+    diag1.rotation.z = Math.PI / 4;
+    group.add(diag1);
+    
+    const diag2 = new THREE.Mesh(new THREE.CapsuleGeometry(0.05, 0.8, 4, 8), material);
+    diag2.rotation.z = -Math.PI / 4;
+    group.add(diag2);
+    
+    return group;
+};
+
+const sparkle = createSparkle();
+scene.add(sparkle);
+
+// Add a glowing circle around it
+const circleGeom = new THREE.TorusGeometry(1.2, 0.05, 16, 100);
+const circleMat = new THREE.MeshBasicMaterial({ color: 0x006B33, transparent: true, opacity: 0.3 });
+const circle = new THREE.Mesh(circleGeom, circleMat);
+scene.add(circle);
+
+const animate = () => {
+    requestAnimationFrame(animate);
+    
+    const time = Date.now() * 0.002;
+    
+    // Pulse the sparkle
+    const scale = 1 + Math.sin(time) * 0.1;
+    sparkle.scale.set(scale, scale, scale);
+    sparkle.rotation.y += 0.01;
+    
+    // Rotate the ring
+    circle.rotation.z += 0.02;
+    circle.scale.set(1 + Math.sin(time * 0.5) * 0.05, 1 + Math.sin(time * 0.5) * 0.05, 1);
+    
+    renderer.render(scene, camera);
+};
+
+animate();
+
+window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth || window.innerWidth;
+    const newHeight = container.clientHeight || window.innerHeight;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+});
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_19 -->
+</body>
+</html>

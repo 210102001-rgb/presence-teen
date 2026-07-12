@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Presence Detail - Presence Teen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1d",
+                    "tertiary": "#5b5f63",
+                    "secondary-container": "#f9e534",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2e3132",
+                    "inverse-primary": "#66df75",
+                    "secondary-fixed-dim": "#dbc90a",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#181c20",
+                    "surface": "#f8f9fa",
+                    "primary-fixed": "#83fc8e",
+                    "surface-variant": "#e1e3e4",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#3e4a3c",
+                    "primary": "#006e25",
+                    "primary-fixed-dim": "#66df75",
+                    "outline-variant": "#bdcab9",
+                    "tertiary-fixed": "#e0e3e8",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#43474c",
+                    "on-primary-fixed": "#002106",
+                    "secondary-fixed": "#f9e534",
+                    "on-tertiary-container": "#272b2f",
+                    "on-secondary-container": "#706500",
+                    "surface-container-high": "#e7e8e9",
+                    "surface-container": "#edeeef",
+                    "secondary": "#695f00",
+                    "on-surface": "#191c1d",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#201c00",
+                    "surface-tint": "#006e25",
+                    "on-primary-fixed-variant": "#00531a",
+                    "primary-container": "#28a745",
+                    "on-primary-container": "#00330d",
+                    "tertiary-container": "#8e9297",
+                    "tertiary-fixed-dim": "#c3c7cc",
+                    "surface-bright": "#f8f9fa",
+                    "on-secondary": "#ffffff",
+                    "outline": "#6e7b6b",
+                    "background": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#4f4800",
+                    "surface-container-low": "#f3f4f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "base": "8px",
+                    "md": "16px",
+                    "margin-mobile": "20px",
+                    "sm": "12px",
+                    "xl": "32px",
+                    "xs": "4px",
+                    "gutter-mobile": "12px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .presence-accent-bar {
+            width: 4px;
+            height: 100%;
+            border-radius: 4px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        body {
+            background-color: #F8F9FA;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .page-transition {
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background fixed top-0 w-full z-50 docked full-width">
+<div class="flex justify-between items-center px-margin-mobile py-md w-full max-w-[1200px] mx-auto">
+<div class="flex items-center gap-md">
+<button class="hover:bg-surface-variant transition-colors p-2 rounded-full active:scale-95">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Presence Detail</h1>
+</div>
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed-dim">
+<img class="w-full h-full object-cover" data-alt="A professional close-up studio portrait of a cheerful teenage student with a warm smile, wearing a modern school sweatshirt. The lighting is soft and natural, emphasizing a high-legibility, clean-cut aesthetic. The background is a soft, out-of-focus academic setting with a palette of light greys and soft greens, maintaining a youthful yet professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl-u7mVyuozd_FBzG3M5xLA5O5rtDJvCnNL32PDX5rg_-LRWrJ3dutEdMAXA7AVPALxrdJWKOx6AG2FtQ86Q02zQ-NUUzDwOz2CJkTtjzbwGugmvCj8NafKtEGVvCVa5kglWHuGmL5Oj74CAFTGFjuvh9SH8UDGsz1adI7pbMebp-LQe_EPTzvHQWrtlZFdiZuEbCCDEyMhIZbAYyKkzVQZbOphrMack_rR1hFIKbNa0b67nq5k6rtwjaT0RPQ4FBywiO_AVX7NdE"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-[80px] pb-[100px] px-margin-mobile max-w-[1200px] mx-auto page-transition">
+<!-- Hero Section: Subject & Status -->
+<section class="mb-lg">
+<div class="bg-white rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] overflow-hidden flex relative">
+<div class="bg-primary presence-accent-bar absolute left-0 top-0 bottom-0"></div>
+<div class="p-md pl-lg w-full flex justify-between items-center">
+<div>
+<span class="font-label-md text-label-md text-primary uppercase tracking-wider">Advanced Mathematics</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mt-xs">Calculus II: Integration</h2>
+</div>
+<div class="flex flex-col items-end">
+<div class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-lg text-label-lg">Present</div>
+<p class="font-label-md text-label-md text-tertiary mt-xs">Room 402B</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Left Column: Details & Summary -->
+<div class="md:col-span-7 space-y-lg">
+<!-- Info Grid -->
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-white p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-sm text-tertiary mb-xs">
+<span class="material-symbols-outlined text-[20px]">person</span>
+<span class="font-label-md text-label-md">Instructor</span>
+</div>
+<p class="font-body-md text-body-md font-semibold">Dr. Sarah Jenkins</p>
+</div>
+<div class="bg-white p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-sm text-tertiary mb-xs">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+<span class="font-label-md text-label-md">Timestamp</span>
+</div>
+<p class="font-body-md text-body-md font-semibold">Oct 24, 09:15 AM</p>
+</div>
+</div>
+<!-- Material Summary -->
+<div class="bg-white p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<h3 class="font-headline-sm text-headline-sm mb-md text-on-surface">Class Summary</h3>
+<p class="font-body-md text-body-md text-tertiary leading-relaxed mb-md">
+                        Today's session focused on advanced integration techniques, specifically integration by parts and trigonometric substitution. We explored how these methods apply to solving complex physics problems related to work and fluid pressure. 
+                    </p>
+<div class="space-y-sm">
+<h4 class="font-label-lg text-label-lg text-on-surface">Key Objectives:</h4>
+<ul class="space-y-xs">
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary text-[18px] mt-1">check_circle</span>
+<span class="font-body-sm text-body-sm">Derivation of the Integration by Parts formula</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary text-[18px] mt-1">check_circle</span>
+<span class="font-body-sm text-body-sm">Practical application in 3D volume calculations</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary text-[18px] mt-1">check_circle</span>
+<span class="font-body-sm text-body-sm">Introduction to Taylor series expansion</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Homework Assignment -->
+<div class="bg-secondary-container/10 border border-secondary-container/20 p-lg rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="bg-secondary-container p-3 rounded-xl">
+<span class="material-symbols-outlined text-on-secondary-container">assignment</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-secondary-container">Pending Assignment</p>
+<p class="font-body-md text-body-md font-bold">Integration Practice Set #4</p>
+</div>
+</div>
+<button class="text-primary font-bold hover:underline transition-all active:scale-95">Open</button>
+</div>
+</div>
+<!-- Right Column: Map & Location -->
+<div class="md:col-span-5 space-y-lg">
+<div class="bg-white p-base rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] h-full min-h-[350px] flex flex-col">
+<div class="flex-grow rounded-lg overflow-hidden relative">
+<!-- Simulated Map with data-location -->
+<div class="w-full h-full bg-surface-container relative">
+<img class="w-full h-full object-cover grayscale-[20%]" data-alt="A clean, minimalist vector-style map of a university campus neighborhood with soft green parks and light grey streets. The map features a central marker with a soft shadow over a specific academic building. The aesthetic is modern and high-tech, using a palette of muted mint and slate colors to signify location accuracy within a student-focused presence tracking application." data-location="Stanford University Campus, CA" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVLRe9a4IhjfjAjRu3i-HILkvQ7OPps8BshlN6etrnUJO2M2S8ZegoRWL4_JiYVA3rSOiibDrF_IxBctNhksAbuMWFVQBYggHrZb7X3Ds0iWj3WsGa973Vrt0exjjTnZrS3Qfvb-htcZLkcnYWkkgxPQpT6EST_EpuV0dIIIlte6E_JGfOyYfQwM7Wgu4Egk-juCPePkoFLI66MYniprQPtqsao1Zu6Pkk3_QzBQP1dFq1bmKAyLJWagkJ8Vc4_QW7fG1oIsecvPs"/>
+<!-- Location Pulse Overlay -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center animate-ping"></div>
+<div class="absolute w-4 h-4 bg-primary rounded-full border-2 border-white shadow-lg"></div>
+</div>
+<!-- Floating Map Control -->
+<div class="absolute bottom-md right-md flex flex-col gap-xs">
+<button class="bg-white p-2 rounded-lg shadow-md hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined text-on-surface">add</span></button>
+<button class="bg-white p-2 rounded-lg shadow-md hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined text-on-surface">remove</span></button>
+</div>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-center mb-xs">
+<h4 class="font-label-lg text-label-lg text-on-surface">Location Verification</h4>
+<span class="font-label-md text-label-md text-primary flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">verified</span> GPS Verified
+                            </span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary">Science & Engineering Quad, Building 402, 2nd Floor. Precision: 5 meters.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-tertiary hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md-mobile mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary relative after:content-[''] after:w-1 after:h-1 after:bg-primary after:rounded-full after:mt-1" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md-mobile">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-tertiary hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-md text-label-md-mobile">Learning</span>
+</a>
+<a class="flex flex-col items-center justify-center text-tertiary hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md-mobile">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple interactive micro-effects
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.95)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Dynamic background ambient effect
+        const body = document.body;
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            // Extremely subtle shift for modern professional feel
+            // body.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, #fefefe 0%, #F8F9FA 100%)`;
+        });
+    </script>
+</body></html>

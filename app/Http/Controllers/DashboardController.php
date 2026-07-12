@@ -38,6 +38,7 @@ class DashboardController extends Controller
             ->count();
 
         $totalHadirBulanIni = Presensi::where('siswa_id', $user->id)
+            ->whereIn('status', ['hadir', 'telat'])
             ->whereMonth('waktu_absen', now()->month)
             ->whereYear('waktu_absen', now()->year)
             ->count();
@@ -145,6 +146,8 @@ class DashboardController extends Controller
         $totalSesi = 0;
         $totalHadir = 0;
         $totalTelat = 0;
+        $totalIzin = 0;
+        $totalSakit = 0;
         $totalAlpha = 0;
         $kelasNama = 'Belum ada kelas';
 
@@ -156,7 +159,12 @@ class DashboardController extends Controller
             $presensi = Presensi::where('siswa_id', $anak->id)->get();
             $totalHadir = $presensi->where('status', 'hadir')->count();
             $totalTelat = $presensi->where('status', 'telat')->count();
-            $totalAlpha = max(0, $totalSesi - $presensi->count());
+            $totalIzin = $presensi->where('status', 'izin')->count();
+            $totalSakit = $presensi->where('status', 'sakit')->count();
+
+            $dbAlpha = $presensi->where('status', 'alpha')->count();
+            $unmatched = max(0, $totalSesi - $presensi->count());
+            $totalAlpha = $dbAlpha + $unmatched;
         }
 
         $presentPercent = $totalSesi > 0
@@ -175,6 +183,8 @@ class DashboardController extends Controller
             'totalSesi',
             'totalHadir',
             'totalTelat',
+            'totalIzin',
+            'totalSakit',
             'totalAlpha',
             'presentPercent'
         ));

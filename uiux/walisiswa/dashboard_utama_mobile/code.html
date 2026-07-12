@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portal Wali Murid - SMA Negeri 1 Surakarta</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#005f2d",
+                        "tertiary-fixed-dim": "#bdc7d9",
+                        "on-primary-fixed": "#00210b",
+                        "surface-container-high": "#e4e9ed",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#3d4756",
+                        "surface-container": "#eaeef2",
+                        "surface-dim": "#d6dade",
+                        "on-surface-variant": "#3f493f",
+                        "secondary-fixed": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#dfe3e7",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#616b7b",
+                        "on-primary-container": "#a5ffb7",
+                        "outline": "#6f7a6e",
+                        "background": "#f6fafe",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#dfe3e7",
+                        "on-secondary-fixed-variant": "#444749",
+                        "surface-container-low": "#f0f4f8",
+                        "on-error": "#ffffff",
+                        "secondary": "#5c5f61",
+                        "on-primary-fixed-variant": "#005226",
+                        "on-background": "#171c1f",
+                        "on-surface": "#171c1f",
+                        "inverse-primary": "#7bda92",
+                        "secondary-fixed-dim": "#c4c7c9",
+                        "on-tertiary-fixed": "#121c2a",
+                        "inverse-surface": "#2c3134",
+                        "on-secondary-container": "#626567",
+                        "primary-container": "#0e7a3d",
+                        "outline-variant": "#becabc",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#d9e3f6",
+                        "surface": "#f6fafe",
+                        "primary-fixed": "#97f7ac",
+                        "primary-fixed-dim": "#7bda92",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#e2ecff",
+                        "surface-bright": "#f6fafe",
+                        "tertiary": "#495362",
+                        "surface-tint": "#006d34",
+                        "inverse-on-surface": "#edf1f5",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "2xl": "48px",
+                        "margin-desktop": "40px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .ai-shimmer {
+            background: linear-gradient(110deg, #f0fdf4 45%, #ffffff 50%, #f0fdf4 55%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .gauge-container {
+            position: relative;
+            width: 120px;
+            height: 60px;
+            overflow: hidden;
+        }
+        .gauge-bg {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 12px solid #e2e8f0;
+            clip-path: inset(0 0 50% 0);
+        }
+        .gauge-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 12px solid #005f2d;
+            clip-path: inset(0 0 50% 0);
+            transform: rotate(145deg);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface flex flex-col min-h-screen">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 left-0 right-0 z-40 bg-surface flex justify-between items-center px-margin-mobile py-sm border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<button class="p-xs active:opacity-60 transition-opacity">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+</button>
+<div class="flex flex-col">
+<h1 class="font-bold text-primary text-body-lg leading-tight">SMA NEGERI 1</h1>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-widest">Portal Wali Murid</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-secondary">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a Indonesian parent in their late 40s, smiling warmly, clean high-key lighting, soft natural tones, high-quality digital photography for an educational platform profile avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaPaXjGjQOsmf8UuqMtKCcM7b3P_x57SDonMDkvDvyaBVjNh6aUYJDlT5sO1l_jwB3T9QxMtuBH603dA4lfjuO0dezST1rCLmRPjv2UOevjcIg99nNCMimfXj3okw3s5DsyYbGugRRzzH12RUMLlM3rCapNjQXOAAVVfmgxjqvQ5GMtl8bWnW48qEXe4wtfA2jeV2gqq7n0gSb4Ixpow62AlNELAsulDdklK3v35UnSwm9Q400_FK5DRvJTChlE8WHXJcd_2PTtgP0"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="flex-1 mt-14 mb-24 px-margin-mobile py-md flex flex-col gap-md">
+<!-- 1. Student Card -->
+<section class="relative bg-primary-container rounded-xl p-md text-on-primary overflow-hidden shadow-lg">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-on-primary-container opacity-20 rounded-full"></div>
+<div class="relative z-10 flex items-center gap-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden border-2 border-white/30 shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A focused young Indonesian male high school student in a neat white and grey uniform, medium shot, clean academic setting with soft daylight, realistic portrait style, emphasizing a diligent and smart appearance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTRngqGXJ3KNXVo-0F3UvHRXXb1DQLbwL1TGM-Inho2uHyL1i7HfOhFQXd_KIJN3ccgGL3ISiBYhvMXyXzfnhVV7NXIleYJSezvQTMpMsD_89lr478PUtMzXUBeOX1jUUjWj9-Yf0vAkmcWh8vGHs6wnJ-_1o9Kt4I9sbLng-EvZCZAqx4vsSaVQH4c_VAuvN_xWH8fRp9sECmOI3ICfFyCEXglIiI5jSSEeytqks7sixjHOmDKrGx6EEkcQw6X12Az1bkKeix_1Qf"/>
+</div>
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-white">Ahmad Rizky Pratama</h2>
+<p class="font-body-md text-body-md text-white/80">Kelas XI MIPA 1 • NISN: 007249120</p>
+</div>
+</div>
+<div class="mt-md pt-md border-t border-white/20 flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-white/70">Wali Kelas: Bp. Haryanto, M.Pd</span>
+<span class="bg-white/20 px-sm py-xs rounded-full text-xs font-bold text-white">Aktif Semester Ganjil</span>
+</div>
+</section>
+<!-- 2. Attendance Stat Grid -->
+<section class="grid grid-cols-2 gap-md">
+<div class="bg-white p-md rounded-xl shadow-sm flex flex-col gap-xs border border-surface-container-high">
+<span class="material-symbols-outlined text-primary text-xl">event_available</span>
+<span class="text-3xl font-bold text-on-surface">98%</span>
+<span class="text-xs font-semibold text-secondary uppercase tracking-tighter">Kehadiran</span>
+</div>
+<div class="bg-white p-md rounded-xl shadow-sm flex flex-col gap-xs border border-surface-container-high">
+<span class="material-symbols-outlined text-error text-xl">event_busy</span>
+<span class="text-3xl font-bold text-on-surface">2</span>
+<span class="text-xs font-semibold text-secondary uppercase tracking-tighter">Izin/Sakit</span>
+</div>
+<div class="bg-white p-md rounded-xl shadow-sm flex flex-col gap-xs border border-surface-container-high">
+<span class="material-symbols-outlined text-primary-container text-xl">schedule</span>
+<span class="text-3xl font-bold text-on-surface">0</span>
+<span class="text-xs font-semibold text-secondary uppercase tracking-tighter">Terlambat</span>
+</div>
+<div class="bg-white p-md rounded-xl shadow-sm flex flex-col gap-xs border border-surface-container-high">
+<span class="material-symbols-outlined text-tertiary text-xl">award_star</span>
+<span class="text-3xl font-bold text-on-surface">12</span>
+<span class="text-xs font-semibold text-secondary uppercase tracking-tighter">Poin Prestasi</span>
+</div>
+</section>
+<!-- 3. Attendance Line Chart -->
+<section class="bg-white p-md rounded-xl shadow-sm border border-surface-container-high">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-title-md text-title-md text-on-surface">Trend Kehadiran</h3>
+<span class="text-xs font-bold text-primary">Bulan Ini</span>
+</div>
+<div class="h-32 flex items-end justify-between gap-sm px-xs">
+<!-- Simple representative bars for chart -->
+<div class="w-full bg-surface-container rounded-t-sm relative group h-[80%]"><div class="absolute bottom-0 left-0 right-0 bg-primary h-[90%] rounded-t-sm"></div></div>
+<div class="w-full bg-surface-container rounded-t-sm relative group h-[80%]"><div class="absolute bottom-0 left-0 right-0 bg-primary h-[85%] rounded-t-sm"></div></div>
+<div class="w-full bg-surface-container rounded-t-sm relative group h-[80%]"><div class="absolute bottom-0 left-0 right-0 bg-primary h-[100%] rounded-t-sm"></div></div>
+<div class="w-full bg-surface-container rounded-t-sm relative group h-[80%]"><div class="absolute bottom-0 left-0 right-0 bg-primary h-[95%] rounded-t-sm"></div></div>
+<div class="w-full bg-surface-container rounded-t-sm relative group h-[80%]"><div class="absolute bottom-0 left-0 right-0 bg-primary-fixed-dim h-[40%] rounded-t-sm"></div></div>
+<div class="w-full bg-surface-container rounded-t-sm relative group h-[80%]"><div class="absolute bottom-0 left-0 right-0 bg-primary h-[100%] rounded-t-sm"></div></div>
+<div class="w-full bg-surface-container rounded-t-sm relative group h-[80%]"><div class="absolute bottom-0 left-0 right-0 bg-primary h-[98%] rounded-t-sm"></div></div>
+</div>
+<div class="flex justify-between mt-sm text-[10px] font-bold text-secondary px-xs">
+<span>MG1</span><span>MG2</span><span>MG3</span><span>MG4</span>
+</div>
+</section>
+<!-- 4. Learning Activity Summary -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-title-md text-title-md text-on-surface px-xs">Aktivitas Belajar Terbaru</h3>
+<div class="bg-white rounded-xl shadow-sm border border-surface-container-high overflow-hidden">
+<div class="p-md flex items-start gap-md border-b border-outline-variant/30">
+<div class="p-sm bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">menu_book</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-body-lg text-body-lg font-semibold text-on-surface">Matematika Peminatan</h4>
+<span class="text-[10px] text-secondary">08:15</span>
+</div>
+<p class="text-xs text-secondary mt-1">Materi: Turunan Fungsi Trigonometri - Selesai</p>
+</div>
+</div>
+<div class="p-md flex items-start gap-md">
+<div class="p-sm bg-tertiary/10 rounded-lg">
+<span class="material-symbols-outlined text-tertiary">assignment_turned_in</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-body-lg text-body-lg font-semibold text-on-surface">Tugas Fisika</h4>
+<span class="text-[10px] text-secondary">Kemarin</span>
+</div>
+<p class="text-xs text-secondary mt-1">Pengumpulan Tugas: Hukum Newton II - Dikumpulkan</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. AI Insight Card -->
+<section class="ai-shimmer border border-primary/20 p-md rounded-xl shadow-sm flex flex-col gap-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary-container fill-current">auto_awesome</span>
+<h3 class="font-label-sm text-label-sm text-primary-container uppercase">AI Insight & Rekomendasi</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Ahmad menunjukkan konsistensi tinggi di mata pelajaran Sains. <span class="font-bold text-primary">Saran:</span> Tingkatkan latihan soal Logika untuk persiapan olimpiade matematika bulan depan.
+            </p>
+<button class="w-full py-xs bg-white border border-primary/20 rounded-lg text-xs font-bold text-primary active:bg-primary-fixed-dim transition-colors">
+                Lihat Laporan Detail
+            </button>
+</section>
+<!-- 6. Academic Prediction gauge -->
+<section class="bg-white p-md rounded-xl shadow-sm border border-surface-container-high flex items-center gap-lg">
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Prediksi Kelulusan</h3>
+<p class="text-xs text-secondary mt-1">Berdasarkan performa akademik saat ini dan trend nilai ujian harian.</p>
+<div class="mt-md flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-xs font-bold text-on-surface">Sangat Baik (94%)</span>
+</div>
+</div>
+<div class="gauge-container">
+<div class="gauge-bg"></div>
+<div class="gauge-fill" style="transform: rotate(150deg);"></div>
+<div class="absolute inset-0 flex items-center justify-center pt-4">
+<span class="text-xl font-bold text-primary">A</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating AI Assistant Button -->
+<button class="fixed bottom-24 right-margin-mobile z-50 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</button>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-outline-variant h-20 px-sm pb-safe flex justify-around items-center z-40">
+<a class="flex flex-col items-center gap-1 group text-primary" href="#">
+<div class="bg-secondary-container px-4 py-1 rounded-full transition-all group-active:scale-95">
+<span class="material-symbols-outlined fill-current">dashboard</span>
+</div>
+<span class="font-label-sm text-[10px] font-bold">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 group text-secondary" href="#">
+<div class="px-4 py-1 rounded-full transition-all hover:bg-surface-container group-active:scale-95">
+<span class="material-symbols-outlined">event_available</span>
+</div>
+<span class="font-label-sm text-[10px] font-bold">Presensi</span>
+</a>
+<a class="flex flex-col items-center gap-1 group text-secondary" href="#">
+<div class="px-4 py-1 rounded-full transition-all hover:bg-surface-container group-active:scale-95">
+<span class="material-symbols-outlined">local_library</span>
+</div>
+<span class="font-label-sm text-[10px] font-bold">Aktivitas</span>
+</a>
+<a class="flex flex-col items-center gap-1 group text-secondary" href="#">
+<div class="px-4 py-1 rounded-full transition-all hover:bg-surface-container group-active:scale-95">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<span class="font-label-sm text-[10px] font-bold">AI Insight</span>
+</a>
+<a class="flex flex-col items-center gap-1 group text-secondary" href="#">
+<div class="px-4 py-1 rounded-full transition-all hover:bg-surface-container group-active:scale-95">
+<span class="material-symbols-outlined">person</span>
+</div>
+<span class="font-label-sm text-[10px] font-bold">Profil</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction: Active state for nav
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => {
+                    l.classList.remove('text-primary');
+                    l.classList.add('text-secondary');
+                    l.querySelector('div').classList.remove('bg-secondary-container');
+                    const icon = l.querySelector('span.material-symbols-outlined');
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                });
+                link.classList.add('text-primary');
+                link.classList.remove('text-secondary');
+                link.querySelector('div').classList.add('bg-secondary-container');
+                const icon = link.querySelector('span.material-symbols-outlined');
+                icon.style.fontVariationSettings = "'FILL' 1";
+            });
+        });
+
+        // Pulsing animation for AI button
+        const aiBtn = document.querySelector('button.z-50');
+        setInterval(() => {
+            aiBtn.classList.add('ring-4', 'ring-primary/20');
+            setTimeout(() => {
+                aiBtn.classList.remove('ring-4', 'ring-primary/20');
+            }, 1000);
+        }, 3000);
+    </script>
+</body></html>

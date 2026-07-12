@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portal Wali Murid - SMA Negeri 1 Surakarta</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#005f2d",
+                        "tertiary-fixed-dim": "#bdc7d9",
+                        "on-primary-fixed": "#00210b",
+                        "surface-container-high": "#e4e9ed",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#3d4756",
+                        "surface-container": "#eaeef2",
+                        "surface-dim": "#d6dade",
+                        "on-surface-variant": "#3f493f",
+                        "secondary-fixed": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#dfe3e7",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#616b7b",
+                        "on-primary-container": "#a5ffb7",
+                        "outline": "#6f7a6e",
+                        "background": "#f6fafe",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f0f4f8",
+                        "on-error": "#ffffff",
+                        "secondary": "#5c5f61",
+                        "on-primary-fixed-variant": "#005226",
+                        "on-background": "#171c1f",
+                        "on-surface": "#171c1f",
+                        "inverse-primary": "#7bda92",
+                        "secondary-fixed-dim": "#c4c7c9",
+                        "on-tertiary-fixed": "#121c2a",
+                        "inverse-surface": "#2c3134",
+                        "on-secondary-container": "#626567",
+                        "primary-container": "#0e7a3d",
+                        "outline-variant": "#becabc",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#d9e3f6",
+                        "surface": "#f6fafe",
+                        "primary-fixed": "#97f7ac",
+                        "primary-fixed-dim": "#7bda92",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#e2ecff",
+                        "surface-bright": "#f6fafe",
+                        "tertiary": "#495362",
+                        "surface-tint": "#006d34",
+                        "inverse-on-surface": "#edf1f5",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "12px",
+                        "xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "2xl": "48px",
+                        "margin-desktop": "40px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f6fafe; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .premium-card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.02); transition: all 0.2s ease; }
+        .premium-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px rgba(0,0,0,0.04); }
+        .ai-border { position: relative; border-radius: 12px; overflow: hidden; background: #F0FDF4; border: 1px solid rgba(0, 95, 45, 0.1); }
+        .ai-border::before { content: ''; position: absolute; inset: 0; padding: 2px; border-radius: 12px; background: linear-gradient(45deg, #005f2d, #495362, #7bda92); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-mask( #fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 0.3; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e0e3e5; border-radius: 10px; }
+    </style>
+</head>
+<body class="flex min-h-screen text-on-surface">
+<!-- SideNavBar (Expanded) -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col bg-surface-container-lowest border-r border-outline-variant shadow-sm z-50">
+<div class="p-lg flex flex-col gap-xs">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div class="flex flex-col">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary leading-tight">Academy</h1>
+<span class="text-[10px] uppercase tracking-widest text-secondary font-bold">Premium Portal</span>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-md py-sm flex flex-col gap-xs overflow-y-auto custom-scrollbar">
+<!-- Active State Navigation -->
+<a class="flex items-center gap-md p-md text-primary font-bold bg-secondary-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body-md text-body-md">Student Profile</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-body-md text-body-md">Attendance</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="local_library">local_library</span>
+<span class="font-body-md text-body-md">Learning Activity</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-body-md text-body-md">Academic Performance</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-body-md text-body-md">Learning Materials</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-body-md text-body-md">Tasks</span>
+</a>
+<div class="h-[1px] bg-outline-variant my-sm mx-md"></div>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-body-md text-body-md">Academic Prediction</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-body-md text-body-md">AI Insight</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<div class="h-[1px] bg-outline-variant my-sm mx-md"></div>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-md p-md text-error hover:bg-error-container rounded-lg transition-colors duration-200 mt-auto" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</nav>
+</aside>
+<!-- Main Wrapper -->
+<div class="ml-64 flex-1 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="h-20 bg-surface flex items-center justify-between px-margin-desktop sticky top-0 z-40 border-b border-outline-variant/30">
+<div class="flex items-center gap-lg">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-md flex items-center text-outline">
+<span class="material-symbols-outlined text-title-md">search</span>
+</span>
+<input class="w-96 pl-12 pr-md py-sm bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary text-body-md outline-none" placeholder="Search student data, reports..." type="text"/>
+</div>
+<div class="flex gap-md">
+<span class="px-md py-xs bg-primary/10 text-primary rounded-full text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                        2023-2024 Year
+                    </span>
+</div>
+</div>
+<div class="flex items-center gap-xl">
+<button class="relative p-sm text-secondary hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-md pl-md border-l border-outline-variant">
+<div class="flex flex-col text-right">
+<span class="font-title-md text-[14px] font-bold text-on-surface">Bapak Andi</span>
+<span class="text-label-sm text-secondary">Wali Murid</span>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary bg-cover bg-center" data-alt="A high-quality professional portrait of a mature Indonesian father in a formal shirt, with a clean and professional background, representing a parent in a premium educational dashboard environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDm3SmpTCXhzrRz08pekc6jyzIEu_cObm22Nf-srMUGQ5r1EeTEQHH3izPIBoC7ezuOf01Nmhsfq2-gKruRqBbDTGijdSUv8351WwFLAgHzS603TwEsXmfTS7NhxgjIDifQ_VsFKBzBdj2GXSaxNGW9NebTFqtCLg_THpoaY9x4LOlNCJmFnsxnbOP6wVnPKgcOMPKWE6XnGt3_vP_gXFR29QtUQtOyiuZudHUF7cO88pWKeC3M-FZFgV3XhjYatsRjLfeR5rlbLl2u')"></div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="flex-1 p-margin-desktop max-w-[1600px] mx-auto w-full flex flex-col gap-2xl">
+<!-- Hero Section -->
+<section class="flex flex-col lg:flex-row gap-lg items-start">
+<div class="flex-1 flex flex-col gap-sm">
+<h2 class="font-display-lg text-[32px] font-extrabold text-primary tracking-tight">Selamat Datang, Bapak Andi</h2>
+<p class="text-body-lg text-secondary">Pantau perkembangan akademik dan kehadiran putra Anda secara real-time.</p>
+</div>
+<!-- Student Profile Card -->
+<div class="premium-card p-lg flex items-center gap-lg w-full lg:w-fit min-w-[400px]">
+<div class="relative">
+<div class="w-16 h-16 rounded-full bg-cover bg-center ring-4 ring-primary-container/20" data-alt="A portrait of a clean-cut Indonesian high school student in a neat white uniform, smiling confidently. The lighting is soft and natural, suggesting a high-quality academic setting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBK1-p7qBboK1OfG75LqyeKdqhyUufUcKMRj1PDsjK3spwKTmLyCuDPw6HAVl4ka-EuwQmSG0y6GcFFiprv2nNMTamwFBAYf6NQDKWbZ8rOCJcUz_1XQoiQSF5WY5BmTv-4UH5pVRu4S-JRWzwW0AUSbgbZI7C49opxD7wNkt5znLEOkQ2MZmva2Vz6SWs1hExnUQsQ3zZYxDE-XjqDs-hn9guDV08it-YDHqrz0FNStOisiP3zPKAy1xYW5rdSypYoIRiA7Lit-0YV')"></div>
+<div class="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full border-2 border-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-white">verified</span>
+</div>
+</div>
+<div class="flex flex-col">
+<h3 class="font-title-md text-on-surface font-bold">Ahmad Rizky Pratama</h3>
+<span class="text-body-md text-secondary">Kelas XI IPA 1 • NISN: 007248192</span>
+<div class="flex gap-xs mt-sm">
+<span class="px-sm py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">Siswa Aktif</span>
+<span class="px-sm py-1 bg-tertiary-fixed-dim text-tertiary rounded-full text-[10px] font-bold uppercase tracking-wider">Semester Ganjil</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Attendance Analytics Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Stat Card 1 -->
+<div class="premium-card p-lg flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="p-sm bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="text-primary text-label-sm font-bold flex items-center gap-xs">+2% vs bln lalu</span>
+</div>
+<div class="flex flex-col">
+<span class="text-secondary text-body-md">Hadir</span>
+<div class="flex items-end gap-xs">
+<span class="font-display-lg text-headline-lg font-extrabold text-on-surface">95%</span>
+<span class="text-body-md text-secondary mb-1">kehadiran</span>
+</div>
+</div>
+<div class="h-10 w-full">
+<canvas class="w-full h-full" id="sparkline1"></canvas>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="premium-card p-lg flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="p-sm bg-tertiary-fixed-dim/30 text-tertiary rounded-lg">
+<span class="material-symbols-outlined">info</span>
+</div>
+<span class="text-secondary text-label-sm">-1x vs bln lalu</span>
+</div>
+<div class="flex flex-col">
+<span class="text-secondary text-body-md">Izin</span>
+<div class="flex items-end gap-xs">
+<span class="font-display-lg text-headline-lg font-extrabold text-on-surface">4x</span>
+<span class="text-body-md text-secondary mb-1">selama semester</span>
+</div>
+</div>
+<div class="h-10 w-full">
+<canvas class="w-full h-full" id="sparkline2"></canvas>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="premium-card p-lg flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="p-sm bg-tertiary-fixed-dim/30 text-tertiary rounded-lg">
+<span class="material-symbols-outlined">medical_services</span>
+</div>
+<span class="text-secondary text-label-sm">Stabil</span>
+</div>
+<div class="flex flex-col">
+<span class="text-secondary text-body-md">Sakit</span>
+<div class="flex items-end gap-xs">
+<span class="font-display-lg text-headline-lg font-extrabold text-on-surface">2x</span>
+<span class="text-body-md text-secondary mb-1">surat dokter</span>
+</div>
+</div>
+<div class="h-10 w-full">
+<canvas class="w-full h-full" id="sparkline3"></canvas>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="premium-card p-lg flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="p-sm bg-error-container text-error rounded-lg">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<span class="text-error text-label-sm font-bold">+1x vs bln lalu</span>
+</div>
+<div class="flex flex-col">
+<span class="text-secondary text-body-md">Alpha</span>
+<div class="flex items-end gap-xs">
+<span class="font-display-lg text-headline-lg font-extrabold text-error">1x</span>
+<span class="text-body-md text-secondary mb-1">tanpa keterangan</span>
+</div>
+</div>
+<div class="h-10 w-full">
+<canvas class="w-full h-full" id="sparkline4"></canvas>
+</div>
+</div>
+</section>
+<!-- Main Analytics & AI Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Attendance Trend Chart -->
+<div class="lg:col-span-2 premium-card p-lg flex flex-col gap-lg">
+<div class="flex justify-between items-center">
+<div class="flex flex-col">
+<h3 class="font-title-md font-bold text-on-surface">Tren Kehadiran Bulanan</h3>
+<span class="text-body-md text-secondary">Periode Januari - Juni 2024</span>
+</div>
+<button class="flex items-center gap-xs text-primary font-bold hover:underline">
+                            Lihat Detail <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<div class="h-64 w-full bg-surface-container-low/50 rounded-lg flex items-center justify-center p-md">
+<!-- Placeholder for a real chart lib like Chart.js -->
+<div class="relative w-full h-full flex items-end justify-between px-lg pt-lg">
+<!-- Simple custom CSS-based chart preview -->
+<div class="w-10 bg-primary/20 rounded-t-lg relative" style="height: 90%"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-label-sm font-bold text-primary">92%</div><div class="absolute bottom-[-24px] left-1/2 -translate-x-1/2 text-[10px] text-secondary">Jan</div></div>
+<div class="w-10 bg-primary/20 rounded-t-lg relative" style="height: 94%"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-label-sm font-bold text-primary">96%</div><div class="absolute bottom-[-24px] left-1/2 -translate-x-1/2 text-[10px] text-secondary">Feb</div></div>
+<div class="w-10 bg-primary/20 rounded-t-lg relative" style="height: 88%"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-label-sm font-bold text-primary">90%</div><div class="absolute bottom-[-24px] left-1/2 -translate-x-1/2 text-[10px] text-secondary">Mar</div></div>
+<div class="w-10 bg-primary/20 rounded-t-lg relative" style="height: 96%"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-label-sm font-bold text-primary">98%</div><div class="absolute bottom-[-24px] left-1/2 -translate-x-1/2 text-[10px] text-secondary">Apr</div></div>
+<div class="w-10 bg-primary/30 rounded-t-lg relative" style="height: 93%"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-label-sm font-bold text-primary">95%</div><div class="absolute bottom-[-24px] left-1/2 -translate-x-1/2 text-[10px] text-secondary">Mei</div></div>
+<div class="w-10 bg-primary-container rounded-t-lg relative" style="height: 95%"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-label-sm font-bold text-on-primary-fixed">95%</div><div class="absolute bottom-[-24px] left-1/2 -translate-x-1/2 text-[10px] text-secondary font-bold">Jun</div></div>
+</div>
+</div>
+</div>
+<!-- AI Insight Card -->
+<div class="ai-border p-lg flex flex-col gap-lg shadow-lg relative overflow-hidden">
+<div class="flex justify-between items-center z-10">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h3 class="font-title-md font-bold text-primary-fixed-dim">AI Insight</h3>
+</div>
+<span class="px-md py-1 bg-white/80 rounded-full text-label-sm text-primary font-bold">Confidence: 92%</span>
+</div>
+<div class="flex flex-col gap-md z-10">
+<div class="p-md bg-white rounded-lg border border-primary/10 shadow-sm">
+<span class="text-label-sm text-secondary uppercase font-bold tracking-widest">Status Siswa</span>
+<p class="font-title-md font-bold text-on-surface">Sangat Aktif</p>
+</div>
+<div class="p-md bg-white rounded-lg border border-primary/10 shadow-sm">
+<span class="text-label-sm text-secondary uppercase font-bold tracking-widest">Risiko Dropout/Akademik</span>
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<p class="font-title-md font-bold text-primary">Rendah</p>
+</div>
+</div>
+<div class="flex flex-col gap-sm mt-sm">
+<span class="text-body-md font-bold text-primary">Prediksi AI:</span>
+<p class="text-body-lg text-on-surface leading-relaxed italic">"Berdasarkan pola kehadiran dan aktivitas LMS, prestasi siswa diprediksi meningkat signifikan pada ujian akhir semester."</p>
+</div>
+</div>
+<div class="mt-auto z-10">
+<button class="w-full py-md bg-primary text-white rounded-lg font-bold flex items-center justify-center gap-md hover:bg-primary/90 transition-all shadow-md">
+                            Tanya AI Assistant <span class="material-symbols-outlined text-[18px]">smart_toy</span>
+</button>
+</div>
+<!-- Subtle background decoration -->
+<div class="absolute -bottom-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+</section>
+<!-- Learning Activity Section -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+<div class="flex flex-col gap-lg">
+<h3 class="font-headline-lg text-title-md font-bold text-on-surface px-sm">Aktivitas Learning Management System (LMS)</h3>
+<div class="grid grid-cols-2 gap-md">
+<div class="premium-card p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">login</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-sm text-secondary font-bold uppercase">LMS Login</span>
+<span class="font-title-md font-bold">Daily</span>
+</div>
+</div>
+<div class="premium-card p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">download</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-sm text-secondary font-bold uppercase">Materi Akses</span>
+<span class="font-title-md font-bold">12/12</span>
+</div>
+</div>
+<div class="premium-card p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-primary-container/10 rounded-lg flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">task_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-sm text-secondary font-bold uppercase">Tugas Selesai</span>
+<span class="font-title-md font-bold">18/20</span>
+</div>
+</div>
+<div class="premium-card p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-sm text-secondary font-bold uppercase">Diskusi</span>
+<span class="font-title-md font-bold">Active</span>
+</div>
+</div>
+</div>
+</div>
+<div class="premium-card p-lg flex flex-col gap-lg">
+<div class="flex justify-between items-center">
+<h3 class="font-title-md font-bold text-on-surface">Aktivitas Belajar (Weekly)</h3>
+<div class="flex gap-sm">
+<span class="flex items-center gap-xs text-label-sm text-secondary"><span class="w-2 h-2 bg-primary rounded-full"></span> Tugas</span>
+<span class="flex items-center gap-xs text-label-sm text-secondary"><span class="w-2 h-2 bg-tertiary-fixed-dim rounded-full"></span> Materi</span>
+</div>
+</div>
+<div class="flex-1 flex items-end justify-between h-48 gap-md px-md pb-md">
+<!-- Bar Chart Representation -->
+<div class="flex flex-col items-center gap-xs flex-1">
+<div class="w-full flex flex-col gap-1 justify-end h-full">
+<div class="bg-primary rounded-t-sm w-full" style="height: 70%"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm w-full" style="height: 40%"></div>
+</div>
+<span class="text-[10px] text-secondary font-bold">Sen</span>
+</div>
+<div class="flex flex-col items-center gap-xs flex-1">
+<div class="w-full flex flex-col gap-1 justify-end h-full">
+<div class="bg-primary rounded-t-sm w-full" style="height: 85%"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm w-full" style="height: 30%"></div>
+</div>
+<span class="text-[10px] text-secondary font-bold">Sel</span>
+</div>
+<div class="flex flex-col items-center gap-xs flex-1">
+<div class="w-full flex flex-col gap-1 justify-end h-full">
+<div class="bg-primary rounded-t-sm w-full" style="height: 60%"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm w-full" style="height: 50%"></div>
+</div>
+<span class="text-[10px] text-secondary font-bold">Rab</span>
+</div>
+<div class="flex flex-col items-center gap-xs flex-1">
+<div class="w-full flex flex-col gap-1 justify-end h-full">
+<div class="bg-primary rounded-t-sm w-full" style="height: 90%"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm w-full" style="height: 20%"></div>
+</div>
+<span class="text-[10px] text-secondary font-bold">Kam</span>
+</div>
+<div class="flex flex-col items-center gap-xs flex-1">
+<div class="w-full flex flex-col gap-1 justify-end h-full">
+<div class="bg-primary rounded-t-sm w-full" style="height: 40%"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm w-full" style="height: 80%"></div>
+</div>
+<span class="text-[10px] text-secondary font-bold">Jum</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="mt-auto py-lg px-margin-desktop bg-white border-t border-outline-variant flex justify-between items-center">
+<span class="text-body-md text-secondary">© 2024 SMAN 1 Surakarta. Managed with Academy Premium.</span>
+<div class="flex gap-lg">
+<a class="text-label-sm text-secondary hover:text-primary transition-colors" href="#">Bantuan</a>
+<a class="text-label-sm text-secondary hover:text-primary transition-colors" href="#">Kebijakan Privasi</a>
+<a class="text-label-sm text-secondary hover:text-primary transition-colors" href="#">Hubungi Sekolah</a>
+</div>
+</footer>
+</div>
+<!-- Floating AI Assistant Button -->
+<button class="fixed bottom-lg right-lg w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</button>
+<script>
+        // Simple micro-interaction for sparklines using canvas
+        function drawSparkline(id, color) {
+            const canvas = document.getElementById(id);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const data = Array.from({length: 10}, () => Math.random() * 40);
+            
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = color;
+            ctx.lineJoin = 'round';
+            
+            const xStep = canvas.width / (data.length - 1);
+            data.forEach((d, i) => {
+                const x = i * xStep;
+                const y = canvas.height - d;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            
+            ctx.stroke();
+            
+            // Gradient fill
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.closePath();
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, color + '33');
+            gradient.addColorStop(1, color + '00');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+
+        window.onload = () => {
+            drawSparkline('sparkline1', '#005f2d');
+            drawSparkline('sparkline2', '#495362');
+            drawSparkline('sparkline3', '#495362');
+            drawSparkline('sparkline4', '#ba1a1a');
+        };
+    </script>
+</body></html>

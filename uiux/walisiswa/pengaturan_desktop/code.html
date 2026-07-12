@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pengaturan Akun | Academy Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#171c1f",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "inverse-primary": "#7bda92",
+                    "on-primary-fixed-variant": "#005226",
+                    "on-background": "#171c1f",
+                    "secondary": "#5c5f61",
+                    "surface-container-low": "#f0f4f8",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "background": "#f6fafe",
+                    "surface-variant": "#dfe3e7",
+                    "on-secondary-fixed-variant": "#444749",
+                    "outline": "#6f7a6e",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#616b7b",
+                    "on-primary-container": "#a5ffb7",
+                    "surface-container-highest": "#dfe3e7",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#e0e3e5",
+                    "surface-container": "#eaeef2",
+                    "on-tertiary-fixed-variant": "#3d4756",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#3f493f",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e3e5",
+                    "surface-container-high": "#e4e9ed",
+                    "on-primary-fixed": "#00210b",
+                    "tertiary-fixed-dim": "#bdc7d9",
+                    "primary": "#005f2d",
+                    "on-secondary-fixed": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#edf1f5",
+                    "surface-tint": "#006d34",
+                    "tertiary": "#495362",
+                    "surface-bright": "#f6fafe",
+                    "on-tertiary-container": "#e2ecff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "primary-fixed-dim": "#7bda92",
+                    "primary-fixed": "#97f7ac",
+                    "tertiary-fixed": "#d9e3f6",
+                    "inverse-surface": "#2c3134",
+                    "primary-container": "#0e7a3d",
+                    "outline-variant": "#becabc",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#626567",
+                    "on-tertiary-fixed": "#121c2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1440px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "2xl": "48px",
+                    "gutter": "24px",
+                    "base": "4px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "title-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 24px;
+            background-color: #005f2d;
+            border-radius: 0 4px 4px 0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e0e3e5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-hidden h-screen flex">
+<!-- SideNavBar (Authority: JSON & Style Guidance) -->
+<aside class="bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none docked left-0 h-full w-64 hidden md:flex flex-col flex-shrink-0 z-50">
+<div class="flex flex-col gap-sm p-md h-full">
+<div class="flex items-center gap-md py-lg px-sm mb-md">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary leading-none">Academy</h1>
+<p class="text-label-sm font-label-sm text-secondary opacity-70">Parental Portal</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar pr-1">
+<!-- Navigation Items Generated from JSON tab_labels -->
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md">Student Profile</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">event_available</span>
+<span class="font-body-md">Attendance</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">local_library</span>
+<span class="font-body-md">Learning Activity</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-body-md">Academic Performance</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-body-md">Learning Materials</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-body-md">Tasks</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-body-md">Academic Prediction</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-body-md">AI Insight</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span class="font-body-md">Announcements</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-body-md">Teacher Consultation</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body-md">Parent Profile</span>
+</a>
+<!-- Active Item (Settings) -->
+<a class="flex items-center gap-md p-md text-primary dark:text-inverse-primary font-bold bg-secondary-container dark:bg-on-secondary-fixed-variant rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-md">
+<button class="flex items-center gap-md p-md w-full text-error hover:bg-error-container/20 transition-colors duration-200 rounded-lg">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md">Logout</span>
+</button>
+</div>
+</div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar (Authority: JSON & Style Guidance) -->
+<header class="bg-surface dark:bg-on-background docked full-width top-0 z-40 flex justify-between items-center px-margin-desktop py-sm w-full border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-xl">
+<div class="relative w-96 max-w-md hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary opacity-60">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary text-body-md" placeholder="Search insights..." type="text"/>
+</div>
+<div class="flex gap-md">
+<a class="font-title-md text-title-md text-primary border-b-2 border-primary py-xs" href="#">2023-2024 Year</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-all active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-sm"></div>
+<button class="flex items-center gap-sm bg-primary text-on-primary px-md py-sm rounded-full font-label-sm text-label-sm hover:opacity-90 transition-all">
+                    Child Selector
+                    <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a middle-aged parent with a kind, reassuring expression. The lighting is soft and high-key, emphasizing a clean and premium academic aesthetic. The background is a minimalist, neutral studio grey that complements the refined green and white theme of the educational portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsn7yQP_e1ZDKRuosob43xnrPIcnvGuis0z2RwSY5iTSEqxYyd70bZwH7MudEvJDOzHpyrNV6frrnUrBHFVv3deF9cPBmnuj3nHJHtoi4rrajMADf9IhVfYJhvun4zNkwZZD2wo-I6uUX0TqJrRiVOF_otLzfTgZf-isQLF-CM8PKhh84y0NO_pskRQXs8LilHZvnqaUpRkkYnvLzEpxrE7ZPns4k0XwjofO3ImyFOHhX8chV39HXyReFR2dQJAXS36RkMXBG4Xlgu"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background p-margin-desktop custom-scrollbar">
+<div class="max-w-max-width mx-auto">
+<header class="mb-xl">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface mb-xs">Pengaturan Akun</h2>
+<p class="text-body-lg font-body-lg text-secondary">Kelola profil, preferensi notifikasi, dan keamanan akun Anda di satu tempat.</p>
+</header>
+<!-- Settings Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Vertical Tab Section -->
+<div class="col-span-12 md:col-span-3">
+<nav class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<button class="settings-tab active flex items-center gap-md px-lg py-md text-left text-primary font-bold bg-primary/5 transition-all border-l-4 border-primary" onclick="setActiveTab('account')">
+<span class="material-symbols-outlined">manage_accounts</span>
+<span class="font-body-md">Account Settings</span>
+</button>
+<button class="settings-tab flex items-center gap-md px-lg py-md text-left text-secondary hover:bg-surface-container transition-all border-l-4 border-transparent" onclick="setActiveTab('notifications')">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-body-md">Notification Settings</span>
+</button>
+<button class="settings-tab flex items-center gap-md px-lg py-md text-left text-secondary hover:bg-surface-container transition-all border-l-4 border-transparent" onclick="setActiveTab('security')">
+<span class="material-symbols-outlined">security</span>
+<span class="font-body-md">Security Settings</span>
+</button>
+<button class="settings-tab flex items-center gap-md px-lg py-md text-left text-secondary hover:bg-surface-container transition-all border-l-4 border-transparent" onclick="setActiveTab('privacy')">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-body-md">Privacy Settings</span>
+</button>
+<button class="settings-tab flex items-center gap-md px-lg py-md text-left text-secondary hover:bg-surface-container transition-all border-l-4 border-transparent" onclick="setActiveTab('appearance')">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-body-md">Theme Settings</span>
+</button>
+</nav>
+<div class="mt-xl">
+<button class="flex items-center justify-center gap-sm w-full bg-error-container text-on-error-container font-bold py-md rounded-xl hover:bg-error-container/80 transition-all">
+<span class="material-symbols-outlined">logout</span>
+                                Keluar dari Akun
+                            </button>
+</div>
+</div>
+<!-- Content Section -->
+<div class="col-span-12 md:col-span-9 space-y-gutter">
+<!-- Account Section (Default Active) -->
+<section class="settings-content-section bg-surface-container-lowest rounded-xl shadow-sm p-lg" id="account-section">
+<div class="flex justify-between items-center mb-xl">
+<h3 class="font-title-md text-title-md">Informasi Profil</h3>
+<button class="text-primary font-bold hover:underline">Edit Profil</button>
+</div>
+<div class="flex items-center gap-xl mb-xl">
+<div class="relative group">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-surface-container">
+<img class="w-full h-full object-cover" data-alt="A close-up shot of a professional parent profile picture. The lighting is crisp and sophisticated, featuring a person with a warm and approachable smile. The composition is centered with a blurred academic office background that uses high-end architectural textures and natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrT2AsqibMQSz_2IGM68mJti3pRYuLwjlbT3xqi4WdqvH9oRCg78BO2W6MIXjPhq2hy5I1C3BSpCrmvbD8-nJzI0fFVHne4uaC6UYdWHZ2RSGDsVj7QzUtmsS5KZOOY_RD2Fh8qM5UyyzDcQW22z_6_cC8OEzBagUPorOIbT8m7QrVEgfnku0YqnqaKscVEypjeHkesgWClEl8-VwzYQMV0KovZha6bcRYRdeFxVT_DkI0LMQAHF2g6IGBaCepRUJHV6_2E6TFGFsC"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary p-xs rounded-full shadow-lg">
+<span class="material-symbols-outlined text-[16px]">photo_camera</span>
+</button>
+</div>
+<div>
+<h4 class="font-title-md text-title-md">Budi Setiawan</h4>
+<p class="text-secondary">Wali Murid - Arya Setiawan (Kelas 11A)</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-sm">
+<label class="text-label-sm font-label-sm text-secondary block uppercase">Alamat Email</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-md text-on-surface-variant cursor-not-allowed" disabled="" type="email" value="budi.setiawan@example.com"/>
+</div>
+<div class="space-y-sm">
+<label class="text-label-sm font-label-sm text-secondary block uppercase">Nomor Telepon</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-md text-on-surface-variant cursor-not-allowed" disabled="" type="text" value="+62 812 3456 7890"/>
+</div>
+</div>
+</section>
+<!-- Notification Settings -->
+<section class="settings-content-section bg-surface-container-lowest rounded-xl shadow-sm p-lg" id="notifications-section">
+<h3 class="font-title-md text-title-md mb-xl">Preferensi Notifikasi</h3>
+<div class="space-y-lg">
+<div class="flex items-center justify-between py-md border-b border-outline-variant">
+<div>
+<p class="font-bold">Kehadiran Harian</p>
+<p class="text-body-md text-secondary">Terima update saat anak Anda tiba di sekolah.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between py-md border-b border-outline-variant">
+<div>
+<p class="font-bold">Nilai & Akademik</p>
+<p class="text-body-md text-secondary">Notifikasi untuk hasil ujian dan laporan bulanan.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between py-md">
+<div>
+<p class="font-bold">Konsultasi Guru</p>
+<p class="text-body-md text-secondary">Pesan baru dari wali kelas atau guru mata pelajaran.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Security & Privacy (Combined for brevity in demo) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-lg">
+<h3 class="font-title-md text-title-md mb-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">security</span>
+                                    Keamanan
+                                </h3>
+<div class="space-y-md">
+<button class="w-full text-left p-md border border-outline-variant rounded-lg hover:bg-surface-container transition-all flex items-center justify-between">
+<span class="font-body-md">Ubah Kata Sandi</span>
+<span class="material-symbols-outlined text-secondary">chevron_right</span>
+</button>
+<button class="w-full text-left p-md border border-outline-variant rounded-lg hover:bg-surface-container transition-all flex items-center justify-between">
+<span class="font-body-md">Otentikasi 2 Faktor</span>
+<span class="text-label-sm text-error bg-error-container px-sm py-xs rounded">Non-aktif</span>
+</button>
+</div>
+</section>
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-lg">
+<h3 class="font-title-md text-title-md mb-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">palette</span>
+                                    Tampilan
+                                </h3>
+<div class="space-y-md">
+<div class="flex items-center justify-between">
+<span class="font-body-md">Mode Gelap (Beta)</span>
+<button class="p-xs rounded-full bg-surface-container hover:bg-outline-variant transition-all" id="theme-toggle" onclick="toggleDarkMode()">
+<span class="material-symbols-outlined">light_mode</span>
+</button>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-body-md">Bahasa</span>
+<select class="bg-transparent border-none text-primary font-bold focus:ring-0 cursor-pointer">
+<option>Bahasa Indonesia</option>
+<option>English</option>
+</select>
+</div>
+</div>
+</section>
+</div>
+<!-- AI Support Insight Card -->
+<div class="bg-[#F0FDF4] rounded-xl border border-primary/20 p-lg relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-[120px] text-primary">auto_awesome</span>
+</div>
+<div class="relative z-10 flex items-start gap-lg">
+<div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-on-primary shadow-lg flex-shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md text-primary mb-xs">AI Recommendation</h4>
+<p class="text-body-md text-on-surface-variant leading-relaxed mb-md">
+                                        Berdasarkan aktivitas login Anda yang sering dilakukan pada jam malam, kami merekomendasikan untuk mengaktifkan <strong>Otentikasi Dua Faktor</strong> guna melindungi data akademik anak Anda.
+                                    </p>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-bold hover:opacity-90 transition-all text-body-md">
+                                        Aktifkan Sekarang
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        function setActiveTab(tabId) {
+            // Update UI for Tabs
+            const tabs = document.querySelectorAll('.settings-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active', 'text-primary', 'font-bold', 'bg-primary/5', 'border-primary');
+                tab.classList.add('text-secondary', 'border-transparent');
+            });
+
+            const activeTab = event.currentTarget;
+            activeTab.classList.add('active', 'text-primary', 'font-bold', 'bg-primary/5', 'border-primary');
+            activeTab.classList.remove('text-secondary', 'border-transparent');
+
+            // Scroll to section logic could go here
+            console.log(`Navigating to ${tabId}`);
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const toggleIcon = document.querySelector('#theme-toggle span');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                toggleIcon.innerText = 'light_mode';
+            } else {
+                html.classList.add('dark');
+                toggleIcon.innerText = 'dark_mode';
+            }
+        }
+
+        // Initialize active state for navigation based on "Settings" page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Find "Settings" in side nav and ensure it's styled as active if not already
+        });
+    </script>
+</body></html>

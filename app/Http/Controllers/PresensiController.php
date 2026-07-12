@@ -127,4 +127,73 @@ class PresensiController extends Controller
             'message' => 'Presensi berhasil dicatat!',
         ]);
     }
+
+    public function riwayat()
+    {
+        $user = auth()->user();
+        if ($user->role === 'siswa') {
+            $presensi = Presensi::where('siswa_id', $user->id)
+                ->with('sesiPresensi.kelas')
+                ->orderBy('waktu_absen', 'desc')
+                ->get();
+        } else {
+            // orang tua
+            $siswaIds = $user->anak()->pluck('users.id');
+            $presensi = Presensi::whereIn('siswa_id', $siswaIds)
+                ->with('siswa', 'sesiPresensi.kelas')
+                ->orderBy('waktu_absen', 'desc')
+                ->get();
+        }
+
+        return view('presensi.riwayat', compact('presensi'));
+    }
+
+    public function detail(Presensi $presensi)
+    {
+        $user = auth()->user();
+        if ($user->role === 'siswa') {
+            abort_if($presensi->siswa_id !== $user->id, 403);
+        } elseif ($user->role === 'orang_tua') {
+            $siswaIds = $user->anak()->pluck('users.id');
+            abort_if(! $siswaIds->contains($presensi->siswa_id), 403);
+        } else {
+            // guru
+            $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
+            abort_if(! $kelasIds->contains($presensi->sesiPresensi->kelas_id), 403);
+        }
+
+        $presensi->load('siswa', 'sesiPresensi.kelas');
+
+        return view('presensi.detail', compact('presensi'));
+    }
+
+    public function manualInput()
+    {
+        $kelas = Kelas::where('guru_id', auth()->id())->with('siswa')->get();
+        $sesi = SesiPresensi::where('guru_id', auth()->id())->with('kelas')->latest()->get();
+
+        return view('guru.manual_presensi', compact('kelas', 'sesi'));
+    }
+
+    public function storeManualInput(Request $request)
+    {
+        $request->validate([
+            'sesi_presensi_id' => 'required|exists:sesi_presensi,id',
+            'siswa_id' => 'required|exists:users,id',
+            'status' => 'required|in:hadir,telat,sakit,izin,alpha',
+        ]);
+
+        Presensi::updateOrCreate(
+            [
+                'sesi_presensi_id' => $request->sesi_presensi_id,
+                'siswa_id' => $request->siswa_id,
+            ],
+            [
+                'waktu_absen' => now(),
+                'status' => $request->status,
+            ]
+        );
+
+        return back()->with('success', 'Presensi berhasil dicatat secara manual.');
+    }
 }

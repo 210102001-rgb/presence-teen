@@ -1,19 +1,35 @@
+@php
+    $role = Auth::user()->role;
+    $roleName = match($role) {
+        'siswa' => 'Profil Siswa',
+        'guru' => 'Profil Guru',
+        'orang_tua' => 'Profil Orang Tua',
+        default => 'Profil Pengguna',
+    };
+    $roleDesc = match($role) {
+        'siswa' => 'Siswa • NIS: ' . (Auth::user()->nis ?? '-'),
+        'guru' => 'Guru / Pendidik',
+        'orang_tua' => 'Orang Tua / Wali Murid',
+        default => 'Pengguna',
+    };
+@endphp
+
 <x-app-layout>
-    <x-slot name="header">Parent Profile</x-slot>
+    <x-slot name="header">{{ $roleName }}</x-slot>
 
     <div class="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
         {{-- Breadcrumbs --}}
         <nav class="flex items-center gap-1.5 text-xs text-[#5c5f61] mb-6">
             <a href="{{ route('dashboard') }}" class="hover:text-[#005f2d] transition-colors">Dashboard</a>
             <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-            <span class="text-[#171c1f] font-medium">Settings / Parent Profile</span>
+            <span class="text-[#171c1f] font-medium">Settings / {{ $roleName }}</span>
         </nav>
 
         {{-- Page Header --}}
         <div class="flex justify-between items-end mb-8">
             <div>
-                <h2 class="text-2xl font-bold text-[#171c1f]">Parent Profile</h2>
-                <p class="text-sm text-[#5c5f61]">Manage your personal information and student associations.</p>
+                <h2 class="text-2xl font-bold text-[#171c1f]">{{ $roleName }}</h2>
+                <p class="text-sm text-[#5c5f61]">Kelola informasi profil Anda secara real-time.</p>
             </div>
             <a href="#personal-info" class="bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-[#0e7a3d] transition-all flex items-center gap-1">
                 <span class="material-symbols-outlined text-[16px]">edit</span> Edit Profile
@@ -33,13 +49,20 @@
                         </div>
                     </div>
                     <h3 class="text-lg font-bold text-[#171c1f]">{{ Auth::user()->name }}</h3>
-                    <p class="text-xs text-[#5c5f61] mb-6">Orang Tua / Wali Murid</p>
+                    <p class="text-xs text-[#5c5f61] mb-6">{{ $roleDesc }}</p>
                     
                     <div class="w-full pt-6 border-t border-[#eaeef2] flex justify-around">
-                        <div class="text-center">
-                            <p class="text-xl font-bold text-[#005f2d]">{{ Auth::user()->anak->count() }}</p>
-                            <p class="text-[9px] uppercase tracking-wider text-[#5c5f61]">STUDENTS</p>
-                        </div>
+                        @if($role === 'orang_tua')
+                            <div class="text-center">
+                                <p class="text-xl font-bold text-[#005f2d]">{{ Auth::user()->anak->count() }}</p>
+                                <p class="text-[9px] uppercase tracking-wider text-[#5c5f61]">STUDENTS</p>
+                            </div>
+                        @else
+                            <div class="text-center">
+                                <p class="text-xl font-bold text-[#005f2d]">{{ Auth::user()->nis ?? '-' }}</p>
+                                <p class="text-[9px] uppercase tracking-wider text-[#5c5f61]">NIS / NIP</p>
+                            </div>
+                        @endif
                         <div class="text-center">
                             <p class="text-xl font-bold text-[#005f2d]">A+</p>
                             <p class="text-[9px] uppercase tracking-wider text-[#5c5f61]">ACCOUNT STATUS</p>
@@ -96,6 +119,7 @@
                 </div>
 
                 {{-- Child Progress Summary (Mockup) --}}
+                @if($role === 'orang_tua')
                 <div class="bg-white p-6 rounded-2xl border border-[#0e7a3d]/20 bg-gradient-to-r from-white to-[#f0fdf4]/20 shadow-soft">
                     <div class="flex justify-between items-center mb-6">
                         <div class="flex items-center gap-2">
@@ -139,6 +163,24 @@
                         </p>
                     </div>
                 </div>
+                @elseif($role === 'siswa')
+                <div class="bg-white p-6 rounded-2xl border border-surface-container shadow-soft">
+                    <div class="flex items-center gap-2 mb-6">
+                        <span class="material-symbols-outlined text-[#005f2d]">school</span>
+                        <h4 class="font-bold text-[#171c1f]">Informasi Akademik</h4>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-4 bg-[#f6fafe] rounded-xl border border-surface-container">
+                            <p class="text-xs text-secondary">Nomor Induk Siswa (NIS)</p>
+                            <p class="text-sm font-bold text-[#171c1f] mt-1">{{ Auth::user()->nis ?? '-' }}</p>
+                        </div>
+                        <div class="p-4 bg-[#f6fafe] rounded-xl border border-surface-container">
+                            <p class="text-xs text-secondary">Email Terdaftar</p>
+                            <p class="text-sm font-bold text-[#171c1f] mt-1">{{ Auth::user()->email }}</p>
+                        </div>
+                    </div>
+                </div>
+                @endif
 
                 {{-- Change Password & Delete Account --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

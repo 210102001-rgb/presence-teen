@@ -32,68 +32,43 @@
                     </div>
                 </div>
 
-                {{-- Announcement Card 1 --}}
-                <div class="bg-white p-6 rounded-2xl shadow-soft border-l-4 border-red-600 border-t border-r border-b border-[#eaeef2] hover:shadow-md transition-shadow group cursor-pointer">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="px-2.5 py-0.5 text-[9px] font-bold bg-red-100 text-red-700 rounded-full uppercase tracking-wider">Penting</span>
-                        <span class="text-[10px] text-[#5c5f61] font-semibold">24 Okt 2026</span>
+                @forelse($pengumuman as $item)
+                    @php
+                        $borderCol = match($item->prioritas) {
+                            'Penting' => 'border-red-600',
+                            'Sedang' => 'border-primary',
+                            default => 'border-tertiary'
+                        };
+                        $bgCol = match($item->prioritas) {
+                            'Penting' => 'bg-red-100 text-red-700',
+                            'Sedang' => 'bg-[#f0fdf4] text-primary',
+                            default => 'bg-gray-100 text-[#5c5f61]'
+                        };
+                    @endphp
+                    <div class="bg-white p-6 rounded-2xl shadow-soft border-l-4 {{ $borderCol }} border-t border-r border-b border-surface-container hover:shadow-md transition-shadow group cursor-pointer">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="px-2.5 py-0.5 text-[9px] font-bold {{ $bgCol }} rounded-full uppercase tracking-wider">{{ $item->prioritas }}</span>
+                            <span class="text-[10px] text-secondary font-semibold">{{ $item->created_at->translatedFormat('d M Y') }}</span>
+                        </div>
+                        <h4 class="font-bold text-base text-on-surface mb-1 group-hover:text-primary transition-colors">{{ $item->judul }}</h4>
+                        <div class="flex items-center gap-1.5 mb-3 text-xs text-secondary">
+                            <span class="material-symbols-outlined text-[16px]">category</span>
+                            <span>{{ $item->kategori }}</span>
+                        </div>
+                        <p class="text-xs text-secondary leading-relaxed">
+                            {{ $item->konten }}
+                        </p>
+                        <div class="mt-4 pt-4 border-t border-surface-container flex justify-end">
+                            <button class="text-primary font-bold text-xs flex items-center gap-1 hover:underline">
+                                Lihat Detail <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                            </button>
+                        </div>
                     </div>
-                    <h4 class="font-bold text-base text-[#171c1f] mb-1 group-hover:text-[#005f2d] transition-colors">Jadwal Ujian Akhir Semester Ganjil 2026/2027</h4>
-                    <div class="flex items-center gap-1.5 mb-3 text-xs text-[#5c5f61]">
-                        <span class="material-symbols-outlined text-[16px]">category</span>
-                        <span>Akademik</span>
+                @empty
+                    <div class="bg-white rounded-2xl shadow-soft border border-surface-container p-12 text-center text-secondary">
+                        Belum ada pengumuman hari ini.
                     </div>
-                    <p class="text-xs text-[#5c5f61] leading-relaxed">
-                        Berikut adalah jadwal lengkap untuk pelaksanaan Ujian Akhir Semester (UAS) Ganjil. Siswa diwajibkan membawa kartu peserta ujian dan hadir 15 menit sebelum waktu yang ditentukan.
-                    </p>
-                    <div class="mt-4 pt-4 border-t border-[#eaeef2] flex justify-end">
-                        <button class="text-[#005f2d] font-bold text-xs flex items-center gap-1 hover:underline">
-                            Lihat Detail <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                        </button>
-                    </div>
-                </div>
-
-                {{-- Announcement Card 2 --}}
-                <div class="bg-white p-6 rounded-2xl shadow-soft border-l-4 border-[#005f2d] border-t border-r border-b border-[#eaeef2] hover:shadow-md transition-shadow group cursor-pointer">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="px-2.5 py-0.5 text-[9px] font-bold bg-[#f0fdf4] text-[#005f2d] rounded-full uppercase tracking-wider">Sedang</span>
-                        <span class="text-[10px] text-[#5c5f61] font-semibold">22 Okt 2026</span>
-                    </div>
-                    <h4 class="font-bold text-base text-[#171c1f] mb-1 group-hover:text-[#005f2d] transition-colors">Pembaruan Sistem Pembayaran Uang Sekolah</h4>
-                    <div class="flex items-center gap-1.5 mb-3 text-xs text-[#5c5f61]">
-                        <span class="material-symbols-outlined text-[16px]">payments</span>
-                        <span>Administrasi</span>
-                    </div>
-                    <p class="text-xs text-[#5c5f61] leading-relaxed">
-                        Mulai bulan depan, sistem pembayaran SPP akan beralih ke platform baru yang terintegrasi. Pastikan Anda telah melakukan verifikasi akun melalui email yang telah dikirimkan.
-                    </p>
-                    <div class="mt-4 pt-4 border-t border-[#eaeef2] flex justify-end">
-                        <button class="text-[#005f2d] font-bold text-xs flex items-center gap-1 hover:underline">
-                            Lihat Detail <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                        </button>
-                    </div>
-                </div>
-
-                {{-- Announcement Card 3 --}}
-                <div class="bg-white p-6 rounded-2xl shadow-soft border-l-4 border-[#495362] border-t border-r border-b border-[#eaeef2] hover:shadow-md transition-shadow group cursor-pointer">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="px-2.5 py-0.5 text-[9px] font-bold bg-gray-100 text-[#5c5f61] rounded-full uppercase tracking-wider">Informasi</span>
-                        <span class="text-[10px] text-[#5c5f61] font-semibold">20 Okt 2026</span>
-                    </div>
-                    <h4 class="font-bold text-base text-[#171c1f] mb-1 group-hover:text-[#005f2d] transition-colors">Kegiatan Ekstrakurikuler Akhir Pekan</h4>
-                    <div class="flex items-center gap-1.5 mb-3 text-xs text-[#5c5f61]">
-                        <span class="material-symbols-outlined text-[16px]">sports_soccer</span>
-                        <span>Kesiswaan</span>
-                    </div>
-                    <p class="text-xs text-[#5c5f61] leading-relaxed">
-                        Diberitahukan bahwa seluruh kegiatan ekstrakurikuler pada hari Sabtu besok akan ditiadakan karena adanya pemeliharaan fasilitas olahraga di lingkungan sekolah.
-                    </p>
-                    <div class="mt-4 pt-4 border-t border-[#eaeef2] flex justify-end">
-                        <button class="text-[#005f2d] font-bold text-xs flex items-center gap-1 hover:underline">
-                            Lihat Detail <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                        </button>
-                    </div>
-                </div>
+                @endforelse
             </div>
 
             {{-- Timeline Column (Col-span 4) --}}

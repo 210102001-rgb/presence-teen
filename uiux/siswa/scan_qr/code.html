@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Presence Teen - Scan QR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanner-frame-corners {
+            position: relative;
+            width: 260px;
+            height: 260px;
+        }
+        .scanner-frame-corners::before, .scanner-frame-corners::after,
+        .scanner-line::before, .scanner-line::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-color: #83fc8e; /* primary-fixed */
+            border-style: solid;
+        }
+        /* Top Left */
+        .corner-tl { top: 0; left: 0; border-width: 4px 0 0 4px; border-radius: 12px 0 0 0; }
+        /* Top Right */
+        .corner-tr { top: 0; right: 0; border-width: 4px 4px 0 0; border-radius: 0 12px 0 0; }
+        /* Bottom Left */
+        .corner-bl { bottom: 0; left: 0; border-width: 0 0 4px 4px; border-radius: 0 0 0 12px; }
+        /* Bottom Right */
+        .corner-br { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-radius: 0 0 12px 0; }
+
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .scan-anim {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #83fc8e, transparent);
+            position: absolute;
+            width: 100%;
+            animation: scan 2s infinite ease-in-out;
+            box-shadow: 0 0 15px #83fc8e;
+        }
+        
+        .viewfinder-mask {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+        }
+        
+        .safe-area-inset-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1d",
+                    "tertiary": "#5b5f63",
+                    "secondary-container": "#f9e534",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2e3132",
+                    "inverse-primary": "#66df75",
+                    "secondary-fixed-dim": "#dbc90a",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#181c20",
+                    "surface": "#f8f9fa",
+                    "primary-fixed": "#83fc8e",
+                    "surface-variant": "#e1e3e4",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#3e4a3c",
+                    "primary": "#006e25",
+                    "primary-fixed-dim": "#66df75",
+                    "outline-variant": "#bdcab9",
+                    "tertiary-fixed": "#e0e3e8",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#43474c",
+                    "on-primary-fixed": "#002106",
+                    "secondary-fixed": "#f9e534",
+                    "on-tertiary-container": "#272b2f",
+                    "on-secondary-container": "#706500",
+                    "surface-container-high": "#e7e8e9",
+                    "surface-container": "#edeeef",
+                    "secondary": "#695f00",
+                    "on-surface": "#191c1d",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#201c00",
+                    "surface-tint": "#006e25",
+                    "on-primary-fixed-variant": "#00531a",
+                    "primary-container": "#28a745",
+                    "on-primary-container": "#00330d",
+                    "tertiary-container": "#8e9297",
+                    "tertiary-fixed-dim": "#c3c7cc",
+                    "surface-bright": "#f8f9fa",
+                    "on-secondary": "#ffffff",
+                    "outline": "#6e7b6b",
+                    "background": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#4f4800",
+                    "surface-container-low": "#f3f4f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "base": "8px",
+                    "md": "16px",
+                    "margin-mobile": "20px",
+                    "sm": "12px",
+                    "xl": "32px",
+                    "xs": "4px",
+                    "gutter-mobile": "12px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-on-background text-on-primary font-body-md overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation (Shell Implementation) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile py-md bg-transparent">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-on-background/20 backdrop-blur-md text-white hover:bg-surface-variant transition-colors active:scale-95 duration-100" onclick="history.back()">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-on-background/20 backdrop-blur-md text-white hover:bg-surface-variant transition-colors active:scale-95 duration-100" id="flashlight-toggle">
+<span class="material-symbols-outlined" id="flashlight-icon">flashlight_on</span>
+</button>
+</div>
+</header>
+<!-- Main Viewfinder Section -->
+<main class="relative flex-grow flex flex-col items-center justify-center">
+<!-- Live Camera Background Placeholder -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="A POV shot from a smartphone camera looking at a modern high school classroom desk with a printed QR code taped to its corner. The room is brightly lit with natural sunlight, featuring soft green and white accents in the furniture. The depth of field is shallow, focusing on the texture of the wooden desk and the sharp black lines of the QR code. The overall vibe is organized, academic, and technologically forward-looking." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCFVRxjS6Z7OO0SGZhWYETaXTWPgtitspgv2Kkm3fbCvR2iLisjcqaoAABZQbOWoI55sf4KfsqzeAzYwpRO_fgiEvlHKHO-v0Ogeq5E7XSY7zoPOYDb0Di-xPEBil2uub6lH30KEsaS7dSD-Td-dY4yc3zXkpfqk18kKIGusX-MhOyEWAQyEuWkwB_dTnmtg8c-Mr5ta1IGHJpgV05u1ndH-IEwJolJfeHwoihSh15SW8LR3j4qGU3v1qsO_gITuxumZDTZK2SPPzg')"></div>
+</div>
+<!-- Scanning Overlay Masks -->
+<div class="absolute inset-0 flex flex-col z-10">
+<div class="viewfinder-mask flex-grow w-full"></div>
+<div class="flex flex-row w-full h-[260px]">
+<div class="viewfinder-mask flex-grow h-full"></div>
+<div class="w-[260px] h-[260px] relative bg-transparent overflow-hidden">
+<!-- Scanner Corner Accents -->
+<div class="scanner-frame-corners">
+<div class="corner-tl"></div>
+<div class="corner-tr"></div>
+<div class="corner-bl"></div>
+<div class="corner-br"></div>
+<div class="scan-anim"></div>
+</div>
+</div>
+<div class="viewfinder-mask flex-grow h-full"></div>
+</div>
+<div class="viewfinder-mask flex-grow w-full flex flex-col items-center pt-xl px-xl">
+<p class="text-white font-headline-sm text-headline-sm text-center">Scan QR Code di Kelas</p>
+<p class="text-surface-variant font-label-lg text-label-lg mt-md text-center max-w-[280px]">Posisikan kode QR di dalam kotak untuk mencatat kehadiran kamu secara otomatis.</p>
+<!-- Interaction Visual Feed -->
+<div class="mt-xl flex items-center gap-sm bg-primary/20 border border-primary-fixed/30 backdrop-blur-lg px-lg py-sm rounded-full">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">info</span>
+<span class="text-primary-fixed font-label-md text-label-md">Mencari kode...</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Area -->
+<footer class="bg-on-background px-xl py-lg safe-area-inset-bottom flex flex-col items-center z-20">
+<div class="w-12 h-1.5 bg-tertiary/30 rounded-full mb-lg"></div>
+<div class="w-full max-w-sm">
+<div class="bg-inverse-surface rounded-xl p-md flex items-center gap-md mb-xl shadow-lg">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[28px]">school</span>
+</div>
+<div class="flex-grow">
+<p class="text-white font-label-lg text-label-lg">Sedang Berlangsung</p>
+<p class="text-tertiary-fixed-dim font-body-sm text-body-sm">Matematika - Ruang 302</p>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-md px-lg rounded-xl font-headline-sm text-headline-sm flex items-center justify-center gap-md active:scale-95 transition-transform shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+                Input Manual
+            </button>
+</div>
+</footer>
+<!-- Micro-interactions Script -->
+<script>
+        const flashToggle = document.getElementById('flashlight-toggle');
+        const flashIcon = document.getElementById('flashlight-icon');
+        let isFlashOn = false;
+
+        flashToggle.addEventListener('click', () => {
+            isFlashOn = !isFlashOn;
+            if (isFlashOn) {
+                flashIcon.innerText = 'flashlight_off';
+                flashToggle.classList.add('bg-primary');
+                flashToggle.classList.remove('bg-on-background/20');
+            } else {
+                flashIcon.innerText = 'flashlight_on';
+                flashToggle.classList.remove('bg-primary');
+                flashToggle.classList.add('bg-on-background/20');
+            }
+            
+            // Haptic feedback simulation
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+            }
+        });
+
+        // Simple Scan Simulation
+        const infoBadgeText = document.querySelector('.text-primary-fixed.font-label-md');
+        const states = ["Mencari kode...", "Menyesuaikan fokus...", "Membaca QR..."];
+        let stateIdx = 0;
+
+        setInterval(() => {
+            stateIdx = (stateIdx + 1) % states.length;
+            infoBadgeText.innerText = states[stateIdx];
+        }, 3000);
+    </script>
+</body></html>

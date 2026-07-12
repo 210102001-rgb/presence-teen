@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pusat Pengumuman Sekolah | Academy Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#171c1f",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "inverse-primary": "#7bda92",
+                    "on-primary-fixed-variant": "#005226",
+                    "on-background": "#171c1f",
+                    "secondary": "#5c5f61",
+                    "surface-container-low": "#f0f4f8",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "background": "#f6fafe",
+                    "surface-variant": "#dfe3e7",
+                    "on-secondary-fixed-variant": "#444749",
+                    "outline": "#6f7a6e",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#616b7b",
+                    "on-primary-container": "#a5ffb7",
+                    "surface-container-highest": "#dfe3e7",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#e0e3e5",
+                    "surface-container": "#eaeef2",
+                    "on-tertiary-fixed-variant": "#3d4756",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#3f493f",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e3e5",
+                    "surface-container-high": "#e4e9ed",
+                    "on-primary-fixed": "#00210b",
+                    "tertiary-fixed-dim": "#bdc7d9",
+                    "primary": "#005f2d",
+                    "on-secondary-fixed": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#edf1f5",
+                    "surface-tint": "#006d34",
+                    "tertiary": "#495362",
+                    "surface-bright": "#f6fafe",
+                    "on-tertiary-container": "#e2ecff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "primary-fixed-dim": "#7bda92",
+                    "primary-fixed": "#97f7ac",
+                    "tertiary-fixed": "#d9e3f6",
+                    "inverse-surface": "#2c3134",
+                    "primary-container": "#0e7a3d",
+                    "outline-variant": "#becabc",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#626567",
+                    "on-tertiary-fixed": "#121c2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1440px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "2xl": "48px",
+                    "gutter": "24px",
+                    "base": "4px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "title-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f6fafe; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+        .announcement-hover:hover .read-more-btn { transform: translateX(4px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dfe3e7; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Shell: TopNavBar -->
+<header class="fixed top-0 left-0 right-0 z-40 bg-surface dark:bg-on-background flex justify-between items-center px-margin-desktop py-sm w-full border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-xl">
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary">Academy Premium</span>
+<div class="hidden md:flex items-center bg-surface-container-low px-md py-xs rounded-full gap-sm border border-outline-variant">
+<span class="material-symbols-outlined text-secondary">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64" placeholder="Search announcements..." type="text"/>
+</div>
+</div>
+<nav class="flex items-center gap-lg">
+<div class="flex items-center gap-sm">
+<span class="text-primary border-b-2 border-primary font-title-md text-title-md py-xs cursor-pointer">2023-2024 Year</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-xs hover:text-primary transition-all scale-95 active:opacity-80 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-sm bg-primary-container text-on-primary px-md py-xs rounded-full cursor-pointer scale-95 active:opacity-80">
+<span class="font-title-md text-title-md">Child Selector</span>
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary" data-alt="A professional and warm portrait of a middle-aged parent, dressed in business casual attire. The lighting is soft and natural, suggesting a domestic but upscale setting. The background is slightly blurred, showing a high-end home office or library with wooden shelves. The overall aesthetic is clean and academic, using a palette of soft whites and deep greens to match the school's branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADni7WfH3eKonLNJT7eySIsU4CUKCxaGP7Uv3AXLgbsMeBJrpy4SS2Wj31_hxxIaTOFiw2OTB7urFW66FMPir8WeUuL9BDYTV4GX2BnnOK4ddxHpjbtD3TUNUBoJvifx4i94b6Wg_AZ-WUi_CmCCDJgA4K5rShQbLT2ZcStyohBvdmNtHDMbCX6ISuOrC4dIZkYaURSWTcmBPv-jK6-hl5sD8UukYGa_lYS4EorGue5mC7M6N7YeeLqfNKU3EScKBL4S1W4kov9ZdL"/>
+</div>
+</nav>
+</header>
+<div class="flex pt-[72px] h-screen overflow-hidden">
+<!-- Shell: SideNavBar -->
+<aside class="docked left-0 h-full w-64 hidden md:flex flex-col bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none p-md gap-sm">
+<div class="flex items-center gap-sm mb-lg px-xs">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div>
+<h2 class="font-body-md text-body-md font-bold text-primary">Academy Premium</h2>
+<p class="text-[10px] uppercase tracking-wider text-secondary">Parental Portal</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
+<!-- Navigation Items mapping JSON -->
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md text-body-md">Student Profile</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">event_available</span>
+<span class="font-body-md text-body-md">Attendance</span>
+</a>
+<!-- Active Item: Announcements -->
+<a class="flex items-center gap-md p-md text-primary dark:text-inverse-primary font-bold bg-secondary-container dark:bg-on-secondary-fixed-variant rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span class="font-body-md text-body-md">Announcements</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">local_library</span>
+<span class="font-body-md text-body-md">Learning Activity</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-body-md text-body-md">Academic Performance</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-body-md text-body-md">Learning Materials</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-body-md text-body-md">Tasks</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-body-md text-body-md">Academic Prediction</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-body-md text-body-md">AI Insight</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-body-md text-body-md">Teacher Consultation</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-md p-md rounded-lg text-secondary hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-error hover:bg-error-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Central Feed -->
+<div class="flex-1 flex flex-col min-w-0 bg-background px-margin-desktop py-lg overflow-y-auto custom-scrollbar">
+<header class="mb-xl">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary mb-xs">Pusat Pengumuman Sekolah</h1>
+<p class="font-body-lg text-body-lg text-secondary max-w-2xl">Dapatkan informasi terbaru mengenai aktivitas akademik, acara sekolah, dan jadwal penting lainnya.</p>
+</header>
+<!-- High Priority Featured Announcement -->
+<div class="relative overflow-hidden rounded-xl bg-primary-container text-on-primary p-xl mb-xl shadow-lg border-l-8 border-warning-amber">
+<div class="relative z-10 flex flex-col md:flex-row gap-lg items-start">
+<div class="flex-1">
+<div class="flex items-center gap-md mb-md">
+<span class="bg-error text-white px-md py-xs rounded-full font-label-sm text-label-sm uppercase tracking-widest">Urgent</span>
+<span class="font-label-sm text-label-sm opacity-80">Posted: 2 hours ago</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold mb-sm">Pengambilan Rapor Semester Ganjil 2023/2024</h3>
+<p class="font-body-md text-body-md mb-lg opacity-90 leading-relaxed">Diharapkan seluruh orang tua murid hadir sesuai jadwal yang ditentukan untuk mendiskusikan hasil belajar semester ini langsung dengan guru wali kelas.</p>
+<button class="bg-white text-primary px-lg py-md rounded-lg font-bold hover:bg-primary-fixed-dim transition-all flex items-center gap-sm">
+<span>Read Details</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="hidden lg:block w-48 h-48 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20">
+<span class="material-symbols-outlined text-white text-[80px]">assignment_turned_in</span>
+</div>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -bottom-12 -right-12 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+</div>
+<!-- Timeline List -->
+<div class="space-y-md">
+<!-- Announcement Item 1 -->
+<div class="announcement-hover glass-card rounded-xl p-lg border border-outline-variant flex flex-col md:flex-row gap-lg transition-all duration-300 hover:shadow-md hover:border-primary/30 relative">
+<!-- Unread Indicator -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-12 bg-primary rounded-r-full"></div>
+<div class="md:w-32 flex flex-col items-center justify-center border-r border-outline-variant pr-lg">
+<span class="font-display-lg text-[40px] leading-none text-primary font-bold">20</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Dec 2023</span>
+</div>
+<div class="flex-1">
+<div class="flex flex-wrap items-center gap-md mb-sm">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-md py-xs rounded-full font-label-sm text-label-sm">Academic</span>
+<span class="bg-surface-container-high text-secondary px-md py-xs rounded-full font-label-sm text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">visibility</span> Read
+                                </span>
+</div>
+<h4 class="font-title-md text-title-md font-bold mb-xs">Jadwal Ujian Akhir Semester (UAS)</h4>
+<p class="font-body-md text-body-md text-secondary line-clamp-1">Berikut adalah rincian jadwal ujian akhir untuk seluruh tingkatan kelas 10, 11, dan 12...</p>
+</div>
+<div class="flex items-center">
+<button class="read-more-btn flex items-center gap-sm text-primary font-bold transition-transform duration-200">
+<span>Read More</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Announcement Item 2 -->
+<div class="announcement-hover glass-card rounded-xl p-lg border border-outline-variant flex flex-col md:flex-row gap-lg transition-all duration-300 hover:shadow-md hover:border-primary/30">
+<div class="md:w-32 flex flex-col items-center justify-center border-r border-outline-variant pr-lg">
+<span class="font-display-lg text-[40px] leading-none text-secondary-fixed-dim font-bold">15</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Dec 2023</span>
+</div>
+<div class="flex-1">
+<div class="flex flex-wrap items-center gap-md mb-sm">
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-md py-xs rounded-full font-label-sm text-label-sm">Holiday</span>
+<span class="bg-surface-container-high text-secondary px-md py-xs rounded-full font-label-sm text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">visibility_off</span> Unread
+                                </span>
+</div>
+<h4 class="font-title-md text-title-md font-bold mb-xs">Libur Semester Ganjil &amp; Tahun Baru</h4>
+<p class="font-body-md text-body-md text-secondary line-clamp-1">Pengumuman resmi mengenai masa liburan siswa mulai tanggal 25 Desember hingga 5 Januari...</p>
+</div>
+<div class="flex items-center">
+<button class="read-more-btn flex items-center gap-sm text-primary font-bold transition-transform duration-200">
+<span>Read More</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Announcement Item 3 -->
+<div class="announcement-hover glass-card rounded-xl p-lg border border-outline-variant flex flex-col md:flex-row gap-lg transition-all duration-300 hover:shadow-md hover:border-primary/30">
+<div class="md:w-32 flex flex-col items-center justify-center border-r border-outline-variant pr-lg">
+<span class="font-display-lg text-[40px] leading-none text-secondary-fixed-dim font-bold">10</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Dec 2023</span>
+</div>
+<div class="flex-1">
+<div class="flex flex-wrap items-center gap-md mb-sm">
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant px-md py-xs rounded-full font-label-sm text-label-sm">Event</span>
+<span class="bg-surface-container-high text-secondary px-md py-xs rounded-full font-label-sm text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">visibility</span> Read
+                                </span>
+</div>
+<h4 class="font-title-md text-title-md font-bold mb-xs">Parent-Teacher Conference (PTC)</h4>
+<p class="font-body-md text-body-md text-secondary line-clamp-1">Undangan untuk diskusi evaluasi tengah semester bagi wali murid kelas unggulan...</p>
+</div>
+<div class="flex items-center">
+<button class="read-more-btn flex items-center gap-sm text-primary font-bold transition-transform duration-200">
+<span>Read More</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="mt-xl text-center">
+<button class="text-secondary font-label-sm text-label-sm border border-outline-variant px-xl py-md rounded-lg hover:bg-surface-container transition-all">
+                        Load previous announcements
+                    </button>
+</div>
+</div>
+<!-- Right Sidebar: Filters & Insights -->
+<aside class="w-80 bg-surface-container-lowest border-l border-outline-variant p-lg hidden xl:flex flex-col gap-lg">
+<section>
+<h3 class="font-title-md text-title-md font-bold text-primary mb-md">Filter Pengumuman</h3>
+<div class="space-y-sm">
+<label class="flex items-center justify-between p-md rounded-lg hover:bg-surface-container cursor-pointer transition-colors border border-transparent hover:border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">category</span>
+<span class="font-body-md text-body-md">Semua Kategori</span>
+</div>
+<input checked="" class="text-primary focus:ring-primary h-4 w-4" name="category" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-md rounded-lg hover:bg-surface-container cursor-pointer transition-colors border border-transparent">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">menu_book</span>
+<span class="font-body-md text-body-md">Academic</span>
+</div>
+<input class="text-primary focus:ring-primary h-4 w-4" name="category" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-md rounded-lg hover:bg-surface-container cursor-pointer transition-colors border border-transparent">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">event</span>
+<span class="font-body-md text-body-md">Event</span>
+</div>
+<input class="text-primary focus:ring-primary h-4 w-4" name="category" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-md rounded-lg hover:bg-surface-container cursor-pointer transition-colors border border-transparent">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">beach_access</span>
+<span class="font-body-md text-body-md">Holiday</span>
+</div>
+<input class="text-primary focus:ring-primary h-4 w-4" name="category" type="radio"/>
+</label>
+</div>
+</section>
+<section>
+<h3 class="font-title-md text-title-md font-bold text-primary mb-md">Urutan Prioritas</h3>
+<div class="flex flex-col gap-sm">
+<button class="flex items-center justify-between px-md py-sm border border-outline-variant rounded-lg text-body-md hover:bg-surface-container-high transition-all">
+<span>High Priority</span>
+<span class="w-3 h-3 bg-error rounded-full"></span>
+</button>
+<button class="flex items-center justify-between px-md py-sm border border-outline-variant rounded-lg text-body-md hover:bg-surface-container-high transition-all">
+<span>Medium Priority</span>
+<span class="w-3 h-3 bg-tertiary rounded-full"></span>
+</button>
+<button class="flex items-center justify-between px-md py-sm border border-outline-variant rounded-lg text-body-md hover:bg-surface-container-high transition-all">
+<span>Low Priority</span>
+<span class="w-3 h-3 bg-secondary rounded-full"></span>
+</button>
+</div>
+</section>
+<!-- AI Insight Card -->
+<div class="mt-auto p-lg bg-surface-container text-on-surface rounded-2xl border border-primary/20 relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-sm mb-md text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-widest">AI Insight</span>
+</div>
+<p class="font-body-md text-body-md leading-relaxed text-secondary italic">
+                            "Berdasarkan jadwal akademik, pastikan Ananda memiliki waktu istirahat yang cukup sebelum tanggal 20 Desember untuk performa UAS maksimal."
+                        </p>
+</div>
+<!-- Decorative sparkle background tint -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-tertiary/5"></div>
+</div>
+</aside>
+</main>
+</div>
+<!-- Mobile View: BottomNavBar (Hidden on desktop as per instructions) -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant px-margin-mobile py-sm flex justify-around items-center z-50">
+<a class="flex flex-col items-center text-primary font-bold" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span class="text-[10px]">News</span>
+</a>
+<a class="flex flex-col items-center text-secondary" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Profile</span>
+</a>
+<a class="flex flex-col items-center text-secondary" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-[10px]">Consult</span>
+</a>
+<a class="flex flex-col items-center text-secondary" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px]">Settings</span>
+</a>
+</div>
+<script>
+        // Simple micro-interaction for announcement cards
+        document.querySelectorAll('.announcement-hover').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('scale-[1.01]');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('scale-[1.01]');
+            });
+        });
+    </script>
+</body></html>

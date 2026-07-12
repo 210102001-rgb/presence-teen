@@ -56,6 +56,31 @@
                                     @else
                                         <span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Belum</span>
                                     @endif
+                                @elseif(auth()->user()->role === 'orang_tua')
+                                    <div class="flex flex-col gap-1 items-end">
+                                        <span class="bg-[#f6fafe] text-[#5c5f61] border border-[#becabc] px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider mb-1">Kelas: {{ $item->kelas->nama_kelas }}</span>
+                                        @php
+                                            $anakInKelas = auth()->user()->anak->filter(function($a) use ($item) {
+                                                return $a->kelasSaya->contains('id', $item->kelas_id);
+                                            });
+                                        @endphp
+                                        @foreach($anakInKelas as $child)
+                                            @php
+                                                $childKumpul = $item->pengumpulan->where('siswa_id', $child->id)->first();
+                                                $childSudah = $childKumpul && $childKumpul->status === 'sudah';
+                                            @endphp
+                                            <div class="flex items-center gap-1.5 text-[10px]">
+                                                <span class="font-medium text-[#5c5f61]">{{ $child->name }}:</span>
+                                                @if($childSudah)
+                                                    <span class="text-[#005f2d] font-bold uppercase">Selesai</span>
+                                                @elseif($isOverdue)
+                                                    <span class="text-[#ba1a1a] font-bold uppercase">Lewat</span>
+                                                @else
+                                                    <span class="text-amber-600 font-bold uppercase">Belum</span>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 @else
                                     <span class="bg-[#f6fafe] text-[#5c5f61] border border-[#becabc] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Kelas: {{ $item->kelas->nama_kelas }}</span>
                                 @endif

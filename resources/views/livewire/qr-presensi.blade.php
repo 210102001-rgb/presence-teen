@@ -69,13 +69,33 @@
             </div>
 
             {{-- Akhiri sesi --}}
-            <button wire:click="akhiriSesi"
-                    wire:confirm="Apakah Anda yakin ingin mengakhiri sesi presensi ini? Siswa tidak akan bisa melakukan scan lagi."
-                    class="inline-flex items-center gap-2 px-6 py-3 bg-[#ffdad6] border border-[#ba1a1a]/20 text-[#93000a]
-                           text-sm font-semibold rounded-xl hover:bg-[#ba1a1a] hover:text-white transition-all active:scale-95">
-                <span class="material-symbols-outlined text-[18px]">stop_circle</span>
-                Akhiri Sesi Presensi
-            </button>
+            <div x-data="{ showConfirm: false }">
+                <template x-if="!showConfirm">
+                    <button @click="showConfirm = true"
+                            class="inline-flex items-center gap-2 px-6 py-3 bg-[#ffdad6] border border-[#ba1a1a]/20 text-[#93000a]
+                                   text-sm font-semibold rounded-xl hover:bg-[#ba1a1a] hover:text-white transition-all active:scale-95">
+                        <span class="material-symbols-outlined text-[18px]">stop_circle</span>
+                        Akhiri Sesi Presensi
+                    </button>
+                </template>
+                <template x-if="showConfirm">
+                    <div class="p-4 bg-[#ffdad6] border border-[#ba1a1a]/20 rounded-xl space-y-3">
+                        <p class="text-xs font-semibold text-[#93000a]">
+                            ⚠️ Apakah Anda yakin ingin mengakhiri sesi presensi ini? Siswa tidak akan dapat melakukan scan lagi.
+                        </p>
+                        <div class="flex gap-2">
+                            <button wire:click="akhiriSesi"
+                                    class="px-4 py-2 bg-[#ba1a1a] text-white text-xs font-bold rounded-lg hover:bg-[#93000a] transition-all">
+                                Ya, Akhiri
+                            </button>
+                            <button @click="showConfirm = false"
+                                    class="px-4 py-2 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-50 transition-all">
+                                Batal
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
         </div>
     @endif
 </div>

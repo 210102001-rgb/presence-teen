@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Motivasi - Academy Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#171c1f",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "inverse-primary": "#7bda92",
+                    "on-primary-fixed-variant": "#005226",
+                    "on-background": "#171c1f",
+                    "secondary": "#5c5f61",
+                    "surface-container-low": "#f0f4f8",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "background": "#f6fafe",
+                    "surface-variant": "#dfe3e7",
+                    "on-secondary-fixed-variant": "#444749",
+                    "outline": "#6f7a6e",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#616b7b",
+                    "on-primary-container": "#a5ffb7",
+                    "surface-container-highest": "#dfe3e7",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#e0e3e5",
+                    "surface-container": "#eaeef2",
+                    "on-tertiary-fixed-variant": "#3d4756",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#3f493f",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e3e5",
+                    "surface-container-high": "#e4e9ed",
+                    "on-primary-fixed": "#00210b",
+                    "tertiary-fixed-dim": "#bdc7d9",
+                    "primary": "#005f2d",
+                    "on-secondary-fixed": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#edf1f5",
+                    "surface-tint": "#006d34",
+                    "tertiary": "#495362",
+                    "surface-bright": "#f6fafe",
+                    "on-tertiary-container": "#e2ecff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "primary-fixed-dim": "#7bda92",
+                    "primary-fixed": "#97f7ac",
+                    "tertiary-fixed": "#d9e3f6",
+                    "inverse-surface": "#2c3134",
+                    "primary-container": "#0e7a3d",
+                    "outline-variant": "#becabc",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#626567",
+                    "on-tertiary-fixed": "#121c2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1440px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "2xl": "48px",
+                    "gutter": "24px",
+                    "base": "4px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "title-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .ai-sparkle-bg {
+            background: linear-gradient(135deg, #F0FDF4 0%, #E2ECFF 100%);
+        }
+        .soft-shadow {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.02);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- Top AppBar (Mobile) -->
+<header class="sticky top-0 z-40 bg-surface flex justify-between items-center px-margin-mobile py-md w-full border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">Academy Premium</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="relative p-xs text-secondary hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary-fixed overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a supportive parent, wearing a casual navy blazer, smiling warmly against a soft-focus library background. The lighting is high-key and professional, utilizing the Academy Premium primary green and soft whites to create a clean, modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABXTVhTvurWew_WJo8cOanzbF9FT2D75vL5BrH9MM3e9IsoW6pBGfG0qvcOz-mUvZS6Ugv9YAdjfuwp-BbWxtiYeZ9JDbIpfjtIYgXkUQZ17XpASUM3PnqlsO_QAbP-UJDCn5kusQ755sGb0UvaPnu02eEhPvEGa36E9tNsFVzJLP7tT-bKkE3CxrOaNyI-WqKUFgIxQZY1B96dLH4AqGVTXm39KdgkLICspFX_UXNHk9t1MY13kPHvwAncjcGgFKxTWuPGdCBB-wm"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-margin-mobile py-lg overflow-y-auto space-y-lg max-w-md mx-auto w-full">
+<!-- Hero Motivation Card -->
+<section class="relative overflow-hidden rounded-xl bg-primary-fixed p-lg soft-shadow border border-primary-fixed-dim">
+<!-- Atmospheric Pattern -->
+<div class="absolute -right-8 -top-8 opacity-10">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="relative z-10 flex flex-col gap-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">AI MOTIVASI HARIAN</span>
+</div>
+<p class="font-title-md text-title-md text-on-primary-fixed leading-tight">
+                    "Pendidikan bukan cuma soal mengisi wadah, tapi soal menyalakan api semangat dalam diri."
+                </p>
+<div class="flex items-center gap-sm mt-sm">
+<div class="w-8 h-1 bg-primary rounded-full"></div>
+<span class="font-body-md text-body-md text-on-primary-fixed-variant">Analisis untuk Budi Santoso</span>
+</div>
+</div>
+</section>
+<!-- Status & Badge Section -->
+<section class="grid grid-cols-1 gap-md">
+<div class="bg-surface-container-lowest rounded-xl p-md soft-shadow border border-outline-variant flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">STATUS AKADEMIK</span>
+<span class="font-title-md text-title-md text-primary mt-xs">Sangat Aktif</span>
+</div>
+<div class="bg-primary-container/10 p-sm rounded-full">
+<div class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-2xl" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Recommendations Heading -->
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h2 class="font-title-md text-title-md text-on-surface">Rekomendasi Pintar</h2>
+</div>
+<!-- Actionable Recommendations List -->
+<section class="flex flex-col gap-md">
+<!-- Card 1 -->
+<div class="ai-sparkle-bg rounded-xl p-md soft-shadow border border-primary-fixed-dim flex gap-md items-start transition-transform active:scale-[0.98]">
+<div class="w-12 h-12 shrink-0 bg-primary-container/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">menu_book</span>
+</div>
+<div class="flex flex-col gap-xs">
+<h3 class="font-title-md text-body-lg font-bold text-on-surface">Fokus Matematika</h3>
+<p class="font-body-md text-body-md text-secondary">Budi menunjukkan progres pesat di Aljabar. Berikan pujian untuk sesi belajar 30 menit malam ini.</p>
+<button class="mt-sm flex items-center gap-xs font-label-sm text-label-sm text-primary group">
+                        LIHAT MATERI 
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-md soft-shadow border border-outline-variant flex gap-md items-start transition-transform active:scale-[0.98]">
+<div class="w-12 h-12 shrink-0 bg-tertiary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">psychology</span>
+</div>
+<div class="flex flex-col gap-xs">
+<h3 class="font-title-md text-body-lg font-bold text-on-surface">Keseimbangan Belajar</h3>
+<p class="font-body-md text-body-md text-secondary">Waktu istirahat Budi berkurang minggu ini. AI menyarankan aktivitas luar ruangan akhir pekan ini.</p>
+<button class="mt-sm flex items-center gap-xs font-label-sm text-label-sm text-primary group">
+                        SARAN AKTIVITAS
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-md soft-shadow border border-outline-variant flex gap-md items-start transition-transform active:scale-[0.98]">
+<div class="w-12 h-12 shrink-0 bg-secondary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container">campaign</span>
+</div>
+<div class="flex flex-col gap-xs">
+<h3 class="font-title-md text-body-lg font-bold text-on-surface">Sesi Konsultasi</h3>
+<p class="font-body-md text-body-md text-secondary">Wali kelas ingin mendiskusikan minat Budi di bidang seni digital yang makin meningkat.</p>
+<button class="mt-sm flex items-center gap-xs font-label-sm text-label-sm text-primary group">
+                        JADWALKAN PERTEMUAN
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Insights Chart Mockup -->
+<section class="bg-surface-container-low rounded-xl p-lg border border-outline-variant">
+<div class="flex justify-between items-center mb-md">
+<span class="font-label-sm text-label-sm text-secondary">TREN KEAKTIFAN</span>
+<span class="text-primary font-bold text-body-md">+12%</span>
+</div>
+<div class="h-24 w-full flex items-end gap-xs">
+<div class="bg-primary-container/30 w-full h-1/2 rounded-t-sm"></div>
+<div class="bg-primary-container/40 w-full h-3/4 rounded-t-sm"></div>
+<div class="bg-primary-container/20 w-full h-1/3 rounded-t-sm"></div>
+<div class="bg-primary-container/60 w-full h-4/5 rounded-t-sm"></div>
+<div class="bg-primary-container w-full h-full rounded-t-sm"></div>
+<div class="bg-primary-container/80 w-full h-5/6 rounded-t-sm"></div>
+<div class="bg-primary-container/90 w-full h-[95%] rounded-t-sm"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="font-label-sm text-[10px] text-outline">SEN</span>
+<span class="font-label-sm text-[10px] text-outline">SEL</span>
+<span class="font-label-sm text-[10px] text-outline">RAB</span>
+<span class="font-label-sm text-[10px] text-outline">KAM</span>
+<span class="font-label-sm text-[10px] text-outline">JUM</span>
+<span class="font-label-sm text-[10px] text-outline">SAB</span>
+<span class="font-label-sm text-[10px] text-primary font-bold">MIN</span>
+</div>
+</section>
+<div class="h-16"></div> <!-- Spacer for Bottom Nav -->
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-outline-variant flex justify-around items-center px-sm py-xs md:hidden">
+<button class="flex flex-col items-center gap-xs p-sm text-on-surface-variant transition-all hover:text-primary active:scale-90">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-[10px]">Dashboard</span>
+</button>
+<button class="flex flex-col items-center gap-xs p-sm text-on-surface-variant transition-all hover:text-primary active:scale-90">
+<span class="material-symbols-outlined">event_available</span>
+<span class="font-label-sm text-[10px]">Kehadiran</span>
+</button>
+<button class="flex flex-col items-center gap-xs p-sm text-on-surface-variant transition-all hover:text-primary active:scale-90">
+<span class="material-symbols-outlined">local_library</span>
+<span class="font-label-sm text-[10px]">Aktivitas</span>
+</button>
+<button class="flex flex-col items-center gap-xs p-sm text-primary transition-all active:scale-90">
+<div class="bg-primary-container/20 px-4 py-1 rounded-full flex flex-col items-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-sm text-[10px] font-bold">AI</span>
+</div>
+</button>
+<button class="flex flex-col items-center gap-xs p-sm text-on-surface-variant transition-all hover:text-primary active:scale-90">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[10px]">Profil</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('section > div, section > button').forEach(el => {
+            el.addEventListener('touchstart', () => {
+                el.classList.add('opacity-80');
+            });
+            el.addEventListener('touchend', () => {
+                el.classList.remove('opacity-80');
+            });
+        });
+    </script>
+</body></html>

@@ -42,7 +42,7 @@
          x-transition:leave="transition-opacity ease-linear duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 bg-black/50 z-45 lg:hidden"
+         class="fixed inset-0 bg-black/50 z-40 lg:hidden"
          @click="mobileSidebarOpen = false"
          style="display: none;">
     </div>
@@ -51,7 +51,7 @@
     @include('layouts.navigation')
 
     {{-- Top Header Bar --}}
-    <header class="fixed top-0 right-0 w-full lg:w-[calc(100%-16rem)] h-16 bg-[#f6fafe] shadow-sm flex justify-between items-center px-4 md:px-10 z-40 border-b border-[#eaeef2]">
+    <header class="fixed top-0 right-0 w-full lg:w-[calc(100%-16rem)] h-16 bg-[#f6fafe] shadow-sm flex justify-between items-center px-4 md:px-10 z-30 border-b border-[#eaeef2]">
         <div class="flex items-center gap-3">
             <button @click="mobileSidebarOpen = !mobileSidebarOpen" class="p-2 text-[#3f493f] hover:text-[#005f2d] lg:hidden rounded-lg transition-colors focus:outline-none">
                 <span class="material-symbols-outlined">menu</span>
@@ -77,6 +77,8 @@
     <main class="lg:ml-64 ml-0 pt-16 min-h-screen">
         {{ $slot }}
     </main>
+
+    @livewire('chat-ai')
 
     @stack('scripts')
 </body>

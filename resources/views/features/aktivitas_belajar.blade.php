@@ -14,7 +14,7 @@
                 <div>
                     <h3 class="font-bold text-sm text-[#005f2d] mb-1">Analisis Aktivitas Mingguan</h3>
                     <p class="text-xs text-[#3f493f] leading-relaxed max-w-2xl">
-                        Ahmad menunjukkan status <span class="font-bold text-[#005f2d]">Sangat Aktif</span> minggu ini. Ada peningkatan 15% dalam durasi akses materi mandiri dibandingkan minggu lalu, terutama pada materi Matematika.
+                        {{ $siswa->name }} menunjukkan status <span class="font-bold text-[#005f2d]">Sangat Aktif</span> minggu ini dengan tingkat kehadiran sebesar {{ $attendanceRate }}% dari total sesi kelas.
                     </p>
                 </div>
             </div>
@@ -38,21 +38,21 @@
             <div class="bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2] flex flex-col gap-2 justify-between">
                 <div class="flex justify-between items-start">
                     <span class="material-symbols-outlined text-[#5c5f61]">menu_book</span>
-                    <span class="text-[9px] text-[#005f2d] font-bold bg-[#f0fdf4] px-1.5 py-0.5 rounded border border-[#0e7a3d]/20">85%</span>
+                    <span class="text-[9px] text-[#005f2d] font-bold bg-[#f0fdf4] px-1.5 py-0.5 rounded border border-[#0e7a3d]/20">100%</span>
                 </div>
                 <div>
                     <p class="text-[9px] font-bold text-[#5c5f61] uppercase tracking-wider">Akses Materi</p>
-                    <p class="text-2xl font-bold text-[#171c1f] mt-1">42 <span class="text-xs font-normal text-[#5c5f61]">Modul</span></p>
+                    <p class="text-2xl font-bold text-[#171c1f] mt-1">{{ $totalMateri }} <span class="text-xs font-normal text-[#5c5f61]">Modul</span></p>
                 </div>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2] flex flex-col gap-2 justify-between">
                 <div class="flex justify-between items-start">
                     <span class="material-symbols-outlined text-[#5c5f61]">assignment</span>
-                    <div class="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse mt-1"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse mt-1"></div>
                 </div>
                 <div>
                     <p class="text-[9px] font-bold text-[#5c5f61] uppercase tracking-wider">Tugas Selesai</p>
-                    <p class="text-2xl font-bold text-[#171c1f] mt-1">12 / 14</p>
+                    <p class="text-2xl font-bold text-[#171c1f] mt-1">{{ $tugasSelesai }} / {{ $totalTugas }}</p>
                 </div>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2] flex flex-col gap-2 justify-between">
@@ -125,13 +125,24 @@
                 <div>
                     <h3 class="font-bold text-sm text-[#171c1f] mb-6">Log Aktivitas Terbaru</h3>
                     <div class="relative space-y-6 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-[#eaeef2]">
+                        @if($latestPresensi)
+                            <div class="relative flex gap-4 items-start">
+                                <div class="w-6 h-6 rounded-full bg-[#97f7ac] flex items-center justify-center z-10 shadow-soft border-2 border-white text-[#005226]">
+                                    <span class="material-symbols-outlined text-[12px]">check_circle</span>
+                                </div>
+                                <div>
+                                    <h5 class="text-xs font-bold text-[#171c1f] leading-tight">Presensi Berhasil Terverifikasi</h5>
+                                    <p class="text-[9px] text-[#5c5f61] mt-0.5">{{ $latestPresensi->waktu_absen->diffForHumans() }} • Sesi {{ $latestPresensi->sesiPresensi->mata_pelajaran }} {{ $latestPresensi->sesiPresensi->kelas->nama_kelas }}</p>
+                                </div>
+                            </div>
+                        @endif
                         <div class="relative flex gap-4 items-start">
                             <div class="w-6 h-6 rounded-full bg-[#97f7ac] flex items-center justify-center z-10 shadow-soft border-2 border-white text-[#005226]">
                                 <span class="material-symbols-outlined text-[12px]">download</span>
                             </div>
                             <div>
-                                <h5 class="text-xs font-bold text-[#171c1f] leading-tight">Mengunduh Materi Matematika</h5>
-                                <p class="text-[9px] text-[#5c5f61] mt-0.5">2 jam yang lalu • Modul Limit Fungsi</p>
+                                <h5 class="text-xs font-bold text-[#171c1f] leading-tight">Mengunduh Materi</h5>
+                                <p class="text-[9px] text-[#5c5f61] mt-0.5">2 jam yang lalu • Modul Pembelajaran</p>
                             </div>
                         </div>
                         <div class="relative flex gap-4 items-start">
@@ -139,17 +150,8 @@
                                 <span class="material-symbols-outlined text-[12px]">login</span>
                             </div>
                             <div>
-                                <h5 class="text-xs font-bold text-[#171c1f] leading-tight">Login Portal Siswa</h5>
+                                <h5 class="text-xs font-bold text-[#171c1f] leading-tight">Login Portal</h5>
                                 <p class="text-[9px] text-[#5c5f61] mt-0.5">Hari ini, 08:15 AM</p>
-                            </div>
-                        </div>
-                        <div class="relative flex gap-4 items-start">
-                            <div class="w-6 h-6 rounded-full bg-[#97f7ac] flex items-center justify-center z-10 shadow-soft border-2 border-white text-[#005226]">
-                                <span class="material-symbols-outlined text-[12px]">check_circle</span>
-                            </div>
-                            <div>
-                                <h5 class="text-xs font-bold text-[#171c1f] leading-tight">Presensi Berhasil Terverifikasi</h5>
-                                <p class="text-[9px] text-[#5c5f61] mt-0.5">Hari ini, 07:12 AM • Sesi Matematika XII IPA 1</p>
                             </div>
                         </div>
                     </div>

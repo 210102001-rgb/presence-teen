@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Presence Teen - School Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#005323",
+                      "inverse-on-surface": "#eaf1ff",
+                      "tertiary": "#6e5300",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed": "#00210a",
+                      "tertiary-container": "#8c6a00",
+                      "surface": "#f8f9ff",
+                      "on-primary": "#ffffff",
+                      "surface-tint": "#006d30",
+                      "surface-variant": "#d3e4fe",
+                      "outline-variant": "#becabc",
+                      "on-primary-container": "#d3ffd5",
+                      "background": "#f8f9ff",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-surface": "#0b1c30",
+                      "primary-fixed-dim": "#79db8d",
+                      "on-surface-variant": "#3f493f",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-secondary-fixed": "#002109",
+                      "secondary-container": "#7cf994",
+                      "primary-container": "#15803d",
+                      "secondary": "#006e2d",
+                      "primary": "#00652c",
+                      "surface-dim": "#cbdbf5",
+                      "on-secondary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed": "#251a00",
+                      "on-secondary-container": "#007230",
+                      "outline": "#6f7a6e",
+                      "tertiary-fixed-dim": "#f7be1d",
+                      "tertiary-fixed": "#ffdf9a",
+                      "error-container": "#ffdad6",
+                      "inverse-primary": "#79db8d",
+                      "on-secondary-fixed-variant": "#005320",
+                      "surface-container-high": "#dce9ff",
+                      "on-background": "#0b1c30",
+                      "primary-fixed": "#95f8a7",
+                      "secondary-fixed-dim": "#62df7d",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-container": "#fff2dd",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-fixed-variant": "#5a4300",
+                      "surface-container": "#e5eeff",
+                      "secondary-fixed": "#7ffc97",
+                      "inverse-surface": "#213145"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sidebar-width": "280px",
+                      "gutter": "24px",
+                      "container-padding": "32px",
+                      "unit": "8px",
+                      "card-padding": "24px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Poppins"
+                      ],
+                      "label-sm": [
+                              "Poppins"
+                      ],
+                      "headline-lg": [
+                              "Poppins"
+                      ],
+                      "title-md": [
+                              "Poppins"
+                      ],
+                      "title-lg": [
+                              "Poppins"
+                      ],
+                      "body-lg": [
+                              "Poppins"
+                      ],
+                      "body-md": [
+                              "Poppins"
+                      ],
+                      "caption": [
+                              "Poppins"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "title-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col font-body-md text-body-md bg-background">
+<!-- TopAppBar Navigation -->
+<header class="fixed top-0 w-full z-50 transition-all duration-300 bg-surface/90 backdrop-blur-md shadow-sm border-b border-surface-container-high" id="main-header">
+<div class="max-w-7xl mx-auto px-gutter h-16 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<img alt="Presence Teen Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT8kp_Jfc9rmqP83IRWOnXoDG3nMNm4pVkKdfptASeNsj4j8BGuSZgt1A_mBI1F-L9-hJneAsoVAQ27Oe4ysmVZjrIOpoxxIECnOFIbw-8hHkBpnZXv38DPB5n4aVeIAHaB3-u5a4hDgimssAnCiZs21RgaX51-jbmpTGZsTgofI5Jpyg2Jl7OiGROKA_DZR8yHMg3trI2WZOdbr9Q0Pc56ek9yOBoVbM90SpCdmnK5Rb-5pb5nnkIUkOplh8cFqQ1f1zeRszBkU8U"/>
+<span class="font-headline-md text-headline-md text-primary tracking-tight">Presence Teen</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-title-md text-title-md text-on-surface-variant hover:text-primary transition-colors" href="#features">Fitur</a>
+<a class="font-title-md text-title-md text-on-surface-variant hover:text-primary transition-colors" href="#how-it-works">Cara Kerja</a>
+<a class="font-title-md text-title-md text-on-surface-variant hover:text-primary transition-colors" href="#preview">Preview</a>
+<button class="bg-primary-container text-on-primary px-6 py-2 rounded-xl font-title-md text-title-md shadow-sm hover:bg-primary transition-all active:scale-[0.99]">
+                    Login Guru
+                </button>
+</nav>
+<button class="md:hidden text-on-surface-variant p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24">
+<!-- Hero Section -->
+<section class="relative pt-16 pb-32 overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-surface-container-low to-surface-container z-0"></div>
+<div class="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+<div class="max-w-7xl mx-auto px-gutter relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="flex flex-col gap-8 max-w-xl">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container border border-surface-container-highest w-fit">
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+<span class="font-label-sm text-label-sm text-primary uppercase">Sistem Presensi Modern</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg lg:text-[48px] lg:leading-[56px] text-on-surface tracking-tight">
+                        Revolusi <span class="text-primary relative inline-block">Manajemen Sekolah<svg class="absolute w-full h-3 -bottom-1 left-0 text-secondary-container opacity-50 z-[-1]" preserveaspectratio="none" viewbox="0 0 100 10"><path d="M0,5 Q50,10 100,5" fill="none" stroke="currentColor" stroke-width="8"></path></svg></span> yang Cerdas &amp; Aman
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                        Presence Teen menyederhanakan proses administratif sekolah dengan teknologi QR Code presisi tinggi, validasi perangkat anti-kecurangan, dan notifikasi real-time untuk orang tua.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-primary-container text-on-primary px-8 py-4 rounded-xl font-title-lg text-title-lg shadow-md hover:bg-primary transition-all active:scale-[0.99] flex items-center gap-2">
+                            Mulai Sekarang
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-surface text-primary border border-outline-variant px-8 py-4 rounded-xl font-title-lg text-title-lg shadow-sm hover:bg-surface-container-low transition-all flex items-center gap-2">
+                            Pelajari Fitur
+                        </button>
+</div>
+</div>
+<div class="relative w-full h-[500px] lg:h-[600px] rounded-2xl overflow-hidden glass-card p-4 flex items-center justify-center">
+<img alt="Presence Teen Platform Preview" class="w-full h-full object-contain filter drop-shadow-2xl z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT8kp_Jfc9rmqP83IRWOnXoDG3nMNm4pVkKdfptASeNsj4j8BGuSZgt1A_mBI1F-L9-hJneAsoVAQ27Oe4ysmVZjrIOpoxxIECnOFIbw-8hHkBpnZXv38DPB5n4aVeIAHaB3-u5a4hDgimssAnCiZs21RgaX51-jbmpTGZsTgofI5Jpyg2Jl7OiGROKA_DZR8yHMg3trI2WZOdbr9Q0Pc56ek9yOBoVbM90SpCdmnK5Rb-5pb5nnkIUkOplh8cFqQ1f1zeRszBkU8U" style="animation: float 6s ease-in-out infinite;"/>
+<!-- Floating decorative elements -->
+<div class="absolute top-10 right-10 bg-surface rounded-xl p-4 shadow-lg flex items-center gap-3 z-20 animate-pulse">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">Presensi Berhasil</p>
+<p class="font-caption text-caption text-on-surface-variant">07:15 AM</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section (Bento Grid) -->
+<section class="py-24 bg-surface-bright" id="features">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="text-center mb-16 max-w-2xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Teknologi Terdepan untuk Pendidikan</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Ekosistem lengkap yang dirancang khusus untuk memenuhi kebutuhan pengawasan modern, dari pintu gerbang hingga ruang kelas.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+<!-- Bento Item 1: QR Code -->
+<div class="md:col-span-2 bg-surface-container-lowest rounded-2xl p-8 shadow-md border border-surface-container-highest relative overflow-hidden group hover:shadow-lg transition-all">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-bl-full z-0 transition-transform group-hover:scale-110 duration-500"></div>
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div class="w-14 h-14 bg-primary-container rounded-xl flex items-center justify-center text-on-primary mb-6">
+<span class="material-symbols-outlined text-3xl">qr_code_scanner</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-2 font-bold">Presensi QR Code Super Cepat</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Sistem pemindaian QR dinamis yang mempercepat antrean pagi. Kode berubah setiap detik untuk mencegah kecurangan dan memastikan kehadiran fisik siswa.</p>
+</div>
+</div>
+</div>
+<!-- Bento Item 2: Parent Notifications -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-md border border-surface-container-highest relative overflow-hidden group hover:shadow-lg transition-all">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div class="w-14 h-14 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
+<span class="material-symbols-outlined text-3xl">notifications_active</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-2 font-bold">Notifikasi Orang Tua</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Pembaruan real-time via WhatsApp atau Push Notification setiap kali siswa tiba atau meninggalkan area sekolah.</p>
+</div>
+</div>
+</div>
+<!-- Bento Item 3: Device Validation -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-md border border-surface-container-highest relative overflow-hidden group hover:shadow-lg transition-all">
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div class="w-14 h-14 bg-tertiary-container rounded-xl flex items-center justify-center text-on-tertiary mb-6">
+<span class="material-symbols-outlined text-3xl">devices</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-2 font-bold">Validasi Perangkat Cerdas</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Sistem mengunci profil siswa ke satu perangkat utama, mencegah "titip absen" dan meningkatkan integritas data kehadiran.</p>
+</div>
+</div>
+</div>
+<!-- Bento Item 4: AI Summaries -->
+<div class="md:col-span-2 bg-surface-container-lowest rounded-2xl p-8 shadow-md border border-surface-container-highest relative overflow-hidden group hover:shadow-lg transition-all flex items-center gap-8">
+<div class="relative z-10 flex-1">
+<div class="w-14 h-14 bg-surface-tint rounded-xl flex items-center justify-center text-on-primary mb-6">
+<span class="material-symbols-outlined text-3xl">analytics</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-2 font-bold">Ringkasan Berbasis AI</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Dashboard analitik pintar yang secara otomatis mengidentifikasi pola ketidakhadiran, memprediksi risiko putus sekolah, dan menghasilkan laporan komprehensif untuk wali kelas.</p>
+</div>
+<div class="hidden md:block w-48 h-48 bg-surface-container rounded-xl flex-shrink-0 relative overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="A stylized, modern, light-mode dashboard UI data visualization chart with soft green and blue gradients, showing upward trends, clean minimalist aesthetic, high legibility, corporate saas style" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLJI9JFesL2Ak6RBeNyMNGTY7TB1P-_mOXOwwR0il00RmW_IqQfI9OhpGB6YFpcutr_0J_bqklKxHLAyW6vNU2a7tMukerGHzdyyqqeuwZ5W3_0V_KbSyzvKfGLvPjSgxqqb7pEEpClwEF-xl7ad8aptuo-fyBeKPurDIaMnpIGX7Qm8WxE3gYOSvRUfT1rCK2E3TEkqOs2e2ZI60IdO8bKuOPODf4u5HgtX0odxRADLyHkU8SqMj1Mxq9GPqxkJGL4O4bmXVzu-Q1')"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section (Process) -->
+<section class="py-24 bg-surface" id="how-it-works">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="text-center mb-20">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Cara Kerja Kehadiran</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Proses yang mulus dari kedatangan hingga pelaporan, dirancang untuk efisiensi maksimum di lingkungan sekolah yang sibuk.</p>
+</div>
+<div class="relative">
+<!-- Connecting Line -->
+<div class="hidden lg:block absolute top-1/2 left-0 w-full h-1 bg-surface-container-highest -translate-y-1/2 z-0"></div>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-12 relative z-10">
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center relative">
+<div class="w-20 h-20 bg-surface-container-lowest rounded-full shadow-md flex items-center justify-center mb-6 border-4 border-surface z-10">
+<span class="font-headline-md text-headline-md text-primary font-bold">1</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface font-bold mb-2">Tiba di Sekolah</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Siswa tiba di gerbang dan membuka aplikasi seluler Presence Teen.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center relative">
+<div class="w-20 h-20 bg-surface-container-lowest rounded-full shadow-md flex items-center justify-center mb-6 border-4 border-surface z-10">
+<span class="font-headline-md text-headline-md text-primary font-bold">2</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface font-bold mb-2">Scan QR DInamis</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Memindai QR Code unik yang berputar pada layar tablet pengawas gerbang.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center relative">
+<div class="w-20 h-20 bg-surface-container-lowest rounded-full shadow-md flex items-center justify-center mb-6 border-4 border-surface z-10">
+<span class="font-headline-md text-headline-md text-primary font-bold">3</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface font-bold mb-2">Validasi Instan</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Sistem memverifikasi perangkat, lokasi, dan identitas dalam hitungan milidetik.</p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center text-center relative">
+<div class="w-20 h-20 bg-surface-container-lowest rounded-full shadow-md flex items-center justify-center mb-6 border-4 border-surface z-10">
+<span class="font-headline-md text-headline-md text-primary font-bold">4</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface font-bold mb-2">Update &amp; Notifikasi</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Dashboard guru diperbarui, dan orang tua menerima pesan konfirmasi aman.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Preview / Mockup Section -->
+<section class="py-24 bg-primary-container overflow-hidden" id="preview">
+<div class="max-w-7xl mx-auto px-gutter grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1 relative">
+<!-- Glassmorphism Container for Mockup -->
+<div class="glass-card rounded-3xl p-4 md:p-8 transform rotate-[-2deg] shadow-2xl relative z-10">
+<img class="w-full h-auto rounded-xl shadow-inner border border-surface-container-highest" data-alt="A highly detailed, modern software dashboard interface for school management displayed on a sleek laptop screen. The UI features soft green accents, clean typography, detailed tables with pill-shaped status badges, and a minimalist white layout set against a modern light-mode backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMzR9K2zlipFXHPAm1_KDUEJ0GIRhpGiX8sPHj6FWD8pa4Lhiv1uTXeCZWGjUzLcSyQMmdkTkIwIqrU-UfLXPchuM_5mjKYLaNZkpYI-wg0yryaSspvpqM1MtgcLEjSHh2RATEB1znS5ykcLPDRpbaTfKqaWOjMz-2MtttNBAXw0ICH6twzYNKsgmFu0I1pVTnnfbtKYaNiodHHMZBYLisfiGV3pVVec0omBRJeUqQgnSqG0dPpi5RjdUkHbSspRpDJ5qvq2edFwjw"/>
+</div>
+<!-- Decorative blobs behind mockup -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-secondary-container/30 blur-3xl rounded-full z-0"></div>
+</div>
+<div class="order-1 lg:order-2 flex flex-col gap-6 text-on-primary">
+<h2 class="font-headline-lg text-headline-lg text-white mb-2">Dashboard Administratif Kuat &amp; Intuitif</h2>
+<p class="font-body-lg text-body-lg text-on-primary-container mb-6 opacity-90">Dirancang khusus untuk desktop, antarmuka guru dan admin kami menyediakan visibilitas penuh atas operasional harian tanpa kebingungan.</p>
+<ul class="flex flex-col gap-4">
+<li class="flex items-start gap-4">
+<div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm mt-1">
+<span class="material-symbols-outlined text-white">checklist</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-white font-semibold">Tampilan Kelas Komprehensif</h4>
+<p class="font-body-md text-body-md text-on-primary-container opacity-80">Lihat status seluruh siswa dalam satu pandangan dengan indikator warna yang jelas.</p>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm mt-1">
+<span class="material-symbols-outlined text-white">summarize</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-white font-semibold">Ekspor Laporan Mudah</h4>
+<p class="font-body-md text-body-md text-on-primary-container opacity-80">Hasilkan laporan kehadiran bulanan dalam format Excel atau PDF hanya dengan satu klik.</p>
+</div>
+</li>
+</ul>
+<div class="mt-8">
+<button class="bg-white text-primary-container px-8 py-3 rounded-xl font-title-md text-title-md shadow-lg hover:bg-surface transition-all">
+                            Lihat Demo Dashboard
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-surface-container-highest pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-1 flex flex-col gap-4">
+<div class="flex items-center gap-3 mb-2">
+<img alt="Presence Teen Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT8kp_Jfc9rmqP83IRWOnXoDG3nMNm4pVkKdfptASeNsj4j8BGuSZgt1A_mBI1F-L9-hJneAsoVAQ27Oe4ysmVZjrIOpoxxIECnOFIbw-8hHkBpnZXv38DPB5n4aVeIAHaB3-u5a4hDgimssAnCiZs21RgaX51-jbmpTGZsTgofI5Jpyg2Jl7OiGROKA_DZR8yHMg3trI2WZOdbr9Q0Pc56ek9yOBoVbM90SpCdmnK5Rb-5pb5nnkIUkOplh8cFqQ1f1zeRszBkU8U"/>
+<span class="font-headline-md text-headline-md text-primary tracking-tight">Presence Teen</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Membangun lingkungan sekolah yang lebih aman dan disiplin melalui teknologi cerdas.
+                    </p>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="font-title-md text-title-md text-on-surface font-bold">Produk</h5>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Aplikasi Siswa</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Dashboard Admin</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Portal Orang Tua</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Fitur Keamanan</a>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="font-title-md text-title-md text-on-surface font-bold">Perusahaan</h5>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Tentang Kami</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Karir</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Blog</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Hubungi Kami</a>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="font-title-md text-title-md text-on-surface font-bold">Legal</h5>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Syarat &amp; Ketentuan</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Kebijakan Privasi</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Keamanan Data</a>
+</div>
+</div>
+<div class="border-t border-surface-container-highest pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-md text-body-md text-on-surface-variant text-center md:text-left">
+                    © 2024 Presence Teen. All rights reserved.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">link</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">share</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Simple Scroll Effect Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('main-header');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    header.classList.add('shadow-md');
+                    header.classList.remove('shadow-sm');
+                } else {
+                    header.classList.add('shadow-sm');
+                    header.classList.remove('shadow-md');
+                }
+            });
+        });
+    </script>
+</body></html>

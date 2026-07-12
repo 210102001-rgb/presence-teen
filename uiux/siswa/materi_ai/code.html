@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Presence Teen - AI Learning Material</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1d",
+                    "tertiary": "#5b5f63",
+                    "secondary-container": "#f9e534",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2e3132",
+                    "inverse-primary": "#66df75",
+                    "secondary-fixed-dim": "#dbc90a",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#181c20",
+                    "surface": "#f8f9fa",
+                    "primary-fixed": "#83fc8e",
+                    "surface-variant": "#e1e3e4",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#3e4a3c",
+                    "primary": "#006e25",
+                    "primary-fixed-dim": "#66df75",
+                    "outline-variant": "#bdcab9",
+                    "tertiary-fixed": "#e0e3e8",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#43474c",
+                    "on-primary-fixed": "#002106",
+                    "secondary-fixed": "#f9e534",
+                    "on-tertiary-container": "#272b2f",
+                    "on-secondary-container": "#706500",
+                    "surface-container-high": "#e7e8e9",
+                    "surface-container": "#edeeef",
+                    "secondary": "#695f00",
+                    "on-surface": "#191c1d",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#201c00",
+                    "surface-tint": "#006e25",
+                    "on-primary-fixed-variant": "#00531a",
+                    "primary-container": "#28a745",
+                    "on-primary-container": "#00330d",
+                    "tertiary-container": "#8e9297",
+                    "tertiary-fixed-dim": "#c3c7cc",
+                    "surface-bright": "#f8f9fa",
+                    "on-secondary": "#ffffff",
+                    "outline": "#6e7b6b",
+                    "background": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#4f4800",
+                    "surface-container-low": "#f3f4f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "base": "8px",
+                    "md": "16px",
+                    "margin-mobile": "20px",
+                    "sm": "12px",
+                    "xl": "32px",
+                    "xs": "4px",
+                    "gutter-mobile": "12px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        @media (min-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(12, 1fr);
+            }
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            background: rgba(248, 249, 250, 0.85);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-24 md:pb-0 md:pt-20">
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 w-full z-50 glass-header md:px-lg">
+<div class="flex justify-between items-center px-margin-mobile py-md w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A portrait of a teenage student with a friendly expression, wearing a modern school uniform. The background is a blurred high-school hallway with bright, natural morning light, emphasizing a fresh and academic atmosphere. The photography style is crisp and professional with a shallow depth of field, using soft greens and whites from the brand palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC38a6esA20_mVI4uEZK6JjkOhN96M8d1bcmLAxnbC06OVWHdZljbjfpBUt6mxgP3CZn1_FU45crpIB5IRYr7Jlo_4leUb8CMOSJeuv80J5iymv8kwM1fCOXAOScb2fmB6AcNzyeCesCztE4V7p5VYhLsqAEoFlvOHur4rdSGkjNFZsZtm_M4dgB16gG7DAdXcE8PFftjdFT6mA3ngT5os4q3fUqmcyusjDrtKH4ZfwfpXkUz7U7GFAz6zJIzMuRH2bh02_OwoIlQg"/>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-primary">Presence Teen</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors Active: scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-mobile py-lg">
+<!-- Hero Section -->
+<section class="mb-xl relative overflow-hidden rounded-xl bg-primary h-48 md:h-64 flex flex-col justify-end p-lg">
+
+<div class="relative z-10">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-primary mb-xs">Materi AI</h1>
+<p class="font-body-md text-body-md text-on-primary opacity-90 max-w-md">Personalized learning paths generated by artificial intelligence just for you.</p>
+</div>
+</section>
+<!-- Search & Filter Bar -->
+<section class="mb-lg flex flex-col md:flex-row gap-md items-center sticky top-20 z-40 bg-surface/80 backdrop-blur-sm py-2">
+<div class="relative w-full md:flex-1">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-tertiary">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-none focus:ring-2 focus:ring-primary rounded-xl text-body-md placeholder:text-tertiary transition-all" placeholder="Cari materi belajar..." type="text"/>
+</div>
+<div class="flex gap-sm overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
+<button class="px-md py-2 bg-primary text-on-primary rounded-full font-label-lg whitespace-nowrap">Semua</button>
+<button class="px-md py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-variant transition-colors">Eksakta</button>
+<button class="px-md py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-variant transition-colors">Bahasa</button>
+<button class="px-md py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-variant transition-colors">Sosial</button>
+</div>
+</section>
+<!-- Content Grid (Bento Style) -->
+<section class="bento-grid">
+<!-- Featured Card -->
+<div class="col-span-2 md:col-span-8 bg-white rounded-xl card-shadow overflow-hidden group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="flex flex-col md:flex-row h-full">
+<div class="md:w-1/2 h-48 md:h-auto relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sophisticated 3D visualization of complex mathematical equations and geometric shapes floating in a digital void. Glowing lines of neon green and soft gold intersect against a deep emerald background. The lighting is ethereal and futuristic, symbolizing the beauty of advanced algebra and calculus in a high-tech academic setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhTIcDE9Wwt_IcZvvlB4Lf6LMawqi3V5o1T0AAQfirefx9Y4PBuOQsxyOh8j6ta5W2sbD0GY3i94Nrb5GMZwAU73QhCvxZFTkgoVW8-xSPkpqn_hMHZEeP47xV5TfFVYYgUYQ7-0qk-5GO9FMQ4R5MkjU4kcWIjPZdmIjEPbt4FLHeqJRrLAsI00k06SkAcZj4rOGWuk1oIryGVX6IDaLqYdWRzV_63lF9c_O1HP3oid0FVCR3JnSCqk32M1Wqi2GqkQV5cFfIdY8"/>
+<div class="absolute top-4 left-4 bg-primary/90 text-on-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Terpopuler</div>
+</div>
+<div class="p-lg md:w-1/2 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-xs text-primary mb-2">
+<span class="material-symbols-outlined text-[18px]">functions</span>
+<span class="font-label-lg text-label-lg">Matematika</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm mb-sm">Matematika: Aljabar Linear &amp; Vektor</h2>
+<p class="font-body-sm text-body-sm text-tertiary mb-md line-clamp-2">Pelajari dasar-dasar ruang vektor dan transformasi linear dengan visualisasi interaktif bertenaga AI.</p>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 45 Menit
+                            </span>
+<button class="bg-on-background text-on-primary px-md py-2 rounded-lg font-label-lg hover:opacity-90 transition-opacity">Mulai Belajar</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Card 1 -->
+<div class="col-span-2 md:col-span-4 bg-white rounded-xl card-shadow overflow-hidden group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A highly detailed microscopic view of a biological cell, showing the nucleus and mitochondria with vibrant bioluminescent accents. The colors are dominated by deep blues and fluorescent greens, creating a sense of scientific wonder. The style is modern medical illustration with soft ambient lighting and sharp focus on cellular structures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSqZ7kZn63FyUvklD1GvT3cCT3lGHz7NoDqkPwzt-JZ2WEIeKN0H_KXWxuRlxeTF3zbWFElRMe5mDJbdKdyEh-SmLsPFY9UFOimtY-B0g3RDogMWWP45BCY7OHFxUkfDTFGDP-HoFOgGiV8CW_fc5ru7uqilvxeDb80rcYHmeGR52yZ3CxH4Qf3ukJ2Y3U-oj_4g9nbdrzoqBgQWfPsnqxjntdfMs7PZ7cfo5qt8vicf1jpJ_pv15gcL9ZRRF7DkqVKvAilL_S8HQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<div class="flex items-center gap-xs mb-1">
+<span class="material-symbols-outlined text-[16px]">biotech</span>
+<span class="text-[10px] font-bold uppercase">Biologi</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm">Biologi: Sel</h3>
+</div>
+</div>
+<div class="p-md">
+<p class="font-body-sm text-body-sm text-tertiary mb-md">Memahami struktur sel eukariotik dan prokariotik.</p>
+<div class="flex items-center gap-sm">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-primary-fixed border-2 border-white"></div>
+<div class="w-6 h-6 rounded-full bg-secondary-fixed border-2 border-white"></div>
+</div>
+<span class="text-[12px] text-tertiary font-label-md">1.2k Siswa Belajar</span>
+</div>
+</div>
+</div>
+<!-- Small Card 2 -->
+<div class="col-span-2 md:col-span-3 bg-white rounded-xl card-shadow p-md flex flex-col justify-between hover:translate-y-[-4px] transition-transform duration-300 border-l-4 border-secondary">
+<div>
+<span class="material-symbols-outlined text-secondary mb-2">language</span>
+<h3 class="font-label-lg text-label-lg text-on-surface mb-xs">English: Grammar Pro</h3>
+<p class="font-body-sm text-body-sm text-tertiary">Mastering Tenses with AI feedback.</p>
+</div>
+<div class="mt-md flex justify-between items-center">
+<span class="text-xs font-bold text-secondary">Level 2</span>
+<span class="material-symbols-outlined text-secondary">arrow_forward</span>
+</div>
+</div>
+<!-- Small Card 3 -->
+<div class="col-span-2 md:col-span-3 bg-white rounded-xl card-shadow p-md flex flex-col justify-between hover:translate-y-[-4px] transition-transform duration-300 border-l-4 border-primary">
+<div>
+<span class="material-symbols-outlined text-primary mb-2">science</span>
+<h3 class="font-label-lg text-label-lg text-on-surface mb-xs">Fisika: Termodinamika</h3>
+<p class="font-body-sm text-body-sm text-tertiary">Hukum Kekekalan Energi &amp; Entropi.</p>
+</div>
+<div class="mt-md flex justify-between items-center">
+<span class="text-xs font-bold text-primary">Level 4</span>
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</div>
+</div>
+<!-- Small Card 4 -->
+<div class="col-span-2 md:col-span-3 bg-white rounded-xl card-shadow p-md flex flex-col justify-between hover:translate-y-[-4px] transition-transform duration-300 border-l-4 border-tertiary">
+<div>
+<span class="material-symbols-outlined text-tertiary mb-2">history_edu</span>
+<h3 class="font-label-lg text-label-lg text-on-surface mb-xs">Sejarah: Perang Dunia II</h3>
+<p class="font-body-sm text-body-sm text-tertiary">Analisis Geopolitik &amp; Dampak Global.</p>
+</div>
+<div class="mt-md flex justify-between items-center">
+<span class="text-xs font-bold text-tertiary">Level 3</span>
+<span class="material-symbols-outlined text-tertiary">arrow_forward</span>
+</div>
+</div>
+<!-- Small Card 5 -->
+<div class="col-span-2 md:col-span-3 bg-white rounded-xl card-shadow p-md flex flex-col justify-between hover:translate-y-[-4px] transition-transform duration-300 border-l-4 border-primary">
+<div>
+<span class="material-symbols-outlined text-primary mb-2">code</span>
+<h3 class="font-label-lg text-label-lg text-on-surface mb-xs">Informatika: Python</h3>
+<p class="font-body-sm text-body-sm text-tertiary">Pengantar Logika Pemrograman.</p>
+</div>
+<div class="mt-md flex justify-between items-center">
+<span class="text-xs font-bold text-primary">Level 1</span>
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</div>
+</div>
+</section>
+<!-- Recommended Tutor / AI Assistant Section -->
+<section class="mt-xl">
+<h2 class="font-headline-sm text-headline-sm mb-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+                Tanya AI Assistant
+            </h2>
+<div class="bg-on-background text-on-primary p-lg rounded-2xl flex flex-col md:flex-row items-center gap-lg">
+<div class="w-24 h-24 relative flex-shrink-0">
+<div class="absolute inset-0 bg-primary rounded-full blur-lg opacity-40 animate-pulse"></div>
+<div class="relative w-full h-full bg-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-on-primary-container">smart_toy</span>
+</div>
+</div>
+<div class="flex-1 text-center md:text-left">
+<h3 class="font-headline-sm text-headline-sm mb-xs">Masih bingung dengan materi di atas?</h3>
+<p class="font-body-md text-body-md opacity-80">Asisten AI kami siap membantu menjelaskan konsep yang sulit 24/7. Cukup tanyakan apa saja!</p>
+</div>
+<button class="px-xl py-3 bg-primary text-on-primary rounded-xl font-label-lg hover:bg-primary-container transition-colors shadow-lg active:scale-95 duration-100">
+                    Tanya AI Sekarang
+                </button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface shadow-[0px_-4px_20px_rgba(0,0,0,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-tertiary hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-tertiary hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md-mobile">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary relative after:content-[''] after:w-1 after:h-1 after:bg-primary after:rounded-full after:mt-1 hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-md text-label-md-mobile">Learning</span>
+</a>
+<a class="flex flex-col items-center justify-center text-tertiary hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md-mobile">Profile</span>
+</a>
+</nav>
+<!-- Desktop Sidebar/Nav (Hidden on Mobile) -->
+<nav class="hidden md:flex fixed top-0 left-0 h-screen w-20 flex-col items-center py-lg bg-surface border-r border-outline-variant/30 z-50">
+<div class="mb-xl">
+<span class="material-symbols-outlined text-primary text-3xl">school</span>
+</div>
+<div class="flex flex-col gap-lg">
+<button class="w-12 h-12 flex items-center justify-center rounded-xl text-tertiary hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined">home</span></button>
+<button class="w-12 h-12 flex items-center justify-center rounded-xl text-tertiary hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined">history</span></button>
+<button class="w-12 h-12 flex items-center justify-center rounded-xl bg-primary-container text-on-primary-container"><span class="material-symbols-outlined">auto_stories</span></button>
+<button class="w-12 h-12 flex items-center justify-center rounded-xl text-tertiary hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined">person</span></button>
+</div>
+<div class="mt-auto">
+<button class="w-12 h-12 flex items-center justify-center rounded-xl text-tertiary hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined">settings</span></button>
+</div>
+</nav>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('.card-shadow').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Search highlight effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.01]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.01]');
+        });
+    </script>
+</body></html>

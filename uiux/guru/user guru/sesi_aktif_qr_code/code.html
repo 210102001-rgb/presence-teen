@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Active Session QR Code</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#005312",
+                        "on-secondary-fixed-variant": "#3e4a41",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-highest": "#e2e2e2",
+                        "secondary-fixed": "#d9e6da",
+                        "tertiary-fixed-dim": "#88d982",
+                        "surface-container-high": "#e8e8e8",
+                        "on-tertiary-fixed": "#002204",
+                        "inverse-surface": "#2f3131",
+                        "on-secondary-container": "#5b675e",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-surface": "#1a1c1c",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "surface-container-low": "#f3f3f3",
+                        "tertiary-fixed": "#a3f69c",
+                        "outline-variant": "#becabd",
+                        "surface-container": "#eeeeee",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#3f493f",
+                        "surface": "#f9f9f9",
+                        "tertiary": "#005111",
+                        "primary-fixed-dim": "#81da95",
+                        "surface-dim": "#dadada",
+                        "on-primary-fixed-variant": "#005226",
+                        "surface-tint": "#056d35",
+                        "on-primary-fixed": "#00210b",
+                        "secondary-container": "#d9e6da",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#196b22",
+                        "primary": "#005025",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#9cf6af",
+                        "on-primary-container": "#8fe9a3",
+                        "primary-container": "#006b33",
+                        "on-secondary-fixed": "#131e17",
+                        "inverse-on-surface": "#f1f1f1",
+                        "inverse-primary": "#81da95",
+                        "secondary": "#556158",
+                        "on-background": "#1a1c1c",
+                        "secondary-fixed-dim": "#bdcabe",
+                        "outline": "#6f7a6f",
+                        "background": "#f9f9f9",
+                        "on-tertiary-container": "#97e990"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "label-sm": ["12px", { lineHeight: "16px", fontWeight: "600" }],
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-md": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; }
+        .progress-bar-animation {
+            animation: progress 8s linear infinite;
+        }
+        @keyframes progress {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container relative">
+<!-- Suppressed BottomNavBar and TopAppBar (Context: Linear/Transactional/Task-Focused flow with 'Close' action) -->
+<!-- Header (Task-Focused) -->
+<header class="flex items-center justify-between px-margin-mobile py-4 w-full max-w-container-max mx-auto bg-surface relative z-10">
+<div class="w-10"></div> <!-- Placeholder for centering -->
+<h1 class="font-headline-md text-headline-md text-on-surface text-center">Sesi Aktif</h1>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto px-margin-mobile py-md flex flex-col items-center justify-start w-full max-w-container-max mx-auto pb-32">
+<!-- Session Info -->
+<div class="w-full text-center mb-lg space-y-unit">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Matematika - XI RPL 1</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Topik: Persamaan Kuadrat</p>
+</div>
+<!-- QR Focus Card -->
+<div class="w-full max-w-[340px] bg-surface-container-lowest rounded-[16px] shadow-[0px_4px_12px_rgba(0,0,0,0.05)] p-lg flex flex-col items-center justify-center mb-xl relative">
+<!-- Simulated QR Code (Placeholder Image) -->
+<div class="w-full aspect-square bg-surface-variant rounded-lg mb-lg flex items-center justify-center relative overflow-hidden p-xs">
+<img class="w-full h-full object-cover rounded-md" data-alt="A highly detailed close up of a complex QR code pattern printed cleanly on a stark white background. The image is brightly lit with high key studio lighting, emphasizing the sharp contrast between the black geometric blocks of the QR code and the pure white background. The style is modern, minimalist, and utilitarian, fitting a professional digital interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRk4dODMMCr66vm-y4fG-4CMFoQy2GkREQnDqWEZ9a3IKzjmTzMuBn_BD2EcDdOpp-ooFw-BWmGoSrray2ahJsxzSJYMiIgUR_RWXE5dCdLMVN7w_hZeNvZ3B-HDSLYynQu3z142yCzP7-ahM1LoYH6Gu4_DDbVlNn6hJSj-9mmL8EW8WduMihEz-Gj8562hYZuFy84vxyOHn8kxwwX0wk005W8PodHEYAjNyFc_H4xEeIgdgqbGwrRQ"/>
+</div>
+<!-- Dynamic Indicator -->
+<div class="w-full flex flex-col items-center gap-sm">
+<p class="font-label-md text-label-md text-primary-container flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">refresh</span>
+                    QR Code refresh in <span class="font-bold" id="countdown">00:08s</span>
+</p>
+<div class="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full progress-bar-animation"></div>
+</div>
+</div>
+</div>
+<!-- Live Metrics -->
+<div class="w-full max-w-[340px] grid grid-cols-2 gap-md">
+<div class="bg-surface-container-low rounded-lg p-md flex flex-col items-center justify-center gap-unit text-center border border-surface-container-highest">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0;">timer</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Sisa Waktu Sesi</p>
+<p class="font-headline-md text-headline-md text-on-surface">00:45:12</p>
+</div>
+<div class="bg-surface-container-low rounded-lg p-md flex flex-col items-center justify-center gap-unit text-center border border-surface-container-highest">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">groups</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Siswa Hadir</p>
+<p class="font-headline-md text-headline-md text-primary-container">28 / 32</p>
+</div>
+</div>
+</main>
+<!-- Bottom Action (Sticky) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-md border-t border-surface-container shadow-[0px_-4px_12px_rgba(0,0,0,0.02)] z-40 pb-[env(safe-area-inset-bottom)]">
+<div class="px-margin-mobile py-md max-w-container-max mx-auto">
+<button class="w-full h-12 bg-surface-container-lowest border border-error text-error font-label-md text-label-md rounded-[8px] flex items-center justify-center gap-sm active:scale-[0.98] transition-transform shadow-[0px_4px_12px_rgba(0,0,0,0.05)] hover:bg-error-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">stop_circle</span>
+                Akhiri Sesi
+            </button>
+</div>
+</div>
+<!-- Minimal Script for Countdown -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const countdownEl = document.getElementById('countdown');
+            let timeLeft = 8;
+
+            setInterval(() => {
+                timeLeft--;
+                if (timeLeft < 0) {
+                    timeLeft = 8;
+                }
+                countdownEl.textContent = `00:0${timeLeft}s`;
+            }, 1000);
+        });
+    </script>
+</body></html>
