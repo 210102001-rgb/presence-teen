@@ -3,7 +3,7 @@
 @endphp
 
 <aside :class="mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-       class="bg-[#0e7a3d] text-[#a5ffb7] h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col py-6 px-4 z-50 overflow-y-auto transform transition-transform duration-300 ease-in-out">
+       class="bg-primary-container text-on-primary-container h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col py-6 px-4 z-50 overflow-y-auto transform transition-transform duration-300 ease-in-out">
     {{-- Brand --}}
     <div class="flex items-center gap-3 mb-8 px-2">
         <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 overflow-hidden">
@@ -230,7 +230,7 @@
 
         {{-- User Info --}}
         <div class="mt-3 flex items-center gap-3 px-2 py-3 bg-white/10 rounded-xl">
-            <div class="w-9 h-9 rounded-full bg-[#97f7ac] flex items-center justify-center text-[#005f2d] text-sm font-bold shrink-0">
+            <div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center text-primary text-sm font-bold shrink-0">
                 {{ substr(Auth::user()->name, 0, 1) }}
             </div>
             <div class="overflow-hidden">

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Kelas;
 use App\Models\LaporanAi;
 use App\Models\OrangTuaSiswa;
+use App\Models\Presensi;
+use App\Models\SesiPresensi;
 use App\Models\SiswaKelas;
+use Carbon\Carbon;
 
 class LaporanController extends Controller
 {
@@ -40,6 +43,37 @@ class LaporanController extends Controller
 
         $laporan->load('siswa');
 
-        return view('laporan.show', compact('laporan'));
+        // Hitung tren kehadiran 5 bulan terakhir
+        $siswaId = $laporan->siswa_id;
+        $userKelasIds = SiswaKelas::where('siswa_id', $siswaId)->pluck('kelas_id');
+        $monthlyTrend = collect();
+        $currentMonth = Carbon::parse($laporan->created_at);
+
+        for ($i = 4; $i >= 0; $i--) {
+            $month = $currentMonth->copy()->subMonths($i);
+            $monthLabel = $month->translatedFormat('M');
+
+            $totalSesi = SesiPresensi::whereIn('kelas_id', $userKelasIds)
+                ->whereMonth('created_at', $month->month)
+                ->whereYear('created_at', $month->year)
+                ->count();
+
+            $totalHadir = Presensi::where('siswa_id', $siswaId)
+                ->whereIn('status', ['hadir', 'telat'])
+                ->whereMonth('waktu_absen', $month->month)
+                ->whereYear('waktu_absen', $month->year)
+                ->count();
+
+            $rate = $totalSesi > 0 ? round(($totalHadir / $totalSesi) * 100) : 100;
+
+            $monthlyTrend->push(['label' => $monthLabel, 'rate' => $rate]);
+        }
+
+        // Hitung perubahan % dari bulan lalu
+        $currentRate = $monthlyTrend->last()['rate'];
+        $previousRate = $monthlyTrend->count() > 1 ? $monthlyTrend->slice(0, -1)->last()['rate'] : $currentRate;
+        $rateChange = $currentRate - $previousRate;
+
+        return view('laporan.show', compact('laporan', 'monthlyTrend', 'rateChange'));
     }
 }

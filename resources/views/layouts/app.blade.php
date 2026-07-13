@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f6fafe; }
@@ -51,24 +52,24 @@
     @include('layouts.navigation')
 
     {{-- Top Header Bar --}}
-    <header class="fixed top-0 right-0 w-full lg:w-[calc(100%-16rem)] h-16 bg-[#f6fafe] shadow-sm flex justify-between items-center px-4 md:px-10 z-30 border-b border-[#eaeef2]">
+    <header class="fixed top-0 right-0 w-full lg:w-[calc(100%-16rem)] h-16 bg-surface shadow-sm flex justify-between items-center px-4 md:px-10 z-30 border-b border-surface-container">
         <div class="flex items-center gap-3">
-            <button @click="mobileSidebarOpen = !mobileSidebarOpen" class="p-2 text-[#3f493f] hover:text-[#005f2d] lg:hidden rounded-lg transition-colors focus:outline-none">
+            <button @click="mobileSidebarOpen = !mobileSidebarOpen" class="p-2 text-on-surface-variant hover:text-primary lg:hidden rounded-lg transition-colors focus:outline-none">
                 <span class="material-symbols-outlined">menu</span>
             </button>
             @isset($header)
-                <div class="font-semibold text-lg lg:text-xl text-[#005f2d]">{{ $header }}</div>
+                <div class="font-semibold text-lg lg:text-xl text-primary">{{ $header }}</div>
             @endisset
         </div>
         <div class="flex items-center gap-5">
-            <button class="relative p-1 text-[#3f493f] hover:text-[#005f2d] transition-colors">
+            <button class="relative p-1 text-on-surface-variant hover:text-primary transition-colors">
                 <span class="material-symbols-outlined">notifications</span>
             </button>
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-[#0e7a3d] flex items-center justify-center text-white text-sm font-bold">
+                <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white text-sm font-bold">
                     {{ substr(Auth::user()->name, 0, 1) }}
                 </div>
-                <span class="text-sm font-medium text-[#171c1f] hidden md:block">{{ Auth::user()->name }}</span>
+                <span class="text-sm font-medium text-on-surface hidden md:block">{{ Auth::user()->name }}</span>
             </div>
         </div>
     </header>
@@ -79,7 +80,7 @@
     </main>
 
     @livewire('chat-ai')
-
+    @livewireScripts
     @stack('scripts')
 </body>
 </html>

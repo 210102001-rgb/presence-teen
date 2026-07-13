@@ -105,6 +105,55 @@
                         @endif
                     </div>
                 @endif
+
+                {{-- Status Pengumpulan Anak (orang_tua) --}}
+                @if(auth()->user()->role === 'orang_tua')
+                    <div class="mt-5 pt-5 border-t border-[#eaeef2] space-y-4">
+                        <h4 class="text-sm font-semibold text-[#171c1f] mb-3">Status Pengumpulan Anak</h4>
+                        @php
+                            $anakInKelas = auth()->user()->anak->filter(function($a) use ($tugas) {
+                                return $a->kelasSaya->contains('id', $tugas->kelas_id);
+                            });
+                        @endphp
+                        @foreach($anakInKelas as $child)
+                            @php
+                                $kumpul = $tugas->pengumpulan->where('siswa_id', $child->id)->first();
+                                $sudah = $kumpul && $kumpul->status === 'sudah';
+                            @endphp
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-[#f6fafe] rounded-xl border border-[#eaeef2] gap-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-[#0e7a3d]/10 flex items-center justify-center text-[#005f2d] font-bold">
+                                        {{ substr($child->name, 0, 1) }}
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-[#171c1f]">{{ $child->name }}</p>
+                                        <p class="text-xs text-[#5c5f61]">NIS: {{ $child->nis ?? '-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 justify-between sm:justify-end">
+                                    @if($sudah)
+                                        <div class="text-right">
+                                            <p class="text-[10px] text-[#5c5f61] uppercase tracking-wider font-bold">Dikumpulkan</p>
+                                            <p class="text-xs font-semibold text-[#171c1f]">
+                                                {{ \Carbon\Carbon::parse($kumpul->waktu_kumpul)->format('d M Y, H:i') }}
+                                            </p>
+                                            @if($kumpul->nilai)
+                                                <p class="text-xs text-[#005f2d] font-bold">Nilai: {{ $kumpul->nilai }}</p>
+                                            @endif
+                                        </div>
+                                        <span class="bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Sudah Dikumpulkan</span>
+                                    @else
+                                        @if($isOverdue)
+                                            <span class="bg-[#ffdad6] text-[#93000a] border border-[#ba1a1a]/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Belum Dikumpulkan (Terlambat)</span>
+                                        @else
+                                            <span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Belum Dikumpulkan</span>
+                                        @endif
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
             {{-- Daftar Pengumpulan (guru) --}}

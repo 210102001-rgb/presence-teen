@@ -53,11 +53,11 @@
                         <tbody class="divide-y divide-[#f0f4f8]">
                             @foreach($laporans as $item)
                                 @php
-                                    $level = $item->level_peringatan ?? 'ringan';
+                                    $level = $item->level_peringatan ?? 'aman';
                                     $badgeMap = [
-                                        'ringan' => 'bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20',
-                                        'sedang' => 'bg-amber-50 text-amber-700 border border-amber-200',
-                                        'berat'  => 'bg-[#ffdad6] text-[#93000a] border border-[#ba1a1a]/20',
+                                        'aman'     => 'bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20',
+                                        'perhatian'=> 'bg-amber-50 text-amber-700 border border-amber-200',
+                                        'kritis'   => 'bg-[#ffdad6] text-[#93000a] border border-[#ba1a1a]/20',
                                     ];
                                     $badgeClass = $badgeMap[$level] ?? 'bg-[#eaeef2] text-[#5c5f61]';
                                 @endphp

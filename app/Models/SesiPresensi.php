@@ -9,7 +9,7 @@ class SesiPresensi extends Model
     protected $table = 'sesi_presensi';
 
     protected $fillable = [
-        'kelas_id', 'guru_id', 'mata_pelajaran',
+        'kelas_id', 'guru_id', 'mata_pelajaran', 'topik',
         'qr_token', 'qr_expired_at', 'is_active',
     ];
 

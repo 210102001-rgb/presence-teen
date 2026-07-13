@@ -56,10 +56,10 @@
                 new Chart(trendCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Jul', 'Agu', 'Sep', 'Okt', 'Nov'],
+                        labels: {!! json_encode($monthlyTrend->pluck('label')->toArray()) !!},
                         datasets: [{
                             label: 'Tingkat Kehadiran %',
-                            data: [90, 92, 95, 93, {{ $attendanceRate }}],
+                            data: {!! json_encode($monthlyTrend->pluck('rate')->toArray()) !!},
                             borderColor: '#005f2d',
                             backgroundColor: 'rgba(0, 95, 45, 0.05)',
                             fill: true,
@@ -120,8 +120,9 @@
             <div class="bg-white p-6 rounded-2xl border border-[#eaeef2] shadow-soft flex flex-col justify-between">
                 <span class="text-[9px] font-bold text-[#5c5f61] uppercase tracking-wider">Overall Attendance</span>
                 <p class="text-3xl font-bold text-[#171c1f] mt-2">{{ $attendanceRate }}%</p>
-                <span class="text-[10px] text-[#005f2d] font-bold flex items-center gap-1 mt-1">
-                    <span class="material-symbols-outlined text-[12px]">trending_up</span> +2.4% dari bulan lalu
+                <span class="text-[10px] {{ $rateChange >= 0 ? 'text-[#005f2d]' : 'text-[#ba1a1a]' }} font-bold flex items-center gap-1 mt-1">
+                    <span class="material-symbols-outlined text-[12px]">{{ $rateChange >= 0 ? 'trending_up' : 'trending_down' }}</span> 
+                    {{ $rateChange >= 0 ? '+' : '' }}{{ $rateChange }}% dari bulan lalu
                 </span>
             </div>
 

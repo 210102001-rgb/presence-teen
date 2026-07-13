@@ -49,7 +49,12 @@ class PresensiController extends Controller
     {
         $request->validate(['token' => 'required|string']);
 
-        $sesi = SesiPresensi::where('qr_token', $request->token)
+        $token = $request->token;
+        if (filter_var($token, FILTER_VALIDATE_URL)) {
+            $token = basename(parse_url($token, PHP_URL_PATH));
+        }
+
+        $sesi = SesiPresensi::where('qr_token', $token)
             ->where('is_active', true)
             ->first();
 

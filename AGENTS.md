@@ -7,6 +7,11 @@
 - Tests: SQLite `:memory:` (configured in `phpunit.xml`)
 - `@tailwindcss/vite` v4 is in `package.json` but **not used** — actual Tailwind is v3 via `tailwind.config.js`
 
+## Figma & Stitch Links
+- Design URL: https://www.figma.com/design/wTmPZQIkrf4JWo1RywA0zJ/Solvia-Project?node-id=0-1&p=f&t=OsYHmjI0PjwfAvSb-0
+- Stitch Guru URL: https://stitch.withgoogle.com/projects/16068625114209282442
+- Stitch Mobile URL: https://stitch.withgoogle.com/projects/7271032810189453938
+
 ## Commands
 ```sh
 composer setup          # install, key:generate, migrate, npm install+build
@@ -65,6 +70,31 @@ The following pages/features exist as raw HTML templates but are not yet impleme
   - **Profil Anak** & **Profil Orang Tua Custom** (`uiux/walisiswa/profil_anak_desktop/code.html`, `profil_orang_tua_desktop_1/code.html`)
   - **Pengaturan & Logout Custom** (`uiux/walisiswa/pengaturan_desktop/code.html`)
 
+## Discrepancies Between Stitch Guru & Laravel Views
+- **Jadwal Mengajar (`guru/jadwal.blade.php`):**
+  - Stitch shows a full weekly interactive calendar grid with absolute time-based event blocks (Monday-Friday, 08:00-12:00) and a "Daily Agenda" sidebar tracking "In Progress" sessions.
+  - Laravel currently renders a simple table listing classes and subjects with a "Mulai Sesi" quick link.
+- **Data Siswa & Data Kelas (`guru/kelas_siswa.blade.php`):**
+  - Stitch lists students in a "Student Directory" layout with filter dropdowns (by class and device status), device active indicators, attendance percentage progress bars, and pagination footer.
+  - Laravel displays nested tables grouped by classes, showing basic columns (No, Name, Email, NIS) without device status, attendance progress bars, filters, or export/import actions.
+- **Input Manual Kehadiran (`guru/manual_presensi.blade.php`):**
+  - Stitch uses a distinct visual layout with search filters, quick attendance action buttons, and student cards.
+  - Laravel uses a standard HTML input form containing dropdown selects for sessions, students, and status.
+- **Top Bar & Navigation:**
+  - Stitch uses `Poppins` font throughout and custom container parameters (like `sidebar-width: 280px`).
+  - Laravel uses `Inter` font, a standard `w-64` (256px) sidebar, and locks views within `x-app-layout`.
+
+## Discrepancies Between Stitch Mobile & Laravel Views
+- **Bottom Navigation Bar:**
+  - Stitch Mobile defines a fixed bottom navigation bar (`fixed bottom-0 left-0 right-0 h-20 bg-white border-t border-outline-variant pb-safe`) with 5 tabs: Dashboard, Presensi, Aktivitas, AI Insight, and Profil.
+  - Laravel uses a traditional sidebar (`layouts/navigation.blade.php`) hidden behind a menu toggle on mobile screen widths, rather than a bottom navigation tab bar.
+- **Floating AI Button:**
+  - Stitch Mobile has a prominent pulsing circular Floating Action Button (`fixed bottom-24 right-margin-mobile w-14 h-14 bg-primary`) for the AI assistant.
+  - Laravel displays a custom Livewire AI chat widget (`livewire/chat-ai.blade.php`) but lacks the floating indicator/pulsing action button specified in Stitch.
+- **Mobile Cards & Layout:**
+  - Stitch Mobile displays student information inside a card (`bg-primary-container text-on-primary`) at the top, followed by a grid of 4 attendance and activity metrics (Kehadiran, Izin/Sakit, Terlambat, Poin Prestasi), a custom progress gauge ("Prediksi Kelulusan"), and inline AI recommendation insights.
+  - Laravel views render responsive desktop elements stacked vertically on mobile viewports.
+
 ## Critical UI/UX Issues to Address (From `.impeccable/critique/`)
 - **Broken Mobile Layout:** The sidebar layout (`layouts/navigation.blade.php`) locks to `w-64 fixed left-0 top-0` and main content is offset by `ml-64`. Needs Alpine.js state for mobile responsive toggling (`-translate-x-full lg:translate-x-0`).
 - **Parent Dashboard Attribution:** Parent task list display shows "Belum dikumpulkan" but fails to specify which child it belongs to when parent has multiple registered children.
@@ -79,3 +109,15 @@ The following pages/features exist as raw HTML templates but are not yet impleme
 - Route `/presensi/scan/{token}` is public (no auth) — intentional for QR URL sharing
 - `@stack('scripts')` is in `layouts/app.blade.php` before `</body>` — push page-specific JS there
 - PWA: `public/manifest.json` + `public/sw.js`
+- `@livewireStyles` and `@livewireScripts` are in `layouts/app.blade.php` — do not duplicate in child views
+- **CRITICAL**: `resources/js/app.js` must NOT import or start Alpine.js — Livewire v4 bundles Alpine inside `livewire.min.js` via `@livewireScripts`. A separate Alpine instance breaks all `wire:` directives silently
+- QR token validation (`PresensiController@validasiToken`) must handle full URLs (`http://.../{token}`) — uses `parse_url()` + `basename()`
+- `SesiPresensi` model uses `qr_expired_at` (not `durasi`) — timer calculations use `now()->diffInSeconds()`
+- Livewire `wire:click` buttons need `type="button"` to prevent native form submit; form needs `onsubmit="return false;"`
+- Seed data creates 1 guru, 1 siswa, 1 ortu, 1 kelas ("XII IPA 1") — 30+ active sessions may exist from testing
+
+## Presensi System Architecture
+- `QrPresensi` Livewire component handles all session lifecycle (create, extend, end)
+- QR URL format: `/presensi/scan/{token}` — public route for student QR scanning
+- Student attendance recorded in `presensi` table with foreign keys to `siswa_id` and `sesi_presensi_id`
+- Session expiration: QR refreshes every 15s, session auto-closes after 60 min
