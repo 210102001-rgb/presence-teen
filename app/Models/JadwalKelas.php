@@ -15,7 +15,7 @@ class JadwalKelas extends Model
     ];
 
     // Urutan hari untuk sorting
-    public static array $urutan = ['Senin'=>1,'Selasa'=>2,'Rabu'=>3,'Kamis'=>4,'Jumat'=>5,'Sabtu'=>6];
+    public static array $urutan = ['Senin' => 1, 'Selasa' => 2, 'Rabu' => 3, 'Kamis' => 4, 'Jumat' => 5, 'Sabtu' => 6];
 
     public function kelas()
     {
@@ -30,6 +30,6 @@ class JadwalKelas extends Model
     // Format "08:00 – 09:30"
     public function getJamLabelAttribute(): string
     {
-        return substr($this->jam_mulai, 0, 5) . ' – ' . substr($this->jam_selesai, 0, 5);
+        return substr($this->jam_mulai, 0, 5).' – '.substr($this->jam_selesai, 0, 5);
     }
 }

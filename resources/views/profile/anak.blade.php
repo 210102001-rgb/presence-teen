@@ -137,7 +137,7 @@
                             <div class="flex items-center justify-center md:justify-start gap-2 mt-1 flex-wrap">
                                 <span class="px-2.5 py-[2px] bg-[#97f7ac]/30 text-[#005226] rounded-full text-xs font-bold">NIS: {{ $siswa->nis ?? '-' }}</span>
                                 <span class="w-1.5 h-1.5 bg-[#becabc] rounded-full"></span>
-                                <span class="text-xs text-[#5c5f61]">Siswa Aktif</span>
+                                <span class="text-xs text-[#5c5f61]">{{ $siswa->role === 'siswa' ? 'Siswa Aktif' : ucfirst($siswa->role) }}</span>
                             </div>
                         </div>
                         
@@ -190,14 +190,13 @@
                                 <span class="material-symbols-outlined text-[#495362]">foundation</span>
                             </div>
                             <div>
-                                <p class="text-sm font-bold text-[#171c1f]">SMA Presence-Teen</p>
-                                <p class="text-xs text-[#5c5f61]">Akreditasi A (Unggul)</p>
+                                <p class="text-sm font-bold text-[#171c1f]">{{ config('app.name', 'Sekolah') }}</p>
                             </div>
                         </div>
                         <div class="space-y-1 text-xs text-[#5c5f61] bg-[#f6fafe] p-3 rounded-xl border border-[#eaeef2]">
                             <div class="flex items-center gap-2">
                                 <span class="material-symbols-outlined text-[14px]">location_on</span>
-                                <span>Jl. Melati No. 45, Jakarta</span>
+                                <span>-</span>
                             </div>
                         </div>
                     </div>

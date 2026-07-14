@@ -11,33 +11,34 @@ class JadwalController extends Controller
 {
     public function index()
     {
-        $guru    = auth()->user();
-        $kelas   = Kelas::where('guru_id', $guru->id)->get();
-        $today   = Carbon::now();
+        $guru = auth()->user();
+        $kelas = Kelas::where('guru_id', $guru->id)->get();
+        $today = Carbon::now();
 
         // Semua jadwal milik guru ini
         $jadwals = JadwalKelas::where('guru_id', $guru->id)
             ->with('kelas')
             ->get()
-            ->sortBy(fn($j) => [JadwalKelas::$urutan[$j->hari] ?? 9, $j->jam_mulai]);
+            ->sortBy(fn ($j) => [JadwalKelas::$urutan[$j->hari] ?? 9, $j->jam_mulai]);
 
         // Jadwal hari ini
         $hariIni = $today->isWeekend()
             ? collect()
-            : $jadwals->filter(fn($j) => $j->hari === $this->hariIniLabel($today));
+            : $jadwals->filter(fn ($j) => $j->hari === $this->hariIniLabel($today));
 
         $totalJam = $hariIni->reduce(function ($carry, $j) {
-            $mulai  = Carbon::createFromFormat('H:i:s', $j->jam_mulai);
+            $mulai = Carbon::createFromFormat('H:i:s', $j->jam_mulai);
             $selesai = Carbon::createFromFormat('H:i:s', $j->jam_selesai);
+
             return $carry + $mulai->diffInMinutes($selesai) / 60;
         }, 0);
 
         // Hari-hari dalam minggu ini untuk kalender
-        $monday   = $today->copy()->startOfWeek(Carbon::MONDAY);
-        $weekDays = collect(range(0, 4))->map(fn($i) => $monday->copy()->addDays($i));
+        $monday = $today->copy()->startOfWeek(Carbon::MONDAY);
+        $weekDays = collect(range(0, 4))->map(fn ($i) => $monday->copy()->addDays($i));
 
         // Susun jadwal per kolom hari untuk kalender
-        $hariNama  = ['Senin','Selasa','Rabu','Kamis','Jumat'];
+        $hariNama = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
         $warnaPalet = [
             // Biru muda — seperti "Matematika" di desain
             0 => ['bg' => '#dbeafe', 'text' => '#1e3a5f', 'border' => '#3b82f6'],
@@ -54,13 +55,13 @@ class JadwalController extends Controller
         ];
         $colorMap = [];
         foreach ($jadwals as $j) {
-            if (!isset($colorMap[$j->kelas_id])) {
+            if (! isset($colorMap[$j->kelas_id])) {
                 $idx = count($colorMap) % count($warnaPalet);
                 $c = $warnaPalet[$idx];
                 $colorMap[$j->kelas_id] = [
-                    'class'  => '',
-                    'style'  => "background-color:{$c['bg']};color:{$c['text']};border-left:4px solid {$c['border']};",
-                    'badge'  => "background-color:{$c['border']};",
+                    'class' => '',
+                    'style' => "background-color:{$c['bg']};color:{$c['text']};border-left:4px solid {$c['border']};",
+                    'badge' => "background-color:{$c['border']};",
                 ];
             }
         }
@@ -75,24 +76,24 @@ class JadwalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kelas_id'     => 'required|exists:kelas,id',
-            'hari'         => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
-            'jam_mulai'    => 'required|date_format:H:i',
-            'jam_selesai'  => 'required|date_format:H:i|after:jam_mulai',
+            'kelas_id' => 'required|exists:kelas,id',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
             'mata_pelajaran' => 'required|string|max:100',
-            'ruang'        => 'nullable|string|max:50',
-            'topik'        => 'nullable|string|max:150',
+            'ruang' => 'nullable|string|max:50',
+            'topik' => 'nullable|string|max:150',
         ]);
 
         JadwalKelas::create([
-            'kelas_id'      => $request->kelas_id,
-            'guru_id'       => auth()->id(),
-            'hari'          => $request->hari,
-            'jam_mulai'     => $request->jam_mulai . ':00',
-            'jam_selesai'   => $request->jam_selesai . ':00',
+            'kelas_id' => $request->kelas_id,
+            'guru_id' => auth()->id(),
+            'hari' => $request->hari,
+            'jam_mulai' => $request->jam_mulai.':00',
+            'jam_selesai' => $request->jam_selesai.':00',
             'mata_pelajaran' => $request->mata_pelajaran,
-            'ruang'         => $request->ruang,
-            'topik'         => $request->topik,
+            'ruang' => $request->ruang,
+            'topik' => $request->topik,
         ]);
 
         return redirect()->route('guru.jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
@@ -102,12 +103,14 @@ class JadwalController extends Controller
     {
         abort_if($jadwal->guru_id !== auth()->id(), 403);
         $jadwal->delete();
+
         return redirect()->route('guru.jadwal')->with('success', 'Jadwal berhasil dihapus.');
     }
 
     private function hariIniLabel(Carbon $date): string
     {
-        $map = [1=>'Senin',2=>'Selasa',3=>'Rabu',4=>'Kamis',5=>'Jumat',6=>'Sabtu'];
+        $map = [1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu'];
+
         return $map[$date->dayOfWeekIso] ?? '';
     }
 }

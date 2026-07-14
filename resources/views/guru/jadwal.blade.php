@@ -8,12 +8,8 @@
 
     <div class="p-6 md:p-8" x-data="{ showForm: {{ $errors->any() || old('kelas_id') ? 'true' : 'false' }} }">
 
-        {{-- Flash --}}
         @if(session('success'))
-            <div class="mb-5 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-3 text-sm text-[#005f2d]">
-                <span class="material-symbols-outlined filled-icon text-[20px]">check_circle</span>
-                {{ session('success') }}
-            </div>
+            <div x-data x-init="$dispatch('toast', { type: 'success', message: '{{ session('success') }}' })"></div>
         @endif
 
         {{-- Page Header --}}
@@ -281,14 +277,15 @@
                                                 {{ $j->ruang ?: '—' }}
                                             </td>
                                             <td class="px-5 py-3.5">
-                                                <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <div class="flex items-center gap-2 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                                                     <a href="{{ route('presensi.guru.qr', $j->kelas_id) }}"
                                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-lg text-[10px] font-semibold text-[#005f2d] hover:bg-[#0e7a3d] hover:text-white transition-all">
                                                         <span class="material-symbols-outlined text-[12px]">qr_code_scanner</span>
                                                         Presensi
                                                     </a>
                                                     <form action="{{ route('guru.jadwal.destroy', $j) }}" method="POST"
-                                                          onsubmit="return confirm('Hapus jadwal {{ $j->mata_pelajaran }} ({{ $j->hari }})?')">
+                                                          x-data
+                                                          @submit.prevent="$dispatch('confirm', { title: 'Hapus Jadwal?', description: 'Jadwal {{ $j->mata_pelajaran }} ({{ $j->hari }}) akan dihapus permanen.', type: 'danger', confirmText: 'Hapus', onConfirm: () => $el.submit() })">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"

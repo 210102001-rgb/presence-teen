@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">Edit Tugas</x-slot>
 
-    <div class="p-8">
+    <div class="p-4 md:p-8">
         <div class="max-w-2xl mx-auto">
             {{-- Breadcrumb --}}
             <nav class="flex items-center gap-1.5 text-xs text-[#5c5f61] mb-6">

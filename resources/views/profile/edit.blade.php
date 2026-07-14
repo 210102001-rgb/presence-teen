@@ -64,7 +64,7 @@
                             </div>
                         @endif
                         <div class="text-center">
-                            <p class="text-xl font-bold text-[#005f2d]">A+</p>
+                            <p class="text-xl font-bold text-[#005f2d]">{{ Auth::user()->email_verified_at ? 'Aktif' : 'Belum Verifikasi' }}</p>
                             <p class="text-[9px] uppercase tracking-wider text-[#5c5f61]">ACCOUNT STATUS</p>
                         </div>
                     </div>
@@ -80,22 +80,22 @@
                         <div class="flex items-start gap-3 p-3 rounded-xl bg-[#f6fafe]">
                             <span class="material-symbols-outlined text-[#5c5f61] mt-0.5">call</span>
                             <div>
-                                <p class="text-xs font-semibold text-[#171c1f]">Receptionist</p>
-                                <p class="text-sm text-[#5c5f61]">+1 (555) 123-4567</p>
+                                <p class="text-xs font-semibold text-[#171c1f]">Sekretariat</p>
+                                <p class="text-sm text-[#5c5f61]">({{ config('app.name', 'Sekolah') }})</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3 p-3 rounded-xl bg-[#f6fafe]">
                             <span class="material-symbols-outlined text-[#5c5f61] mt-0.5">mail</span>
                             <div>
-                                <p class="text-xs font-semibold text-[#171c1f]">Admin Office</p>
-                                <p class="text-sm text-[#5c5f61]">admin@academia.edu</p>
+                                <p class="text-xs font-semibold text-[#171c1f]">Email Sekolah</p>
+                                <p class="text-sm text-[#5c5f61]">admin@{{ strtolower(str_replace(' ', '', config('app.name', 'presence-teen'))) }}.sch.id</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3 p-3 rounded-xl bg-[#f6fafe]">
                             <span class="material-symbols-outlined text-[#5c5f61] mt-0.5">schedule</span>
                             <div>
-                                <p class="text-xs font-semibold text-[#171c1f]">Visiting Hours</p>
-                                <p class="text-sm text-[#5c5f61]">Mon-Fri, 8:00 AM - 4:00 PM</p>
+                                <p class="text-xs font-semibold text-[#171c1f]">Jam Operasional</p>
+                                <p class="text-sm text-[#5c5f61]">Senin - Jumat, 07:00 - 16:00 WIB</p>
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                             <span class="material-symbols-outlined text-[#005f2d] filled-icon">auto_awesome</span>
                             <h4 class="font-bold text-[#171c1f]">Child Progress Summary</h4>
                         </div>
-                        <span class="text-xs text-[#005f2d] font-semibold bg-[#f0fdf4] px-2 py-0.5 rounded border border-[#0e7a3d]/20">Last Updated: Today</span>
+                        <span class="text-xs text-[#005f2d] font-semibold bg-[#f0fdf4] px-2 py-0.5 rounded border border-[#0e7a3d]/20">Last Updated: {{ now()->translatedFormat('d M Y') }}</span>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -146,7 +146,7 @@
                                         <h5 class="font-bold text-sm text-[#171c1f] truncate">{{ $anak->name }}</h5>
                                     </div>
                                     <div class="flex gap-2 mt-1 flex-wrap">
-                                        <span class="px-2 py-[2px] rounded bg-[#97f7ac]/30 text-[#005226] text-[9px] font-bold">GPA: 3.9</span>
+                                        <span class="px-2 py-[2px] rounded bg-[#97f7ac]/30 text-[#005226] text-[9px] font-bold">{{ $kehadiranPct }}% Kehadiran</span>
                                         <span class="px-2 py-[2px] rounded bg-[#d9e3f6] text-[#121c2a] text-[9px] font-bold">{{ $kehadiranPct }}% Attendance</span>
                                     </div>
                                 </div>
@@ -159,7 +159,11 @@
                     <div class="mt-6 p-4 bg-[#f0fdf4] rounded-xl flex gap-3 items-center border border-[#0e7a3d]/10">
                         <span class="material-symbols-outlined text-[#005f2d] text-2xl shrink-0">psychology</span>
                         <p class="text-xs text-[#005226] leading-relaxed italic">
-                            "Siswa terhubung aktif dengan guru dan memiliki tingkat partisipasi yang baik. Pastikan motivasi belajarnya terjaga di rumah."
+                            @if(Auth::user()->anak->count() > 0)
+                                "Anda memiliki {{ Auth::user()->anak->count() }} anak terdaftar. Pantau perkembangan belajar mereka secara berkala."
+                            @else
+                                "Profil Anda telah terverifikasi. Hubungi sekolah untuk informasi lebih lanjut."
+                            @endif
                         </p>
                     </div>
                 </div>
@@ -211,11 +215,11 @@
             </div>
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-[#005f2d] text-[18px]">history</span>
-                <span>Profile managed by Academia IT Department.</span>
+                <span>Profile managed by {{ config('app.name', 'Sekolah') }} IT Department.</span>
             </div>
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-[#005f2d] text-[18px]">verified_user</span>
-                <span>Last login: Today, from Jakarta, ID.</span>
+                <span>Last login: {{ now()->translatedFormat('d M Y, H:i') }} WIB.</span>
             </div>
         </div>
     </div>

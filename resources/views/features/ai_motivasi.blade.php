@@ -5,41 +5,49 @@
         {{-- Hero Bento Grid Section --}}
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             {{-- AI Avatar & High-Level Insights --}}
-            <div class="lg:col-span-8 bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden flex flex-col md:flex-row relative">
+            <div class="lg:col-span-8 bg-white rounded-2xl shadow-soft border border-surface-container overflow-hidden flex flex-col md:flex-row relative">
                 <div class="absolute top-4 right-4 z-10">
-                    <span class="flex items-center gap-1 bg-[#f0fdf4] text-[#005f2d] px-3 py-1 rounded-full text-[10px] font-bold border border-[#0e7a3d]/20">
+                    <span class="flex items-center gap-1 bg-surface-container-lowest text-primary px-3 py-1 rounded-full text-[10px] font-bold border border-primary-container/20">
                         <span class="material-symbols-outlined filled-icon text-[12px]">verified</span>
-                        95% Akurasi Model AI
+                        {{ $akurasi }}% Akurasi Model AI
                     </span>
                 </div>
-                <div class="w-full md:w-1/3 bg-[#f6fafe] p-6 flex flex-col items-center justify-center text-center border-r border-[#eaeef2]">
-                    <div class="w-28 h-28 rounded-full border-4 border-[#97f7ac] p-1 mb-4 flex items-center justify-center bg-[#0e7a3d]/10">
-                        <span class="material-symbols-outlined text-[64px] text-[#005f2d]">psychology</span>
+                <div class="w-full md:w-1/3 bg-surface p-6 flex flex-col items-center justify-center text-center border-r border-surface-container">
+                    <div class="w-28 h-28 rounded-full border-4 border-primary-fixed p-1 mb-4 flex items-center justify-center bg-primary-container/10">
+                        <span class="material-symbols-outlined text-[64px] text-primary">psychology</span>
                     </div>
-                    <h3 class="font-bold text-sm text-[#005f2d]">AcademAI Engine</h3>
-                    <p class="text-[10px] text-[#5c5f61] mt-1 leading-normal">Mesin rekomendasi motivasi & belajar presisi</p>
+                    <h3 class="font-bold text-sm text-primary">AcademAI Engine</h3>
+                    <p class="text-[10px] text-secondary mt-1 leading-normal">Mesin rekomendasi motivasi & belajar presisi</p>
                 </div>
                 <div class="w-full md:w-2/3 p-6 flex flex-col justify-between">
                     <div class="space-y-4">
-                        <p class="text-[9px] text-[#5c5f61] font-bold uppercase tracking-widest">Analisis Hari Ini</p>
-                        <h2 class="text-lg font-bold text-[#171c1f] leading-snug">Siswa saat ini beraktivitas pada performa dan konsistensi terbaiknya.</h2>
-                        <blockquote class="italic text-[#5c5f61] text-xs border-l-4 border-[#005f2d] pl-4 py-2 bg-[#f6fafe] rounded-r-xl">
-                            "Ketekunan adalah kunci keberhasilan. Ahmad menunjukkan konsistensi yang luar biasa minggu ini di mata pelajaran Matematika."
-                        </blockquote>
+                        <p class="text-[9px] text-secondary font-bold uppercase tracking-widest">Analisis Hari Ini</p>
+                        <h2 class="text-lg font-bold text-on-surface leading-snug">
+                            {{ $siswa->name }} saat ini beraktivitas dengan klasifikasi <strong>{{ $klasifikasi }}</strong>.
+                        </h2>
+                        @if($laporanAi->isNotEmpty())
+                            <blockquote class="italic text-secondary text-xs border-l-4 border-primary pl-4 py-2 bg-surface rounded-r-xl">
+                                {!! nl2br(e(Str::limit($laporanAi->first()->hasil_analisis, 200))) !!}
+                            </blockquote>
+                        @else
+                            <blockquote class="italic text-secondary text-xs border-l-4 border-primary pl-4 py-2 bg-surface rounded-r-xl">
+                                Belum ada analisis AI yang tersedia untuk siswa ini.
+                            </blockquote>
+                        @endif
                     </div>
                     <div class="mt-6 flex flex-wrap gap-4">
-                        <div class="px-4 py-2 bg-[#f0fdf4] rounded-xl flex items-center gap-2 border border-[#0e7a3d]/10">
-                            <span class="material-symbols-outlined text-[#005f2d] text-[18px]">trending_up</span>
+                        <div class="px-4 py-2 bg-surface-container-lowest rounded-xl flex items-center gap-2 border border-primary-container/10">
+                            <span class="material-symbols-outlined text-primary text-[18px]">trending_up</span>
                             <div>
-                                <p class="text-[8px] text-[#5c5f61] font-bold uppercase">Klasifikasi</p>
-                                <p class="text-[10px] font-bold text-[#005f2d]">Sangat Aktif</p>
+                                <p class="text-[8px] text-secondary font-bold uppercase">Klasifikasi</p>
+                                <p class="text-[10px] font-bold text-primary">{{ $klasifikasi }}</p>
                             </div>
                         </div>
-                        <div class="px-4 py-2 bg-[#f0fdf4] rounded-xl flex items-center gap-2 border border-[#0e7a3d]/10">
-                            <span class="material-symbols-outlined text-[#0e7a3d] text-[18px]">security</span>
+                        <div class="px-4 py-2 bg-surface-container-lowest rounded-xl flex items-center gap-2 border border-primary-container/10">
+                            <span class="material-symbols-outlined text-primary-container text-[18px]">security</span>
                             <div>
-                                <p class="text-[8px] text-[#5c5f61] font-bold uppercase">Tingkat Risiko</p>
-                                <p class="text-[10px] font-bold text-[#005f2d]">Rendah</p>
+                                <p class="text-[8px] text-secondary font-bold uppercase">Tingkat Risiko</p>
+                                <p class="text-[10px] font-bold text-primary">{{ $risiko }}</p>
                             </div>
                         </div>
                     </div>
@@ -47,78 +55,125 @@
             </div>
 
             {{-- Achievement Badge --}}
-            <div class="lg:col-span-4 bg-white rounded-2xl shadow-soft border border-[#eaeef2] p-6 flex flex-col items-center justify-center text-center">
-                <p class="text-[9px] text-[#5c5f61] font-bold uppercase tracking-widest mb-4">Lencana Terbaru</p>
-                <div class="w-16 h-16 bg-[#f0fdf4] rounded-full border border-[#0e7a3d]/20 flex items-center justify-center text-[#0e7a3d] mb-4">
-                    <span class="material-symbols-outlined text-3xl">workspace_premium</span>
+            <div class="lg:col-span-4 bg-white rounded-2xl shadow-soft border border-surface-container p-6 flex flex-col items-center justify-center text-center">
+                <p class="text-[9px] text-secondary font-bold uppercase tracking-widest mb-4">Ringkasan Kehadiran</p>
+                <div class="w-16 h-16 bg-surface-container-lowest rounded-full border border-primary-container/20 flex items-center justify-center text-primary-container mb-4">
+                    <span class="material-symbols-outlined text-3xl">{{ $tingkatKehadiran >= 90 ? 'workspace_premium' : 'trending_up' }}</span>
                 </div>
-                <h3 class="font-bold text-sm text-[#171c1f]">Consistency Master</h3>
-                <p class="text-xs text-[#5c5f61] mt-2 px-2 leading-relaxed">Siswa telah mengumpulkan semua tugas tepat waktu selama 30 hari berturut-turut.</p>
-                <button class="mt-6 w-full py-2.5 bg-[#005f2d] hover:bg-[#0e7a3d] text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-soft">
-                    Buka Ruang Penghargaan
-                </button>
+                <h3 class="font-bold text-sm text-on-surface">{{ $tingkatKehadiran }}% Kehadiran</h3>
+                <p class="text-xs text-secondary mt-2 px-2 leading-relaxed">
+                    {{ $tingkatKehadiran >= 95 ? 'Prestasi luar biasa! Kehadiran sangat konsisten.' : ($tingkatKehadiran >= 85 ? 'Kehadiran cukup baik. Pertahankan dan tingkatkan lagi!' : 'Perlu peningkatan kehadiran untuk mencapai target sekolah.') }}
+                </p>
+                <div class="mt-4 w-full space-y-2">
+                    <div class="flex justify-between text-[10px]">
+                        <span class="text-secondary">Tugas Selesai</span>
+                        <span class="font-bold text-on-surface">{{ $tugasSelesai }}/{{ $totalTugas }}</span>
+                    </div>
+                    <div class="w-full bg-surface rounded-full h-2 border border-surface-container overflow-hidden">
+                        <div class="h-full bg-primary rounded-full" style="width: {{ $totalTugas > 0 ? round(($tugasSelesai / $totalTugas) * 100) : 0 }}%;"></div>
+                    </div>
+                </div>
+                <a href="{{ route('presensi.riwayat', ['siswa_id' => $siswa->id]) }}" class="mt-4 w-full py-2.5 bg-primary hover:bg-primary-container text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-soft inline-flex items-center justify-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">history</span>
+                    Lihat Riwayat
+                </a>
             </div>
         </div>
 
         {{-- Recommendations Section --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {{-- Recommendations for Parents --}}
-            <div class="bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden">
-                <div class="bg-[#f6fafe] px-6 py-4 border-b border-[#eaeef2] flex items-center justify-between">
+            <div class="bg-white rounded-2xl shadow-soft border border-surface-container overflow-hidden">
+                <div class="bg-surface px-6 py-4 border-b border-surface-container flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[#005f2d]">family_restroom</span>
-                        <h4 class="font-bold text-sm text-[#171c1f]">Panduan untuk Orang Tua</h4>
+                        <span class="material-symbols-outlined text-primary">family_restroom</span>
+                        <h4 class="font-bold text-sm text-on-surface">Panduan untuk Orang Tua</h4>
                     </div>
-                    <span class="px-2.5 py-0.5 bg-[#f0fdf4] border border-[#0e7a3d]/20 text-[#005f2d] rounded-full text-[9px] font-bold">4 TINDAKAN AI</span>
+                    <span class="px-2.5 py-0.5 bg-surface-container-lowest border border-primary-container/20 text-primary rounded-full text-[9px] font-bold">REKOMENDASI AI</span>
                 </div>
                 <div class="p-6 space-y-4">
-                    <div class="flex gap-4 p-4 hover:bg-[#f6fafe] rounded-xl border border-transparent hover:border-[#eaeef2] transition-all">
-                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 border border-gray-200">
-                            <span class="material-symbols-outlined text-[#5c5f61] text-[20px]">menu_book</span>
+                    @if($tingkatKehadiran >= 95)
+                        <div class="flex gap-4 p-4 hover:bg-surface rounded-xl border border-transparent hover:border-surface-container transition-all">
+                            <div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-surface-container">
+                                <span class="material-symbols-outlined text-secondary text-[20px]">celebration</span>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-on-surface">Pertahankan Konsistensi</h5>
+                                <p class="text-xs text-secondary mt-1 leading-relaxed">{{ $siswa->name }} menunjukkan kehadiran yang sangat konsisten. Puji dan berikan motivasi agar terus mempertahankan pencapaian ini.</p>
+                            </div>
+                        </div>
+                    @else
+                        <div class="flex gap-4 p-4 hover:bg-surface rounded-xl border border-transparent hover:border-surface-container transition-all">
+                            <div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-surface-container">
+                                <span class="material-symbols-outlined text-secondary text-[20px]">menu_book</span>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-on-surface">Dukung Kehadiran</h5>
+                                <p class="text-xs text-secondary mt-1 leading-relaxed">Tingkat kehadiran {{ $siswa->name }} adalah {{ $tingkatKehadiran }}%. Diskusikan bersama untuk mencari solusi agar lebih konsisten hadir ke sekolah.</p>
+                            </div>
+                        </div>
+                    @endif
+                    @if($tugasTerlambat > 0)
+                        <div class="flex gap-4 p-4 hover:bg-surface rounded-xl border border-transparent hover:border-surface-container transition-all">
+                            <div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-surface-container">
+                                <span class="material-symbols-outlined text-secondary text-[20px]">schedule</span>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-on-surface">Perhatikan Pengumpulan Tugas</h5>
+                                <p class="text-xs text-secondary mt-1 leading-relaxed">Ada {{ $tugasTerlambat }} tugas yang terlambat dikumpulkan. Bantu {{ $siswa->name }} mengatur waktu belajar di rumah.</p>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="flex gap-4 p-4 hover:bg-surface rounded-xl border border-transparent hover:border-surface-container transition-all">
+                        <div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-surface-container">
+                            <span class="material-symbols-outlined text-secondary text-[20px]">forum</span>
                         </div>
                         <div>
-                            <h5 class="text-xs font-bold text-[#171c1f]">Dukung Minat Eksakta</h5>
-                            <p class="text-xs text-[#5c5f61] mt-1 leading-relaxed">Ahmad menunjukkan minat yang meningkat pada Matematika. Coba berikan buku materi pengayaan atau ajak berdiskusi santai di akhir pekan.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4 p-4 hover:bg-[#f6fafe] rounded-xl border border-transparent hover:border-[#eaeef2] transition-all">
-                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 border border-gray-200">
-                            <span class="material-symbols-outlined text-[#5c5f61] text-[20px]">forum</span>
-                        </div>
-                        <div>
-                            <h5 class="text-xs font-bold text-[#171c1f]">Diskusikan Minat Karir</h5>
-                            <p class="text-xs text-[#5c5f61] mt-1 leading-relaxed">Skor analitisnya menunjukkan kecenderungan kuat di bidang Rekayasa Teknologi / Komputer. Tanyakan minat karirnya ke depan.</p>
+                            <h5 class="text-xs font-bold text-on-surface">Komunikasi Aktif dengan Guru</h5>
+                            <p class="text-xs text-secondary mt-1 leading-relaxed">Pantau perkembangan {{ $siswa->name }} melalui laporan berkala yang tersedia di dashboard.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             {{-- Recommendations for Student --}}
-            <div class="bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden">
-                <div class="bg-[#f6fafe] px-6 py-4 border-b border-[#eaeef2] flex items-center justify-between">
+            <div class="bg-white rounded-2xl shadow-soft border border-surface-container overflow-hidden">
+                <div class="bg-surface px-6 py-4 border-b border-surface-container flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[#005f2d]">person</span>
-                        <h4 class="font-bold text-sm text-[#171c1f]">Misi Mingguan Siswa</h4>
+                        <span class="material-symbols-outlined text-primary">person</span>
+                        <h4 class="font-bold text-sm text-on-surface">Misi Mingguan Siswa</h4>
                     </div>
-                    <span class="px-2.5 py-0.5 bg-[#005f2d] text-white rounded-full text-[9px] font-bold">SELANJUTNYA</span>
+                    <span class="px-2.5 py-0.5 bg-primary text-white rounded-full text-[9px] font-bold">AKTIF</span>
                 </div>
                 <div class="p-6 space-y-4">
-                    <div class="flex gap-4 p-4 bg-[#f0fdf4] rounded-xl border border-[#0e7a3d]/20 relative">
-                        <div class="w-10 h-10 rounded-full bg-[#005f2d]/10 text-[#005f2d] flex items-center justify-center shrink-0 border border-[#0e7a3d]/20">
-                            <span class="material-symbols-outlined text-[20px]">fitness_center</span>
+                    @if($tugasSelesai < $totalTugas)
+                        <div class="flex gap-4 p-4 bg-surface-container-lowest rounded-xl border border-primary-container/20 relative">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 border border-primary-container/20">
+                                <span class="material-symbols-outlined text-[20px]">fitness_center</span>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-on-primary-fixed-variant">Selesaikan Tugas Tertunda</h5>
+                                <p class="text-xs text-tertiary mt-1 leading-relaxed">Masih ada {{ $totalTugas - $tugasSelesai }} tugas yang belum dikumpulkan. Menyelesaikannya akan meningkatkan indeks keaktifan belajar.</p>
+                            </div>
+                        </div>
+                    @else
+                        <div class="flex gap-4 p-4 bg-surface-container-lowest rounded-xl border border-primary-container/20 relative">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 border border-primary-container/20">
+                                <span class="material-symbols-outlined text-[20px]">emoji_events</span>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-on-primary-fixed-variant">Semua Tugas Selesai!</h5>
+                                <p class="text-xs text-tertiary mt-1 leading-relaxed">Kerja bagus! Semua tugas telah dikumpulkan tepat waktu. Pertahankan semangat ini.</p>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="flex gap-4 p-4 hover:bg-surface rounded-xl border border-transparent hover:border-surface-container transition-all">
+                        <div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-surface-container">
+                            <span class="material-symbols-outlined text-secondary text-[20px]">explore</span>
                         </div>
                         <div>
-                            <h5 class="text-xs font-bold text-[#005226]">Selesaikan Quiz Eksponensial</h5>
-                            <p class="text-xs text-[#3f493f] mt-1 leading-relaxed">Ada latihan tambahan opsional yang tersedia. Menyelesaikannya akan menaikkan indeks keaktifan belajarmu sebesar 5%.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4 p-4 hover:bg-[#f6fafe] rounded-xl border border-transparent hover:border-[#eaeef2] transition-all">
-                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 border border-gray-200">
-                            <span class="material-symbols-outlined text-[#5c5f61] text-[20px]">explore</span>
-                        </div>
-                        <div>
-                            <h5 class="text-xs font-bold text-[#171c1f]">Eksplorasi Modul Logaritma</h5>
-                            <p class="text-xs text-[#5c5f61] mt-1 leading-relaxed">Pelajari materi baru tentang logaritma yang telah diunggah guru di halaman Materi.</p>
+                            <h5 class="text-xs font-bold text-on-surface">Jaga Konsistensi Kehadiran</h5>
+                            <p class="text-xs text-secondary mt-1 leading-relaxed">Tingkat kehadiranmu saat ini {{ $tingkatKehadiran }}%. Terus pertahankan agar mencapai target minimal 95%.</p>
                         </div>
                     </div>
                 </div>

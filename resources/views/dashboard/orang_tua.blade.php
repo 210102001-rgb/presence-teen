@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">Dashboard Orang Tua</x-slot>
 
-    <div class="p-8">
+    <div class="p-4 md:p-8">
         {{-- Welcome --}}
         <div class="mb-8">
             <h2 class="text-2xl font-bold text-[#171c1f]">Selamat Datang, {{ Auth::user()->name }} 👋</h2>
@@ -10,7 +10,7 @@
 
         {{-- Stats --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-            <div class="bg-[#0e7a3d] text-white rounded-xl p-5 shadow-soft">
+            <div class="animate-fade-in animate-delay-1 bg-[#0e7a3d] text-white rounded-xl p-5 shadow-soft">
                 <div class="flex justify-between items-start mb-3">
                     <p class="text-[11px] uppercase tracking-widest text-white/70 font-semibold">Anak Terdaftar</p>
                     <div class="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center">
@@ -21,7 +21,7 @@
                 <p class="text-xs text-white/60 mt-1">Anak terhubung</p>
             </div>
 
-            <div class="bg-white rounded-xl p-5 shadow-soft {{ $totalPeringatan > 0 ? 'border-t-4 border-[#ba1a1a]' : 'border-t-4 border-[#005f2d]' }}">
+            <div class="animate-fade-in animate-delay-2 bg-white rounded-xl p-5 shadow-soft {{ $totalPeringatan > 0 ? 'border-t-4 border-[#ba1a1a]' : 'border-t-4 border-[#005f2d]' }}">
                 <div class="flex justify-between items-start mb-3">
                     <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Peringatan</p>
                     <div class="w-9 h-9 {{ $totalPeringatan > 0 ? 'bg-[#ffdad6]' : 'bg-[#f0fdf4]' }} rounded-xl flex items-center justify-center">
@@ -32,7 +32,7 @@
                 <p class="text-xs text-[#5c5f61] mt-1">{{ $totalPeringatan > 0 ? 'Perlu perhatian' : 'Semua baik' }}</p>
             </div>
 
-            <div class="bg-white rounded-xl p-5 shadow-soft border-t-4 border-[#495362]">
+            <div class="animate-fade-in animate-delay-3 bg-white rounded-xl p-5 shadow-soft border-t-4 border-[#495362]">
                 <div class="flex justify-between items-start mb-3">
                     <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Total Laporan</p>
                     <div class="w-9 h-9 bg-[#eaeef2] rounded-xl flex items-center justify-center">

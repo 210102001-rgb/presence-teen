@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">Dashboard Siswa</x-slot>
 
-    <div class="p-8">
+    <div class="p-4 md:p-8">
         {{-- Welcome --}}
         <div class="mb-8">
             <h2 class="text-2xl font-bold text-[#171c1f]">Selamat Datang, {{ Auth::user()->name }} 👋</h2>
@@ -10,7 +10,7 @@
 
         {{-- Stats --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-            <div class="bg-[#0e7a3d] text-white rounded-xl p-5 shadow-soft">
+            <div class="animate-fade-in animate-delay-1 bg-[#0e7a3d] text-white rounded-xl p-5 shadow-soft">
                 <div class="flex justify-between items-start mb-3">
                     <p class="text-[11px] uppercase tracking-widest text-white/70 font-semibold">Kehadiran Bulan Ini</p>
                     <div class="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center">
@@ -21,7 +21,7 @@
                 <p class="text-xs text-white/60 mt-1">Kali hadir bulan ini</p>
             </div>
 
-            <div class="bg-white rounded-xl p-5 shadow-soft border-t-4 border-[#495362]">
+            <div class="animate-fade-in animate-delay-2 bg-white rounded-xl p-5 shadow-soft border-t-4 border-[#495362]">
                 <div class="flex justify-between items-start mb-3">
                     <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Total Tugas</p>
                     <div class="w-9 h-9 bg-[#eaeef2] rounded-xl flex items-center justify-center">
@@ -32,7 +32,7 @@
                 <p class="text-xs text-[#5c5f61] mt-1">{{ $tugasSelesai }} selesai bulan ini</p>
             </div>
 
-            <div class="bg-white rounded-xl p-5 shadow-soft border-t-4 border-[#005f2d]">
+            <div class="animate-fade-in animate-delay-3 bg-white rounded-xl p-5 shadow-soft border-t-4 border-[#005f2d]">
                 <div class="flex justify-between items-start mb-3">
                     <p class="text-[11px] uppercase tracking-widest text-[#5c5f61] font-semibold">Materi Tersedia</p>
                     <div class="w-9 h-9 bg-[#f0fdf4] rounded-xl flex items-center justify-center">
@@ -84,7 +84,7 @@
                                     </div>
                                 </div>
                                 <a href="{{ route('tugas.show', $t) }}"
-                                   class="shrink-0 ml-3 inline-flex items-center gap-1 px-3 py-1.5 bg-[#005f2d] text-white text-xs font-semibold rounded-lg hover:bg-[#0e7a3d] transition-colors opacity-0 group-hover:opacity-100">
+                                    class="shrink-0 ml-3 inline-flex items-center gap-1 px-3 py-1.5 bg-[#005f2d] text-white text-xs font-semibold rounded-lg hover:bg-[#0e7a3d] transition-colors lg:opacity-0 lg:group-hover:opacity-100">
                                     Kumpul
                                 </a>
                             </div>

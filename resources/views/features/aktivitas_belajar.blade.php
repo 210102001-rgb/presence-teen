@@ -13,8 +13,11 @@
                 </div>
                 <div>
                     <h3 class="font-bold text-sm text-[#005f2d] mb-1">Analisis Aktivitas Mingguan</h3>
+                    @php
+                        $statusAktivitas = $attendanceRate >= 80 ? 'Sangat Aktif' : ($attendanceRate >= 50 ? 'Aktif' : 'Perlu Perhatian');
+                    @endphp
                     <p class="text-xs text-[#3f493f] leading-relaxed max-w-2xl">
-                        {{ $siswa->name }} menunjukkan status <span class="font-bold text-[#005f2d]">Sangat Aktif</span> minggu ini dengan tingkat kehadiran sebesar {{ $attendanceRate }}% dari total sesi kelas.
+                        {{ $siswa->name }} menunjukkan status <span class="font-bold text-[#005f2d]">{{ $statusAktivitas }}</span> minggu ini dengan tingkat kehadiran sebesar {{ $attendanceRate }}% dari total sesi kelas.
                     </p>
                 </div>
             </div>

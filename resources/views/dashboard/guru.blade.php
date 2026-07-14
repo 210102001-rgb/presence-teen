@@ -81,7 +81,7 @@
             <div class="flex flex-col gap-5">
 
                 {{-- Total Sessions --}}
-                <div class="bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
+                <div class="animate-fade-in animate-delay-1 bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
                     <div>
                         <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Total Sessions</p>
                         <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalSesi }}</p>
@@ -92,7 +92,7 @@
                 </div>
 
                 {{-- Avg Attendance --}}
-                <div class="bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
+                <div class="animate-fade-in animate-delay-2 bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
                     <div>
                         <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Avg. Attendance</p>
                         <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $avgAttendance }}%</p>
@@ -103,7 +103,7 @@
                 </div>
 
                 {{-- Active Students --}}
-                <div class="bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
+                <div class="animate-fade-in animate-delay-3 bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
                     <div>
                         <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Active Students</p>
                         <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalSiswa }}</p>
@@ -115,7 +115,7 @@
             </div>
 
             {{-- Attendance Chart --}}
-            <div class="lg:col-span-2 bg-white rounded-2xl shadow-soft border border-[#eaeef2] p-6">
+            <div class="animate-fade-in animate-delay-2 lg:col-span-2 bg-white rounded-2xl shadow-soft border border-[#eaeef2] p-6">
                 <div class="flex items-center justify-between mb-5">
                     <h3 class="font-bold text-[#171c1f] text-base">Attendance Overview</h3>
                     <div class="flex items-center gap-4">

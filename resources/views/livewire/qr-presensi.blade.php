@@ -46,9 +46,9 @@
 
                 <div class="flex flex-col gap-2">
                     <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Durasi (Menit)</label>
-                    <input type="number" 
-                           wire:model.live="durasi" 
-                           min="5" 
+                    <input type="number"
+                           wire:model.blur="durasi"
+                           min="5"
                            max="480"
                            class="w-full rounded-xl border border-outline-variant bg-surface px-4 py-3 text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors">
                     @error('durasi')
@@ -57,10 +57,14 @@
                 </div>
 
                 <div class="flex items-end justify-end md:col-span-2 mt-2">
-                    <button type="submit" 
-                            class="bg-primary text-on-primary font-semibold rounded-xl px-6 py-3 hover:bg-primary/90 shadow-soft transition-all active:scale-95 flex items-center gap-2">
-                        <span class="material-symbols-outlined" style="font-size: 20px;">play_arrow</span>
-                        Mulai Sesi
+                    <button type="submit"
+                            wire:loading.attr="disabled"
+                            wire:loading.class="opacity-50 cursor-not-allowed"
+                            class="bg-primary text-on-primary font-semibold rounded-xl px-6 py-3 hover:bg-primary/90 shadow-soft transition-all active:scale-95 flex items-center gap-2 disabled:pointer-events-none">
+                        <span wire:loading.remove class="material-symbols-outlined" style="font-size: 20px;">play_arrow</span>
+                        <span wire:loading class="animate-spin w-5 h-5 border-2 border-on-primary border-t-transparent rounded-full"></span>
+                        <span wire:loading.remove>Mulai Sesi</span>
+                        <span wire:loading>Memproses...</span>
                     </button>
                 </div>
             </form>
@@ -70,7 +74,6 @@
         <div class="bg-white rounded-2xl shadow-soft overflow-hidden border border-surface-container">
             <div class="p-5 border-b border-surface-container flex justify-between items-center bg-white">
                 <h3 class="text-sm font-bold text-on-surface">Riwayat Sesi Terakhir</h3>
-                <button class="text-primary font-semibold text-xs hover:underline">Lihat Semua</button>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">

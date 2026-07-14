@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kelas_id')->constrained('kelas')->cascadeOnDelete();
             $table->foreignId('guru_id')->constrained('users')->cascadeOnDelete();
-            $table->enum('hari', ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']);
+            $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']);
             $table->time('jam_mulai');
             $table->time('jam_selesai');
             $table->string('mata_pelajaran');

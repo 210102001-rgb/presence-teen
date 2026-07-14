@@ -40,6 +40,7 @@
                                        focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all"
                                 required>
                             <option value="">Pilih Mata Pelajaran</option>
+                            <option value="Umum">Umum</option>
                             <option value="Biology">Biology</option>
                             <option value="Mathematics">Mathematics</option>
                             <option value="Physics">Physics</option>

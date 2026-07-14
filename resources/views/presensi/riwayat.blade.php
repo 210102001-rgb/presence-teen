@@ -56,7 +56,7 @@
         <div class="space-y-6">
             @if($presensi->isEmpty())
                 <div class="bg-white rounded-2xl shadow-soft border border-surface-container p-16 text-center">
-                    <div class="w-16 h-16 bg-[#eaeef2] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="material-symbols-outlined text-secondary text-3xl">calendar_today</span>
                     </div>
                     <p class="text-base font-semibold text-on-surface">Belum ada riwayat presensi</p>
@@ -106,11 +106,11 @@
                                         </div>
                                         <div>
                                             @if($status === 'hadir')
-                                                <span class="bg-[#f0fdf4] text-primary border border-primary-container/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Hadir</span>
+                                                <span class="bg-surface-container-lowest text-primary border border-primary-container/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Hadir</span>
                                             @elseif($status === 'telat')
                                                 <span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Terlambat</span>
                                             @elseif($status === 'izin')
-                                                <span class="bg-[#f6fafe] text-secondary border border-surface-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Izin</span>
+                                                <span class="bg-surface text-secondary border border-surface-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Izin</span>
                                             @elseif($status === 'sakit')
                                                 <span class="bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Sakit</span>
                                             @else

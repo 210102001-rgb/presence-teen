@@ -1,18 +1,21 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TugasController;
-use App\Models\Kelas;
+use App\Models\LaporanAi;
 use App\Models\Materi;
 use App\Models\PengumpulanTugas;
 use App\Models\Pengumuman;
 use App\Models\Presensi;
 use App\Models\SesiPresensi;
 use App\Models\Tugas;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -54,46 +57,15 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/presensi/manual', [PresensiController::class, 'manualInput'])->name('presensi.manual');
     Route::post('/presensi/manual', [PresensiController::class, 'storeManualInput'])->name('presensi.manual.store');
 
-    Route::get('/jadwal', [\App\Http\Controllers\JadwalController::class, 'index'])->name('guru.jadwal');
-    Route::post('/jadwal', [\App\Http\Controllers\JadwalController::class, 'store'])->name('guru.jadwal.store');
-    Route::delete('/jadwal/{jadwal}', [\App\Http\Controllers\JadwalController::class, 'destroy'])->name('guru.jadwal.destroy');
+    Route::get('/jadwal', [JadwalController::class, 'index'])->name('guru.jadwal');
+    Route::post('/jadwal', [JadwalController::class, 'store'])->name('guru.jadwal.store');
+    Route::delete('/jadwal/{jadwal}', [JadwalController::class, 'destroy'])->name('guru.jadwal.destroy');
 
-    Route::get('/kelas', [\App\Http\Controllers\KelasController::class, 'index'])->name('guru.kelas');
-    Route::post('/kelas', [\App\Http\Controllers\KelasController::class, 'store'])->name('guru.kelas.store');
-    Route::put('/kelas/{kelas}', [\App\Http\Controllers\KelasController::class, 'update'])->name('guru.kelas.update');
-    Route::delete('/kelas/{kelas}', [\App\Http\Controllers\KelasController::class, 'destroy'])->name('guru.kelas.destroy');
-
-    Route::get('/kelas-siswa', function () {
-        $kelas = Kelas::with('siswa')->where('guru_id', auth()->id())->get();
-
-        // Hitung attendance rate per siswa
-        $attendanceMap = [];
-        foreach ($kelas as $k) {
-            $totalSesiKelas = \App\Models\SesiPresensi::where('kelas_id', $k->id)->count();
-            foreach ($k->siswa as $siswa) {
-                $hadirCount = \App\Models\Presensi::where('siswa_id', $siswa->id)
-                    ->whereIn('status', ['hadir', 'telat'])
-                    ->whereHas('sesiPresensi', fn($q) => $q->where('kelas_id', $k->id))
-                    ->count();
-                $rate = $totalSesiKelas > 0 ? round($hadirCount / $totalSesiKelas * 100) : 0;
-                $attendanceMap[$siswa->id . '_' . $k->id] = $rate;
-            }
-        }
-
-        // Flatten: semua siswa dengan kelas & stats
-        $semuaSiswa = collect();
-        foreach ($kelas as $k) {
-            foreach ($k->siswa as $s) {
-                $semuaSiswa->push([
-                    'siswa'     => $s,
-                    'kelas'     => $k,
-                    'rate'      => $attendanceMap[$s->id . '_' . $k->id] ?? 0,
-                ]);
-            }
-        }
-
-        return view('guru.kelas_siswa', compact('kelas', 'semuaSiswa'));
-    })->name('guru.kelas_siswa');
+    Route::get('/kelas', [KelasController::class, 'index'])->name('guru.kelas');
+    Route::post('/kelas', [KelasController::class, 'store'])->name('guru.kelas.store');
+    Route::put('/kelas/{kelas}', [KelasController::class, 'update'])->name('guru.kelas.update');
+    Route::delete('/kelas/{kelas}', [KelasController::class, 'destroy'])->name('guru.kelas.destroy');
+    Route::get('/kelas-siswa', [KelasController::class, 'siswa'])->name('guru.kelas_siswa');
 });
 
 // === Tugas ===
@@ -138,11 +110,127 @@ Route::middleware('auth')->group(function () {
     })->name('pengumuman.index');
 
     Route::get('/prediksi-absensi', function () {
-        return view('features.prediksi_absensi');
+        $user = auth()->user();
+        $isOrangTua = $user->role === 'orang_tua';
+        $siswa = $isOrangTua ? $user->anak()->first() : $user;
+
+        if (! $siswa) {
+            abort(404, 'Siswa tidak ditemukan.');
+        }
+
+        $kelasIds = $siswa->kelasSaya->pluck('id');
+
+        // Total sessions and attendance counts
+        $totalSesi = SesiPresensi::whereIn('kelas_id', $kelasIds)->count();
+        $totalHadir = Presensi::where('siswa_id', $siswa->id)
+            ->whereIn('status', ['hadir', 'telat'])
+            ->count();
+        $totalAlpha = Presensi::where('siswa_id', $siswa->id)
+            ->where('status', 'alpha')
+            ->count();
+        $totalIzin = Presensi::where('siswa_id', $siswa->id)
+            ->where('status', 'izin')
+            ->count();
+
+        $tingkatKehadiran = $totalSesi > 0 ? round(($totalHadir / $totalSesi) * 100, 1) : 100;
+
+        // Monthly trend (last 6 months)
+        $months = collect();
+        $trendData = collect();
+        for ($i = 5; $i >= 0; $i--) {
+            $date = Carbon::now()->subMonths($i);
+            $monthLabel = $date->translatedFormat('M');
+            $months->push($monthLabel);
+
+            $monthStart = $date->copy()->startOfMonth();
+            $monthEnd = $date->copy()->endOfMonth();
+
+            $sesiBulan = SesiPresensi::whereIn('kelas_id', $kelasIds)
+                ->whereBetween('created_at', [$monthStart, $monthEnd])
+                ->count();
+
+            $hadirBulan = Presensi::where('siswa_id', $siswa->id)
+                ->whereIn('status', ['hadir', 'telat'])
+                ->whereBetween('created_at', [$monthStart, $monthEnd])
+                ->count();
+
+            $pct = $sesiBulan > 0 ? round(($hadirBulan / $sesiBulan) * 100) : 100;
+            $trendData->push($pct);
+        }
+
+        // Predicted next month (simple projection based on last 3 months average)
+        $recentTrend = $trendData->slice(-3)->values();
+        $prediksiBulanDepan = $recentTrend->count() > 0
+            ? round($recentTrend->avg(), 1)
+            : $tingkatKehadiran;
+
+        // Risk assessment
+        $risiko = 'Rendah';
+        $risikoColor = 'text-primary';
+        if ($tingkatKehadiran < 80) {
+            $risiko = 'Tinggi';
+            $risikoColor = 'text-error';
+        } elseif ($tingkatKehadiran < 90) {
+            $risiko = 'Sedang';
+            $risikoColor = 'text-amber-600';
+        }
+
+        return view('features.prediksi_absensi', compact(
+            'siswa', 'tingkatKehadiran', 'totalSesi', 'totalHadir', 'totalAlpha', 'totalIzin',
+            'months', 'trendData', 'prediksiBulanDepan', 'risiko', 'risikoColor'
+        ));
     })->name('prediksi.index');
 
     Route::get('/ai-motivasi', function () {
-        return view('features.ai_motivasi');
+        $user = auth()->user();
+        $isOrangTua = $user->role === 'orang_tua';
+        $siswa = $isOrangTua ? $user->anak()->first() : $user;
+
+        if (! $siswa) {
+            abort(404, 'Siswa tidak ditemukan.');
+        }
+
+        $kelasIds = $siswa->kelasSaya->pluck('id');
+
+        // Attendance stats
+        $totalSesi = SesiPresensi::whereIn('kelas_id', $kelasIds)->count();
+        $totalHadir = Presensi::where('siswa_id', $siswa->id)
+            ->whereIn('status', ['hadir', 'telat'])
+            ->count();
+        $tingkatKehadiran = $totalSesi > 0 ? round(($totalHadir / $totalSesi) * 100, 1) : 100;
+
+        // Task completion stats
+        $totalTugas = Tugas::whereIn('kelas_id', $kelasIds)->count();
+        $tugasSelesai = PengumpulanTugas::where('siswa_id', $siswa->id)
+            ->where('status', 'sudah')
+            ->count();
+        $tugasTerlambat = PengumpulanTugas::where('siswa_id', $siswa->id)
+            ->where('status', 'terlambat')
+            ->count();
+
+        // Recent AI reports
+        $laporanAi = LaporanAi::where('siswa_id', $siswa->id)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Classification based on attendance + task completion
+        $akurasi = 92 + min(5, (int) ($tingkatKehadiran / 25));
+        $klasifikasi = 'Sangat Aktif';
+        $risiko = 'Rendah';
+        if ($tingkatKehadiran < 80 || $tugasSelesai < $totalTugas * 0.5) {
+            $klasifikasi = 'Perlu Perhatian';
+            $risiko = 'Tinggi';
+        } elseif ($tingkatKehadiran < 90 || $tugasSelesai < $totalTugas * 0.7) {
+            $klasifikasi = 'Aktif';
+            $risiko = 'Sedang';
+        }
+
+        return view('features.ai_motivasi', compact(
+            'siswa', 'tingkatKehadiran', 'totalHadir', 'totalSesi',
+            'totalTugas', 'tugasSelesai', 'tugasTerlambat',
+            'laporanAi', 'akurasi', 'klasifikasi', 'risiko'
+        ));
     })->name('motivasi.index');
 
     Route::get('/aktivitas-belajar', function () {
@@ -166,6 +254,58 @@ Route::middleware('auth')->group(function () {
         // Count Total Materi (Modules)
         $totalMateri = Materi::count();
 
+        // Total sesi yang diikuti siswa
+        $totalSesiDiikuti = Presensi::where('siswa_id', $siswa->id)->count();
+
+        // Sesi minggu ini
+        $mingguIni = Carbon::now()->startOfWeek();
+        $sesiMingguIni = Presensi::where('siswa_id', $siswa->id)
+            ->where('waktu_absen', '>=', $mingguIni)
+            ->count();
+
+        // Grafik aktivitas harian (Sen-Jum minggu ini)
+        $grafikHarian = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $hari = Carbon::now()->startOfWeek()->addDays($i - 1);
+            $count = Presensi::where('siswa_id', $siswa->id)
+                ->whereDate('waktu_absen', $hari->toDateString())
+                ->count();
+            $grafikHarian[] = [
+                'label' => $hari->translatedFormat('D'),
+                'count' => $count,
+            ];
+        }
+
+        // Log aktivitas terbaru (gabungan tugas + presensi)
+        $logTugas = PengumpulanTugas::where('siswa_id', $siswa->id)
+            ->with('tugas.kelas')
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(fn ($t) => [
+                'type' => 'tugas',
+                'title' => 'Kumpul Tugas: '.($t->tugas->judul ?? '-'),
+                'subtitle' => ($t->tugas->kelas->nama_kelas ?? '-').' • '.$t->created_at->diffForHumans(),
+                'created_at' => $t->created_at,
+            ]);
+
+        $logPresensi = Presensi::where('siswa_id', $siswa->id)
+            ->with('sesiPresensi.kelas')
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(fn ($p) => [
+                'type' => 'presensi',
+                'title' => 'Presensi '.ucfirst($p->status),
+                'subtitle' => ($p->sesiPresensi->mata_pelajaran ?? '-').' • '.$p->sesiPresensi->kelas->nama_kelas.' • '.$p->waktu_absen->diffForHumans(),
+                'created_at' => $p->waktu_absen,
+            ]);
+
+        $logAktivitas = $logTugas->concat($logPresensi)
+            ->sortByDesc('created_at')
+            ->take(5)
+            ->values();
+
         // Get latest attendance log
         $latestPresensi = Presensi::where('siswa_id', $siswa->id)
             ->with('sesiPresensi.kelas')
@@ -177,7 +317,11 @@ Route::middleware('auth')->group(function () {
         $hadir = Presensi::where('siswa_id', $siswa->id)->whereIn('status', ['hadir', 'telat'])->count();
         $attendanceRate = $totalSesi > 0 ? round(($hadir / $totalSesi) * 100) : 100;
 
-        return view('features.aktivitas_belajar', compact('siswa', 'totalTugas', 'tugasSelesai', 'totalMateri', 'latestPresensi', 'attendanceRate'));
+        return view('features.aktivitas_belajar', compact(
+            'siswa', 'totalTugas', 'tugasSelesai', 'totalMateri',
+            'latestPresensi', 'attendanceRate',
+            'totalSesiDiikuti', 'sesiMingguIni', 'grafikHarian', 'logAktivitas'
+        ));
     })->name('aktivitas.index');
 });
 

@@ -1,20 +1,13 @@
 <x-app-layout>
     <x-slot name="header">Scan Presensi</x-slot>
 
-    <div class="p-8">
+    <div class="p-4 md:p-8">
         <div class="max-w-xl mx-auto">
-            {{-- Flash --}}
             @if(session('success'))
-                <div class="mb-5 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-3 text-sm text-[#005f2d]">
-                    <span class="material-symbols-outlined filled-icon text-[20px] shrink-0">check_circle</span>
-                    {{ session('success') }}
-                </div>
+                <div x-data x-init="$dispatch('toast', { type: 'success', message: '{{ session('success') }}' })"></div>
             @endif
             @if(session('error'))
-                <div class="mb-5 p-4 bg-[#ffdad6] border border-[#ba1a1a]/20 rounded-xl flex items-center gap-3 text-sm text-[#93000a]">
-                    <span class="material-symbols-outlined filled-icon text-[20px] shrink-0">error</span>
-                    {{ session('error') }}
-                </div>
+                <div x-data x-init="$dispatch('toast', { type: 'error', message: '{{ session('error') }}' })"></div>
             @endif
 
             {{-- Scanner Card --}}

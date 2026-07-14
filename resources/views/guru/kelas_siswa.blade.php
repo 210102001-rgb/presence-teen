@@ -34,7 +34,7 @@
                 <h1 class="text-2xl font-bold text-[#171c1f]">Student Directory</h1>
                 <p class="text-sm text-[#5c5f61] mt-0.5">Manage and monitor student attendance and devices.</p>
             </div>
-            <div class="flex items-center gap-3 shrink-0">
+            <div class="flex flex-wrap items-center gap-3 shrink-0">
                 <button onclick="window.print()"
                         class="inline-flex items-center gap-2 px-4 py-2.5 border border-[#0e7a3d] text-[#005f2d] bg-[#f0fdf4] rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] hover:text-white transition-all">
                     <span class="material-symbols-outlined text-[18px]">download</span>
@@ -94,9 +94,9 @@
                     <thead>
                         <tr class="bg-[#f6fafe] border-b border-[#eaeef2]">
                             <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">Student Name</th>
-                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">Class</th>
-                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">Device Status</th>
-                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">Attendance %</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden sm:table-cell">Class</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden md:table-cell">Device Status</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden sm:table-cell">Attendance %</th>
                             <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">Actions</th>
                         </tr>
                     </thead>
@@ -117,10 +117,10 @@
                                 </td>
 
                                 {{-- Class --}}
-                                <td class="px-6 py-4 text-sm text-[#5c5f61]" x-text="item.kelas"></td>
+                                <td class="px-6 py-4 text-sm text-[#5c5f61] hidden sm:table-cell" x-text="item.kelas"></td>
 
                                 {{-- Device Status: aktif jika rate > 0, inactive jika 0 --}}
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 hidden md:table-cell">
                                     <span :class="item.rate > 0
                                         ? 'bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20'
                                         : 'bg-[#ffdad6] text-[#93000a] border border-[#ba1a1a]/20'"
@@ -132,7 +132,7 @@
                                 </td>
 
                                 {{-- Attendance % with progress bar --}}
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 hidden sm:table-cell">
                                     <div class="flex items-center gap-3 min-w-[140px]">
                                         <span class="text-sm font-bold text-[#171c1f] w-10 shrink-0"
                                               x-text="item.rate + '%'"></span>
@@ -187,13 +187,14 @@
             </div>
 
             {{-- Pagination --}}
-            <div class="px-6 py-4 border-t border-[#eaeef2] flex items-center justify-between gap-3"
+            <div class="px-4 sm:px-6 py-4 border-t border-[#eaeef2] flex items-center justify-between gap-3"
                  x-show="totalPages > 1">
                 <button @click="page = Math.max(1, page - 1)"
                         :disabled="page === 1"
-                        class="px-4 py-2 border border-[#becabc] rounded-lg text-sm font-semibold text-[#5c5f61]
-                               hover:bg-[#f0f4f8] disabled:opacity-40 disabled:cursor-not-allowed transition-all">
-                    Previous
+                        class="px-3 sm:px-4 py-2 border border-[#becabc] rounded-lg text-sm font-semibold text-[#5c5f61]
+                               hover:bg-[#f0f4f8] disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[18px] sm:hidden">chevron_left</span>
+                    <span class="hidden sm:inline">Previous</span>
                 </button>
 
                 <div class="flex items-center gap-1">
@@ -210,9 +211,10 @@
 
                 <button @click="page = Math.min(totalPages, page + 1)"
                         :disabled="page === totalPages"
-                        class="px-4 py-2 border border-[#becabc] rounded-lg text-sm font-semibold text-[#5c5f61]
-                               hover:bg-[#f0f4f8] disabled:opacity-40 disabled:cursor-not-allowed transition-all">
-                    Next
+                        class="px-3 sm:px-4 py-2 border border-[#becabc] rounded-lg text-sm font-semibold text-[#5c5f61]
+                               hover:bg-[#f0f4f8] disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1">
+                    <span class="hidden sm:inline">Next</span>
+                    <span class="material-symbols-outlined text-[18px] sm:hidden">chevron_right</span>
                 </button>
             </div>
 

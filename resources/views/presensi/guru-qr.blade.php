@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">QR Presensi</x-slot>
 
-    <div class="p-8">
+    <div class="p-4 md:p-8">
         {{-- Page Header --}}
         <div class="mb-6">
             <p class="text-[11px] uppercase tracking-widest text-[#005f2d] font-semibold mb-1">Attendance Management</p>

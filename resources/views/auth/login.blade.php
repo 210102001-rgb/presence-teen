@@ -90,11 +90,11 @@
 
         {{-- Footer Links --}}
         <footer class="mt-12 flex gap-4 text-[10px] text-[#5c5f61] font-bold">
-            <a href="#" class="hover:underline">Privacy Policy</a>
+            <a href="/" class="hover:underline">Beranda</a>
             <span>•</span>
-            <a href="#" class="hover:underline">Terms of Service</a>
+            <a href="{{ route('login') }}" class="hover:underline">Login</a>
             <span>•</span>
-            <a href="#" class="hover:underline">Help Center</a>
+            <a href="/" class="hover:underline">Fitur</a>
         </footer>
 
         {{-- Demo Accounts (Floating Panel) --}}

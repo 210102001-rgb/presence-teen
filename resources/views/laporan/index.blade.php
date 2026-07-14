@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">Laporan Siswa</x-slot>
 
-    <div class="p-8">
+    <div class="p-4 md:p-8">
         {{-- Page Header --}}
         <div class="mb-8">
             <p class="text-[11px] uppercase tracking-widest text-[#005f2d] font-semibold mb-1">AI-Powered Analytics</p>

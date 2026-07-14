@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JadwalKelas;
 use App\Models\Kelas;
 use App\Models\Presensi;
 use App\Models\SesiPresensi;
@@ -19,9 +20,17 @@ class PresensiController extends Controller
     {
         $kelasList = Kelas::where('guru_id', auth()->id())->get();
 
+        $jadwal = null;
+        if ($request->jadwal_id) {
+            $jadwal = JadwalKelas::where('guru_id', auth()->id())
+                ->where('id', $request->jadwal_id)
+                ->first();
+        }
+
         return view('presensi.guru-qr', [
             'kelas' => $kelasList,
             'selectedKelas' => $kelas,
+            'jadwal' => $jadwal,
         ]);
     }
 
@@ -133,11 +142,21 @@ class PresensiController extends Controller
         ]);
     }
 
-    public function riwayat()
+    public function riwayat(Request $request)
     {
         $user = auth()->user();
         if ($user->role === 'siswa') {
             $presensi = Presensi::where('siswa_id', $user->id)
+                ->with('sesiPresensi.kelas')
+                ->orderBy('waktu_absen', 'desc')
+                ->get();
+        } elseif ($user->role === 'guru' && $request->siswa_id) {
+            // Guru melihat riwayat siswa tertentu
+            $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
+            $siswaIds = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
+            abort_unless($siswaIds->contains($request->siswa_id), 403);
+
+            $presensi = Presensi::where('siswa_id', $request->siswa_id)
                 ->with('sesiPresensi.kelas')
                 ->orderBy('waktu_absen', 'desc')
                 ->get();

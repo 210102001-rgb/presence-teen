@@ -3,12 +3,8 @@
 
     <div class="p-6 md:p-8">
 
-        {{-- Flash Messages --}}
         @if(session('success'))
-            <div class="mb-5 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-3 text-sm text-[#005f2d]">
-                <span class="material-symbols-outlined filled-icon text-[20px]">check_circle</span>
-                {{ session('success') }}
-            </div>
+            <div x-data x-init="$dispatch('toast', { type: 'success', message: '{{ session('success') }}' })"></div>
         @endif
 
         {{-- Header --}}
@@ -22,9 +18,9 @@
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-[#5c5f61]">search</span>
                 <input type="text" placeholder="Cari materi..."
-                       class="px-4 py-2.5 border border-[#becabc] rounded-xl text-sm text-[#171c1f]
-                              focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
-                       style="width: 300px;">
+                       x-model="search"
+                       class="flex-1 min-w-0 px-4 py-2.5 border border-[#becabc] rounded-xl text-sm text-[#171c1f]
+                              focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]">
             </div>
             <div class="flex items-center gap-3">
                 <button class="inline-flex items-center gap-2 px-4 py-2.5 border border-[#becabc] text-[#5c5f61] rounded-xl text-sm font-semibold hover:bg-[#f0f4f8] transition-all">
@@ -97,7 +93,11 @@
                                     <p>
                                         @php
                                             $ext = strtoupper(pathinfo($item->file_path, PATHINFO_EXTENSION));
-                                            $size = '2.4 MB'; // Default size for demo
+                                            $fullPath = Storage::disk('public')->path($item->file_path);
+                                            $bytes = file_exists($fullPath) ? filesize($fullPath) : 0;
+                                            $size = $bytes > 1048576
+                                                ? round($bytes / 1048576, 1) . ' MB'
+                                                : ($bytes > 1024 ? round($bytes / 1024, 1) . ' KB' : $bytes . ' B');
                                         @endphp
                                         • {{ $ext }} • {{ $size }}
                                     </p>

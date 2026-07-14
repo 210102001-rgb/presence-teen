@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,16 +31,66 @@
         .bento-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px rgba(0,0,0,0.07); }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #dfe3e7; border-radius: 10px; }
+
+        /* Loading screen */
+        .page-loader {
+            position: fixed; inset: 0; z-index: [9999]; background: #f6fafe;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .page-loader.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+        .page-loader img { animation: loaderPulse 1.5s ease-in-out infinite; }
+        @keyframes loaderPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.7; }
+        }
+        .page-loader .loader-dot {
+            width: 6px; height: 6px; border-radius: 50%; background: #005f2d;
+            animation: loaderBounce 1.2s ease-in-out infinite;
+        }
+        .page-loader .loader-dot:nth-child(2) { animation-delay: 0.15s; }
+        .page-loader .loader-dot:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes loaderBounce {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .page-loader img { animation: none; }
+            .page-loader .loader-dot { animation: none; opacity: 1; transform: scale(1); }
+        }
     </style>
 </head>
 <body class="text-[#171c1f] antialiased" x-data="{ mobileSidebarOpen: false }">
 
+    {{-- Full-Page Loading Screen --}}
+    <div class="page-loader" id="page-loader">
+        <img src="{{ asset('smansa.png') }}" alt="Loading" class="w-20 h-20 mb-5 rounded-2xl shadow-lg">
+        <div class="flex gap-2">
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+        </div>
+    </div>
+
+    {{-- Toast Notifications --}}
+    <x-toast position="top-right" />
+
+    {{-- Confirm Modal --}}
+    <x-confirm-modal />
+
     {{-- Mobile Sidebar Backdrop --}}
-    <div x-show="mobileSidebarOpen" 
-         x-transition:enter="transition-opacity ease-linear duration-200"
+    <div x-show="mobileSidebarOpen"
+         x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
-         x-transition:leave="transition-opacity ease-linear duration-200"
+         x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          class="fixed inset-0 bg-black/50 z-40 lg:hidden"
@@ -62,9 +112,22 @@
             @endisset
         </div>
         <div class="flex items-center gap-5">
-            <button class="relative p-1 text-on-surface-variant hover:text-primary transition-colors">
-                <span class="material-symbols-outlined">notifications</span>
-            </button>
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="relative p-1 text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 scale-95 -translate-y-1"
+                     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-64 bg-white rounded-xl border border-surface-container shadow-lg z-50 py-3" style="display: none;">
+                    <p class="px-4 text-xs font-bold text-on-surface mb-2">Notifikasi</p>
+                    <p class="px-4 text-xs text-secondary">Belum ada notifikasi baru.</p>
+                </div>
+            </div>
             <div class="flex items-center gap-2">
                 <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white text-sm font-bold">
                     {{ substr(Auth::user()->name, 0, 1) }}
@@ -79,8 +142,84 @@
         {{ $slot }}
     </main>
 
+    {{-- Mobile Bottom Navigation --}}
+    <x-mobile-bottom-nav />
+
     @livewire('chat-ai')
     @livewireScripts
+
+    {{-- Alpine.js Global Stores --}}
+    <script>
+        document.addEventListener('alpine:init', () => {
+
+            // Toast Store
+            Alpine.store('toasts', { toasts: [], counter: 0 });
+
+            Alpine.data('toastStore', () => ({
+                get toasts() { return Alpine.store('toasts').toasts; },
+                addToast({ type = 'success', title = '', message = '', duration = 5000 }) {
+                    const id = ++Alpine.store('toasts').counter;
+                    const toast = { id, type, title, message, visible: true, progress: 100 };
+                    Alpine.store('toasts').toasts.push(toast);
+
+                    // Auto-dismiss with progress
+                    const interval = setInterval(() => {
+                        toast.progress -= (100 / (duration / 50));
+                        if (toast.progress <= 0) {
+                            clearInterval(interval);
+                            this.removeToast(id);
+                        }
+                    }, 50);
+
+                    // Auto-remove after duration
+                    setTimeout(() => this.removeToast(id), duration);
+                },
+                removeToast(id) {
+                    const toast = this.toasts.find(t => t.id === id);
+                    if (toast) {
+                        toast.visible = false;
+                        setTimeout(() => {
+                            Alpine.store('toasts').toasts = Alpine.store('toasts').toasts.filter(t => t.id !== id);
+                        }, 300);
+                    }
+                }
+            }));
+
+            // Confirm Store
+            Alpine.data('confirmStore', () => ({
+                visible: false,
+                title: '',
+                description: '',
+                type: 'danger',
+                confirmText: '',
+                resolvePromise: null,
+                showConfirm({ title, description, type = 'danger', confirmText = '' }) {
+                    this.title = title;
+                    this.description = description;
+                    this.type = type;
+                    this.confirmText = confirmText;
+                    this.visible = true;
+                    return new Promise(resolve => { this.resolvePromise = resolve; });
+                },
+                confirm() {
+                    this.visible = false;
+                    if (this.resolvePromise) this.resolvePromise(true);
+                },
+                cancel() {
+                    this.visible = false;
+                    if (this.resolvePromise) this.resolvePromise(false);
+                }
+            }));
+        });
+
+        // Page loader dismiss
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('page-loader')?.classList.add('loaded');
+            }, 300);
+        });
+    </script>
+
     @stack('scripts')
 </body>
 </html>
