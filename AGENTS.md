@@ -87,7 +87,7 @@ The following pages/features exist as raw HTML templates but are not yet impleme
 ## Discrepancies Between Stitch Mobile & Laravel Views
 - **Bottom Navigation Bar:**
   - Stitch Mobile defines a fixed bottom navigation bar (`fixed bottom-0 left-0 right-0 h-20 bg-white border-t border-outline-variant pb-safe`) with 5 tabs: Dashboard, Presensi, Aktivitas, AI Insight, and Profil.
-  - Laravel uses a traditional sidebar (`layouts/navigation.blade.php`) hidden behind a menu toggle on mobile screen widths, rather than a bottom navigation tab bar.
+  - Laravel now has `components/mobile-bottom-nav.blade.php` included in `layouts/app.blade.php` — role-aware, `lg:hidden`, safe-area support. Matches Stitch design.
 - **Floating AI Button:**
   - Stitch Mobile has a prominent pulsing circular Floating Action Button (`fixed bottom-24 right-margin-mobile w-14 h-14 bg-primary`) for the AI assistant.
   - Laravel displays a custom Livewire AI chat widget (`livewire/chat-ai.blade.php`) but lacks the floating indicator/pulsing action button specified in Stitch.
@@ -115,6 +115,8 @@ The following pages/features exist as raw HTML templates but are not yet impleme
 - `SesiPresensi` model uses `qr_expired_at` (not `durasi`) — timer calculations use `now()->diffInSeconds()`
 - Livewire `wire:click` buttons need `type="button"` to prevent native form submit; form needs `onsubmit="return false;"`
 - Seed data creates 1 guru, 1 siswa, 1 ortu, 1 kelas ("XII IPA 1") — 30+ active sessions may exist from testing
+- **CRITICAL**: `welcome.blade.php` is standalone (own `<!DOCTYPE html>`, no layout) — does NOT use Livewire. Alpine.js must be loaded via CDN (`<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">`). Without it, all `x-data`, `x-show`, `@click`, `x-transition` directives are dead
+- Mobile bottom nav (`components/mobile-bottom-nav.blade.php`) is included in `layouts/app.blade.php` — role-aware (siswa/guru/orang_tua), `lg:hidden`, safe-area support
 
 ## Presensi System Architecture
 - `QrPresensi` Livewire component handles all session lifecycle (create, extend, end)
