@@ -10,6 +10,7 @@ class Kelas extends Model
         'nama_kelas',
         'guru_id',
         'mata_pelajaran',
+        'tahun_ajaran',
         'batas_terlambat_menit',
         'durasi_qr_detik',
         'email_pengirim_notifikasi',

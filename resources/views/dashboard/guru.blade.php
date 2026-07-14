@@ -1,153 +1,273 @@
 <x-app-layout>
-    <x-slot name="header">Dashboard Guru</x-slot>
+    <x-slot name="header">Dashboard</x-slot>
 
-    <div class="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
-        {{-- Welcome Section --}}
-        <header class="mb-8">
-            <h2 class="text-2xl font-bold text-[#171c1f] mb-1">Selamat Datang, {{ Auth::user()->name }} 👋</h2>
-            <p class="text-sm text-[#5c5f61]">Kelola kelas, presensi, tugas, dan pantau laporan siswa dengan mudah.</p>
-        </header>
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const labels = {!! json_encode(array_column($chartData, 'label')) !!};
+            const hadir  = {!! json_encode(array_column($chartData, 'hadir')) !!};
+            const total  = {!! json_encode(array_column($chartData, 'total')) !!};
 
-        {{-- Top Grid Section --}}
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            {{-- Profile Card (Left) --}}
-            <div class="lg:col-span-4 bg-white rounded-2xl p-6 shadow-soft border border-[#eaeef2] flex flex-col items-center text-center justify-between">
-                <div class="flex flex-col items-center w-full">
-                    <div class="w-24 h-24 rounded-full border-4 border-primary-fixed mb-4 overflow-hidden bg-gray-100 flex items-center justify-center">
-                        <div class="w-full h-full bg-primary-container/10 text-primary flex items-center justify-center text-3xl font-bold">
-                            {{ substr(Auth::user()->name, 0, 1) }}
-                        </div>
-                    </div>
-                    <h3 class="text-lg font-bold text-[#171c1f]">{{ Auth::user()->name }}</h3>
-                    <p class="text-xs text-secondary mb-6">Guru / Pendidik</p>
-                </div>
-                
-                <div class="w-full flex justify-between px-4 py-3 bg-[#f6fafe] rounded-xl border border-surface-container mt-auto">
-                    <div class="flex flex-col items-center flex-1">
-                        <span class="text-[9px] text-secondary font-bold uppercase tracking-wider">Total Kelas</span>
-                        <span class="text-primary font-bold text-sm mt-1">{{ $totalKelas }}</span>
-                    </div>
-                    <div class="w-px bg-[#becabc] h-8 my-auto"></div>
-                    <div class="flex flex-col items-center flex-1">
-                        <span class="text-[9px] text-secondary font-bold uppercase tracking-wider">Total Siswa</span>
-                        <span class="text-primary font-bold text-sm mt-1">{{ $totalSiswa }}</span>
-                    </div>
-                </div>
+            new Chart(document.getElementById('attendanceChart'), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Hadir',
+                            data: hadir,
+                            backgroundColor: '#005f2d',
+                            borderRadius: 6,
+                            borderSkipped: false,
+                        },
+                        {
+                            label: 'Total Siswa',
+                            data: total,
+                            backgroundColor: '#a7d9b2',
+                            borderRadius: 6,
+                            borderSkipped: false,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', size: 11 }, color: '#5c5f61' }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f0f4f8' },
+                            ticks: { font: { family: 'Inter', size: 11 }, color: '#5c5f61', stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    @endpush
+
+    <div class="p-6 md:p-8 bg-[#f6fafe] min-h-screen">
+
+        {{-- ===== TOP BAR ===== --}}
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-[#171c1f]">Selamat datang kembali, {{ Auth::user()->name }}!</h1>
+                <p class="text-sm text-[#5c5f61] mt-0.5">Here is what's happening in your classes today.</p>
             </div>
-
-            {{-- Stats Grid (Col-span 8) --}}
-            <div class="lg:col-span-8 flex flex-col justify-between gap-6">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div class="bg-primary-container text-on-primary-container rounded-2xl p-6 shadow-soft flex flex-col justify-center items-center text-center">
-                        <span class="text-[10px] uppercase font-bold tracking-widest text-on-primary-container/80 mb-1">Total Kelas</span>
-                        <div class="text-3xl font-bold text-white">{{ $totalKelas }}</div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-soft border-t-4 border-tertiary border-l border-r border-b border-surface-container flex flex-col justify-center items-center text-center">
-                        <span class="text-[10px] uppercase font-bold tracking-widest text-secondary mb-1">Total Siswa</span>
-                        <div class="text-3xl font-bold text-[#171c1f]">{{ $totalSiswa }}</div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-soft border-t-4 border-primary border-l border-r border-b border-surface-container flex flex-col justify-center items-center text-center">
-                        <span class="text-[10px] uppercase font-bold tracking-widest text-secondary mb-1">Total Tugas</span>
-                        <div class="text-3xl font-bold text-primary">{{ $totalTugas }}</div>
-                    </div>
-                </div>
-
-                {{-- Trend Chart Placeholder --}}
-                <div class="bg-white rounded-2xl p-6 shadow-soft border border-surface-container flex-1 flex flex-col justify-between">
-                    <div class="flex justify-between items-center mb-6">
-                        <h4 class="font-bold text-[#171c1f]">Grafik Keaktifan Presensi</h4>
-                        <span class="text-[10px] text-primary font-bold bg-[#f0fdf4] px-2 py-0.5 rounded-lg border border-primary-container/20">Bulan Ini</span>
-                    </div>
-                    <div class="h-32 w-full flex items-end justify-between px-4 gap-4">
-                        <div class="flex-1 bg-primary/20 rounded-t-lg h-[85%] relative group cursor-pointer hover:bg-primary/40 transition-all">
-                            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#171c1f] text-white text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">85%</div>
-                        </div>
-                        <div class="flex-1 bg-primary/20 rounded-t-lg h-[90%] relative group cursor-pointer hover:bg-primary/40 transition-all">
-                            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#171c1f] text-white text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">90%</div>
-                        </div>
-                        <div class="flex-1 bg-primary rounded-t-lg h-[95%] relative group cursor-pointer hover:bg-primary/90 transition-all">
-                            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#171c1f] text-white text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">95%</div>
-                        </div>
-                        <div class="flex-1 bg-primary/20 rounded-t-lg h-[80%] relative group cursor-pointer hover:bg-primary/40 transition-all">
-                            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#171c1f] text-white text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">80%</div>
-                        </div>
-                        <div class="flex-1 bg-primary/20 rounded-t-lg h-[88%] relative group cursor-pointer hover:bg-primary/40 transition-all">
-                            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#171c1f] text-white text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">88%</div>
-                        </div>
-                    </div>
-                    <div class="flex justify-between mt-2 text-[10px] text-secondary font-bold px-4 uppercase">
-                        <span>Minggu 1</span><span>Minggu 2</span><span>Minggu 3</span><span>Minggu 4</span><span>Minggu 5</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- Action Cards --}}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {{-- QR Presensi --}}
-            <div class="bg-white rounded-2xl shadow-soft p-6 border border-surface-container flex flex-col justify-between min-h-[200px] hover:border-primary-container/30 transition-all duration-300">
-                <div>
-                    <div class="w-12 h-12 bg-[#f0fdf4] rounded-xl flex items-center justify-center mb-4 text-primary-container">
-                        <span class="material-symbols-outlined text-[28px]">qr_code_2</span>
-                    </div>
-                    <h4 class="font-bold text-[#171c1f] mb-1">QR Presensi</h4>
-                    <p class="text-xs text-secondary leading-relaxed">Generate QR Code untuk mempermudah presensi kelas digital secara real-time.</p>
-                </div>
-                <a href="{{ route('presensi.guru') }}"
-                   class="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-primary-container transition-colors mt-4 self-start">
-                    Generate QR <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                </a>
-            </div>
-
-            {{-- Kelola Tugas --}}
-            <div class="bg-white rounded-2xl shadow-soft p-6 border border-surface-container flex flex-col justify-between min-h-[200px] hover:border-primary-container/30 transition-all duration-300">
-                <div>
-                    <div class="w-12 h-12 bg-[#f0fdf4] rounded-xl flex items-center justify-center mb-4 text-primary-container">
-                        <span class="material-symbols-outlined text-[28px]">assignment</span>
-                    </div>
-                    <h4 class="font-bold text-[#171c1f] mb-1">Kelola Tugas</h4>
-                    <p class="text-xs text-secondary leading-relaxed">Buat, edit, dan kelola penugasan/PR untuk seluruh siswa di kelas Anda.</p>
-                </div>
-                <a href="{{ route('tugas.index') }}"
-                   class="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-primary-container transition-colors mt-4 self-start">
-                    Kelola Tugas <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                </a>
-            </div>
-
-            {{-- Laporan --}}
-            <div class="bg-white rounded-2xl shadow-soft p-6 border border-surface-container flex flex-col justify-between min-h-[200px] hover:border-primary-container/30 transition-all duration-300">
-                <div>
-                    <div class="w-12 h-12 bg-[#f0fdf4] rounded-xl flex items-center justify-center mb-4 text-primary-container">
-                        <span class="material-symbols-outlined text-[28px]">monitoring</span>
-                    </div>
-                    <h4 class="font-bold text-[#171c1f] mb-1">Laporan Siswa</h4>
-                    <p class="text-xs text-secondary leading-relaxed">Pantau perkembangan kehadiran, nilai, dan analisis warning AI siswa.</p>
-                </div>
-                <a href="{{ route('laporan.index') }}"
-                   class="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-primary-container transition-colors mt-4 self-start">
-                    Lihat Laporan <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                </a>
-            </div>
-        </div>
-
-        {{-- Upload Materi Banner --}}
-        <div class="bg-[#f0fdf4] border border-primary-container/20 rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative overflow-hidden">
-            <div class="absolute right-0 top-0 p-4 opacity-5 pointer-events-none">
-                <span class="material-symbols-outlined text-[80px] text-primary-container">auto_awesome</span>
-            </div>
-            <div class="flex items-start gap-4">
-                <div class="w-12 h-12 bg-primary-container/10 rounded-full flex items-center justify-center text-primary-container shrink-0">
-                    <span class="material-symbols-outlined filled-icon">auto_awesome</span>
-                </div>
-                <div class="max-w-xl">
-                    <h4 class="font-bold text-primary text-sm">Upload Materi + Ringkasan AI</h4>
-                    <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Upload file materi (PDF/DOCX) dan biarkan AI Claude meringkas isi penting materi secara otomatis untuk siswa.</p>
-                </div>
-            </div>
-            <a href="{{ route('materi.create') }}"
-               class="shrink-0 bg-primary text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-primary-container transition-all shadow-soft relative z-10 self-stretch md:self-auto text-center">
-                Upload Sekarang
+            <a href="{{ route('presensi.guru') }}"
+               class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-3 rounded-xl text-sm font-semibold
+                      hover:bg-[#0e7a3d] transition-all shadow-soft shrink-0">
+                <span class="material-symbols-outlined text-[18px]">add</span>
+                New Session
             </a>
+        </div>
+
+        {{-- ===== ROW 1: Stats (kiri) + Chart (kanan) ===== --}}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+
+            {{-- Stats kolom kiri --}}
+            <div class="flex flex-col gap-5">
+
+                {{-- Total Sessions --}}
+                <div class="bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Total Sessions</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalSesi }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-[#f0fdf4] rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[#005f2d] text-[24px] filled-icon">school</span>
+                    </div>
+                </div>
+
+                {{-- Avg Attendance --}}
+                <div class="bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Avg. Attendance</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $avgAttendance }}%</p>
+                    </div>
+                    <div class="w-12 h-12 bg-[#f0fdf4] rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[#005f2d] text-[24px]">trending_up</span>
+                    </div>
+                </div>
+
+                {{-- Active Students --}}
+                <div class="bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Active Students</p>
+                        <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalSiswa }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-[#f0fdf4] rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[#005f2d] text-[24px] filled-icon">groups</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Attendance Chart --}}
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-soft border border-[#eaeef2] p-6">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="font-bold text-[#171c1f] text-base">Attendance Overview</h3>
+                    <div class="flex items-center gap-4">
+                        {{-- Legend --}}
+                        <div class="hidden sm:flex items-center gap-4 text-xs text-[#5c5f61]">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded-sm bg-[#005f2d] inline-block"></span> Hadir
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded-sm bg-[#a7d9b2] inline-block"></span> Total
+                            </span>
+                        </div>
+                        <span class="text-xs border border-[#eaeef2] rounded-lg px-3 py-1.5 text-[#5c5f61] font-medium">
+                            This Week
+                        </span>
+                    </div>
+                </div>
+                <div class="bg-[#f6fafe] rounded-xl p-4" style="height:220px;">
+                    <canvas id="attendanceChart" class="w-full h-full"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {{-- ===== ROW 2: Today's Schedule (kiri) + Recent Activity (kanan) ===== --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {{-- Today's Schedule --}}
+            <div class="bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-[#eaeef2]">
+                    <h3 class="font-bold text-[#171c1f]">Today's Schedule</h3>
+                    <a href="{{ route('guru.jadwal') }}"
+                       class="text-xs font-semibold text-[#005f2d] hover:underline flex items-center gap-0.5">
+                        View All <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                    </a>
+                </div>
+
+                <div class="divide-y divide-[#f0f4f8]">
+                    @forelse($jadwalHariIni as $j)
+                        @php
+                            $now       = \Carbon\Carbon::now();
+                            $mulai     = \Carbon\Carbon::createFromFormat('H:i:s', $j->jam_mulai);
+                            $selesai   = \Carbon\Carbon::createFromFormat('H:i:s', $j->jam_selesai);
+                            $isActive  = $now->between($mulai, $selesai);
+                            $isUpcoming = $now->lt($mulai);
+                            $jamFmt    = $mulai->format('h');
+                            $ampm      = $mulai->format('A');
+                        @endphp
+                        <div class="flex items-center gap-4 px-6 py-4 hover:bg-[#f6fafe] transition-colors">
+                            {{-- Jam box --}}
+                            <div class="w-14 h-14 rounded-xl flex flex-col items-center justify-center shrink-0
+                                         {{ $isActive ? 'bg-[#005f2d] text-white' : 'bg-[#f0f4f8] text-[#171c1f]' }}">
+                                <span class="text-lg font-extrabold leading-none">{{ $jamFmt }}</span>
+                                <span class="text-[10px] font-semibold uppercase">{{ $ampm }}</span>
+                            </div>
+                            {{-- Info --}}
+                            <div class="flex-1 min-w-0">
+                                <p class="font-bold text-sm text-[#171c1f] truncate">{{ $j->mata_pelajaran }}</p>
+                                <p class="text-xs text-[#5c5f61] flex items-center gap-1 mt-0.5">
+                                    <span class="material-symbols-outlined text-[14px]">location_on</span>
+                                    {{ $j->ruang ?: ($j->kelas->nama_kelas ?? '-') }}
+                                </p>
+                            </div>
+                            {{-- Badge status --}}
+                            @if($isActive)
+                                <span class="shrink-0 px-3 py-1 bg-[#f0fdf4] text-[#005f2d] border border-[#0e7a3d]/20 text-[10px] font-bold rounded-full">
+                                    In Progress
+                                </span>
+                            @elseif($isUpcoming)
+                                <span class="shrink-0 px-3 py-1 bg-[#eaeef2] text-[#5c5f61] text-[10px] font-bold rounded-full">
+                                    Upcoming
+                                </span>
+                            @else
+                                <span class="shrink-0 px-3 py-1 bg-[#f0f4f8] text-[#5c5f61] text-[10px] font-bold rounded-full">
+                                    Done
+                                </span>
+                            @endif
+                        </div>
+                    @empty
+                        <div class="px-6 py-12 text-center">
+                            <span class="material-symbols-outlined text-[#dfe3e7] text-4xl">event_busy</span>
+                            <p class="text-sm text-[#5c5f61] mt-3">Tidak ada jadwal hari ini.</p>
+                            <a href="{{ route('guru.jadwal') }}"
+                               class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[#005f2d] hover:underline">
+                                Tambah jadwal <span class="material-symbols-outlined text-[14px]">add</span>
+                            </a>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            {{-- Recent Activity --}}
+            <div class="bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-[#eaeef2]">
+                    <h3 class="font-bold text-[#171c1f]">Recent Activity</h3>
+                    <a href="{{ route('laporan.index') }}"
+                       class="text-xs font-semibold text-[#005f2d] hover:underline">View All</a>
+                </div>
+
+                @if($recentActivity->isEmpty())
+                    <div class="px-6 py-12 text-center">
+                        <span class="material-symbols-outlined text-[#dfe3e7] text-4xl">history</span>
+                        <p class="text-sm text-[#5c5f61] mt-3">Belum ada aktivitas presensi.</p>
+                    </div>
+                @else
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-[#f6fafe]">
+                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Student</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Action</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Time</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#f0f4f8]">
+                                @foreach($recentActivity as $act)
+                                    <tr class="hover:bg-[#f6fafe] transition-colors">
+                                        <td class="px-5 py-3.5">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-7 h-7 rounded-full bg-[#0e7a3d] flex items-center justify-center text-white text-[11px] font-bold shrink-0">
+                                                    {{ substr($act->siswa->name ?? '?', 0, 1) }}
+                                                </div>
+                                                <span class="text-sm font-medium text-[#171c1f] truncate max-w-[100px]">
+                                                    {{ $act->siswa->name ?? '-' }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="px-5 py-3.5 text-xs text-[#5c5f61]">Checked In</td>
+                                        <td class="px-5 py-3.5 text-xs text-[#5c5f61] whitespace-nowrap">
+                                            {{ \Carbon\Carbon::parse($act->waktu_absen)->format('h:i A') }}
+                                        </td>
+                                        <td class="px-5 py-3.5">
+                                            @if($act->status === 'hadir')
+                                                <span class="px-2.5 py-1 bg-[#f0fdf4] text-[#005f2d] text-[10px] font-bold rounded-full">Present</span>
+                                            @elseif($act->status === 'telat')
+                                                <span class="px-2.5 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold rounded-full">Late</span>
+                                            @elseif($act->status === 'sakit')
+                                                <span class="px-2.5 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-full">Sick</span>
+                                            @elseif($act->status === 'izin')
+                                                <span class="px-2.5 py-1 bg-[#eaeef2] text-[#495362] text-[10px] font-bold rounded-full">Excused</span>
+                                            @else
+                                                <span class="px-2.5 py-1 bg-[#ffdad6] text-[#93000a] text-[10px] font-bold rounded-full">Absent</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            </div>
+
         </div>
     </div>
 </x-app-layout>

@@ -54,16 +54,45 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/presensi/manual', [PresensiController::class, 'manualInput'])->name('presensi.manual');
     Route::post('/presensi/manual', [PresensiController::class, 'storeManualInput'])->name('presensi.manual.store');
 
-    Route::get('/jadwal', function () {
-        $kelas = Kelas::where('guru_id', auth()->id())->get();
+    Route::get('/jadwal', [\App\Http\Controllers\JadwalController::class, 'index'])->name('guru.jadwal');
+    Route::post('/jadwal', [\App\Http\Controllers\JadwalController::class, 'store'])->name('guru.jadwal.store');
+    Route::delete('/jadwal/{jadwal}', [\App\Http\Controllers\JadwalController::class, 'destroy'])->name('guru.jadwal.destroy');
 
-        return view('guru.jadwal', compact('kelas'));
-    })->name('guru.jadwal');
+    Route::get('/kelas', [\App\Http\Controllers\KelasController::class, 'index'])->name('guru.kelas');
+    Route::post('/kelas', [\App\Http\Controllers\KelasController::class, 'store'])->name('guru.kelas.store');
+    Route::put('/kelas/{kelas}', [\App\Http\Controllers\KelasController::class, 'update'])->name('guru.kelas.update');
+    Route::delete('/kelas/{kelas}', [\App\Http\Controllers\KelasController::class, 'destroy'])->name('guru.kelas.destroy');
 
     Route::get('/kelas-siswa', function () {
         $kelas = Kelas::with('siswa')->where('guru_id', auth()->id())->get();
 
-        return view('guru.kelas_siswa', compact('kelas'));
+        // Hitung attendance rate per siswa
+        $attendanceMap = [];
+        foreach ($kelas as $k) {
+            $totalSesiKelas = \App\Models\SesiPresensi::where('kelas_id', $k->id)->count();
+            foreach ($k->siswa as $siswa) {
+                $hadirCount = \App\Models\Presensi::where('siswa_id', $siswa->id)
+                    ->whereIn('status', ['hadir', 'telat'])
+                    ->whereHas('sesiPresensi', fn($q) => $q->where('kelas_id', $k->id))
+                    ->count();
+                $rate = $totalSesiKelas > 0 ? round($hadirCount / $totalSesiKelas * 100) : 0;
+                $attendanceMap[$siswa->id . '_' . $k->id] = $rate;
+            }
+        }
+
+        // Flatten: semua siswa dengan kelas & stats
+        $semuaSiswa = collect();
+        foreach ($kelas as $k) {
+            foreach ($k->siswa as $s) {
+                $semuaSiswa->push([
+                    'siswa'     => $s,
+                    'kelas'     => $k,
+                    'rate'      => $attendanceMap[$s->id . '_' . $k->id] ?? 0,
+                ]);
+            }
+        }
+
+        return view('guru.kelas_siswa', compact('kelas', 'semuaSiswa'));
     })->name('guru.kelas_siswa');
 });
 
@@ -90,7 +119,7 @@ Route::middleware(['auth', 'role:guru,siswa'])->group(function () {
     Route::get('/materi/{materi}', [MateriController::class, 'show'])->name('materi.show');
 });
 
-Route::middleware(['auth', 'role:siswa'])->group(function () {
+Route::middleware(['auth', 'role:guru,siswa'])->group(function () {
     Route::post('/materi/{materi}/ringkas', [MateriController::class, 'ringkas'])->name('materi.ringkas');
 });
 

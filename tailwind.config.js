@@ -15,69 +15,66 @@ export default {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                // Academic Excellence Portal — Design System
-                primary: {
-                    DEFAULT: '#005f2d',
-                    container: '#0e7a3d',
-                    fixed: '#97f7ac',
-                    'fixed-dim': '#7bda92',
-                },
-                'on-primary': '#ffffff',
+                // ── Primary (School Green) ──────────────────────────
+                primary:            '#005f2d',
+                'on-primary':       '#ffffff',
+                'primary-container':'#0e7a3d',
                 'on-primary-container': '#a5ffb7',
+                'primary-fixed':    '#97f7ac',
+                'primary-fixed-dim':'#7bda92',
                 'on-primary-fixed': '#00210b',
                 'on-primary-fixed-variant': '#005226',
-                secondary: {
-                    DEFAULT: '#5c5f61',
-                    container: '#e0e3e5',
-                    fixed: '#e0e3e5',
-                    'fixed-dim': '#c4c7c9',
-                },
-                'on-secondary': '#ffffff',
+                'inverse-primary':  '#7bda92',
+
+                // ── Secondary ────────────────────────────────────────
+                secondary:          '#5c5f61',
+                'on-secondary':     '#ffffff',
+                'secondary-container': '#e0e3e5',
                 'on-secondary-container': '#626567',
-                tertiary: {
-                    DEFAULT: '#495362',
-                    container: '#616b7b',
-                    fixed: '#d9e3f6',
-                    'fixed-dim': '#bdc7d9',
-                },
-                'on-tertiary': '#ffffff',
+                'secondary-fixed':  '#e0e3e5',
+                'secondary-fixed-dim': '#c4c7c9',
+                'on-secondary-fixed': '#191c1e',
+                'on-secondary-fixed-variant': '#444749',
+
+                // ── Tertiary ─────────────────────────────────────────
+                tertiary:           '#495362',
+                'on-tertiary':      '#ffffff',
+                'tertiary-container': '#616b7b',
                 'on-tertiary-container': '#e2ecff',
+                'tertiary-fixed':   '#d9e3f6',
+                'tertiary-fixed-dim': '#bdc7d9',
                 'on-tertiary-fixed': '#121c2a',
                 'on-tertiary-fixed-variant': '#3d4756',
-                error: {
-                    DEFAULT: '#ba1a1a',
-                    container: '#ffdad6',
-                },
-                'on-error': '#ffffff',
+
+                // ── Error ────────────────────────────────────────────
+                error:              '#ba1a1a',
+                'on-error':         '#ffffff',
+                'error-container':  '#ffdad6',
                 'on-error-container': '#93000a',
-                surface: {
-                    DEFAULT: '#f6fafe',
-                    dim: '#d6dade',
-                    bright: '#f6fafe',
-                    'container-lowest': '#ffffff',
-                    'container-low': '#f0f4f8',
-                    container: '#eaeef2',
-                    'container-high': '#e4e9ed',
-                    'container-highest': '#dfe3e7',
-                    tint: '#006d34',
-                    variant: '#dfe3e7',
-                },
-                'on-surface': '#171c1f',
+
+                // ── Surface scale ────────────────────────────────────
+                surface:            '#f6fafe',
+                'surface-dim':      '#d6dade',
+                'surface-bright':   '#f6fafe',
+                'surface-container-lowest': '#ffffff',
+                'surface-container-low': '#f0f4f8',
+                'surface-container':'#eaeef2',
+                'surface-container-high': '#e4e9ed',
+                'surface-container-highest': '#dfe3e7',
+                'surface-tint':     '#006d34',
+                'surface-variant':  '#dfe3e7',
+                'on-surface':       '#171c1f',
                 'on-surface-variant': '#3f493f',
-                'inverse-surface': '#2c3134',
+                'inverse-surface':  '#2c3134',
                 'inverse-on-surface': '#edf1f5',
-                'inverse-primary': '#7bda92',
-                background: '#f6fafe',
-                'on-background': '#171c1f',
-                outline: {
-                    DEFAULT: '#6f7a6e',
-                    variant: '#becabc',
-                },
-            },
-            borderRadius: {
-                xl: '0.75rem',
-                '2xl': '1rem',
-                '3xl': '1.5rem',
+
+                // ── Background ───────────────────────────────────────
+                background:         '#f6fafe',
+                'on-background':    '#171c1f',
+
+                // ── Outline ──────────────────────────────────────────
+                outline:            '#6f7a6e',
+                'outline-variant':  '#becabc',
             },
             boxShadow: {
                 soft: '0 1px 3px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.02)',

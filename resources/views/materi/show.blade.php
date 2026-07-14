@@ -56,44 +56,17 @@
             </div>
 
             {{-- Ringkasan AI --}}
+            @if($materi->ringkasan_ai)
             <div class="bg-white rounded-xl shadow-soft border border-[#eaeef2] overflow-hidden mb-6">
-                <div class="px-6 py-4 bg-[#f0fdf4] border-b border-[#0e7a3d]/15 flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">auto_awesome</span>
-                        <h3 class="text-sm font-semibold text-[#005f2d] uppercase tracking-wider">Ringkasan AI</h3>
-                    </div>
-                    @if(!$materi->ringkasan_ai && auth()->user()->role === 'siswa')
-                        <form action="{{ route('materi.ringkas', $materi) }}" method="POST">
-                            @csrf
-                            <button type="submit"
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-[#005f2d] text-white text-sm font-semibold rounded-xl hover:bg-[#0e7a3d] transition-all active:scale-95">
-                                <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
-                                Ringkas dengan AI
-                            </button>
-                        </form>
-                    @endif
+                <div class="px-6 py-4 bg-[#f0fdf4] border-b border-[#0e7a3d]/15 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">auto_awesome</span>
+                    <h3 class="text-sm font-semibold text-[#005f2d] uppercase tracking-wider">Ringkasan AI</h3>
                 </div>
-
-                @if($materi->ringkasan_ai)
-                    <div class="p-6 text-sm text-[#171c1f] leading-relaxed whitespace-pre-wrap bg-[#f0fdf4]/40">
-                        {{ $materi->ringkasan_ai }}
-                    </div>
-                @else
-                    <div class="p-12 text-center">
-                        <div class="w-14 h-14 bg-[#eaeef2] rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="material-symbols-outlined text-[#5c5f61] text-2xl">psychology</span>
-                        </div>
-                        <p class="text-sm font-medium text-[#171c1f]">Belum diringkas</p>
-                        <p class="text-xs text-[#5c5f61] mt-1">
-                            @if(auth()->user()->role === 'siswa')
-                                Klik "Ringkas dengan AI" di atas untuk membuat ringkasan otomatis.
-                            @else
-                                Ringkasan akan tersedia setelah siswa memintanya.
-                            @endif
-                        </p>
-                    </div>
-                @endif
+                <div class="p-6 text-sm text-[#171c1f] leading-relaxed whitespace-pre-wrap bg-[#f0fdf4]/40">
+                    {{ $materi->ringkasan_ai }}
+                </div>
             </div>
+            @endif
 
             {{-- Back --}}
             <a href="{{ route('materi.index') }}"

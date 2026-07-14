@@ -57,18 +57,12 @@ class DatabaseSeeder extends Seeder
             'nama_kelas' => 'XII IPA 1',
             'guru_id' => $guru->id,
             'mata_pelajaran' => 'Matematika',
-            'batas_terlambat_menit' => 15,
-            'durasi_qr_detik' => 30,
-            'kirim_notifikasi_otomatis' => true,
         ]);
 
         $kelas2 = Kelas::create([
             'nama_kelas' => 'XII IPA 2',
             'guru_id' => $guru->id,
             'mata_pelajaran' => 'Fisika',
-            'batas_terlambat_menit' => 15,
-            'durasi_qr_detik' => 30,
-            'kirim_notifikasi_otomatis' => true,
         ]);
 
         // 6. Link Siswa ke Kelas

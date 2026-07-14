@@ -116,21 +116,29 @@
                 <span class="material-symbols-outlined {{ request()->routeIs('guru.jadwal*') ? 'filled-icon' : '' }}">calendar_today</span>
                 <span class="text-sm">Jadwal Mengajar</span>
             </a>
+            <a href="{{ route('guru.kelas') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('guru.kelas*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('guru.kelas*') ? 'filled-icon' : '' }}">class</span>
+                <span class="text-sm">Kelas</span>
+            </a>
             <a href="{{ route('guru.kelas_siswa') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('guru.kelas_siswa*')
                          ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('guru.kelas_siswa*') ? 'filled-icon' : '' }}">groups</span>
-                <span class="text-sm">Data Siswa & Kelas</span>
+                <span class="text-sm">Siswa</span>
             </a>
-            <a href="{{ route('materi.create') }}"
+            <a href="{{ route('materi.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
-                      {{ request()->routeIs('materi.create')
+                      {{ request()->routeIs('materi.*')
                          ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                <span class="material-symbols-outlined {{ request()->routeIs('materi.create') ? 'filled-icon' : '' }}">upload_file</span>
-                <span class="text-sm">Upload Materi</span>
+                <span class="material-symbols-outlined {{ request()->routeIs('materi.*') ? 'filled-icon' : '' }}">menu_book</span>
+                <span class="text-sm">Materi</span>
             </a>
             <a href="{{ route('tugas.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95

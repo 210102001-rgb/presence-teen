@@ -92,16 +92,6 @@
                 </div>
                 <div class="relative w-full h-[400px] lg:h-[500px] rounded-2xl overflow-hidden glass-card p-4 flex items-center justify-center">
                     <img alt="Presence Teen Platform Preview" class="w-full h-full object-contain filter drop-shadow-2xl z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT8kp_Jfc9rmqP83IRWOnXoDG3nMNm4pVkKdfptASeNsj4j8BGuSZgt1A_mBI1F-L9-hJneAsoVAQ27Oe4ysmVZjrIOpoxxIECnOFIbw-8hHkBpnZXv38DPB5n4aVeIAHaB3-u5a4hDgimssAnCiZs21RgaX51-jbmpTGZsTgofI5Jpyg2Jl7OiGROKA_DZR8yHMg3trI2WZOdbr9Q0Pc56ek9yOBoVbM90SpCdmnK5Rb-5pb5nnkIUkOplh8cFqQ1f1zeRszBkU8U" style="animation: float 6s ease-in-out infinite;"/>
-                    <!-- Floating decorative elements -->
-                    <div class="absolute top-10 right-10 bg-white rounded-xl p-4 shadow-lg flex items-center gap-3 z-20">
-                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                            <span class="material-symbols-outlined">check_circle</span>
-                        </div>
-                        <div>
-                            <p class="font-bold text-xs text-on-surface">Presensi Berhasil</p>
-                            <p class="text-[10px] text-secondary">07:15 AM</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

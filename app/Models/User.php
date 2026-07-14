@@ -35,6 +35,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Kelas::class, 'siswa_kelas', 'siswa_id', 'kelas_id');
     }
 
+    public function siswaKelas()
+    {
+        return $this->hasMany(SiswaKelas::class, 'siswa_id');
+    }
+
     public function orangTua()
     {
         return $this->hasOne(OrangTuaSiswa::class, 'siswa_id');

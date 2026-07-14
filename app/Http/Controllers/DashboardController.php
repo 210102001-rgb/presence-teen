@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
-use App\Models\LaporanAi;
-use App\Models\Materi;
-use App\Models\PengumpulanTugas;
-use App\Models\Presensi;
-use App\Models\SesiPresensi;
-use App\Models\SiswaKelas;
 use App\Models\Tugas;
+use App\Models\Presensi;
+use App\Models\Materi;
+use App\Models\SiswaKelas;
+use App\Models\OrangTuaSiswa;
+use App\Models\LaporanAi;
+use App\Models\JadwalKelas;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -19,174 +18,148 @@ class DashboardController extends Controller
         $role = Auth::user()->role;
 
         return match ($role) {
-            'siswa' => redirect()->route('dashboard.siswa'),
-            'guru' => redirect()->route('dashboard.guru'),
-            'orang_tua' => redirect()->route('dashboard.orang_tua'),
-            default => abort(403),
+            'siswa'      => redirect()->route('dashboard.siswa'),
+            'guru'       => redirect()->route('dashboard.guru'),
+            'orang_tua'  => redirect()->route('dashboard.orang_tua'),
+            default      => abort(403),
         };
-    }
-
-    public function siswa()
-    {
-        $user = Auth::user();
-        $kelasIds = SiswaKelas::where('siswa_id', $user->id)->pluck('kelas_id');
-
-        // Presensi Bulan Ini
-        $totalSesiBulanIni = SesiPresensi::whereIn('kelas_id', $kelasIds)
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
-
-        $totalHadirBulanIni = Presensi::where('siswa_id', $user->id)
-            ->whereIn('status', ['hadir', 'telat'])
-            ->whereMonth('waktu_absen', now()->month)
-            ->whereYear('waktu_absen', now()->year)
-            ->count();
-
-        $tingkatKehadiran = $totalSesiBulanIni > 0
-            ? round(($totalHadirBulanIni / $totalSesiBulanIni) * 100)
-            : 100;
-
-        // Tugas Aktif
-        $tugasIds = Tugas::whereIn('kelas_id', $kelasIds)
-            ->where('deadline', '>=', now())
-            ->pluck('id');
-
-        $tugasSudahKumpulIds = PengumpulanTugas::where('siswa_id', $user->id)
-            ->whereIn('tugas_id', $tugasIds)
-            ->pluck('tugas_id');
-
-        $tugasAktifCount = $tugasIds->diff($tugasSudahKumpulIds)->count();
-
-        // Materi Tersedia
-        $materiTersediaCount = Materi::count();
-
-        // Tugas Mendatang
-        $tugasMendatang = Tugas::with('kelas')
-            ->whereIn('kelas_id', $kelasIds)
-            ->where('deadline', '>=', now())
-            ->whereNotIn('id', function ($query) use ($user) {
-                $query->select('tugas_id')
-                    ->from('pengumpulan_tugas')
-                    ->where('siswa_id', $user->id);
-            })
-            ->orderBy('deadline', 'asc')
-            ->take(3)
-            ->get();
-
-        return view('dashboard.siswa', compact(
-            'tingkatKehadiran',
-            'tugasAktifCount',
-            'materiTersediaCount',
-            'tugasMendatang'
-        ));
     }
 
     public function guru()
     {
-        $user = Auth::user();
+        $user     = Auth::user();
+        $kelas    = Kelas::where('guru_id', $user->id)->get();
+        $kelasIds = $kelas->pluck('id');
 
-        $totalKelas = Kelas::where('guru_id', $user->id)->count();
+        $totalKelas  = $kelas->count();
+        $totalSiswa  = SiswaKelas::whereIn('kelas_id', $kelasIds)->count();
+        $totalTugas  = Tugas::whereIn('kelas_id', $kelasIds)->count();
+        $totalMateri = Materi::where('guru_id', $user->id)->count();
 
-        $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
-        $totalSiswa = SiswaKelas::whereIn('kelas_id', $kelasIds)->distinct('siswa_id')->count();
+        // Total sesi presensi minggu ini
+        $totalSesi = \App\Models\SesiPresensi::where('guru_id', $user->id)
+            ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->count();
 
-        $totalTugas = Tugas::where('guru_id', $user->id)->count();
+        // Avg attendance rate (hadir+telat / total presensi minggu ini)
+        $totalPresensiMingguIni = \App\Models\Presensi::whereHas('sesiPresensi', fn($q) =>
+            $q->where('guru_id', $user->id)
+              ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+        )->count();
+        $hadirMingguIni = \App\Models\Presensi::whereHas('sesiPresensi', fn($q) =>
+            $q->where('guru_id', $user->id)
+              ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+        )->whereIn('status', ['hadir', 'telat'])->count();
+        $avgAttendance = $totalPresensiMingguIni > 0
+            ? round($hadirMingguIni / $totalPresensiMingguIni * 100)
+            : 0;
 
-        return view('dashboard.guru', compact('totalKelas', 'totalSiswa', 'totalTugas'));
+        // Data chart kehadiran per hari (Mon-Sun minggu ini)
+        $chartData = [];
+        $dayNames  = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+        $monday    = now()->startOfWeek(\Carbon\Carbon::MONDAY);
+        for ($i = 0; $i < 7; $i++) {
+            $day = $monday->copy()->addDays($i);
+            $sesiHari = \App\Models\SesiPresensi::where('guru_id', $user->id)
+                ->whereDate('created_at', $day)->get();
+            $totalSiswaHari = $sesiHari->sum(fn($s) => $s->kelas->siswa()->count());
+            $hadirHari = \App\Models\Presensi::whereHas('sesiPresensi', fn($q) =>
+                $q->where('guru_id', $user->id)->whereDate('created_at', $day)
+            )->whereIn('status', ['hadir', 'telat'])->count();
+            $chartData[] = [
+                'label'  => $dayNames[$i],
+                'hadir'  => $hadirHari,
+                'total'  => max($totalSiswaHari, $hadirHari),
+            ];
+        }
+
+        // Today's Schedule (dari jadwal_kelas)
+        $todayHari = ['Sen'=>'Senin','Sel'=>'Selasa','Rab'=>'Rabu','Kam'=>'Kamis',
+                      'Jum'=>'Jumat','Sab'=>'Sabtu'][now()->shortDayName] ??
+                     ['Monday'=>'Senin','Tuesday'=>'Selasa','Wednesday'=>'Rabu',
+                      'Thursday'=>'Kamis','Friday'=>'Jumat','Saturday'=>'Sabtu'][now()->englishDayOfWeek] ?? '';
+        $jadwalHariIni = \App\Models\JadwalKelas::where('guru_id', $user->id)
+            ->where('hari', $todayHari)
+            ->with('kelas')
+            ->orderBy('jam_mulai')
+            ->get();
+
+        // Recent Activity (5 presensi terakhir dari sesi guru)
+        $recentActivity = \App\Models\Presensi::whereHas('sesiPresensi', fn($q) =>
+            $q->where('guru_id', $user->id)
+        )->with(['siswa', 'sesiPresensi'])
+         ->latest('waktu_absen')
+         ->limit(5)
+         ->get();
+
+        // 5 tugas terbaru
+        $tugasTerbaru = Tugas::whereIn('kelas_id', $kelasIds)
+            ->with('kelas')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return view('dashboard.guru', compact(
+            'totalKelas', 'totalSiswa', 'totalTugas', 'totalMateri',
+            'totalSesi', 'avgAttendance', 'chartData',
+            'jadwalHariIni', 'recentActivity',
+            'tugasTerbaru', 'kelas'
+        ));
+    }
+
+    public function siswa()
+    {
+        $user     = Auth::user();
+        $kelasIds = SiswaKelas::where('siswa_id', $user->id)->pluck('kelas_id');
+
+        $totalTugas  = Tugas::whereIn('kelas_id', $kelasIds)->count();
+        $totalMateri = Materi::whereIn('kelas_id', $kelasIds)->count();
+
+        // Kehadiran bulan ini
+        $kehadiranBulanIni = Presensi::where('siswa_id', $user->id)
+            ->whereMonth('created_at', now()->month)
+            ->count();
+
+        // Tugas yg belum dikumpul
+        $tugasBelum = Tugas::whereIn('kelas_id', $kelasIds)
+            ->whereDoesntHave('pengumpulan', fn($q) => $q->where('siswa_id', $user->id)->where('status', 'sudah'))
+            ->where('deadline', '>=', now())
+            ->with('kelas')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        // Tugas yg sudah dikumpul bulan ini
+        $tugasSelesai = \App\Models\PengumpulanTugas::where('siswa_id', $user->id)
+            ->where('status', 'sudah')
+            ->whereMonth('created_at', now()->month)
+            ->count();
+
+        return view('dashboard.siswa', compact(
+            'totalTugas', 'totalMateri', 'kehadiranBulanIni',
+            'tugasBelum', 'tugasSelesai'
+        ));
     }
 
     public function orangTua()
     {
-        $user = Auth::user();
-        $anakIds = $user->anak()->pluck('users.id');
-        $anak = $user->anak()->with('kelasSaya')->first();
+        $user     = Auth::user();
 
-        // Kehadiran Hari Ini
-        $kehadiranHariIni = Presensi::whereIn('siswa_id', $anakIds)
-            ->whereDate('waktu_absen', now()->toDateString())
-            ->exists() ? 'Hadir' : 'Tidak Hadir';
+        // Cari siswa yang dihubungkan ke ortu ini
+        $siswaIds = OrangTuaSiswa::where('orang_tua_id', $user->id)->pluck('siswa_id');
+        $siswa    = \App\Models\User::whereIn('id', $siswaIds)->with(['siswaKelas.kelas'])->get();
 
-        // Tugas Aktif Anak
-        $totalTugasBelumKumpul = 0;
-        $kelasAnakIds = SiswaKelas::whereIn('siswa_id', $anakIds)->pluck('kelas_id');
-        foreach ($anakIds as $anakId) {
-            $kelasIds = SiswaKelas::where('siswa_id', $anakId)->pluck('kelas_id');
-            $tugasIds = Tugas::whereIn('kelas_id', $kelasIds)->pluck('id');
-            $sudahKumpul = PengumpulanTugas::where('siswa_id', $anakId)
-                ->whereIn('tugas_id', $tugasIds)
-                ->pluck('tugas_id');
-            $totalTugasBelumKumpul += $tugasIds->diff($sudahKumpul)->count();
-        }
-
-        // Peringatan
-        $peringatanCount = LaporanAi::whereIn('siswa_id', $anakIds)
-            ->whereIn('level_peringatan', ['perhatian', 'kritis'])
-            ->count();
-
-        // Status Tugas Anak (List)
-        $tugasAnak = Tugas::with([
-            'kelas.siswa',
-            'pengumpulan' => function ($q) use ($anakIds) {
-                $q->whereIn('siswa_id', $anakIds);
-            },
-            'pengumpulan.siswa',
-        ])
-            ->whereIn('kelas_id', $kelasAnakIds)
-            ->orderBy('created_at', 'desc')
-            ->take(3)
+        // Laporan AI terbaru per siswa
+        $laporans = LaporanAi::whereIn('siswa_id', $siswaIds)
+            ->with('siswa')
+            ->latest()
+            ->limit(5)
             ->get();
 
-        // Laporan AI Terbaru
-        $laporanTerbaru = LaporanAi::whereIn('siswa_id', $anakIds)
-            ->orderBy('created_at', 'desc')
-            ->first();
+        $totalPeringatan = LaporanAi::whereIn('siswa_id', $siswaIds)
+            ->whereIn('level_peringatan', ['sedang', 'berat'])
+            ->count();
 
-        // Hitung Statistik Anak Pertama untuk Dashboard Bento
-        $totalSesi = 0;
-        $totalHadir = 0;
-        $totalTelat = 0;
-        $totalIzin = 0;
-        $totalSakit = 0;
-        $totalAlpha = 0;
-        $kelasNama = 'Belum ada kelas';
-
-        if ($anak) {
-            $kelasIds = $anak->kelasSaya->pluck('id');
-            $kelasNama = $anak->kelasSaya->first()->nama_kelas ?? 'Belum ada kelas';
-
-            $totalSesi = SesiPresensi::whereIn('kelas_id', $kelasIds)->count();
-            $presensi = Presensi::where('siswa_id', $anak->id)->get();
-            $totalHadir = $presensi->where('status', 'hadir')->count();
-            $totalTelat = $presensi->where('status', 'telat')->count();
-            $totalIzin = $presensi->where('status', 'izin')->count();
-            $totalSakit = $presensi->where('status', 'sakit')->count();
-
-            $dbAlpha = $presensi->where('status', 'alpha')->count();
-            $unmatched = max(0, $totalSesi - $presensi->count());
-            $totalAlpha = $dbAlpha + $unmatched;
-        }
-
-        $presentPercent = $totalSesi > 0
-            ? round((($totalHadir + $totalTelat) / $totalSesi) * 100)
-            : 100;
-
-        return view('dashboard.orang_tua', compact(
-            'kehadiranHariIni',
-            'totalTugasBelumKumpul',
-            'peringatanCount',
-            'tugasAnak',
-            'laporanTerbaru',
-            'anakIds',
-            'anak',
-            'kelasNama',
-            'totalSesi',
-            'totalHadir',
-            'totalTelat',
-            'totalIzin',
-            'totalSakit',
-            'totalAlpha',
-            'presentPercent'
-        ));
+        return view('dashboard.orang_tua', compact('siswa', 'laporans', 'totalPeringatan'));
     }
 }
