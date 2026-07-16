@@ -216,7 +216,7 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('page-loader')?.classList.add('loaded');
-            }, 300);
+            }, 80);
         });
     </script>
 

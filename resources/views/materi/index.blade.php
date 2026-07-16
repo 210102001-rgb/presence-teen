@@ -27,11 +27,13 @@
                     <span class="material-symbols-outlined text-[18px]">tune</span>
                     Filter
                 </button>
-                <a href="{{ route('materi.create') }}"
-                   class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all">
-                    <span class="material-symbols-outlined text-[18px]">upload_file</span>
-                    Upload Material
-                </a>
+                @if(auth()->user()->role === 'guru')
+                    <a href="{{ route('materi.create') }}"
+                       class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all">
+                        <span class="material-symbols-outlined text-[18px]">upload_file</span>
+                        Upload Material
+                    </a>
+                @endif
             </div>
         </div>
 
@@ -43,11 +45,13 @@
                 </div>
                 <p class="text-base font-semibold text-[#171c1f]">Belum ada materi</p>
                 <p class="text-sm text-[#5c5f61] mt-2 mb-5">Belum ada materi yang ditambahkan.</p>
-                <a href="{{ route('materi.create') }}"
-                   class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all">
-                    <span class="material-symbols-outlined text-[18px]">upload_file</span>
-                    Upload Material Pertama
-                </a>
+                @if(auth()->user()->role === 'guru')
+                    <a href="{{ route('materi.create') }}"
+                       class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all">
+                        <span class="material-symbols-outlined text-[18px]">upload_file</span>
+                        Upload Material Pertama
+                    </a>
+                @endif
             </div>
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

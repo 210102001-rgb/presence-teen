@@ -2,8 +2,8 @@
     $role = Auth::check() ? Auth::user()->role : null;
 @endphp
 
-<aside :class="mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-       class="bg-primary-container text-on-primary-container h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col py-6 px-4 z-50 overflow-y-auto transform transition-transform duration-300 ease-in-out">
+<aside class="-translate-x-full lg:translate-x-0 bg-primary-container text-on-primary-container h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col py-6 px-4 z-50 overflow-y-auto transform transition-transform duration-300 ease-in-out"
+       :class="mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
     {{-- Brand --}}
     <div class="flex items-center gap-3 mb-8 px-2">
         <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 overflow-hidden">

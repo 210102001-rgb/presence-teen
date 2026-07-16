@@ -112,16 +112,16 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $kelasIds = SiswaKelas::where('siswa_id', $user->id)->pluck('kelas_id');
+        $kelas = Kelas::whereIn('id', $kelasIds)->with('waliKelas')->get();
 
         $totalTugas = Tugas::whereIn('kelas_id', $kelasIds)->count();
-        $totalMateri = Materi::whereIn('kelas_id', $kelasIds)->count();
+        $guruIds = $kelas->pluck('guru_id')->unique();
+        $totalMateri = Materi::whereIn('guru_id', $guruIds)->count();
 
-        // Kehadiran bulan ini
         $kehadiranBulanIni = Presensi::where('siswa_id', $user->id)
             ->whereMonth('created_at', now()->month)
             ->count();
 
-        // Tugas yg belum dikumpul
         $tugasBelum = Tugas::whereIn('kelas_id', $kelasIds)
             ->whereDoesntHave('pengumpulan', fn ($q) => $q->where('siswa_id', $user->id)->where('status', 'sudah'))
             ->where('deadline', '>=', now())
@@ -130,15 +130,31 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        // Tugas yg sudah dikumpul bulan ini
         $tugasSelesai = PengumpulanTugas::where('siswa_id', $user->id)
             ->where('status', 'sudah')
             ->whereMonth('created_at', now()->month)
             ->count();
 
+        $todayHari = ['Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'][now()->englishDayOfWeek] ?? '';
+        $jadwalHariIni = JadwalKelas::whereIn('kelas_id', $kelasIds)
+            ->where('hari', $todayHari)
+            ->with(['kelas', 'guru'])
+            ->orderBy('jam_mulai')
+            ->get();
+
+        $jadwalOngoing = $jadwalHariIni->first(function ($j) {
+            $now = now()->format('H:i:s');
+
+            return $now >= $j->jam_mulai && $now <= $j->jam_selesai;
+        });
+
+        $totalSesiPresensi = SesiPresensi::whereIn('kelas_id', $kelasIds)->count();
+
         return view('dashboard.siswa', compact(
             'totalTugas', 'totalMateri', 'kehadiranBulanIni',
-            'tugasBelum', 'tugasSelesai'
+            'tugasBelum', 'tugasSelesai', 'kelas',
+            'jadwalHariIni', 'jadwalOngoing', 'totalSesiPresensi'
         ));
     }
 

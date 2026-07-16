@@ -78,6 +78,7 @@ class KelasController extends Controller
             ->join('sesi_presensi', 'presensi.sesi_presensi_id', '=', 'sesi_presensi.id')
             ->selectRaw('presensi.siswa_id, sesi_presensi.kelas_id, COUNT(*) as total')
             ->groupBy('presensi.siswa_id', 'sesi_presensi.kelas_id')
+            ->get()
             ->pluck('total', fn ($r) => $r->siswa_id.'_'.$r->kelas_id);
 
         // Flatten: semua siswa dengan kelas & stats

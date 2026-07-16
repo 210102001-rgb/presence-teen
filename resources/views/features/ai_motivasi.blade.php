@@ -27,7 +27,7 @@
                         </h2>
                         @if($laporanAi->isNotEmpty())
                             <blockquote class="italic text-secondary text-xs border-l-4 border-primary pl-4 py-2 bg-surface rounded-r-xl">
-                                {!! nl2br(e(Str::limit($laporanAi->first()->hasil_analisis, 200))) !!}
+                                {!! nl2br(e(\Illuminate\Support\Str::limit($laporanAi->first()->hasil_analisis, 200))) !!}
                             </blockquote>
                         @else
                             <blockquote class="italic text-secondary text-xs border-l-4 border-primary pl-4 py-2 bg-surface rounded-r-xl">
