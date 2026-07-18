@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">Student Directory</x-slot>
+    <x-slot name="header">Kelola Siswa</x-slot>
 
     @php
         $siswaJson = $semuaSiswa->map(function($row) {
@@ -31,8 +31,8 @@
         {{-- ===== Page Header ===== --}}
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl font-bold text-[#171c1f]">Student Directory</h1>
-                <p class="text-sm text-[#5c5f61] mt-0.5">Manage and monitor student attendance and devices.</p>
+                <h1 class="text-2xl font-bold text-[#171c1f]">Kelola Siswa</h1>
+                <p class="text-sm text-[#5c5f61] mt-0.5">Mengelola dan memantau kehadiran siswa dan perangkat yang digunakan.</p>
             </div>
             <div class="flex flex-wrap items-center gap-3 shrink-0">
                 <button onclick="window.print()"
@@ -48,7 +48,7 @@
                 <a href="{{ route('presensi.guru') }}"
                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#005f2d] text-white rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all shadow-soft">
                     <span class="material-symbols-outlined text-[18px]">add</span>
-                    Add Student
+                    Tambah Siswa
                 </a>
             </div>
         </div>
@@ -59,13 +59,13 @@
             {{-- Filter Bar --}}
             <div class="px-6 py-4 border-b border-[#eaeef2] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div class="flex items-center gap-3 flex-wrap">
-                    <span class="text-sm text-[#5c5f61] font-medium shrink-0">Filter by:</span>
+                    <span class="text-sm text-[#5c5f61] font-medium shrink-0">Filter :</span>
 
                     {{-- Filter Kelas --}}
                     <select x-model="filterKelas" @change="page=1"
                             class="px-3 py-2 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
                                    focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
-                        <option value="all">All Classes</option>
+                        <option value="all"> Semua Kelas </option>
                         @foreach($kelas as $k)
                             <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
                         @endforeach
@@ -75,16 +75,16 @@
                     <div class="relative flex-1 min-w-[200px]">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#5c5f61] text-[18px]">search</span>
                         <input type="text" x-model="search" @input="page=1"
-                               placeholder="Search students..."
+                               placeholder="Cari Siswa..."
                                class="w-full pl-9 pr-4 py-2 border border-[#becabc] rounded-xl text-sm text-[#171c1f]
                                       focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
                     </div>
                 </div>
 
                 <p class="text-xs text-[#5c5f61] shrink-0">
-                    Showing
+                    Menampilkan
                     <span x-text="Math.min((page-1)*perPage+1, filtered.length)"></span>–<span x-text="Math.min(page*perPage, filtered.length)"></span>
-                    of <span x-text="filtered.length"></span> students
+                    dari <span x-text="filtered.length"></span> siswa
                 </p>
             </div>
 
@@ -93,11 +93,11 @@
                 <table class="w-full text-left">
                     <thead>
                         <tr class="bg-[#f6fafe] border-b border-[#eaeef2]">
-                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">Student Name</th>
-                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden sm:table-cell">Class</th>
-                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden md:table-cell">Device Status</th>
-                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden sm:table-cell">Attendance %</th>
-                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">Actions</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">NAMA SISWA</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden sm:table-cell">KELAS</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden md:table-cell">STATUS PERANGKAT</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61] hidden sm:table-cell">KEHADIRAN %</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-[#5c5f61]">AKSI</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#f0f4f8]">

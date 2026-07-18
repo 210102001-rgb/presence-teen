@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="title">Daftar</x-slot>
     <div class="w-full lg:w-[55%] flex items-center justify-center p-8 lg:p-12 bg-[#f6fafe]">
         <div class="w-full max-w-md">
 

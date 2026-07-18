@@ -16,7 +16,7 @@
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
                 <h2 class="text-2xl font-bold text-[#171c1f]">Jadwal Kelas</h2>
-                <p class="text-sm text-[#5c5f61] mt-0.5">Manage and view daily class schedules</p>
+                <p class="text-sm text-[#5c5f61] mt-0.5">Kelola dan lihat jadwal kelas harian</p>
             </div>
             <button @click="showForm = !showForm"
                     class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all shadow-soft">

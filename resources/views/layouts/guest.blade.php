@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Presence-Teen') }}</title>
+    <title>{{ $title ? config('app.name', 'Presence-Teen') . ' — ' . $title : config('app.name', 'Presence-Teen') }}</title>
     <link rel="icon" type="image/png" href="{{ asset('smansa.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -36,9 +38,9 @@
                 </div>
 
                 <div class="space-y-3">
-                    <h2 class="text-3xl font-extrabold text-[#171c1f] tracking-tight">Empowering Education</h2>
+                    <h2 class="text-3xl font-extrabold text-[#171c1f] tracking-tight">Memberdayakan Pendidikan</h2>
                     <p class="text-sm text-[#5c5f61] leading-relaxed">
-                        Streamline your school's daily operations with our comprehensive management system designed for modern educators and students.
+                        Sederhanakan operasional sekolah Anda dengan sistem manajemen komprehensif yang dirancang untuk pendidik dan siswa modern.
                     </p>
                 </div>
             </div>

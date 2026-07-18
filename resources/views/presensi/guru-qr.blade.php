@@ -4,7 +4,7 @@
     <div class="p-4 md:p-8">
         {{-- Page Header --}}
         <div class="mb-6">
-            <p class="text-[11px] uppercase tracking-widest text-[#005f2d] font-semibold mb-1">Attendance Management</p>
+            {{-- <p class="text-[11px] uppercase tracking-widest text-[#005f2d] font-semibold mb-1">Attendance Management</p>--}}
             <h2 class="text-2xl font-bold text-[#171c1f]">Generate QR Presensi</h2>
             <p class="text-sm text-[#5c5f61] mt-1">Buat sesi presensi dengan QR Code yang auto-refresh setiap 30 detik.</p>
         </div>

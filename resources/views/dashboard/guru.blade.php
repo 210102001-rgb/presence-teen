@@ -64,13 +64,13 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
                 <h1 class="text-2xl font-bold text-[#171c1f]">Selamat datang kembali, {{ Auth::user()->name }}!</h1>
-                <p class="text-sm text-[#5c5f61] mt-0.5">Here is what's happening in your classes today.</p>
+                <p class="text-sm text-[#5c5f61] mt-0.5">Berikut adalah kegiatan yang berlangsung di kelas Anda hari ini.</p>
             </div>
             <a href="{{ route('presensi.guru') }}"
                class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-3 rounded-xl text-sm font-semibold
                       hover:bg-[#0e7a3d] transition-all shadow-soft shrink-0">
                 <span class="material-symbols-outlined text-[18px]">add</span>
-                New Session
+                Sesi Baru
             </a>
         </div>
 
@@ -83,7 +83,7 @@
                 {{-- Total Sessions --}}
                 <div class="animate-fade-in animate-delay-1 bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
                     <div>
-                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Total Sessions</p>
+                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Total Sesi</p>
                         <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalSesi }}</p>
                     </div>
                     <div class="w-12 h-12 bg-[#f0fdf4] rounded-full flex items-center justify-center">
@@ -94,7 +94,7 @@
                 {{-- Avg Attendance --}}
                 <div class="animate-fade-in animate-delay-2 bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
                     <div>
-                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Avg. Attendance</p>
+                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Rata-Rata Kehadiran</p>
                         <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $avgAttendance }}%</p>
                     </div>
                     <div class="w-12 h-12 bg-[#f0fdf4] rounded-full flex items-center justify-center">
@@ -105,7 +105,7 @@
                 {{-- Active Students --}}
                 <div class="animate-fade-in animate-delay-3 bg-white rounded-2xl p-5 shadow-soft border border-[#eaeef2] flex items-center justify-between">
                     <div>
-                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Active Students</p>
+                        <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Siswa Aktif</p>
                         <p class="text-4xl font-bold text-[#171c1f] mt-1">{{ $totalSiswa }}</p>
                     </div>
                     <div class="w-12 h-12 bg-[#f0fdf4] rounded-full flex items-center justify-center">
@@ -117,7 +117,7 @@
             {{-- Attendance Chart --}}
             <div class="animate-fade-in animate-delay-2 lg:col-span-2 bg-white rounded-2xl shadow-soft border border-[#eaeef2] p-6">
                 <div class="flex items-center justify-between mb-5">
-                    <h3 class="font-bold text-[#171c1f] text-base">Attendance Overview</h3>
+                    <h3 class="font-bold text-[#171c1f] text-base">Ringkasan Kehadiran</h3>
                     <div class="flex items-center gap-4">
                         {{-- Legend --}}
                         <div class="hidden sm:flex items-center gap-4 text-xs text-[#5c5f61]">
@@ -129,7 +129,7 @@
                             </span>
                         </div>
                         <span class="text-xs border border-[#eaeef2] rounded-lg px-3 py-1.5 text-[#5c5f61] font-medium">
-                            This Week
+                            Minggu Ini
                         </span>
                     </div>
                 </div>
@@ -139,16 +139,16 @@
             </div>
         </div>
 
-        {{-- ===== ROW 2: Today's Schedule (kiri) + Recent Activity (kanan) ===== --}}
+        {{-- ===== ROW 2: Jadwal Hari Ini (kiri) + Aktivitas Terbaru (kanan) ===== --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            {{-- Today's Schedule --}}
+            {{-- Jadwal Hari Ini --}}
             <div class="bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden">
                 <div class="flex items-center justify-between px-6 py-4 border-b border-[#eaeef2]">
-                    <h3 class="font-bold text-[#171c1f]">Today's Schedule</h3>
+                    <h3 class="font-bold text-[#171c1f]">Jadwal Hari Ini</h3>
                     <a href="{{ route('guru.jadwal') }}"
                        class="text-xs font-semibold text-[#005f2d] hover:underline flex items-center gap-0.5">
-                        View All <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                        Lihat Semua <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
                     </a>
                 </div>
 
@@ -209,9 +209,9 @@
             {{-- Recent Activity --}}
             <div class="bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden">
                 <div class="flex items-center justify-between px-6 py-4 border-b border-[#eaeef2]">
-                    <h3 class="font-bold text-[#171c1f]">Recent Activity</h3>
+                    <h3 class="font-bold text-[#171c1f]">Aktivitas Terbaru</h3>
                     <a href="{{ route('laporan.index') }}"
-                       class="text-xs font-semibold text-[#005f2d] hover:underline">View All</a>
+                       class="text-xs font-semibold text-[#005f2d] hover:underline">Lihat Semua</a>
                 </div>
 
                 @if($recentActivity->isEmpty())
@@ -224,10 +224,10 @@
                         <table class="w-full text-left">
                             <thead>
                                 <tr class="bg-[#f6fafe]">
-                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Student</th>
-                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Action</th>
-                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Time</th>
-                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">Status</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">NAMA SISWA</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">AKSI</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">WAKTU</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider">STATUS</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[#f0f4f8]">
@@ -243,21 +243,21 @@
                                                 </span>
                                             </div>
                                         </td>
-                                        <td class="px-5 py-3.5 text-xs text-[#5c5f61]">Checked In</td>
+                                        <td class="px-5 py-3.5 text-xs text-[#5c5f61]">Masuk</td>
                                         <td class="px-5 py-3.5 text-xs text-[#5c5f61] whitespace-nowrap">
                                             {{ \Carbon\Carbon::parse($act->waktu_absen)->format('h:i A') }}
                                         </td>
                                         <td class="px-5 py-3.5">
                                             @if($act->status === 'hadir')
-                                                <span class="px-2.5 py-1 bg-[#f0fdf4] text-[#005f2d] text-[10px] font-bold rounded-full">Present</span>
+                                                <span class="px-2.5 py-1 bg-[#f0fdf4] text-[#005f2d] text-[10px] font-bold rounded-full">Hadir</span>
                                             @elseif($act->status === 'telat')
-                                                <span class="px-2.5 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold rounded-full">Late</span>
+                                                <span class="px-2.5 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold rounded-full">Terlambat</span>
                                             @elseif($act->status === 'sakit')
-                                                <span class="px-2.5 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-full">Sick</span>
+                                                <span class="px-2.5 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-full">Sakit</span>
                                             @elseif($act->status === 'izin')
-                                                <span class="px-2.5 py-1 bg-[#eaeef2] text-[#495362] text-[10px] font-bold rounded-full">Excused</span>
+                                                <span class="px-2.5 py-1 bg-[#eaeef2] text-[#495362] text-[10px] font-bold rounded-full">Izin</span>
                                             @else
-                                                <span class="px-2.5 py-1 bg-[#ffdad6] text-[#93000a] text-[10px] font-bold rounded-full">Absent</span>
+                                                <span class="px-2.5 py-1 bg-[#ffdad6] text-[#93000a] text-[10px] font-bold rounded-full">Alva</span>
                                             @endif
                                         </td>
                                     </tr>

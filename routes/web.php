@@ -5,6 +5,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TugasController;
@@ -84,14 +85,13 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/materi/create', [MateriController::class, 'create'])->name('materi.create');
     Route::post('/materi', [MateriController::class, 'store'])->name('materi.store');
+    Route::delete('/materi/{materi}', [MateriController::class, 'destroy'])->name('materi.destroy');
 });
 
 Route::middleware(['auth', 'role:guru,siswa'])->group(function () {
     Route::get('/materi', [MateriController::class, 'index'])->name('materi.index');
     Route::get('/materi/{materi}', [MateriController::class, 'show'])->name('materi.show');
-});
-
-Route::middleware(['auth', 'role:guru,siswa'])->group(function () {
+    Route::get('/materi/{materi}/download', [MateriController::class, 'download'])->name('materi.download');
     Route::post('/materi/{materi}/ringkas', [MateriController::class, 'ringkas'])->name('materi.ringkas');
 });
 
@@ -103,11 +103,15 @@ Route::middleware(['auth', 'role:guru,orang_tua'])->group(function () {
 
 // === Fitur Tambahan (Figma UI/UX) ===
 Route::middleware('auth')->group(function () {
-    Route::get('/pengumuman', function () {
-        $pengumuman = Pengumuman::latest()->get();
-
-        return view('features.pengumuman', compact('pengumuman'));
-    })->name('pengumuman.index');
+    Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
+    
+    Route::middleware('role:guru')->group(function () {
+        Route::get('/pengumuman/create', [PengumumanController::class, 'create'])->name('pengumuman.create');
+        Route::post('/pengumuman', [PengumumanController::class, 'store'])->name('pengumuman.store');
+        Route::get('/pengumuman/{pengumuman}/edit', [PengumumanController::class, 'edit'])->name('pengumuman.edit');
+        Route::put('/pengumuman/{pengumuman}', [PengumumanController::class, 'update'])->name('pengumuman.update');
+        Route::delete('/pengumuman/{pengumuman}', [PengumumanController::class, 'destroy'])->name('pengumuman.destroy');
+    });
 
     Route::get('/prediksi-absensi', function () {
         $user = auth()->user();

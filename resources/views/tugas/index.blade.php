@@ -5,7 +5,7 @@
         {{-- Page Header --}}
         <div class="flex justify-between items-center">
             <div>
-                <p class="text-[#005f2d] font-semibold text-xs mb-1 uppercase tracking-widest">Academic Tasks</p>
+                {{-- <p class="text-[#005f2d] font-semibold text-xs mb-1 uppercase tracking-widest">Tugas Akademik</p> --}}
                 <h1 class="text-2xl font-bold text-[#171c1f]">Daftar Tugas</h1>
             </div>
             @if(auth()->user()->role === 'guru')

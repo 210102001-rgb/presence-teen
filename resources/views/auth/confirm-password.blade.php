@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="title">Konfirmasi Kata Sandi</x-slot>
     <div class="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12">
         <div class="w-full max-w-md">
             <div class="text-center lg:text-left mb-8">

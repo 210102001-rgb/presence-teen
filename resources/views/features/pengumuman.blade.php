@@ -1,7 +1,27 @@
 <x-app-layout>
     <x-slot name="header">Pengumuman Sekolah</x-slot>
 
-    <div class="p-4 md:p-8 max-w-7xl mx-auto space-y-6" x-data="{ filter: 'Semua', expanded: null }">
+    <div class="p-4 md:p-8 max-w-7xl mx-auto space-y-6" x-data="{ filter: 'Semua', expanded: null, showForm: false }">
+        {{-- Success Message --}}
+        @if(session('success'))
+            <div x-data x-init="$dispatch('toast', { type: 'success', message: '{{ session('success') }}' })"></div>
+        @endif
+
+        {{-- Page Header dengan Tombol Tambah --}}
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-[#171c1f]">Pengumuman Sekolah</h2>
+                <p class="text-sm text-[#5c5f61] mt-0.5">Kelola dan bagikan informasi penting dengan seluruh sekolah</p>
+            </div>
+            @if(auth()->user()->role === 'guru')
+                <a href="{{ route('pengumuman.create') }}"
+                   class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all shadow-soft">
+                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    Tambah Pengumuman
+                </a>
+            @endif
+        </div>
+
         {{-- Hero Section / AI Insight --}}
         <section class="mb-6">
             <div class="p-6 bg-surface-container-lowest rounded-2xl border border-primary-container/20 shadow-soft flex items-start gap-4 relative overflow-hidden">
@@ -68,12 +88,30 @@
                            x-show="expanded === {{ $item->id }}">{{ $item->konten }}</p>
                         <p class="text-xs text-secondary leading-relaxed line-clamp-2"
                            x-show="expanded !== {{ $item->id }}">{{ $item->konten }}</p>
-                        <div class="mt-4 pt-4 border-t border-surface-container flex justify-end">
+                        <div class="mt-4 pt-4 border-t border-surface-container flex justify-between items-center">
                             <button @click="expanded = expanded === {{ $item->id }} ? null : {{ $item->id }}"
                                     class="text-primary font-bold text-xs flex items-center gap-1 hover:underline">
                                 <span x-text="expanded === {{ $item->id }} ? 'Tutup' : 'Lihat Detail'"></span>
                                 <span class="material-symbols-outlined text-[16px]" x-text="expanded === {{ $item->id }} ? 'expand_less' : 'arrow_forward'"></span>
                             </button>
+                            @if(auth()->user()->role === 'guru')
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('pengumuman.edit', $item) }}"
+                                       class="text-[#005f2d] hover:text-[#0e7a3d] text-xs font-semibold flex items-center gap-1 transition-colors">
+                                        <span class="material-symbols-outlined text-[16px]">edit</span>
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('pengumuman.destroy', $item) }}" method="POST" style="display:inline;"
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengumuman ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-[#ba1a1a] hover:text-[#93000a] text-xs font-semibold flex items-center gap-1 transition-colors">
+                                            <span class="material-symbols-outlined text-[16px]">delete</span>
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @empty

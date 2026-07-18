@@ -5,7 +5,7 @@
         {{-- Page Header --}}
         <header class="mb-8 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
             <div>
-                <p class="text-primary font-semibold text-xs mb-1 uppercase tracking-widest">Attendance Logs</p>
+                <p class="text-primary font-semibold text-xs mb-1 uppercase tracking-widest">Catatan Kehadiran</p>
                 <h1 class="text-2xl font-bold text-on-surface">Riwayat Presensi</h1>
                 <p class="text-xs text-secondary">Lacak riwayat kehadiran dan keterlambatan Anda di kelas.</p>
             </div>

@@ -41,12 +41,12 @@
                                 required>
                             <option value="">Pilih Mata Pelajaran</option>
                             <option value="Umum">Umum</option>
-                            <option value="Biology">Biology</option>
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="Physics">Physics</option>
-                            <option value="History">History</option>
-                            <option value="English">English</option>
-                            <option value="Indonesian">Indonesian</option>
+                            <option value="Biology">Biologi</option>
+                            <option value="Mathematics">Matematika</option>
+                            <option value="Physics">Fisika</option>
+                            <option value="History">Sejarah</option>
+                            <option value="English">Inggris</option>
+                            <option value="Indonesian">Indonesia</option>
                         </select>
                         @error('mata_pelajaran')
                             <p class="mt-1.5 text-xs text-[#ba1a1a]">{{ $message }}</p>

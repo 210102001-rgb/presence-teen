@@ -18,6 +18,25 @@
     <x-slot name="header">{{ $roleName }}</x-slot>
 
     <div class="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
+        {{-- Profile Update Success Popup --}}
+        @if(session('status') === 'profile-updated')
+            <div x-data="{ show: true }"
+                 x-show="show"
+                 x-transition
+                 x-init="setTimeout(() => show = false, 5000)"
+                 @click.away="show = false"
+                 class="mb-6 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl flex items-center gap-3 text-sm text-[#005f2d] relative shadow-soft">
+                <span class="material-symbols-outlined text-[20px] shrink-0 filled-icon">check_circle</span>
+                <div>
+                    <p class="font-bold">Profil Berhasil Diperbarui</p>
+                    <p class="text-xs mt-0.5 opacity-80">Informasi profil Anda telah disimpan dengan baik</p>
+                </div>
+                <button @click="show = false" class="ml-auto text-[#005f2d] hover:text-[#0e7a3d] transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+            </div>
+        @endif
+
         {{-- Breadcrumbs --}}
         <nav class="flex items-center gap-1.5 text-xs text-[#5c5f61] mb-6">
             <a href="{{ route('dashboard') }}" class="hover:text-[#005f2d] transition-colors">Dashboard</a>
@@ -74,7 +93,7 @@
                 <div class="bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2]">
                     <div class="flex items-center gap-2 mb-6">
                         <span class="material-symbols-outlined text-[#005f2d]">support_agent</span>
-                        <h4 class="font-bold text-[#171c1f]">School Contacts</h4>
+                        <h4 class="font-bold text-[#171c1f]">Kontak Sekolah</h4>
                     </div>
                     <div class="space-y-4">
                         <div class="flex items-start gap-3 p-3 rounded-xl bg-[#f6fafe]">
@@ -110,9 +129,9 @@
                     <div class="flex justify-between items-center mb-6">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-[#005f2d]">badge</span>
-                            <h4 class="font-bold text-[#171c1f]">Personal Information</h4>
+                            <h4 class="font-bold text-[#171c1f]">Informasi Pribadi</h4>
                         </div>
-                        <span class="px-2.5 py-1 bg-[#97f7ac]/30 text-[#005226] text-[10px] font-bold rounded-full uppercase tracking-wider">Verified</span>
+                        <span class="px-2.5 py-1 bg-[#97f7ac]/30 text-[#005226] text-[10px] font-bold rounded-full uppercase tracking-wider">Terverifikasi</span>
                     </div>
 
                     @include('profile.partials.update-profile-information-form')

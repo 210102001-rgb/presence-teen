@@ -48,7 +48,7 @@
             <a href="{{ route('presensi.scan') }}"
                class="w-full bg-primary py-4 rounded-xl flex items-center justify-center gap-3 text-on-primary shadow-lg active:scale-95 transition-transform">
                 <span class="material-symbols-outlined text-3xl">qr_code_scanner</span>
-                <span class="text-xl font-semibold">Scan QR Presence</span>
+                <span class="text-xl font-semibold">Scan Presensi QR</span>
             </a>
 
             <section class="space-y-3">
@@ -127,7 +127,7 @@
                 @php $nextJadwal = $jadwalHariIni->first(fn($j) => now()->format('H:i:s') < $j->jam_mulai) ?? $jadwalHariIni->last(); @endphp
                 <section class="bg-surface-container-high rounded-xl p-5 space-y-3">
                     <div class="flex items-center justify-between">
-                        <span class="bg-tertiary/20 text-tertiary px-3 py-1 rounded-full text-xs font-bold">UPCOMING</span>
+                        <span class="bg-tertiary/20 text-tertiary px-3 py-1 rounded-full text-xs font-bold">MENDATANG</span>
                         <span class="text-xs font-medium text-secondary">{{ $nextJadwal->jam_label }}</span>
                     </div>
                     <div>

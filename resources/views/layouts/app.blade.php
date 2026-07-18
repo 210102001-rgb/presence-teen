@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Presence-Teen') }} — @yield('title', 'Dashboard')</title>
+    <title>{{ config('app.name', 'Presence-Teen') }} — @isset($header){{ $header }}@else Dashboard @endif</title>
     <link rel="icon" type="image/png" href="{{ asset('smansa.png') }}">
 
     <!-- Google Fonts: Inter + Material Symbols -->

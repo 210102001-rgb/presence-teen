@@ -3,7 +3,7 @@
 
     <div class="p-4 md:p-8 max-w-4xl mx-auto space-y-6">
         <div>
-            <p class="text-primary font-semibold text-xs mb-1 uppercase tracking-widest">Manual Attendance Override</p>
+            {{-- <p class="text-primary font-semibold text-xs mb-1 uppercase tracking-widest">Manual Attendance Override</p> --}}
             <h1 class="text-2xl font-bold text-on-surface">Input Manual Kehadiran</h1>
             <p class="text-xs text-secondary">Koreksi atau isi kehadiran siswa secara manual untuk sesi tertentu.</p>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Materi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\IOFactory as PhpWordIOFactory;
 use Smalot\PdfParser\Parser as PdfParser;
 
@@ -82,6 +83,39 @@ class MateriController extends Controller
         $materi->update(['ringkasan_ai' => $ringkasan ?? 'Gagal menghasilkan ringkasan.']);
 
         return redirect()->route('materi.show', $materi)->with('success', 'Ringkasan AI berhasil dibuat.');
+    }
+
+    /**
+     * Download materi file.
+     */
+    public function download(Materi $materi)
+    {
+        if (! $materi->file_path || ! Storage::disk('public')->exists($materi->file_path)) {
+            return back()->with('error', 'File materi tidak ditemukan.');
+        }
+
+        return Storage::disk('public')->download($materi->file_path, $materi->judul . '.' . pathinfo($materi->file_path, PATHINFO_EXTENSION));
+    }
+
+    /**
+     * Delete materi.
+     */
+    public function destroy(Materi $materi)
+    {
+        // Authorization check - hanya guru pembuat yang bisa hapus
+        if ($materi->guru_id !== auth()->id()) {
+            abort(403, 'Anda tidak memiliki izin untuk menghapus materi ini.');
+        }
+
+        // Hapus file dari storage
+        if ($materi->file_path && Storage::disk('public')->exists($materi->file_path)) {
+            Storage::disk('public')->delete($materi->file_path);
+        }
+
+        // Hapus record dari database
+        $materi->delete();
+
+        return redirect()->route('materi.index')->with('success', 'Materi berhasil dihapus.');
     }
 
     private function extractText($file): string

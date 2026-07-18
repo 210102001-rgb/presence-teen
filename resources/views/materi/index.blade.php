@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">Learning Materials</x-slot>
+    <x-slot name="header">Materi Pembelajaran</x-slot>
 
     <div class="p-6 md:p-8">
 
@@ -9,8 +9,8 @@
 
         {{-- Header --}}
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-[#171c1f]">Learning Materials</h1>
-            <p class="text-sm text-[#5c5f61] mt-1">Manage and access academic resources.</p>
+            <h1 class="text-3xl font-bold text-[#171c1f]">Materi Pembelajaran</h1>
+            <p class="text-sm text-[#5c5f61] mt-1">Kelola dan akses sumber daya akademik.</p>
         </div>
 
         {{-- Action Bar --}}
@@ -31,7 +31,7 @@
                     <a href="{{ route('materi.create') }}"
                        class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all">
                         <span class="material-symbols-outlined text-[18px]">upload_file</span>
-                        Upload Material
+                        Upload Materi
                     </a>
                 @endif
             </div>
@@ -49,7 +49,7 @@
                     <a href="{{ route('materi.create') }}"
                        class="inline-flex items-center gap-2 bg-[#005f2d] text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all">
                         <span class="material-symbols-outlined text-[18px]">upload_file</span>
-                        Upload Material Pertama
+                        Upload Materi Pertama
                     </a>
                 @endif
             </div>
@@ -97,7 +97,7 @@
                                     <p>
                                         @php
                                             $ext = strtoupper(pathinfo($item->file_path, PATHINFO_EXTENSION));
-                                            $fullPath = Storage::disk('public')->path($item->file_path);
+                                            $fullPath = \Illuminate\Support\Facades\Storage::disk('public')->path($item->file_path);
                                             $bytes = file_exists($fullPath) ? filesize($fullPath) : 0;
                                             $size = $bytes > 1048576
                                                 ? round($bytes / 1048576, 1) . ' MB'
@@ -116,11 +116,22 @@
                                     Preview
                                 </a>
                                 @if($item->file_path)
-                                    <a href="{{ Storage::url($item->file_path) }}" target="_blank" download
+                                    <a href="{{ route('materi.download', $item) }}"
                                        class="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 border border-[#becabc] text-[#5c5f61] rounded-lg text-sm font-semibold hover:bg-[#f0f4f8] transition-all">
                                         <span class="material-symbols-outlined text-[18px]">download</span>
                                         Download
                                     </a>
+                                @endif
+                                @if(auth()->user()->role === 'guru' && $item->guru_id === auth()->id())
+                                    <form action="{{ route('materi.destroy', $item) }}" method="POST" style="display:inline;"
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus materi ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 border border-[#ba1a1a]/30 text-[#ba1a1a] rounded-lg text-sm font-semibold hover:bg-[#ffebee] transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                                            Hapus
+                                        </button>
+                                    </form>
                                 @endif
                             </div>
                         </div>
