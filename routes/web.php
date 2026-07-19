@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
@@ -28,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/siswa', [DashboardController::class, 'siswa'])->name('dashboard.siswa')->middleware('role:siswa');
     Route::get('/dashboard/guru', [DashboardController::class, 'guru'])->name('dashboard.guru')->middleware('role:guru');
     Route::get('/dashboard/orang-tua', [DashboardController::class, 'orangTua'])->name('dashboard.orang_tua')->middleware('role:orang_tua');
+    Route::get('/dashboard/super-admin', [DashboardController::class, 'superAdmin'])->name('dashboard.super_admin')->middleware('role:super_admin');
 });
 
 Route::middleware('auth')->group(function () {
@@ -35,6 +37,18 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/anak/{siswa}', [ProfileController::class, 'showAnak'])->name('profile.anak');
+
+    // Super Admin Account Management
+    Route::middleware('role:super_admin')->group(function () {
+        Route::get('/kelola-akun', [AccountController::class, 'index'])->name('account.index');
+        Route::get('/kelola-akun/create', [AccountController::class, 'create'])->name('account.create');
+        Route::post('/kelola-akun', [AccountController::class, 'store'])->name('account.store');
+        Route::get('/kelola-akun/{user}/edit', [AccountController::class, 'edit'])->name('account.edit');
+        Route::put('/kelola-akun/{user}', [AccountController::class, 'update'])->name('account.update');
+        Route::delete('/kelola-akun/{user}', [AccountController::class, 'destroy'])->name('account.destroy');
+        Route::get('/kelola-akun/{user}/edit-password', [AccountController::class, 'editPassword'])->name('account.edit-password');
+        Route::put('/kelola-akun/{user}/update-password', [AccountController::class, 'updatePassword'])->name('account.update-password');
+    });
 });
 
 // === Presensi QR ===

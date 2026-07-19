@@ -26,6 +26,7 @@ class DashboardController extends Controller
             'siswa' => redirect()->route('dashboard.siswa'),
             'guru' => redirect()->route('dashboard.guru'),
             'orang_tua' => redirect()->route('dashboard.orang_tua'),
+            'super_admin' => redirect()->route('dashboard.super_admin'),
             default => abort(403),
         };
     }
@@ -178,5 +179,29 @@ class DashboardController extends Controller
             ->count();
 
         return view('dashboard.orang_tua', compact('siswa', 'laporans', 'totalPeringatan'));
+    }
+
+    public function superAdmin()
+    {
+        // Super Admin Dashboard with system statistics
+        $totalUsers = User::count();
+        $totalGuru = User::where('role', 'guru')->count();
+        $totalSiswa = User::where('role', 'siswa')->count();
+        $totalOrangTua = User::where('role', 'orang_tua')->count();
+
+        $totalKelas = Kelas::count();
+        $totalMateri = Materi::count();
+        $totalTugas = Tugas::count();
+        $totalPresensi = Presensi::count();
+
+        // Recent activity
+        $recentUsers = User::latest()->limit(10)->get();
+        $recentKelas = Kelas::with('waliKelas')->latest()->limit(5)->get();
+
+        return view('dashboard.super_admin', compact(
+            'totalUsers', 'totalGuru', 'totalSiswa', 'totalOrangTua',
+            'totalKelas', 'totalMateri', 'totalTugas', 'totalPresensi',
+            'recentUsers', 'recentKelas'
+        ));
     }
 }

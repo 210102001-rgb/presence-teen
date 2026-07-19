@@ -15,6 +15,7 @@
                 @if($role === 'guru') Portal Guru
                 @elseif($role === 'siswa') Portal Siswa
                 @elseif($role === 'orang_tua') Portal Orang Tua
+                @elseif($role === 'super_admin') Portal Admin
                 @else Academic Portal
                 @endif
             </p>
@@ -33,7 +34,89 @@
             <span class="text-sm">Dashboard</span>
         </a>
 
-        @if($role === 'siswa')
+        @if($role === 'super_admin')
+            <a href="{{ route('account.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('account.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('account.*') ? 'filled-icon' : '' }}">manage_accounts</span>
+                <span class="text-sm">Kelola Akun</span>
+            </a>
+            <a href="{{ route('presensi.guru') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('presensi.guru*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('presensi.guru*') ? 'filled-icon' : '' }}">qr_code_2</span>
+                <span class="text-sm">QR Presensi</span>
+            </a>
+            <a href="{{ route('presensi.manual') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('presensi.manual*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('presensi.manual*') ? 'filled-icon' : '' }}">edit_calendar</span>
+                <span class="text-sm">Input Manual</span>
+            </a>
+            <a href="{{ route('guru.jadwal') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('guru.jadwal*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('guru.jadwal*') ? 'filled-icon' : '' }}">calendar_today</span>
+                <span class="text-sm">Jadwal Mengajar</span>
+            </a>
+            <a href="{{ route('guru.kelas') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('guru.kelas*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('guru.kelas*') ? 'filled-icon' : '' }}">class</span>
+                <span class="text-sm">Kelas</span>
+            </a>
+            <a href="{{ route('guru.kelas_siswa') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('guru.kelas_siswa*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('guru.kelas_siswa*') ? 'filled-icon' : '' }}">groups</span>
+                <span class="text-sm">Siswa</span>
+            </a>
+            <a href="{{ route('materi.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('materi.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('materi.*') ? 'filled-icon' : '' }}">menu_book</span>
+                <span class="text-sm">Materi</span>
+            </a>
+            <a href="{{ route('tugas.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('tugas.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('tugas.*') ? 'filled-icon' : '' }}">assignment</span>
+                <span class="text-sm">Kelola Tugas</span>
+            </a>
+            <a href="{{ route('laporan.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('laporan.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('laporan.*') ? 'filled-icon' : '' }}">monitoring</span>
+                <span class="text-sm">Laporan Siswa</span>
+            </a>
+            <a href="{{ route('pengumuman.index') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('pengumuman.*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('pengumuman.*') ? 'filled-icon' : '' }}">campaign</span>
+                <span class="text-sm">Pengumuman</span>
+            </a>
+
+        @elseif($role === 'siswa')
             <a href="{{ route('presensi.scan') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('presensi.scan')
