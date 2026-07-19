@@ -55,29 +55,76 @@
                     @endphp
                     <div class="mt-5 pt-5 border-t border-[#eaeef2]">
                         @if($sudahKumpul)
-                            <div class="flex items-center gap-3 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl">
-                                <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">check_circle</span>
-                                <div>
-                                    <p class="text-sm font-semibold text-[#005f2d]">Tugas sudah dikumpulkan</p>
-                                    @if($pengumpulanSaya->waktu_kumpul)
-                                        <p class="text-xs text-[#3f493f]">{{ \Carbon\Carbon::parse($pengumpulanSaya->waktu_kumpul)->format('d M Y, H:i') }}</p>
-                                    @endif
-                                    @if($pengumpulanSaya->nilai)
-                                        <p class="text-xs text-[#005f2d] font-semibold mt-0.5">Nilai: {{ $pengumpulanSaya->nilai }}</p>
-                                    @endif
+                            <div class="space-y-4">
+                                {{-- Submitted File Info --}}
+                                <div class="flex items-center gap-3 p-4 bg-[#f0fdf4] border border-[#0e7a3d]/20 rounded-xl">
+                                    <span class="material-symbols-outlined text-[#0e7a3d] filled-icon">check_circle</span>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-semibold text-[#005f2d]">Tugas sudah dikumpulkan</p>
+                                        @if($pengumpulanSaya->waktu_kumpul)
+                                            <p class="text-xs text-[#3f493f]">{{ \Carbon\Carbon::parse($pengumpulanSaya->waktu_kumpul)->format('d M Y, H:i') }}</p>
+                                        @endif
+                                        @if($pengumpulanSaya->nilai)
+                                            <p class="text-xs text-[#005f2d] font-semibold mt-0.5">Nilai: {{ $pengumpulanSaya->nilai }}</p>
+                                        @endif
+                                    </div>
                                 </div>
+
+                                {{-- Show Submitted File --}}
+                                @if($pengumpulanSaya->file_path)
+                                    <div class="p-4 bg-[#f6fafe] border border-[#eaeef2] rounded-xl">
+                                        <p class="text-xs font-semibold text-[#5c5f61] uppercase tracking-wider mb-2">File yang Dikumpulkan</p>
+                                        <a href="{{ route('tugas.download', $pengumpulanSaya) }}" target="_blank"
+                                           class="inline-flex items-center gap-2 text-sm text-[#005f2d] font-medium hover:underline">
+                                            <span class="material-symbols-outlined text-[18px]">download</span>
+                                            {{ basename($pengumpulanSaya->file_path) }}
+                                        </a>
+                                    </div>
+                                @endif
+
+                                {{-- Allow Re-upload if Not Overdue --}}
+                                @if(!$isOverdue)
+                                    <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                                        <p class="text-xs font-semibold text-amber-900 mb-3">Upload Ulang Tugas</p>
+                                        <form action="{{ route('tugas.kumpul', $tugas) }}" method="POST" enctype="multipart/form-data" class="space-y-3" x-data="{ fileName: '' }">
+                                            @csrf
+                                            <label for="file_reupload"
+                                                   class="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-amber-300
+                                                          rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all group">
+                                                <span class="material-symbols-outlined text-amber-700 text-2xl group-hover:scale-110 transition-transform mb-0.5" x-show="!fileName">cloud_upload</span>
+                                                <span class="material-symbols-outlined text-amber-700 text-2xl" x-show="fileName" style="display: none;">check_circle</span>
+                                                <p class="text-xs text-amber-700" x-show="!fileName"><span class="font-semibold">Klik untuk upload</span> file baru</p>
+                                                <p class="text-xs text-amber-700 font-semibold" x-show="fileName" style="display: none;" x-text="fileName"></p>
+                                                <input id="file_reupload" name="file" type="file" class="hidden" @change="fileName = $el.files[0]?.name || ''">
+                                            </label>
+                                            @error('file')
+                                                <p class="text-xs text-[#ba1a1a]">{{ $message }}</p>
+                                            @enderror
+                                            <button type="submit"
+                                                    class="w-full py-2 px-3 bg-amber-600 text-white text-xs font-semibold rounded-xl hover:bg-amber-700 transition-all active:scale-95">
+                                                Perbarui Tugas
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="p-4 bg-[#ffdad6]/40 border border-[#ba1a1a]/20 rounded-xl">
+                                        <p class="text-xs font-medium text-[#93000a]">⏰ Deadline telah lewat. Tugas tidak dapat diperbarui lagi.</p>
+                                    </div>
+                                @endif
                             </div>
                         @elseif(!$isOverdue)
-                            <form action="{{ route('tugas.kumpul', $tugas) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                            <form action="{{ route('tugas.kumpul', $tugas) }}" method="POST" enctype="multipart/form-data" class="space-y-4" x-data="{ fileName: '' }">
                                 @csrf
                                 <div>
                                     <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Upload File Tugas</label>
                                     <label for="file"
                                            class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#becabc]
                                                   rounded-xl cursor-pointer hover:border-[#005f2d] hover:bg-[#f0fdf4] transition-all group">
-                                        <span class="material-symbols-outlined text-[#5c5f61] text-3xl group-hover:text-[#0e7a3d] mb-1">cloud_upload</span>
-                                        <p class="text-sm text-[#5c5f61]"><span class="font-semibold text-[#005f2d]">Klik untuk upload</span> file tugas</p>
-                                        <input id="file" name="file" type="file" class="hidden">
+                                        <span class="material-symbols-outlined text-[#5c5f61] text-3xl group-hover:text-[#0e7a3d] mb-1" x-show="!fileName">cloud_upload</span>
+                                        <span class="material-symbols-outlined text-[#0e7a3d] text-3xl mb-1" x-show="fileName" style="display: none;">check_circle</span>
+                                        <p class="text-sm text-[#5c5f61]" x-show="!fileName"><span class="font-semibold text-[#005f2d]">Klik untuk upload</span> file tugas</p>
+                                        <p class="text-sm font-semibold text-[#005f2d]" x-show="fileName" style="display: none;" x-text="fileName"></p>
+                                        <input id="file" name="file" type="file" class="hidden" @change="fileName = $el.files[0]?.name || ''">
                                     </label>
                                     @error('file')
                                         <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>

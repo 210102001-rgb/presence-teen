@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/tugas/{tugas}', [TugasController::class, 'update'])->name('tugas.update')->middleware('role:guru');
     Route::delete('/tugas/{tugas}', [TugasController::class, 'destroy'])->name('tugas.destroy')->middleware('role:guru');
     Route::post('/tugas/{tugas}/kumpul', [TugasController::class, 'kumpul'])->name('tugas.kumpul')->middleware('role:siswa');
+    Route::get('/pengumpulan-tugas/{pengumpulanTugas}/download', [TugasController::class, 'download'])->name('tugas.download');
 });
 
 // === Materi AI ===

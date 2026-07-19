@@ -193,23 +193,47 @@ class PresensiController extends Controller
 
     public function manualInput()
     {
-        $kelas = Kelas::where('guru_id', auth()->id())->with('siswa')->get();
-        $sesi = SesiPresensi::where('guru_id', auth()->id())->with('kelas')->latest()->get();
+        // Load all classes for the guru with their students
+        $kelas = Kelas::where('guru_id', auth()->id())
+            ->with('siswa')
+            ->get();
 
-        return view('guru.manual_presensi', compact('kelas', 'sesi'));
+        return view('guru.manual_presensi', compact('kelas'));
     }
 
     public function storeManualInput(Request $request)
     {
         $request->validate([
-            'sesi_presensi_id' => 'required|exists:sesi_presensi,id',
+            'sesi_presensi_id' => 'nullable',  // Optional, not used in simplified form
             'siswa_id' => 'required|exists:users,id',
             'status' => 'required|in:hadir,telat,sakit,izin,alpha',
         ]);
 
+        // If sesi_presensi_id is not provided, find the most recent session for this student
+        $sesiId = $request->sesi_presensi_id;
+        if (!$sesiId) {
+            // Get the most recent active session
+            $recentSesi = SesiPresensi::where('is_active', true)
+                ->latest()
+                ->first();
+            $sesiId = $recentSesi?->id;
+        }
+
+        // If no active session found, use any recent session
+        if (!$sesiId) {
+            $recentSesi = SesiPresensi::latest()
+                ->first();
+            $sesiId = $recentSesi?->id;
+        }
+
+        // If still no session, create a generic entry or reject
+        if (!$sesiId) {
+            return back()->with('error', 'Tidak ada sesi presensi yang tersedia. Buat sesi presensi terlebih dahulu.');
+        }
+
         Presensi::updateOrCreate(
             [
-                'sesi_presensi_id' => $request->sesi_presensi_id,
+                'sesi_presensi_id' => $sesiId,
                 'siswa_id' => $request->siswa_id,
             ],
             [
@@ -218,6 +242,6 @@ class PresensiController extends Controller
             ]
         );
 
-        return back()->with('success', 'Presensi berhasil dicatat secara manual.');
+        return back()->with('success', 'Kehadiran berhasil dicatat secara manual.');
     }
 }

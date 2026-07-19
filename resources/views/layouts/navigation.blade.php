@@ -80,7 +80,7 @@
                          ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('motivasi.*') ? 'filled-icon' : '' }}">auto_awesome</span>
-                <span class="text-sm">AI Motivasi</span>
+                <span class="text-sm">AI Analisis</span>
             </a>
             <a href="{{ route('pengumuman.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
@@ -196,7 +196,7 @@
                          ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('motivasi.*') ? 'filled-icon' : '' }}">auto_awesome</span>
-                <span class="text-sm">AI Motivasi Anak</span>
+                <span class="text-sm">AI Analisis Anak</span>
             </a>
             <a href="{{ route('prediksi.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95

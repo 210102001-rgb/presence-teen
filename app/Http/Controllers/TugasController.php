@@ -8,6 +8,7 @@ use App\Models\PengumpulanTugas;
 use App\Models\SiswaKelas;
 use App\Models\Tugas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TugasController extends Controller
 {
@@ -132,5 +133,29 @@ class TugasController extends Controller
         );
 
         return redirect()->route('tugas.index')->with('success', 'Tugas berhasil dikumpulkan.');
+    }
+
+    public function download(PengumpulanTugas $pengumpulanTugas)
+    {
+        // Check if the logged-in user is the student who submitted or the teacher
+        $user = auth()->user();
+        
+        if ($user->role === 'siswa') {
+            // Student can only download their own submission
+            abort_if($pengumpulanTugas->siswa_id !== $user->id, 403);
+        } elseif ($user->role === 'guru') {
+            // Teacher can download from their own classes
+            abort_if($pengumpulanTugas->tugas->guru_id !== $user->id, 403);
+        } else {
+            // Parent can see their children's submissions
+            $siswaIds = OrangTuaSiswa::where('orang_tua_id', $user->id)->pluck('siswa_id');
+            abort_if(!$siswaIds->contains($pengumpulanTugas->siswa_id), 403);
+        }
+
+        if (!$pengumpulanTugas->file_path || !\Storage::disk('public')->exists($pengumpulanTugas->file_path)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        return \Storage::disk('public')->download($pengumpulanTugas->file_path);
     }
 }
