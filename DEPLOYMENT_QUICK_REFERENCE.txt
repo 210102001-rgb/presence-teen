@@ -1,0 +1,386 @@
+================================================================================
+  PRESENCE TEEN - DEPLOYMENT QUICK REFERENCE
+  Deploy to: presence.solvianova.my.id
+================================================================================
+
+📋 CREDENTIALS TO SAVE
+================================================================================
+
+RUMAHWEB cPanel:
+  URL: https://[rumahweb-url]/cpanel
+  Username: [your-username]
+  Password: [your-password]
+
+FTP/SFTP:
+  Host: presence.solvianova.my.id (or [hostname])
+  Port: 22 (SFTP) or 21 (FTP)
+  Username: [your-ftp-username]
+  Password: [your-ftp-password]
+
+Database:
+  Host: localhost
+  Name: solvianova_presence
+  User: solvianova_presnc
+  Password: [your-db-password]
+
+SSH:
+  Command: ssh username@presence.solvianova.my.id
+  Or: ssh username@[rumahweb-hostname]
+
+================================================================================
+🚀 DEPLOYMENT STEPS (5 minutes each)
+================================================================================
+
+STEP 1: RUMAHWEB SETUP
+  [ ] Create subdomain: presence.solvianova.my.id
+  [ ] Create database: solvianova_presence
+  [ ] Create DB user: solvianova_presnc
+  [ ] Grant ALL PRIVILEGES to user
+  [ ] Note FTP credentials
+
+STEP 2: PROJECT PREPARATION
+  [ ] cd d:\Project\presence-teen
+  [ ] composer install --no-dev
+  [ ] npm run build
+
+STEP 3: UPLOAD FILES
+  [ ] Connect via FTP (FileZilla)
+  [ ] Upload all files EXCEPT: .env, .git, node_modules, vendor
+  [ ] Verify files uploaded
+
+STEP 4: SERVER CONFIGURATION (via SSH)
+  [ ] SSH into: ssh username@presence.solvianova.my.id
+  [ ] cd public_html/presence.solvianova.my.id
+  [ ] cp .env.example .env
+  [ ] nano .env (edit with credentials)
+  [ ] php artisan key:generate
+  [ ] composer install --no-dev
+  [ ] php artisan migrate --force
+  [ ] php artisan db:seed --force
+  [ ] chmod -R 755 public/
+  [ ] chmod -R 775 storage/
+  [ ] php artisan storage:link
+  [ ] php artisan optimize
+
+STEP 5: VERIFY DEPLOYMENT
+  [ ] Visit: https://presence.solvianova.my.id
+  [ ] Login: admin@presensi.test / password
+  [ ] Check dashboard loads
+  [ ] Verify SSL certificate (green lock)
+
+================================================================================
+📝 CRITICAL .env SETTINGS
+================================================================================
+
+These MUST be set on production server (.env file):
+
+APP_NAME="Presence Teen"
+APP_ENV=production
+APP_DEBUG=false                           ← MUST be false!
+APP_URL=https://presence.solvianova.my.id
+
+DB_HOST=localhost
+DB_DATABASE=solvianova_presence
+DB_USERNAME=solvianova_presnc
+DB_PASSWORD=[your-database-password]
+
+SESSION_DRIVER=database
+CACHE_DRIVER=file
+QUEUE_CONNECTION=database
+
+================================================================================
+🔐 LOGIN CREDENTIALS (AFTER DEPLOYMENT)
+================================================================================
+
+Super Admin Account (AUTO-CREATED):
+  Email: admin@presensi.test
+  Password: password
+  ⚠️  CHANGE THIS IMMEDIATELY AFTER LOGIN!
+
+Test Accounts (if seeded):
+  Guru: guru@presensi.test / password
+  Siswa: siswa@presensi.test / password
+  Orang Tua: ortu@presensi.test / password
+
+================================================================================
+🗂️ SERVER FILE STRUCTURE
+================================================================================
+
+/public_html/presence.solvianova.my.id/
+├── app/
+├── bootstrap/
+├── config/
+├── database/
+├── public/                ← Document Root
+│   ├── index.php
+│   ├── .htaccess
+│   └── storage link
+├── resources/
+├── routes/
+├── storage/               ← Must be writable (775)
+├── vendor/                ← Created by composer
+├── .env                   ← Created on server (644)
+├── .env.example
+├── artisan
+├── composer.json
+└── package.json
+
+================================================================================
+✅ VERIFICATION CHECKLIST
+================================================================================
+
+After deployment, confirm:
+
+[ ] Domain resolves: https://presence.solvianova.my.id
+[ ] SSL certificate active (green lock icon)
+[ ] Login page displays
+[ ] Can login with: admin@presensi.test
+[ ] Dashboard loads after login
+[ ] Sidebar menu visible
+[ ] Can navigate pages
+[ ] Database queries work
+[ ] File uploads work
+[ ] No 500 errors
+[ ] Check logs: tail -f storage/logs/laravel.log
+
+================================================================================
+🔧 SSH COMMANDS REFERENCE
+================================================================================
+
+Essential Commands:
+
+# Connection
+ssh username@presence.solvianova.my.id
+
+# Navigation
+cd public_html/presence.solvianova.my.id
+pwd                         # Show current directory
+ls -la                      # List files
+
+# Laravel
+php artisan key:generate    # Generate APP_KEY
+php artisan migrate --force # Run migrations
+php artisan db:seed --force # Seed database
+php artisan optimize:clear  # Clear caches
+php artisan optimize        # Optimize for production
+
+# File Permissions
+chmod 755 public/
+chmod 775 storage/
+chmod 644 .env
+
+# Database
+mysql -u solvianova_presnc -p solvianova_presence
+# Inside MySQL: SELECT COUNT(*) FROM users;
+
+# Logs
+tail -f storage/logs/laravel.log      # Follow logs
+cat storage/logs/laravel.log          # View entire log
+grep "ERROR" storage/logs/laravel.log # Search errors
+
+# Backup
+mysqldump -u solvianova_presnc -p solvianova_presence > backup.sql
+
+================================================================================
+⚠️  COMMON PROBLEMS & FIXES
+================================================================================
+
+PROBLEM: 404 on /login and other routes
+FIX: Check .htaccess in public/ folder
+  - Verify mod_rewrite enabled on server
+  - Ensure .htaccess file exists
+  - Check: cat public/.htaccess
+
+PROBLEM: "Database connection failed"
+FIX: Verify credentials
+  - Check .env has correct credentials
+  - Verify database exists: mysql -u user -p database
+  - Test connection: php artisan tinker → DB::connection()->getPdo()
+
+PROBLEM: "No application encryption key"
+FIX: Generate key
+  - php artisan key:generate
+  - Verify APP_KEY in .env
+
+PROBLEM: Blank page or 500 error
+FIX: Check logs
+  - tail -f storage/logs/laravel.log
+  - Look for [ERROR] or [Exception]
+  - Fix reported issues
+
+PROBLEM: Can't upload files
+FIX: Fix permissions
+  - chmod -R 775 storage/
+  - Verify disk space available
+
+PROBLEM: CSS/JS not loading
+FIX: Create storage link
+  - php artisan storage:link
+  - Verify: ls -la public/ (should show storage link)
+
+PROBLEM: Routes not working after migration
+FIX: Clear route cache
+  - php artisan route:clear
+  - php artisan route:cache
+
+================================================================================
+📊 IMPORTANT DIRECTORIES & PERMISSIONS
+================================================================================
+
+Directory                   Permissions   Writable By
+─────────────────────────   ───────────   ──────────
+public/                     755           web user
+storage/                    775           web user
+bootstrap/cache/            775           web user
+resources/                  755           nobody
+config/                     755           nobody
+database/                   755           nobody
+.env file                   644           owner only
+
+# Apply permissions:
+chmod -R 755 public/
+chmod -R 775 storage/
+chmod -R 775 bootstrap/cache/
+chmod 644 .env
+
+================================================================================
+📞 EMERGENCY PROCEDURES
+================================================================================
+
+IF PAGE IS BLANK / 500 ERROR:
+
+1. SSH to server
+2. Check logs:
+   tail -50 storage/logs/laravel.log
+3. Clear caches:
+   php artisan optimize:clear
+4. Rebuild caches:
+   php artisan optimize
+5. Check permissions:
+   chmod -R 775 storage/
+6. Verify .env:
+   cat .env | head -10
+
+IF DATABASE NOT WORKING:
+
+1. Test connection:
+   mysql -u solvianova_presnc -p
+2. Verify credentials in .env:
+   cat .env | grep DB_
+3. Run migrations:
+   php artisan migrate --force
+4. Check if tables exist:
+   mysql -u solvianova_presnc -p solvianova_presence
+   > SHOW TABLES;
+
+IF CAN'T LOGIN:
+
+1. Verify super admin exists:
+   mysql> SELECT * FROM users WHERE role='super_admin';
+2. If missing, seed database:
+   php artisan db:seed --force
+3. Check user:
+   mysql> SELECT id, email, role FROM users;
+
+================================================================================
+🔒 SECURITY CHECKLIST
+================================================================================
+
+[ ] APP_DEBUG is false in production .env
+[ ] APP_ENV is production in .env
+[ ] .env has 644 permissions (not readable by web)
+[ ] .env not committed to git
+[ ] SSL certificate installed (HTTPS)
+[ ] Change default admin password
+[ ] API keys stored securely
+[ ] Database backups configured
+[ ] Regular log monitoring enabled
+[ ] Storage folder not publicly accessible
+[ ] .git folder not publicly accessible
+
+================================================================================
+📈 MONITORING & MAINTENANCE
+================================================================================
+
+Daily:
+  - Check error logs
+  - Monitor database size
+
+Weekly:
+  - Review logs for patterns
+  - Check disk usage
+  - Verify backups running
+
+Monthly:
+  - Update Laravel/packages
+  - Security audit
+  - Performance review
+  - User feedback check
+
+================================================================================
+📚 ADDITIONAL RESOURCES
+================================================================================
+
+Full Guides:
+  - DEPLOYMENT_RUMAHWEB_GUIDE.md      (Complete step-by-step)
+  - DEPLOYMENT_CHECKLIST.md            (Verification checklist)
+  - DEPLOYMENT_SSH_COMMANDS.md         (SSH command reference)
+
+Configuration:
+  - .env.production.example            (Template .env)
+  - public/.htaccess                   (Routing configuration)
+
+Getting Help:
+  - Check: storage/logs/laravel.log
+  - Rumahweb: https://rumahweb.com/bantuan/
+  - Laravel: https://laravel.com/docs
+
+================================================================================
+⏱️  TIME ESTIMATE
+================================================================================
+
+Planning & Preparation:      5 minutes
+Rumahweb Setup:             10 minutes
+Local Project Prep:          5 minutes
+File Upload (FTP):          20 minutes
+Server Configuration (SSH): 15 minutes
+Verification & Testing:      5 minutes
+────────────────────────────────────
+TOTAL TIME:                 60 minutes
+
+================================================================================
+✨ SUCCESS INDICATORS
+================================================================================
+
+Your deployment is successful when:
+
+✅ https://presence.solvianova.my.id loads
+✅ Can login with admin@presensi.test
+✅ Dashboard displays without errors
+✅ SSL certificate is valid (green lock)
+✅ Database queries execute
+✅ File uploads work
+✅ No 500 errors in logs
+✅ All user roles can access their features
+
+================================================================================
+🎉 YOU'RE DONE!
+================================================================================
+
+Your Presence Teen project is now live on:
+
+    https://presence.solvianova.my.id
+
+Next steps:
+  1. Change admin password
+  2. Create additional user accounts
+  3. Configure email (optional)
+  4. Setup regular backups
+  5. Monitor logs and performance
+
+Questions? Check the detailed guides in the project documentation.
+
+================================================================================
+Last Updated: July 20, 2026
+Status: Ready for Production ✅
+================================================================================

@@ -129,30 +129,6 @@
             <span>•</span>
             <a href="/" class="hover:underline">Fitur</a>
         </footer>
-
-        {{-- Demo Accounts (Floating Panel) --}}
-        <div class="w-full mt-6 p-4 bg-white rounded-xl border border-[#eaeef2] shadow-soft">
-            <p class="text-[10px] font-bold text-[#5c5f61] uppercase tracking-wider mb-2">Akun Demo</p>
-            <div class="space-y-1.5 text-[11px]">
-                <div class="flex justify-between">
-                    <span class="text-[#5c5f61]">Guru</span>
-                    <span class="font-mono text-[#171c1f]">guru@presensi.test</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-[#5c5f61]">Siswa</span>
-                    <span class="font-mono text-[#171c1f]">siswa@presensi.test</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-[#5c5f61]">Orang Tua</span>
-                    <span class="font-mono text-[#171c1f]">ortu@presensi.test</span>
-                </div>
-                <div class="flex justify-between border-t border-[#eaeef2] pt-1.5 mt-1">
-                    <span class="text-[#5c5f61]">Kata Sandi</span>
-                    <span class="font-mono text-[#171c1f]">password</span>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 </x-guest-layout>
