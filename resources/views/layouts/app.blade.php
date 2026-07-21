@@ -129,10 +129,12 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white text-sm font-bold">
-                    {{ substr(Auth::user()->name, 0, 1) }}
-                </div>
-                <span class="text-sm font-medium text-on-surface hidden md:block">{{ Auth::user()->name }}</span>
+                <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white text-sm font-bold">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                    <span class="text-sm font-medium text-on-surface hidden md:block">{{ Auth::user()->name }}</span>
+                </a>
             </div>
         </div>
     </header>

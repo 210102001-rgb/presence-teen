@@ -18,9 +18,15 @@
                 </div>
                 <h1 class="text-lg font-bold text-primary">Presence Teen</h1>
             </div>
-            <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors active:scale-95 duration-100">
-                <span class="material-symbols-outlined text-primary">notifications</span>
-            </button>
+            <div class="flex items-center gap-2">
+                <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors active:scale-95 duration-100">
+                    <span class="material-symbols-outlined text-primary">notifications</span>
+                </button>
+                <a href="{{ route('profile.edit') }}"
+                   class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white text-sm font-bold hover:bg-primary-container transition-colors active:scale-95 duration-100">
+                    {{ substr(Auth::user()->name, 0, 1) }}
+                </a>
+            </div>
         </header>
 
         <div class="lg:hidden px-5 pt-20 pb-24 space-y-6 max-w-lg mx-auto">
@@ -29,10 +35,11 @@
                 <p class="text-sm text-secondary mt-1">Let's make today productive.</p>
             </section>
 
-            <div class="relative">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-secondary text-xl">search</span>
-                <input type="text" placeholder="Search lessons, schedules..."
-                       class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all shadow-soft" />
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary">search</span>
+                <input type="text" placeholder="Cari pelajaran, jadwal..."
+                       class="flex-1 min-w-0 px-4 py-2.5 border border-outline-variant rounded-xl text-sm text-on-surface
+                              focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
             </div>
 
             <!-- Featured Event Banner -->
@@ -63,33 +70,65 @@
                         </div>
                         <span class="text-sm font-semibold text-on-surface">Sesi Presensi</span>
                     </a>
+                    {{-- Kelas: dihilangkan (tidak relevan untuk siswa)
                     <a href="{{ route('tugas.index') }}"
-                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-secondary active:scale-95 transition-transform">
-                        <div class="w-12 h-12 bg-secondary-container/30 rounded-full flex items-center justify-center">
-                            <span class="material-symbols-outlined text-secondary">groups</span>
+                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-primary active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">groups</span>
                         </div>
                         <span class="text-sm font-semibold text-on-surface">Kelas</span>
                     </a>
+                    --}}
+                    {{-- Jadwal: dihilangkan (belum ada halaman jadwal siswa)
                     <a href="#"
-                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-tertiary active:scale-95 transition-transform">
-                        <div class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center">
-                            <span class="material-symbols-outlined text-tertiary">calendar_month</span>
+                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-primary active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">calendar_month</span>
                         </div>
                         <span class="text-sm font-semibold text-on-surface">Jadwal</span>
                     </a>
+                    --}}
                     <a href="{{ route('materi.index') }}"
                        class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-primary active:scale-95 transition-transform">
-                        <div class="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center">
-                            <span class="material-symbols-outlined text-on-primary-fixed-variant">library_books</span>
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">library_books</span>
                         </div>
                         <span class="text-sm font-semibold text-on-surface">Materi</span>
                     </a>
                     <a href="{{ route('tugas.index') }}"
-                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-error col-span-2 active:scale-95 transition-transform">
-                        <div class="w-12 h-12 bg-error-container rounded-full flex items-center justify-center">
-                            <span class="material-symbols-outlined text-error">assignment</span>
+                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-primary col-span-2 active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">assignment</span>
                         </div>
                         <span class="text-sm font-semibold text-on-surface">Tugas</span>
+                    </a>
+                    <a href="{{ route('aktivitas.index') }}"
+                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-primary active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">timer</span>
+                        </div>
+                        <span class="text-sm font-semibold text-on-surface">Aktivitas Belajar</span>
+                    </a>
+                    <a href="{{ route('motivasi.index') }}"
+                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-primary active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">auto_awesome</span>
+                        </div>
+                        <span class="text-sm font-semibold text-on-surface">AI Analisis</span>
+                    </a>
+                    <a href="{{ route('pengumuman.index') }}"
+                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-primary active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">campaign</span>
+                        </div>
+                        <span class="text-sm font-semibold text-on-surface">Pengumuman</span>
+                    </a>
+                    <a href="{{ route('profile.edit') }}"
+                       class="bg-white p-4 rounded-xl shadow-soft flex flex-col items-center text-center gap-2 border-l-4 border-primary active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">manage_accounts</span>
+                        </div>
+                        <span class="text-sm font-semibold text-on-surface">Profil</span>
                     </a>
                 </div>
             </section>

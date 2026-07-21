@@ -50,9 +50,11 @@
                 <h2 class="text-2xl font-bold text-[#171c1f]">{{ $roleName }}</h2>
                 <p class="text-sm text-[#5c5f61]">Kelola informasi profil Anda secara real-time.</p>
             </div>
+            {{-- Edit Profile button dihilangkan (tombol redundan, form ada di bawah)
             <a href="#personal-info" class="bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-[#0e7a3d] transition-all flex items-center gap-1">
                 <span class="material-symbols-outlined text-[16px]">edit</span> Edit Profile
             </a>
+            --}}
         </div>
 
         {{-- Bento Grid Layout --}}

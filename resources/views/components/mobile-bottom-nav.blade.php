@@ -21,28 +21,40 @@
                class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-opacity active:scale-90 duration-100
                       {{ request()->routeIs('presensi.riwayat') || request()->routeIs('presensi.detail') ? 'text-primary' : 'text-secondary' }}">
                 <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('presensi.riwayat') || request()->routeIs('presensi.detail') ? 'filled-icon' : '' }}">history</span>
-                <span class="text-[10px] font-medium">History</span>
+                <span class="text-[10px] font-medium">Riwayat</span>
                 @if(request()->routeIs('presensi.riwayat') || request()->routeIs('presensi.detail'))
                     <span class="w-1 h-1 bg-primary rounded-full"></span>
                 @endif
             </a>
 
+            {{-- Scan QR — prominent center button --}}
+            <a href="{{ route('presensi.scan') }}"
+               class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-opacity active:scale-90 duration-100
+                      {{ request()->routeIs('presensi.scan*') ? 'text-primary' : 'text-secondary' }}">
+                <span class="flex items-center justify-center w-10 h-10 rounded-full
+                             {{ request()->routeIs('presensi.scan*') ? 'bg-primary text-white' : 'bg-primary/10 text-primary' }}
+                             shadow-sm transition-colors">
+                    <span class="material-symbols-outlined text-[22px]">qr_code_scanner</span>
+                </span>
+                <span class="text-[10px] font-medium {{ request()->routeIs('presensi.scan*') ? 'text-primary' : 'text-secondary' }}">Scan QR</span>
+            </a>
+
             <a href="{{ route('materi.index') }}"
                class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-opacity active:scale-90 duration-100
                       {{ request()->routeIs('materi.*') ? 'text-primary' : 'text-secondary' }}">
-                <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('materi.*') ? 'filled-icon' : '' }}">auto_stories</span>
-                <span class="text-[10px] font-medium">Learning</span>
+                <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('materi.*') ? 'filled-icon' : '' }}">menu_book</span>
+                <span class="text-[10px] font-medium">Materi</span>
                 @if(request()->routeIs('materi.*'))
                     <span class="w-1 h-1 bg-primary rounded-full"></span>
                 @endif
             </a>
 
-            <a href="{{ route('profile.edit') }}"
+            <a href="{{ route('tugas.index') }}"
                class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-opacity active:scale-90 duration-100
-                      {{ request()->routeIs('profile.*') ? 'text-primary' : 'text-secondary' }}">
-                <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('profile.*') ? 'filled-icon' : '' }}">person</span>
-                <span class="text-[10px] font-medium">Profile</span>
-                @if(request()->routeIs('profile.*'))
+                      {{ request()->routeIs('tugas.*') ? 'text-primary' : 'text-secondary' }}">
+                <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('tugas.*') ? 'filled-icon' : '' }}">assignment</span>
+                <span class="text-[10px] font-medium">Tugas</span>
+                @if(request()->routeIs('tugas.*'))
                     <span class="w-1 h-1 bg-primary rounded-full"></span>
                 @endif
             </a>
