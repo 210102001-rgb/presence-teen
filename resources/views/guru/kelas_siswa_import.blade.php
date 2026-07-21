@@ -43,14 +43,16 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-surface-container">
-                        <tr><td class="px-3 py-2 border border-surface-container font-mono">A</td><td class="px-3 py-2 border border-surface-container">No (angka urut)</td><td class="px-3 py-2 border border-surface-container text-center">✓</td></tr>
+                        <tr><td class="px-3 py-2 border border-surface-container font-mono">A</td><td class="px-3 py-2 border border-surface-container">No</td><td class="px-3 py-2 border border-surface-container text-center">—</td></tr>
                         <tr class="bg-surface-container/30"><td class="px-3 py-2 border border-surface-container font-mono">B</td><td class="px-3 py-2 border border-surface-container">Nama Siswa</td><td class="px-3 py-2 border border-surface-container text-center">✓</td></tr>
                         <tr><td class="px-3 py-2 border border-surface-container font-mono">C</td><td class="px-3 py-2 border border-surface-container">NIS</td><td class="px-3 py-2 border border-surface-container text-center">—</td></tr>
-                        <tr class="bg-surface-container/30"><td class="px-3 py-2 border border-surface-container font-mono">D</td><td class="px-3 py-2 border border-surface-container">Email (unik per akun)</td><td class="px-3 py-2 border border-surface-container text-center">✓</td></tr>
+                        <tr class="bg-surface-container/30"><td class="px-3 py-2 border border-surface-container font-mono">D</td><td class="px-3 py-2 border border-surface-container">Email</td><td class="px-3 py-2 border border-surface-container text-center">✓</td></tr>
+                        <tr><td class="px-3 py-2 border border-surface-container font-mono">E</td><td class="px-3 py-2 border border-surface-container">Kelas (nama kelas harus sesuai data)</td><td class="px-3 py-2 border border-surface-container text-center">✓</td></tr>
+                        <tr class="bg-surface-container/30"><td class="px-3 py-2 border border-surface-container font-mono">F</td><td class="px-3 py-2 border border-surface-container">Mata Pelajaran</td><td class="px-3 py-2 border border-surface-container text-center">—</td></tr>
                     </tbody>
                 </table>
             </div>
-            <p class="text-xs text-secondary">Password default untuk akun baru: <span class="font-semibold text-on-surface">password</span></p>
+            <p class="text-xs text-secondary">Sistem otomatis mencocokkan kolom <strong>Kelas (E)</strong> dengan data kelas yang ada. Password default akun baru: <span class="font-semibold text-on-surface">password</span></p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-soft border border-surface-container p-6">
@@ -58,28 +60,6 @@
                   enctype="multipart/form-data" class="space-y-5"
                   x-data="{ fileName: '', dragging: false }">
                 @csrf
-
-                {{-- Pilih Kelas --}}
-                <div>
-                    <label for="kelas_id" class="block text-xs font-semibold text-secondary uppercase tracking-wider mb-1.5">
-                        Masukkan ke Kelas <span class="text-error">*</span>
-                    </label>
-                    <select name="kelas_id" id="kelas_id" required
-                            class="w-full px-4 py-2.5 border border-outline-variant rounded-xl text-sm text-on-surface
-                                   focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all">
-                        <option value="">-- Pilih Kelas --</option>
-                        @forelse($kelas as $k)
-                            <option value="{{ $k->id }}" @selected(old('kelas_id') == $k->id)>
-                                {{ $k->nama_kelas }} — {{ $k->mata_pelajaran }}
-                            </option>
-                        @empty
-                            <option disabled>Belum ada kelas</option>
-                        @endforelse
-                    </select>
-                    @error('kelas_id')
-                        <p class="mt-1 text-xs text-error">{{ $message }}</p>
-                    @enderror
-                </div>
 
                 {{-- Upload Area --}}
                 <div>

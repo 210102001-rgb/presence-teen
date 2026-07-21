@@ -10,6 +10,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Font;
 
 class KelasController extends Controller
 {
@@ -105,54 +109,86 @@ class KelasController extends Controller
 
     public function exportSiswa()
     {
-        $kelas = Kelas::with(['siswa'])->where('guru_id', auth()->id())->get();
+        $kelas    = Kelas::with(['siswa'])->where('guru_id', auth()->id())->get();
         $kelasIds = $kelas->pluck('id');
 
-        // Ambil data kehadiran per siswa
         $totalSesiPerKelas = SesiPresensi::whereIn('kelas_id', $kelasIds)
             ->selectRaw('kelas_id, COUNT(*) as total')
             ->groupBy('kelas_id')
             ->pluck('total', 'kelas_id');
 
         $hadirPerSiswa = Presensi::whereIn('status', ['hadir', 'telat'])
-            ->whereHas('sesiPresensi', fn($q) => $q->whereIn('kelas_id', $kelasIds))
+            ->whereHas('sesiPresensi', fn ($q) => $q->whereIn('kelas_id', $kelasIds))
             ->join('sesi_presensi', 'presensi.sesi_presensi_id', '=', 'sesi_presensi.id')
             ->selectRaw('presensi.siswa_id, sesi_presensi.kelas_id, COUNT(*) as total')
             ->groupBy('presensi.siswa_id', 'sesi_presensi.kelas_id')
             ->get()
-            ->pluck('total', fn($r) => $r->siswa_id . '_' . $r->kelas_id);
+            ->pluck('total', fn ($r) => $r->siswa_id.'_'.$r->kelas_id);
 
-        $rows = collect();
+        $spreadsheet = new Spreadsheet();
+        $sheet       = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Data Siswa');
+
+        // Header row
+        $headers = ['No', 'Nama Siswa', 'NIS', 'Email', 'Kelas', 'Mata Pelajaran', 'Total Sesi', 'Hadir', 'Kehadiran (%)', 'Status'];
+        $sheet->fromArray($headers, null, 'A1');
+
+        // Style header — hijau
+        $sheet->getStyle('A1:J1')->applyFromArray([
+            'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '0E7A3D']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+        ]);
+
+        // Data rows
+        $row = 2;
+        $no  = 1;
         foreach ($kelas as $k) {
             $totalSesi = $totalSesiPerKelas->get($k->id, 0);
             foreach ($k->siswa as $s) {
-                $hadir  = $hadirPerSiswa->get($s->id . '_' . $k->id, 0);
-                $rate   = $totalSesi > 0 ? round($hadir / $totalSesi * 100) : 0;
-                $rows->push([
-                    'nama'        => $s->name,
-                    'nis'         => $s->nis ?? '-',
-                    'email'       => $s->email,
-                    'kelas'       => $k->nama_kelas,
-                    'mapel'       => $k->mata_pelajaran,
-                    'total_sesi'  => $totalSesi,
-                    'hadir'       => $hadir,
-                    'kehadiran'   => $rate . '%',
-                    'status'      => $rate > 0 ? 'Aktif' : 'Tidak Aktif',
-                ]);
+                $hadir = $hadirPerSiswa->get($s->id.'_'.$k->id, 0);
+                $rate  = $totalSesi > 0 ? round($hadir / $totalSesi * 100) : 0;
+
+                $sheet->fromArray([
+                    $no++,
+                    $s->name,
+                    $s->nis ?? '-',
+                    $s->email,
+                    $k->nama_kelas,
+                    $k->mata_pelajaran,
+                    $totalSesi,
+                    $hadir,
+                    $rate.'%',
+                    $rate > 0 ? 'Aktif' : 'Tidak Aktif',
+                ], null, "A{$row}");
+
+                // Zebra stripe
+                if ($row % 2 === 0) {
+                    $sheet->getStyle("A{$row}:J{$row}")
+                        ->getFill()->setFillType(Fill::FILL_SOLID)
+                        ->getStartColor()->setRGB('F6FAFE');
+                }
+                $row++;
             }
         }
 
-        $filename = 'data-siswa-' . now()->format('Ymd-His') . '.xls';
+        // Auto-size columns A–J
+        foreach (range('A', 'J') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
 
-        // Gunakan HTML table sebagai XLS (dibaca oleh Excel)
-        $html = view('guru.exports.siswa_excel', compact('rows', 'kelas'))->render();
+        $sheet->freezePane('A2');
 
-        return response($html)
-            ->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
-            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
-            ->header('Pragma', 'no-cache')
-            ->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
-            ->header('Expires', '0');
+        // Simpan ke temp file lalu kirim sebagai download
+        $filename = 'data-siswa-'.now()->format('Ymd-His').'.xlsx';
+        $tempPath = storage_path('app/'.$filename);
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save($tempPath);
+
+        return response()->download($tempPath, $filename, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ])->deleteFileAfterSend(true);
     }
 
     public function createSiswa()
@@ -217,41 +253,33 @@ class KelasController extends Controller
 
     public function showImport()
     {
-        $kelas = Kelas::where('guru_id', auth()->id())->get();
-        return view('guru.kelas_siswa_import', compact('kelas'));
+        return view('guru.kelas_siswa_import');
     }
 
     public function importSiswa(Request $request)
     {
         $request->validate([
-            'file_excel' => 'required|file|mimes:xlsx,xls',
-            'kelas_id'   => 'required|exists:kelas,id',
+            'file_excel' => 'required|file|mimes:xlsx,xls,vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ]);
 
-        // Pastikan kelas milik guru
-        $kelas = Kelas::where('id', $request->kelas_id)
-            ->where('guru_id', auth()->id())
-            ->firstOrFail();
-
-        $path = $request->file('file_excel')->store('imports', 'local');
+        $guruId  = auth()->id();
+        $path    = $request->file('file_excel')->store('imports', 'local');
         $fullPath = storage_path('app/' . $path);
 
         try {
             $spreadsheet = IOFactory::load($fullPath);
             $sheet = $spreadsheet->getActiveSheet();
-            $rows = $sheet->toArray(null, true, true, true);
+            $rows  = $sheet->toArray(null, true, true, true);
         } catch (\Exception $e) {
             return back()->withErrors(['file_excel' => 'File tidak dapat dibaca: ' . $e->getMessage()]);
         } finally {
-            // Hapus file temporary
             \Illuminate\Support\Facades\Storage::disk('local')->delete($path);
         }
 
-        // Cari baris header (kolom A = "No", B = "Nama Siswa", dst)
+        // Cari baris header — cari baris yang kolom A = "No" (case-insensitive)
         $headerRow = null;
         foreach ($rows as $rowIndex => $row) {
-            $firstCell = strtolower(trim($row['A'] ?? ''));
-            if ($firstCell === 'no') {
+            if (strtolower(trim($row['A'] ?? '')) === 'no') {
                 $headerRow = $rowIndex;
                 break;
             }
@@ -261,34 +289,45 @@ class KelasController extends Controller
             return back()->withErrors(['file_excel' => 'Format file tidak valid. Pastikan menggunakan file hasil export dari sistem ini.']);
         }
 
+        // Cache semua kelas milik guru ini (key: lowercase nama_kelas)
+        $kelasList = Kelas::where('guru_id', $guruId)->get()
+            ->keyBy(fn($k) => strtolower(trim($k->nama_kelas)));
+
         $imported = 0;
         $skipped  = 0;
         $errors   = [];
 
-        // Iterasi baris data (setelah header)
         foreach ($rows as $rowIndex => $row) {
             if ($rowIndex <= $headerRow) continue;
 
-            // Hentikan jika baris kosong atau masuk bagian ringkasan
+            // Stop jika baris kosong atau bukan data siswa
             $noVal   = trim($row['A'] ?? '');
             $namaVal = trim($row['B'] ?? '');
             if ($noVal === '' || $namaVal === '' || !is_numeric($noVal)) break;
 
-            $nama  = $namaVal;
-            $nis   = trim($row['C'] ?? '') ?: null;
-            $email = trim($row['D'] ?? '');
+            $nama      = $namaVal;
+            $nis       = trim($row['C'] ?? '') ?: null;
+            $email     = trim($row['D'] ?? '');
+            $namaKelas = strtolower(trim($row['E'] ?? ''));
 
+            // Validasi email
             if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errors[] = "Baris {$rowIndex}: Email tidak valid ({$email}), dilewati.";
                 $skipped++;
                 continue;
             }
 
-            // Cek apakah user sudah ada
-            $user = User::where('email', $email)->first();
+            // Cari kelas dari nama di kolom E
+            $kelas = $kelasList->get($namaKelas);
+            if (!$kelas) {
+                $errors[] = "Baris {$rowIndex}: Kelas '{$row['E']}' tidak ditemukan atau bukan milik Anda, dilewati.";
+                $skipped++;
+                continue;
+            }
 
+            // Buat atau update akun siswa
+            $user = User::where('email', $email)->first();
             if (!$user) {
-                // Buat akun baru
                 $user = User::create([
                     'name'     => $nama,
                     'email'    => $email,
@@ -297,14 +336,13 @@ class KelasController extends Controller
                     'role'     => 'siswa',
                 ]);
             } else {
-                // Update nama & NIS jika sudah ada
                 $user->update([
                     'name' => $nama,
                     'nis'  => $nis ?? $user->nis,
                 ]);
             }
 
-            // Daftarkan ke kelas jika belum
+            // Daftarkan ke kelas jika belum ada
             $sudahDaftar = SiswaKelas::where('siswa_id', $user->id)
                 ->where('kelas_id', $kelas->id)
                 ->exists();
@@ -320,8 +358,8 @@ class KelasController extends Controller
             }
         }
 
-        $message = "Import selesai: {$imported} siswa berhasil ditambahkan.";
-        if ($skipped > 0) $message .= " {$skipped} dilewati (sudah terdaftar atau data tidak valid).";
+        $message = "Import selesai: {$imported} siswa berhasil diproses.";
+        if ($skipped > 0) $message .= " {$skipped} dilewati.";
 
         return redirect()->route('guru.kelas_siswa')
             ->with('success', $message)
