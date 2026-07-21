@@ -28,6 +28,29 @@
         {{-- Hidden data container --}}
         <script id="siswa-data" type="application/json">{!! $siswaJson !!}</script>
 
+        @if(session('success'))
+            <div x-data x-init="$dispatch('toast', { type: 'success', message: '{{ session('success') }}' })"></div>
+        @endif
+        @if($errors->any())
+            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 6000)"
+                 class="mb-4 p-4 bg-[#ffdad6] border border-[#ba1a1a]/20 rounded-xl text-sm text-[#93000a] space-y-1">
+                @foreach($errors->all() as $error)
+                    <p class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">error</span> {{ $error }}</p>
+                @endforeach
+            </div>
+            {{-- Buka modal kembali jika ada error validasi --}}
+            <script>
+                document.addEventListener('alpine:init', () => {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        setTimeout(() => {
+                            const comp = document.querySelector('[x-data]').__x;
+                            if (comp) comp.$data.showTambahModal = true;
+                        }, 100);
+                    });
+                });
+            </script>
+        @endif
+
         {{-- ===== Page Header ===== --}}
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
@@ -35,19 +58,19 @@
                 <p class="text-sm text-[#5c5f61] mt-0.5">Mengelola dan memantau kehadiran siswa dan perangkat yang digunakan.</p>
             </div>
             <div class="flex flex-wrap items-center gap-3 shrink-0">
-                <button onclick="window.print()"
-                        class="inline-flex items-center gap-2 px-4 py-2.5 border border-[#0e7a3d] text-[#005f2d] bg-[#f0fdf4] rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] hover:text-white transition-all">
-                    <span class="material-symbols-outlined text-[18px]">download</span>
-                    Export
-                </button>
-                <a href="{{ route('dashboard.guru') }}"
+                <a href="{{ route('guru.kelas_siswa.export') }}"
+                   class="inline-flex items-center gap-2 px-4 py-2.5 border border-[#0e7a3d] text-[#005f2d] bg-[#f0fdf4] rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] hover:text-white transition-all">
+                    <span class="material-symbols-outlined text-[18px]">file_upload</span>
+                    Export Excel
+                </a>
+                <a href="{{ route('guru.kelas_siswa.import') }}"
                    class="inline-flex items-center gap-2 px-4 py-2.5 border border-[#becabc] text-[#5c5f61] rounded-xl text-sm font-semibold hover:bg-[#f0f4f8] transition-all">
-                    <span class="material-symbols-outlined text-[18px]">upload</span>
+                    <span class="material-symbols-outlined text-[18px]">file_download</span>
                     Import
                 </a>
-                <a href="{{ route('presensi.guru') }}"
+                <a href="{{ route('guru.kelas_siswa.create') }}"
                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#005f2d] text-white rounded-xl text-sm font-semibold hover:bg-[#0e7a3d] transition-all shadow-soft">
-                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    <span class="material-symbols-outlined text-[18px]">person_add</span>
                     Tambah Siswa
                 </a>
             </div>
@@ -57,35 +80,37 @@
         <div class="bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden">
 
             {{-- Filter Bar --}}
-            <div class="px-6 py-4 border-b border-[#eaeef2] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3 flex-wrap">
-                    <span class="text-sm text-[#5c5f61] font-medium shrink-0">Filter :</span>
+            <div class="px-6 py-4 border-b border-[#eaeef2] bg-[#f6fafe]">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <span class="text-sm text-[#5c5f61] font-medium shrink-0">Filter :</span>
 
-                    {{-- Filter Kelas --}}
-                    <select x-model="filterKelas" @change="page=1"
-                            class="px-3 py-2 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
-                                   focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
-                        <option value="all"> Semua Kelas </option>
-                        @foreach($kelas as $k)
-                            <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
-                        @endforeach
-                    </select>
+                        {{-- Filter Kelas --}}
+                        <select x-model="filterKelas" @change="page=1"
+                                class="pl-3 pr-8 py-2 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                       focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all cursor-pointer">
+                            <option value="all">Semua Kelas</option>
+                            @foreach($kelas as $k)
+                                <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
+                            @endforeach
+                        </select>
 
-                    {{-- Search --}}
-                    <div class="relative flex-1 min-w-[200px]">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#5c5f61] text-[18px]">search</span>
-                        <input type="text" x-model="search" @input="page=1"
-                               placeholder="Cari Siswa..."
-                               class="w-full pl-9 pr-4 py-2 border border-[#becabc] rounded-xl text-sm text-[#171c1f]
-                                      focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+                        {{-- Search --}}
+                        <div class="flex items-center gap-2 flex-1 min-w-[180px]">
+                            <span class="material-symbols-outlined text-[#5c5f61] text-[18px] shrink-0">search</span>
+                            <input type="text" x-model="search" @input="page=1"
+                                   placeholder="Cari Siswa..."
+                                   class="flex-1 min-w-0 px-4 py-2 border border-[#becabc] rounded-xl text-sm text-[#171c1f]
+                                          focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]">
+                        </div>
                     </div>
-                </div>
 
-                <p class="text-xs text-[#5c5f61] shrink-0">
-                    Menampilkan
-                    <span x-text="Math.min((page-1)*perPage+1, filtered.length)"></span>–<span x-text="Math.min(page*perPage, filtered.length)"></span>
-                    dari <span x-text="filtered.length"></span> siswa
-                </p>
+                    <p class="text-xs text-[#5c5f61] shrink-0">
+                        Menampilkan
+                        <span x-text="Math.min((page-1)*perPage+1, filtered.length)"></span>–<span x-text="Math.min(page*perPage, filtered.length)"></span>
+                        dari <span x-text="filtered.length"></span> siswa
+                    </p>
+                </div>
             </div>
 
             {{-- Table --}}

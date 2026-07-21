@@ -81,6 +81,12 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::put('/kelas/{kelas}', [KelasController::class, 'update'])->name('guru.kelas.update');
     Route::delete('/kelas/{kelas}', [KelasController::class, 'destroy'])->name('guru.kelas.destroy');
     Route::get('/kelas-siswa', [KelasController::class, 'siswa'])->name('guru.kelas_siswa');
+    Route::get('/kelas-siswa/export', [KelasController::class, 'exportSiswa'])->name('guru.kelas_siswa.export');
+    Route::get('/kelas-siswa/import', [KelasController::class, 'showImport'])->name('guru.kelas_siswa.import');
+    Route::post('/kelas-siswa/import', [KelasController::class, 'importSiswa'])->name('guru.kelas_siswa.import.store');
+    Route::get('/kelas-siswa/tambah', [KelasController::class, 'createSiswa'])->name('guru.kelas_siswa.create');
+    Route::post('/kelas-siswa/tambah', [KelasController::class, 'tambahSiswa'])->name('guru.kelas_siswa.tambah');
+    Route::post('/kelas-siswa/hapus', [KelasController::class, 'hapusSiswa'])->name('guru.kelas_siswa.hapus');
 });
 
 // === Tugas ===
