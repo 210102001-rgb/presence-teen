@@ -45,20 +45,154 @@
         </nav>
 
         {{-- Page Header --}}
-        <div class="flex justify-between items-end mb-8">
+        <div class="hidden lg:flex justify-between items-end mb-8">
             <div>
                 <h2 class="text-2xl font-bold text-[#171c1f]">{{ $roleName }}</h2>
                 <p class="text-sm text-[#5c5f61]">Kelola informasi profil Anda secara real-time.</p>
             </div>
-            {{-- Edit Profile button dihilangkan (tombol redundan, form ada di bawah)
-            <a href="#personal-info" class="bg-[#005f2d] text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-[#0e7a3d] transition-all flex items-center gap-1">
-                <span class="material-symbols-outlined text-[16px]">edit</span> Edit Profile
-            </a>
-            --}}
         </div>
 
-        {{-- Bento Grid Layout --}}
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {{-- Mobile Profile WhatsApp Style (For All User Roles) --}}
+        <div class="lg:hidden space-y-6 pb-24">
+            {{-- Header Profile: WA Style --}}
+            <div class="flex flex-col items-center pt-6 pb-4">
+                <div class="relative group">
+                    <div class="w-28 h-28 rounded-full ring-4 ring-primary-container/30 flex items-center justify-center bg-primary/10 text-primary text-4xl font-bold shadow-md">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                    <div class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                        <span class="material-symbols-outlined text-[16px] filled-icon">photo_camera</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-on-surface mt-4">{{ Auth::user()->name }}</h3>
+                <p class="text-xs text-secondary mt-1">{{ $roleDesc }}</p>
+                <div class="mt-2.5 px-3 py-1 bg-primary/10 rounded-full">
+                    <span class="text-[10px] font-bold text-primary">{{ config('app.name', 'Presensi Sekolah') }}</span>
+                </div>
+            </div>
+
+            {{-- WhatsApp Style Continuous List --}}
+            <div class="bg-white rounded-2xl border border-outline-variant/40 shadow-soft overflow-hidden divide-y divide-outline-variant/20">
+                {{-- Row: Nama --}}
+                <div class="p-4 flex items-start gap-4 hover:bg-surface transition-colors">
+                    <span class="material-symbols-outlined text-primary mt-1">person</span>
+                    <div class="flex-grow">
+                        <p class="text-xs text-secondary font-semibold">Nama Lengkap</p>
+                        <p class="text-sm font-bold text-on-surface mt-0.5">{{ Auth::user()->name }}</p>
+                    </div>
+                </div>
+
+                {{-- Row: Email --}}
+                <div class="p-4 flex items-start gap-4 hover:bg-surface transition-colors">
+                    <span class="material-symbols-outlined text-primary mt-1">mail</span>
+                    <div class="flex-grow">
+                        <p class="text-xs text-secondary font-semibold">Email</p>
+                        <p class="text-sm font-bold text-on-surface mt-0.5">{{ Auth::user()->email }}</p>
+                    </div>
+                </div>
+
+                {{-- Row: NIS (if student) --}}
+                @if($role === 'siswa')
+                <div class="p-4 flex items-start gap-4 hover:bg-surface transition-colors">
+                    <span class="material-symbols-outlined text-primary mt-1">badge</span>
+                    <div class="flex-grow">
+                        <p class="text-xs text-secondary font-semibold">Nomor Induk Siswa (NIS)</p>
+                        <p class="text-sm font-bold text-on-surface mt-0.5">{{ Auth::user()->nis ?? '-' }}</p>
+                    </div>
+                </div>
+                @endif
+
+                {{-- Row: Child List (if parent) --}}
+                @if($role === 'orang_tua')
+                <div x-data="{ open: true }">
+                    <button @click="open = !open" class="w-full p-4 flex items-center justify-between text-left hover:bg-surface transition-colors">
+                        <div class="flex items-center gap-4">
+                            <span class="material-symbols-outlined text-primary">family_restroom</span>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Data Anak Terdaftar</p>
+                                <p class="text-[10px] text-secondary">Daftar anak Anda yang terdaftar di sekolah ini.</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-secondary transition-transform" :class="open ? 'rotate-180' : ''">expand_more</span>
+                    </button>
+                    <div x-show="open" x-collapse class="p-4 bg-surface-container-lowest border-t border-outline-variant/10 space-y-3">
+                        @foreach(Auth::user()->anak as $anak)
+                            @php
+                                $anakKelasIds = $anak->kelasSaya->pluck('id');
+                                $sesiAnak = \App\Models\SesiPresensi::whereIn('kelas_id', $anakKelasIds)->count();
+                                $hadirAnak = \App\Models\Presensi::where('siswa_id', $anak->id)->where('status', 'hadir')->count();
+                                $kehadiranPct = $sesiAnak > 0 ? round(($hadirAnak / $sesiAnak) * 100) : 100;
+                            @endphp
+                            <div class="p-3 rounded-xl bg-[#f6fafe] border border-[#eaeef2] flex gap-3 items-center">
+                                <div class="w-10 h-10 rounded-lg bg-[#0e7a3d]/10 text-[#005f2d] flex items-center justify-center font-bold shrink-0">
+                                    {{ substr($anak->name, 0, 1) }}
+                                </div>
+                                <div class="flex-grow overflow-hidden">
+                                    <h5 class="font-bold text-xs text-[#171c1f] truncate">{{ $anak->name }}</h5>
+                                    <span class="px-2 py-[2px] rounded bg-[#97f7ac]/30 text-[#005226] text-[8px] font-bold mt-1 inline-block">{{ $kehadiranPct }}% Kehadiran</span>
+                                </div>
+                                <a href="{{ route('profile.anak', $anak->id) }}" class="material-symbols-outlined text-[#5c5f61] hover:text-[#005f2d] transition-colors text-[18px]">chevron_right</a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                {{-- Row: Edit Profile Form Collapse --}}
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full p-4 flex items-center justify-between text-left hover:bg-surface transition-colors">
+                        <div class="flex items-center gap-4">
+                            <span class="material-symbols-outlined text-primary">edit_square</span>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Perbarui Profil</p>
+                                <p class="text-[10px] text-secondary">Ubah nama atau alamat email Anda.</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-secondary transition-transform" :class="open ? 'rotate-180' : ''">expand_more</span>
+                    </button>
+                    <div x-show="open" x-collapse class="p-4 bg-surface-container-lowest border-t border-outline-variant/10">
+                        @include('profile.partials.update-profile-information-form')
+                    </div>
+                </div>
+
+                {{-- Row: Change Password Collapse --}}
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full p-4 flex items-center justify-between text-left hover:bg-surface transition-colors">
+                        <div class="flex items-center gap-4">
+                            <span class="material-symbols-outlined text-primary">lock</span>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Ubah Kata Sandi</p>
+                                <p class="text-[10px] text-secondary">Ganti password secara berkala demi keamanan akun.</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-secondary transition-transform" :class="open ? 'rotate-180' : ''">expand_more</span>
+                    </button>
+                    <div x-show="open" x-collapse class="p-4 bg-surface-container-lowest border-t border-outline-variant/10">
+                        @include('profile.partials.update-password-form')
+                    </div>
+                </div>
+
+                {{-- Row: Danger Zone Collapse --}}
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full p-4 flex items-center justify-between text-left hover:bg-surface transition-colors">
+                        <div class="flex items-center gap-4">
+                            <span class="material-symbols-outlined text-error">delete_forever</span>
+                            <div>
+                                <p class="text-sm font-bold text-error">Hapus Akun</p>
+                                <p class="text-[10px] text-secondary">Hapus akun secara permanen dari sistem.</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-secondary transition-transform" :class="open ? 'rotate-180' : ''">expand_more</span>
+                    </button>
+                    <div x-show="open" x-collapse class="p-4 bg-surface-container-lowest border-t border-outline-variant/10">
+                        @include('profile.partials.delete-user-form')
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Bento Grid Layout (Desktop only) --}}
+        <div class="hidden lg:grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             {{-- Profile Card & Contacts (Left, Col-span 4) --}}
             <div class="lg:col-span-4 space-y-6">

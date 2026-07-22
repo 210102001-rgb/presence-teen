@@ -33,7 +33,7 @@ class RoleMiddleware
                           && ! in_array('super_admin', $roles);
 
             if ($isStrictRoute) {
-                abort(403, 'Halaman ini khusus untuk ' . implode(' / ', $roles) . '.');
+                abort(403, 'Halaman ini khusus untuk '.implode(' / ', $roles).'.');
             }
 
             return $next($request);

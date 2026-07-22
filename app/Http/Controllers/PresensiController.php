@@ -211,7 +211,7 @@ class PresensiController extends Controller
 
         // If sesi_presensi_id is not provided, find the most recent session for this student
         $sesiId = $request->sesi_presensi_id;
-        if (!$sesiId) {
+        if (! $sesiId) {
             // Get the most recent active session
             $recentSesi = SesiPresensi::where('is_active', true)
                 ->latest()
@@ -220,14 +220,14 @@ class PresensiController extends Controller
         }
 
         // If no active session found, use any recent session
-        if (!$sesiId) {
+        if (! $sesiId) {
             $recentSesi = SesiPresensi::latest()
                 ->first();
             $sesiId = $recentSesi?->id;
         }
 
         // If still no session, create a generic entry or reject
-        if (!$sesiId) {
+        if (! $sesiId) {
             return back()->with('error', 'Tidak ada sesi presensi yang tersedia. Buat sesi presensi terlebih dahulu.');
         }
 

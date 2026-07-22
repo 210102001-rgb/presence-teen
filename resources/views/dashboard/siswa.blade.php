@@ -1,35 +1,9 @@
 <x-app-layout>
     <x-slot name="header">Dashboard Siswa</x-slot>
 
-    @push('scripts')
-    <style>
-        @media (max-width: 1023px) {
-            header.fixed.top-0 { display: none !important; }
-            main.pt-16 { padding-top: 0 !important; }
-        }
-    </style>
-    @endpush
-
     <div class="lg:p-8">
-        <header class="lg:hidden fixed top-0 left-0 w-full z-50 bg-surface flex justify-between items-center px-5 py-4">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container border-2 border-primary-fixed flex items-center justify-center">
-                    <span class="text-sm font-bold text-primary">{{ substr(Auth::user()->name, 0, 1) }}</span>
-                </div>
-                <h1 class="text-lg font-bold text-primary">Presence Teen</h1>
-            </div>
-            <div class="flex items-center gap-2">
-                <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors active:scale-95 duration-100">
-                    <span class="material-symbols-outlined text-primary">notifications</span>
-                </button>
-                <a href="{{ route('profile.edit') }}"
-                   class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white text-sm font-bold hover:bg-primary-container transition-colors active:scale-95 duration-100">
-                    {{ substr(Auth::user()->name, 0, 1) }}
-                </a>
-            </div>
-        </header>
 
-        <div class="lg:hidden px-5 pt-20 pb-24 space-y-6 max-w-lg mx-auto">
+        <div class="lg:hidden px-5 pt-6 pb-24 space-y-6 max-w-lg mx-auto">
             <section>
                 <h2 class="text-xl font-semibold text-on-surface">Hi, {{ explode(' ', Auth::user()->name)[0] }} 👋</h2>
                 <p class="text-sm text-secondary mt-1">Let's make today productive.</p>
@@ -41,22 +15,6 @@
                        class="flex-1 min-w-0 px-4 py-2.5 border border-outline-variant rounded-xl text-sm text-on-surface
                               focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
             </div>
-
-            <!-- Featured Event Banner -->
-            <div class="relative rounded-2xl overflow-hidden shadow-soft h-44">
-                <img class="w-full h-full object-cover brightness-95" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVA-lsec-Mk4gjBiZeGeguHzGXXa0ybbq5gRpe3BwQDuuJ7SkNHCJPZMeKniVlbuorrC3YKTzqBZkzOlZHFjXztyboR31ddY8Yf0YiGB-hBK4FAd61FnfsA_gQ8BygT6veLSwweDlfabqvxFy4lZA4Hqf2NW1TrHTI6hmWui8kztvNm9W0km3qAR2qYhCx8LzK4c9EMGyXtNahFLEEHy7uSjdOP6x-UKw6IeXUA4ZQ1Tsg1pcyxKATWs9kHQMKa_DfPChD8Yw6jWc"/>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4">
-                    <span class="bg-primary text-white text-[9px] px-2 py-0.5 rounded-full w-fit mb-1 font-bold tracking-wider">FEATURED EVENT</span>
-                    <h3 class="text-white font-bold text-sm leading-tight">Annual Tech Symposium 2026</h3>
-                    <p class="text-white/80 text-xs mt-0.5">Main Hall • 09:00 AM</p>
-                </div>
-            </div>
-
-            <a href="{{ route('presensi.scan') }}"
-               class="w-full bg-primary py-4 rounded-xl flex items-center justify-center gap-3 text-on-primary shadow-lg active:scale-95 transition-transform">
-                <span class="material-symbols-outlined text-3xl">qr_code_scanner</span>
-                <span class="text-xl font-semibold">Scan Presensi QR</span>
-            </a>
 
             <section class="space-y-3">
                 <div class="flex justify-between items-center">

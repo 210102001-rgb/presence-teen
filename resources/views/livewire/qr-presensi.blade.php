@@ -1,4 +1,4 @@
-<div wire:poll.5s="refreshToken" class="grid grid-cols-12 gap-6 items-start">
+<div wire:poll.15s="refreshToken" class="grid grid-cols-12 gap-6 items-start">
     {{-- Left Column: Form & History --}}
     <div class="col-span-12 lg:col-span-8 flex flex-col gap-6">
         {{-- Create Session Card --}}
@@ -40,18 +40,6 @@
                            placeholder="Cth: Trigonometri Dasar"
                            class="w-full rounded-xl border border-outline-variant bg-surface px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors">
                     @error('topik')
-                        <p class="mt-1 text-xs text-error">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="flex flex-col gap-2">
-                    <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Durasi (Menit)</label>
-                    <input type="number"
-                           wire:model.blur="durasi"
-                           min="5"
-                           max="480"
-                           class="w-full rounded-xl border border-outline-variant bg-surface px-4 py-3 text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors">
-                    @error('durasi')
                         <p class="mt-1 text-xs text-error">{{ $message }}</p>
                     @enderror
                 </div>
@@ -161,31 +149,13 @@
                     <h3 class="text-lg font-bold text-on-surface mb-1 relative z-10 font-sans">{{ $sesiAktif->mata_pelajaran }}</h3>
                     <p class="text-xs text-on-surface-variant mb-6 relative z-10">Scan untuk presensi kehadiran</p>
 
-                    <div class="bg-white p-4 rounded-xl border border-outline-variant shadow-soft mb-6 relative z-10">
+                    <div class="bg-white p-4 rounded-xl border border-outline-variant shadow-soft mb-8 relative z-10">
                         <div class="w-48 h-48 bg-surface-container-lowest rounded flex items-center justify-center relative overflow-hidden">
                             <div class="scale-95">
                                 {!! QrCode::size(180)->generate(route('presensi.scan.token', $sesiAktif->qr_token)) !!}
                             </div>
                             {{-- Scanner line animation overlay --}}
                             <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-transparent w-full h-1/3 opacity-50 animate-scan" style="animation: scan 3s infinite linear;"></div>
-                        </div>
-                    </div>
-
-                    <div wire:ignore.self class="flex items-center gap-2 mb-8 relative z-10" 
-                         x-data="{ 
-                             remaining: {{ (int)$remainingSeconds }},
-                             formatTime(seconds) {
-                                 if (seconds <= 0) return '00:00';
-                                 const m = Math.floor(seconds / 60);
-                                 const s = Math.floor(seconds % 60);
-                                 return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-                             }
-                         }" 
-                         x-on:timer-sync.window="remaining = $event.detail.remaining"
-                         x-init="setInterval(() => { if (remaining > 0) remaining-- }, 1000)">
-                        <span class="material-symbols-outlined text-primary text-xl">timer</span>
-                        <div class="text-2xl font-bold text-primary font-mono tracking-wider" x-text="formatTime(remaining)">
-                            44:59
                         </div>
                     </div>
 
@@ -208,10 +178,7 @@
                         </div>
                     @else
                         <div class="w-full flex gap-3 relative z-10">
-                            <button wire:click="perpanjangSesi" class="flex-1 border border-outline text-on-surface-variant font-semibold text-xs rounded-xl py-3 hover:bg-surface-container-low transition-colors">
-                                Perpanjang
-                            </button>
-                            <button wire:click="konfirmasiAkhiri" class="flex-1 bg-error-container text-on-error-container font-semibold text-xs rounded-xl py-3 hover:bg-error hover:text-white transition-colors">
+                            <button wire:click="konfirmasiAkhiri" class="w-full bg-error-container text-on-error-container font-semibold text-xs rounded-xl py-3 hover:bg-error hover:text-white transition-colors">
                                 Akhiri Sesi
                             </button>
                         </div>

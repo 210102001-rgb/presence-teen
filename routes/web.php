@@ -13,7 +13,6 @@ use App\Http\Controllers\TugasController;
 use App\Models\LaporanAi;
 use App\Models\Materi;
 use App\Models\PengumpulanTugas;
-use App\Models\Pengumuman;
 use App\Models\Presensi;
 use App\Models\SesiPresensi;
 use App\Models\Tugas;
@@ -37,6 +36,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/anak/{siswa}', [ProfileController::class, 'showAnak'])->name('profile.anak');
+
+    // === Notifications ===
+    Route::post('/notifications/mark-all-read', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+
+        return redirect()->back();
+    })->name('notifications.markAllRead');
 
     // Super Admin Account Management
     Route::middleware('role:super_admin')->group(function () {
@@ -125,7 +131,7 @@ Route::middleware(['auth', 'role:guru,orang_tua'])->group(function () {
 // === Fitur Tambahan (Figma UI/UX) ===
 Route::middleware('auth')->group(function () {
     Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
-    
+
     Route::middleware('role:guru')->group(function () {
         Route::get('/pengumuman/create', [PengumumanController::class, 'create'])->name('pengumuman.create');
         Route::post('/pengumuman', [PengumumanController::class, 'store'])->name('pengumuman.store');

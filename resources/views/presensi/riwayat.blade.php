@@ -23,17 +23,28 @@
             $attendanceRate = $totalSesi > 0 
                 ? round((($hadir + $telat) / $totalSesi) * 100) 
                 : 100;
+
+            $bgClass = 'bg-primary text-white';
+            if ($attendanceRate < 50) {
+                $bgClass = 'bg-[#ba1a1a] text-white'; // Merah
+            } elseif ($attendanceRate < 75) {
+                $bgClass = 'bg-amber-500 text-white'; // Kuning/Amber
+            }
         @endphp
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-primary text-white rounded-2xl p-6 shadow-soft flex flex-col justify-center items-center text-center">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div class="{{ $bgClass }} rounded-2xl p-6 shadow-soft flex flex-col justify-center items-center text-center">
                 <span class="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">Tingkat Kehadiran</span>
                 <div class="text-3xl font-bold">{{ $attendanceRate }}%</div>
             </div>
             <div class="bg-white rounded-2xl p-6 shadow-soft border-t-4 border-primary border-l border-r border-b border-surface-container flex flex-col justify-center items-center text-center">
-                <span class="text-[10px] uppercase font-bold tracking-widest text-secondary mb-1">Total Hadir & Telat</span>
-                <div class="text-3xl font-bold text-on-surface">{{ $hadir + $telat }}</div>
+                <span class="text-[10px] uppercase font-bold tracking-widest text-secondary mb-1">Total Hadir</span>
+                <div class="text-3xl font-bold text-on-surface">{{ $hadir }}</div>
             </div>
             <div class="bg-white rounded-2xl p-6 shadow-soft border-t-4 border-amber-500 border-l border-r border-b border-surface-container flex flex-col justify-center items-center text-center">
+                <span class="text-[10px] uppercase font-bold tracking-widest text-secondary mb-1">Terlambat</span>
+                <div class="text-3xl font-bold text-on-surface">{{ $telat }}</div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-soft border-t-4 border-[#0284c7] border-l border-r border-b border-surface-container flex flex-col justify-center items-center text-center">
                 <span class="text-[10px] uppercase font-bold tracking-widest text-secondary mb-1">Izin & Sakit</span>
                 <div class="text-3xl font-bold text-on-surface">{{ $izin + $sakit }}</div>
             </div>

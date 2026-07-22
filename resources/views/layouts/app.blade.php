@@ -113,8 +113,11 @@
         </div>
         <div class="flex items-center gap-5">
             <div class="relative" x-data="{ open: false }">
-                <button @click="open = !open" class="relative p-1 text-on-surface-variant hover:text-primary transition-colors">
+                <button @click="open = !open" class="relative p-1 text-on-surface-variant hover:text-primary transition-colors flex items-center">
                     <span class="material-symbols-outlined">notifications</span>
+                    @if(Auth::user()->unreadNotifications->count() > 0)
+                        <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-error rounded-full ring-2 ring-white"></span>
+                    @endif
                 </button>
                 <div x-show="open" @click.away="open = false"
                      x-transition:enter="transition ease-out duration-200"
@@ -123,9 +126,34 @@
                      x-transition:leave="transition ease-in duration-150"
                      x-transition:leave-start="opacity-100 scale-100"
                      x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-64 bg-white rounded-xl border border-surface-container shadow-lg z-50 py-3" style="display: none;">
-                    <p class="px-4 text-xs font-bold text-on-surface mb-2">Notifikasi</p>
-                    <p class="px-4 text-xs text-secondary">Belum ada notifikasi baru.</p>
+                     class="absolute right-0 mt-2 w-72 bg-white rounded-xl border border-surface-container shadow-lg z-50 py-3" style="display: none;">
+                    <div class="px-4 pb-2 border-b border-surface-container flex justify-between items-center">
+                        <span class="text-xs font-bold text-on-surface">Notifikasi</span>
+                        @if(Auth::user()->unreadNotifications->count() > 0)
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('mark-all-read').submit();" class="text-[10px] text-primary hover:underline font-semibold">Tandai dibaca</a>
+                            <form id="mark-all-read" action="{{ route('notifications.markAllRead') }}" method="POST" class="hidden">
+                                @csrf
+                            </form>
+                        @endif
+                    </div>
+                    <div class="max-h-64 overflow-y-auto divide-y divide-surface-container">
+                        @forelse(Auth::user()->notifications()->take(5)->get() as $notification)
+                            <div class="px-4 py-2.5 hover:bg-surface-container-low transition-colors text-xs {{ $notification->read_at ? 'opacity-70' : 'bg-primary/5 font-medium' }}">
+                                <p class="text-on-surface leading-normal">
+                                    @if(isset($notification->data['type']) && $notification->data['type'] === 'pengumuman')
+                                        📢 <span class="font-bold text-primary">{{ $notification->data['judul'] }}</span> ({{ $notification->data['kategori'] }}) - {{ $notification->data['message'] }}
+                                    @elseif(isset($notification->data['siswa']))
+                                        Anak Anda, <span class="font-bold">{{ $notification->data['siswa'] }}</span>, tercatat <span class="font-bold text-primary">{{ $notification->data['status'] }}</span> di kelas {{ $notification->data['mata_pelajaran'] }}.
+                                    @else
+                                        {{ $notification->data['message'] ?? 'Notifikasi baru' }}
+                                    @endif
+                                </p>
+                                <span class="text-[10px] text-secondary block mt-1">{{ $notification->created_at->diffForHumans() }}</span>
+                            </div>
+                        @empty
+                            <p class="px-4 py-4 text-xs text-secondary text-center">Belum ada notifikasi baru.</p>
+                        @endforelse
+                    </div>
                 </div>
             </div>
             <div class="flex items-center gap-2">

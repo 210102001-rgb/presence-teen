@@ -94,7 +94,7 @@ class MateriController extends Controller
             return back()->with('error', 'File materi tidak ditemukan.');
         }
 
-        return Storage::disk('public')->download($materi->file_path, $materi->judul . '.' . pathinfo($materi->file_path, PATHINFO_EXTENSION));
+        return Storage::disk('public')->download($materi->file_path, $materi->judul.'.'.pathinfo($materi->file_path, PATHINFO_EXTENSION));
     }
 
     /**

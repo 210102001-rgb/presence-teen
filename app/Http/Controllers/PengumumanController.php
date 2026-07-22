@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengumuman;
+use App\Models\User;
+use App\Notifications\PengumumanBaru;
 use Illuminate\Http\Request;
 
 class PengumumanController extends Controller
@@ -45,7 +47,13 @@ class PengumumanController extends Controller
             'konten.required' => 'Konten pengumuman wajib diisi',
         ]);
 
-        Pengumuman::create($validated);
+        $pengumuman = Pengumuman::create($validated);
+
+        // Notify all users about new announcement
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->notify(new PengumumanBaru($pengumuman));
+        }
 
         return redirect()->route('pengumuman.index')
             ->with('success', 'Pengumuman berhasil ditambahkan');

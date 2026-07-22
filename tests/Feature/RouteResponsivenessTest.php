@@ -15,8 +15,11 @@ class RouteResponsivenessTest extends TestCase
     use RefreshDatabase;
 
     protected User $siswa;
+
     protected User $guru;
+
     protected User $ortu;
+
     protected Kelas $kelas;
 
     protected function setUp(): void
@@ -84,7 +87,7 @@ class RouteResponsivenessTest extends TestCase
         foreach ($routes as $route => $status) {
             $response = $this->get(route($route));
             if ($response->status() !== $status) {
-                dump("Siswa Route {$route} failed: expected {$status}, got " . $response->status() . ". Content: " . substr($response->content(), 0, 500));
+                dump("Siswa Route {$route} failed: expected {$status}, got ".$response->status().'. Content: '.substr($response->content(), 0, 500));
             }
             $response->assertStatus($status);
         }
@@ -112,7 +115,7 @@ class RouteResponsivenessTest extends TestCase
         foreach ($routes as $route => $status) {
             $response = $this->get(route($route));
             if ($response->status() !== $status) {
-                dump("Guru Route {$route} failed: expected {$status}, got " . $response->status() . ". Content: " . substr($response->content(), 0, 500));
+                dump("Guru Route {$route} failed: expected {$status}, got ".$response->status().'. Content: '.substr($response->content(), 0, 500));
             }
             $response->assertStatus($status);
         }
@@ -137,7 +140,7 @@ class RouteResponsivenessTest extends TestCase
         foreach ($routes as $route => $status) {
             $response = $this->get(route($route));
             if ($response->status() !== $status) {
-                dump("Orang Tua Route {$route} failed: expected {$status}, got " . $response->status() . ". Content: " . substr($response->content(), 0, 500));
+                dump("Orang Tua Route {$route} failed: expected {$status}, got ".$response->status().'. Content: '.substr($response->content(), 0, 500));
             }
             $response->assertStatus($status);
         }

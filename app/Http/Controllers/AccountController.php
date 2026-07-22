@@ -15,7 +15,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        if (!Gate::allows('isAdmin')) {
+        if (! Gate::allows('isAdmin')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
@@ -29,7 +29,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        if (!Gate::allows('isAdmin')) {
+        if (! Gate::allows('isAdmin')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
@@ -41,7 +41,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::allows('isAdmin')) {
+        if (! Gate::allows('isAdmin')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
@@ -65,7 +65,7 @@ class AccountController extends Controller
      */
     public function edit(User $user)
     {
-        if (!Gate::allows('isAdmin')) {
+        if (! Gate::allows('isAdmin')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
@@ -77,7 +77,7 @@ class AccountController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if (!Gate::allows('isAdmin')) {
+        if (! Gate::allows('isAdmin')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
@@ -98,7 +98,7 @@ class AccountController extends Controller
      */
     public function destroy(User $user)
     {
-        if (!Gate::allows('isAdmin')) {
+        if (! Gate::allows('isAdmin')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
@@ -117,7 +117,7 @@ class AccountController extends Controller
      */
     public function editPassword(User $user)
     {
-        if (!Gate::allows('isAdmin')) {
+        if (! Gate::allows('isAdmin')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
@@ -129,7 +129,7 @@ class AccountController extends Controller
      */
     public function updatePassword(Request $request, User $user)
     {
-        if (!Gate::allows('isAdmin')) {
+        if (! Gate::allows('isAdmin')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
