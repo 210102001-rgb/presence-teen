@@ -61,7 +61,7 @@ class AnalisisKehadiranCommand extends Command
                         'max_tokens' => 1000,
                         'messages' => [[
                             'role' => 'user',
-                            'content' => "Analisis pola kehadiran dan tugas siswa berikut. Berikan level peringatan (aman/perhatian/kritis) dan rekomendasi:\n\n{$data}",
+                            'content' => "Berikan analisis singkat dalam 2-3 kalimat bahasa Indonesia tentang kondisi belajar siswa berikut. Jangan gunakan format markdown, heading, atau tabel. Langsung tulis kalimat analisis saja yang mudah dibaca.\n\nData siswa:\n{$data}",
                         ]],
                     ]);
 

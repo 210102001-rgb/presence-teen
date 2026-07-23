@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SummarizeController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LaporanController;
@@ -272,6 +273,14 @@ Route::middleware('auth')->group(function () {
             'laporanAi', 'akurasi', 'klasifikasi', 'risiko'
         ));
     })->name('motivasi.index');
+
+    // Summarize AI - siswa upload materi lalu diringkas oleh AI
+    Route::middleware('role:siswa')->group(function () {
+        Route::post('/summarize-ai', [SummarizeController::class, 'process'])->name('summarize.process');
+        Route::get('/summarize-ai/download/{filename}', [SummarizeController::class, 'downloadRingkasan'])
+            ->where('filename', '.*')
+            ->name('summarize.download');
+    });
 
     Route::get('/aktivitas-belajar', function () {
         $user = auth()->user();
