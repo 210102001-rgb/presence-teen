@@ -28,7 +28,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Redirect langsung berdasarkan role — jangan pakai intended()
+        // karena intended() bisa nyantol ke session URL role lain sebelumnya
+        $role = Auth::user()->role;
+
+        return match ($role) {
+            'guru'        => redirect()->route('dashboard.guru'),
+            'siswa'       => redirect()->route('dashboard.siswa'),
+            'orang_tua'   => redirect()->route('dashboard.orang_tua'),
+            'super_admin' => redirect()->route('dashboard.super_admin'),
+            default       => redirect()->route('dashboard'),
+        };
     }
 
     /**
@@ -39,8 +49,8 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
+        $request->session()->forget('url.intended'); // hapus intended URL
 
         return redirect('/');
     }

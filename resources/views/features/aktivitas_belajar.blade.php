@@ -58,6 +58,7 @@
                     <p class="text-2xl font-bold text-[#171c1f] mt-1">{{ $tugasSelesai }} / {{ $totalTugas }}</p>
                 </div>
             </div>
+            {{-- Diskusi Aktif: dihapus (data statis, tidak relevan)
             <div class="bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2] flex flex-col gap-2 justify-between">
                 <div class="flex justify-between items-start">
                     <span class="material-symbols-outlined text-[#5c5f61]">forum</span>
@@ -67,6 +68,8 @@
                     <p class="text-2xl font-bold text-[#171c1f] mt-1">8 <span class="text-xs font-normal text-[#5c5f61]">Thread</span></p>
                 </div>
             </div>
+            --}}
+            {{-- Total Durasi: dihapus (data statis, tidak relevan)
             <div class="bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2] flex flex-col gap-2 justify-between">
                 <div class="flex justify-between items-start">
                     <span class="material-symbols-outlined text-[#5c5f61]">timer</span>
@@ -76,11 +79,12 @@
                     <p class="text-2xl font-bold text-[#171c1f] mt-1">18.5 <span class="text-xs font-normal text-[#5c5f61]">Jam</span></p>
                 </div>
             </div>
+            --}}
         </div>
 
         {{-- Main Grid Content --}}
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {{-- Activity Bar Chart (Col-span 8) --}}
+            {{-- Activity Bar Chart dihapus (data statis)
             <div class="lg:col-span-8 bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2] flex flex-col justify-between min-h-[300px]">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-bold text-sm text-[#171c1f]">Grafik Aktivitas Harian</h3>
@@ -122,9 +126,10 @@
                     </div>
                 </div>
             </div>
+            --}}
 
-            {{-- Recent Activity Log (Col-span 4) --}}
-            <div class="lg:col-span-4 bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2] h-full flex flex-col justify-between">
+            {{-- Recent Activity Log (full width) --}}
+            <div class="lg:col-span-12 bg-white p-6 rounded-2xl shadow-soft border border-[#eaeef2] flex flex-col">
                 <div>
                     <h3 class="font-bold text-sm text-[#171c1f] mb-6">Log Aktivitas Terbaru</h3>
                     <div class="relative space-y-6 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-[#eaeef2]">

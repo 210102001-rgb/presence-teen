@@ -40,7 +40,14 @@ class RoleMiddleware
         }
 
         if (! in_array($userRole, $roles)) {
-            abort(403, 'Unauthorized');
+            // Jangan abort 403 — redirect ke dashboard yang sesuai dengan role user
+            return match ($userRole) {
+                'guru'        => redirect()->route('dashboard.guru'),
+                'siswa'       => redirect()->route('dashboard.siswa'),
+                'orang_tua'   => redirect()->route('dashboard.orang_tua'),
+                'super_admin' => redirect()->route('dashboard.super_admin'),
+                default       => abort(403, 'Unauthorized'),
+            };
         }
 
         return $next($request);
