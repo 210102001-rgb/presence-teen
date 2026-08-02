@@ -15,6 +15,10 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0d6efd">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f6fafe; }
@@ -248,8 +252,16 @@
                 document.getElementById('page-loader')?.classList.add('loaded');
             }, 80);
         });
+        if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW berhasil:', reg.scope))
+            .catch(err => console.error('SW gagal:', err));
+    });
+}
     </script>
 
     @stack('scripts')
+    
 </body>
 </html>

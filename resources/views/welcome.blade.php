@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0D6EFD">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
@@ -351,6 +354,11 @@
                 document.getElementById('page-loader')?.classList.add('loaded');
             }, 300);
         });
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+        });
+        }
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>

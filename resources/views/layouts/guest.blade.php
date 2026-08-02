@@ -13,6 +13,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0d6efd">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -50,6 +53,14 @@
         {{ $slot }}
 
     </div>
-
+    <script>
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW berhasil:', reg.scope))
+            .catch(err => console.error('SW gagal:', err));
+    });
+}
+</script>
 </body>
 </html>

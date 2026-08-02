@@ -30,29 +30,42 @@
                 @endif
 
                 @if(session('summarize_success') && session('summarize_result'))
-                    {{-- Hasil Ringkasan --}}
                     <div class="mb-6 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary text-[20px] filled-icon">task_alt</span>
-                                <h3 class="font-bold text-on-surface text-sm">Ringkasan selesai: <span class="text-primary">{{ session('summarize_judul') }}</span></h3>
+                        
+                        {{-- LAYOUT HEADER (RESPONSIF PENUH) --}}
+                        <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 sm:gap-4 items-center w-full">
+                            
+                            {{-- Kolom Kiri: Teks --}}
+                            <div class="flex items-center gap-2 min-w-0">
+                                <span class="material-symbols-outlined text-primary text-[18px] sm:text-[20px] filled-icon shrink-0">task_alt</span>
+                                <h3 class="font-bold text-on-surface text-xs sm:text-sm leading-tight flex flex-1 min-w-0">
+                                    <span class="shrink-0 mr-1">Ringkasan selesai:</span> 
+                                    <span class="text-primary truncate block">{{ session('summarize_judul') }}</span>
+                                </h3>
                             </div>
+                
+                            {{-- Kolom Kanan: Tombol (Teks Mengecil Otomatis & Sembunyi di HP) --}}
                             <a href="{{ route('summarize.download', session('summarize_filename')) }}"
-                               class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-xs font-semibold hover:bg-primary-container transition-colors shadow-soft">
-                                <span class="material-symbols-outlined text-[16px]">file_download</span>
-                                Download Ringkasan (.docx)
+                               class="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 bg-primary text-white rounded-xl text-[10px] sm:text-xs font-semibold hover:bg-primary-container transition-colors shadow-soft w-full whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[14px] sm:text-[16px] shrink-0">file_download</span>
+                                <span>
+                                    Download <span class="hidden sm:inline">Ringkasan (.docx)</span>
+                                </span>
                             </a>
+                
                         </div>
-
-                        <div class="bg-surface-container-low rounded-xl p-5 max-h-64 overflow-y-auto border border-surface-container">
-                            <div class="prose prose-sm text-on-surface text-sm leading-relaxed whitespace-pre-wrap">{{ session('summarize_result') }}</div>
+                        {{-- AKHIR LAYOUT HEADER --}}
+                
+                        <div class="bg-surface-container-low rounded-xl p-4 sm:p-5 max-h-64 overflow-y-auto border border-surface-container">
+                            <div class="prose prose-sm text-on-surface text-xs sm:text-sm leading-relaxed">{!! \Illuminate\Support\Str::markdown(session('summarize_result')) !!}</div>
                         </div>
-
-                        <p class="text-xs text-secondary flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[14px]">info</span>
+                
+                        <p class="text-[10px] sm:text-xs text-secondary flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[14px] shrink-0">info</span>
                             File ringkasan tersimpan dalam format .docx yang bisa dibuka di Microsoft Word.
                         </p>
                     </div>
+                    
                     <div class="border-t border-surface-container pt-6">
                         <p class="text-xs text-secondary mb-4 font-semibold uppercase tracking-wider">Upload Materi Baru</p>
                     </div>

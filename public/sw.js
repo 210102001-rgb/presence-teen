@@ -1,88 +1,82 @@
-const CACHE_NAME = 'presence-teen-v1';
-const PRECACHE_URLS = [
-    '/',
-    '/dashboard',
+const CACHE_NAME = "presence-v2";
+
+const ASSETS_TO_CACHE = [
+    "/",
+    "/offline.html",
+    "/manifest.json",
+    "/icons/icon-192.png",
+    "/icons/icon-512.png",
 ];
 
-self.addEventListener('install', (event) => {
+// Install
+self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(PRECACHE_URLS);
+            return cache.addAll(ASSETS_TO_CACHE);
         })
     );
+
+    self.skipWaiting();
 });
 
-self.addEventListener('activate', (event) => {
+// Activate
+self.addEventListener("activate", (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
-                cacheNames
-                    .filter((name) => name !== CACHE_NAME)
-                    .map((name) => caches.delete(name))
+                cacheNames.map((cache) => {
+                    if (cache !== CACHE_NAME) {
+                        return caches.delete(cache);
+                    }
+                })
             );
         })
     );
+
+    self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
-    const { request } = event;
-    const url = new URL(request.url);
+// Fetch
+self.addEventListener("fetch", (event) => {
 
-    if (url.pathname.startsWith('/api/')) {
-        event.respondWith(networkFirst(request));
-    } else if (request.mode === 'navigate') {
-        event.respondWith(cacheFirst(request));
-    } else {
-        event.respondWith(cacheFirst(request));
+    if (event.request.method !== "GET") return;
+
+    event.respondWith(
+
+        caches.match(event.request).then((cachedResponse) => {
+
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+
+            return fetch(event.request)
+                .then((networkResponse) => {
+
+                    const responseClone = networkResponse.clone();
+
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseClone);
+                    });
+
+                    return networkResponse;
+
+                })
+
+                .catch(() => {
+
+                    if (event.request.mode === "navigate") {
+                        return caches.match("/offline.html");
+                    }
+
+                });
+
+        })
+
+    );
+
+});
+self.addEventListener('message', (event) => {
+    if (event.data === 'SKIP_WAITING') {
+        self.skipWaiting();
     }
 });
-
-self.addEventListener('push', (event) => {
-    const data = event.data ? event.data.json() : {};
-    const title = data.title || 'PRESENCE-TEEN';
-    const options = {
-        body: data.body || 'Notifikasi baru',
-        icon: '/icons/icon-192.png',
-        badge: '/icons/icon-192.png',
-    };
-
-    event.waitUntil(self.registration.showNotification(title, options));
-});
-
-async function cacheFirst(request) {
-    const cached = await caches.match(request);
-    if (cached) {
-        return cached;
-    }
-    try {
-        const response = await fetch(request);
-        if (response.ok) {
-            const cache = await caches.open(CACHE_NAME);
-            cache.put(request, response.clone());
-        }
-        return response;
-    } catch (error) {
-        if (request.mode === 'navigate') {
-            const fallback = await caches.match('/');
-            if (fallback) return fallback;
-        }
-        throw error;
-    }
-}
-
-async function networkFirst(request) {
-    try {
-        const response = await fetch(request);
-        if (response.ok) {
-            const cache = await caches.open(CACHE_NAME);
-            cache.put(request, response.clone());
-        }
-        return response;
-    } catch (error) {
-        const cached = await caches.match(request);
-        if (cached) {
-            return cached;
-        }
-        throw error;
-    }
-}
