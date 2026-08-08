@@ -7,8 +7,9 @@
         @csrf
         @method('patch')
 
+        {{-- Nama --}}
         <div>
-            <label for="name" class="block text-sm font-semibold text-[#171c1f] mb-1.5">Nama</label>
+            <label for="name" class="block text-sm font-semibold text-[#171c1f] mb-1.5">Nama Lengkap</label>
             <input id="name" name="name" type="text"
                    value="{{ old('name', $user->name) }}"
                    required autofocus autocomplete="name"
@@ -19,8 +20,9 @@
             @enderror
         </div>
 
+        {{-- Email --}}
         <div>
-            <label for="email" class="block text-sm font-semibold text-[#171c1f] mb-1.5">Email</label>
+            <label for="email" class="block text-sm font-semibold text-[#171c1f] mb-1.5">Alamat Email</label>
             <input id="email" name="email" type="email"
                    value="{{ old('email', $user->email) }}"
                    required autocomplete="username"
@@ -47,6 +49,40 @@
                 </div>
             @endif
         </div>
+
+        {{-- NIS — khusus siswa --}}
+        @if($user->role === 'siswa')
+        <div>
+            <label for="nis_partial" class="block text-sm font-semibold text-[#171c1f] mb-1.5">
+                NIS (Nomor Induk Siswa)
+            </label>
+            <input id="nis_partial" name="nis" type="text"
+                   value="{{ old('nis', $user->nis) }}"
+                   maxlength="20" placeholder="Isi jika belum ada"
+                   class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                          focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+            @error('nis')
+                <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>
+            @enderror
+        </div>
+        @endif
+
+        {{-- Mata Pelajaran — khusus guru --}}
+        @if($user->role === 'guru')
+        <div>
+            <label for="mata_pelajaran_partial" class="block text-sm font-semibold text-[#171c1f] mb-1.5">
+                Mata Pelajaran yang Diampu
+            </label>
+            <input id="mata_pelajaran_partial" name="mata_pelajaran" type="text"
+                   value="{{ old('mata_pelajaran', $user->mata_pelajaran) }}"
+                   maxlength="100" placeholder="Contoh: Matematika"
+                   class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                          focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+            @error('mata_pelajaran')
+                <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>
+            @enderror
+        </div>
+        @endif
 
         <div class="flex items-center gap-4 pt-2">
             <button type="submit"

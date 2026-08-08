@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GururController;
 use App\Http\Controllers\SummarizeController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
@@ -55,6 +56,12 @@ Route::middleware('auth')->group(function () {
         Route::delete('/kelola-akun/{user}', [AccountController::class, 'destroy'])->name('account.destroy');
         Route::get('/kelola-akun/{user}/edit-password', [AccountController::class, 'editPassword'])->name('account.edit-password');
         Route::put('/kelola-akun/{user}/update-password', [AccountController::class, 'updatePassword'])->name('account.update-password');
+
+        Route::get('/kelola-guru', [GururController::class, 'index'])->name('guru.kelola');
+        Route::get('/kelola-guru/{user}/edit', [GururController::class, 'edit'])->name('guru.kelola.edit');
+        Route::put('/kelola-guru/{user}', [GururController::class, 'update'])->name('guru.kelola.update');
+        Route::get('/kelola-guru/{user}/edit-password', [GururController::class, 'editPassword'])->name('guru.kelola.edit-password');
+        Route::put('/kelola-guru/{user}/update-password', [GururController::class, 'updatePassword'])->name('guru.kelola.update-password');
     });
 });
 
@@ -82,6 +89,7 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('guru.jadwal');
     Route::post('/jadwal', [JadwalController::class, 'store'])->name('guru.jadwal.store');
     Route::delete('/jadwal/{jadwal}', [JadwalController::class, 'destroy'])->name('guru.jadwal.destroy');
+    Route::patch('/jadwal/{jadwal}/pertemuan', [JadwalController::class, 'updatePertemuan'])->name('guru.jadwal.pertemuan');
 
     Route::get('/kelas', [KelasController::class, 'index'])->name('guru.kelas');
     Route::post('/kelas', [KelasController::class, 'store'])->name('guru.kelas.store');

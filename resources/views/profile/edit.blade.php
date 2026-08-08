@@ -45,14 +45,14 @@
         </nav>
 
         {{-- Page Header --}}
-        <div class="hidden lg:flex justify-between items-end mb-8">
+        <div class="flex justify-between items-end mb-8">
             <div>
                 <h2 class="text-2xl font-bold text-[#171c1f]">{{ $roleName }}</h2>
                 <p class="text-sm text-[#5c5f61]">Kelola informasi profil Anda secara real-time.</p>
             </div>
         </div>
 
-        {{-- Mobile Profile WhatsApp Style (For All User Roles) --}}
+        {{-- Mobile Profile WhatsApp Style (hidden on desktop) --}}
         <div class="lg:hidden space-y-6 pb-24">
             {{-- Header Profile: WA Style --}}
             <div class="flex flex-col items-center pt-6 pb-4">
@@ -98,6 +98,17 @@
                     <div class="flex-grow">
                         <p class="text-xs text-secondary font-semibold">Nomor Induk Siswa (NIS)</p>
                         <p class="text-sm font-bold text-on-surface mt-0.5">{{ Auth::user()->nis ?? '-' }}</p>
+                    </div>
+                </div>
+                @endif
+
+                {{-- Row: Mata Pelajaran (if guru) --}}
+                @if($role === 'guru')
+                <div class="p-4 flex items-start gap-4 hover:bg-surface transition-colors">
+                    <span class="material-symbols-outlined text-primary mt-1">menu_book</span>
+                    <div class="flex-grow">
+                        <p class="text-xs text-secondary font-semibold">Mata Pelajaran yang Diampu</p>
+                        <p class="text-sm font-bold text-on-surface mt-0.5">{{ Auth::user()->mata_pelajaran ?? '-' }}</p>
                     </div>
                 </div>
                 @endif
@@ -191,8 +202,8 @@
             </div>
         </div>
 
-        {{-- Bento Grid Layout (Desktop only) --}}
-        <div class="hidden lg:grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {{-- Bento Grid Layout (All screens, mobile section hidden on desktop) --}}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             {{-- Profile Card & Contacts (Left, Col-span 4) --}}
             <div class="lg:col-span-4 space-y-6">
@@ -211,6 +222,11 @@
                             <div class="text-center">
                                 <p class="text-xl font-bold text-[#005f2d]">{{ Auth::user()->anak->count() }}</p>
                                 <p class="text-[9px] uppercase tracking-wider text-[#5c5f61]">STUDENTS</p>
+                            </div>
+                        @elseif($role === 'guru')
+                            <div class="text-center">
+                                <p class="text-sm font-bold text-[#005f2d]">{{ Auth::user()->mata_pelajaran ?? '-' }}</p>
+                                <p class="text-[9px] uppercase tracking-wider text-[#5c5f61]">MATA PELAJARAN</p>
                             </div>
                         @else
                             <div class="text-center">
@@ -270,7 +286,75 @@
                         <span class="px-2.5 py-1 bg-[#97f7ac]/30 text-[#005226] text-[10px] font-bold rounded-full uppercase tracking-wider">Terverifikasi</span>
                     </div>
 
-                    @include('profile.partials.update-profile-information-form')
+                    <form method="post" action="{{ route('profile.update') }}" class="space-y-5">
+                        @csrf
+                        @method('patch')
+
+                        <div>
+                            <label for="name" class="block text-sm font-semibold text-[#5c5f61] mb-1.5">Nama Lengkap</label>
+                            <input id="name" name="name" type="text"
+                                   value="{{ old('name', Auth::user()->name) }}"
+                                   required autofocus
+                                   class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                          focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+                            @error('name')
+                                <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-[#5c5f61] mb-1.5">Alamat Email</label>
+                            <input id="email" name="email" type="email"
+                                   value="{{ old('email', Auth::user()->email) }}"
+                                   required
+                                   class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                          focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+                            @error('email')
+                                <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        @if($role === 'siswa')
+                        <div>
+                            <label for="nis" class="block text-sm font-semibold text-[#5c5f61] mb-1.5">NIS (Nomor Induk Siswa)</label>
+                            <input id="nis" name="nis" type="text"
+                                   value="{{ old('nis', Auth::user()->nis) }}"
+                                   maxlength="20" placeholder="Isi jika belum ada"
+                                   class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                          focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+                        </div>
+                        @endif
+
+                        @if($role === 'guru')
+                        <div>
+                            <label for="mata_pelajaran" class="block text-sm font-semibold text-[#5c5f61] mb-1.5">Mata Pelajaran yang Diampu</label>
+                            <input id="mata_pelajaran" name="mata_pelajaran" type="text"
+                                   value="{{ old('mata_pelajaran', Auth::user()->mata_pelajaran) }}"
+                                   maxlength="100" placeholder="Contoh: Matematika"
+                                   class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm text-[#171c1f] bg-white
+                                          focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+                            @error('mata_pelajaran')
+                                <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        @endif
+
+                        <div class="flex items-center gap-4 pt-2">
+                            <button type="submit"
+                                    class="inline-flex items-center gap-2 px-6 py-2.5 bg-[#005f2d] text-white text-sm font-semibold
+                                           rounded-xl hover:bg-[#0e7a3d] transition-all active:scale-95">
+                                <span class="material-symbols-outlined text-[18px]">save</span>
+                                Simpan Perubahan
+                            </button>
+                            @if(session('status') === 'profile-updated')
+                                <p x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+                                   class="text-sm text-[#005f2d] font-medium flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px] filled-icon">check_circle</span>
+                                    Tersimpan
+                                </p>
+                            @endif
+                        </div>
+                    </form>
                 </div>
 
                 {{-- Child Progress Summary (Mockup) --}}
@@ -344,11 +428,61 @@
                 {{-- Change Password & Delete Account --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white p-6 rounded-2xl border border-[#eaeef2] shadow-soft">
-                        <div class="flex items-center gap-2 mb-4">
+                        <div class="flex items-center gap-2 mb-5">
                             <span class="material-symbols-outlined text-[#005f2d]">lock</span>
                             <h4 class="font-bold text-[#171c1f]">Ubah Password</h4>
                         </div>
-                        @include('profile.partials.update-password-form')
+
+                        <form method="post" action="{{ route('password.update') }}" class="space-y-4">
+                            @csrf
+                            @method('put')
+
+                            <div>
+                                <label class="block text-sm font-semibold text-[#5c5f61] mb-1.5">Password Saat Ini</label>
+                                <input name="current_password" type="password"
+                                       placeholder="Masukkan password lama"
+                                       class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm bg-white
+                                              focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+                                @if($errors->updatePassword->has('current_password'))
+                                    <p class="mt-1 text-xs text-[#ba1a1a]">{{ $errors->updatePassword->first('current_password') }}</p>
+                                @endif
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-[#5c5f61] mb-1.5">Password Baru</label>
+                                <input name="password" type="password"
+                                       placeholder="Minimal 8 karakter"
+                                       class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm bg-white
+                                              focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+                                @if($errors->updatePassword->has('password'))
+                                    <p class="mt-1 text-xs text-[#ba1a1a]">{{ $errors->updatePassword->first('password') }}</p>
+                                @endif
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-[#5c5f61] mb-1.5">Konfirmasi Password Baru</label>
+                                <input name="password_confirmation" type="password"
+                                       placeholder="Ulangi password baru"
+                                       class="w-full px-4 py-3 border border-[#becabc] rounded-xl text-sm bg-white
+                                              focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] transition-all">
+                            </div>
+
+                            <div class="flex items-center gap-4 pt-1">
+                                <button type="submit"
+                                        class="inline-flex items-center gap-2 px-6 py-2.5 bg-[#005f2d] text-white text-sm font-semibold
+                                               rounded-xl hover:bg-[#0e7a3d] transition-all active:scale-95">
+                                    <span class="material-symbols-outlined text-[18px]">lock_reset</span>
+                                    Ubah Password
+                                </button>
+                                @if(session('status') === 'password-updated')
+                                    <p x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+                                       class="text-sm text-[#005f2d] font-medium flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px] filled-icon">check_circle</span>
+                                        Tersimpan
+                                    </p>
+                                @endif
+                            </div>
+                        </form>
                     </div>
 
                     <div class="bg-white p-6 rounded-2xl border border-[#ba1a1a]/20 shadow-soft">

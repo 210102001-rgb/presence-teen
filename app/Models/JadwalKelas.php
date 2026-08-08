@@ -12,6 +12,7 @@ class JadwalKelas extends Model
         'kelas_id', 'guru_id', 'hari',
         'jam_mulai', 'jam_selesai',
         'mata_pelajaran', 'ruang', 'topik',
+        'jumlah_pertemuan',
     ];
 
     // Urutan hari untuk sorting

@@ -384,6 +384,113 @@
                     </div>
                 </div>
 
+                {{-- ===== WIDGET JUMLAH PERTEMUAN PER SEMESTER ===== --}}
+                <div class="bg-white rounded-2xl shadow-soft border border-[#eaeef2] overflow-hidden">
+                    <div class="px-5 py-4 border-b border-[#eaeef2] flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[#005f2d] text-[20px] filled-icon">event_repeat</span>
+                            <h4 class="font-bold text-[#171c1f] text-sm">Pertemuan per Semester</h4>
+                        </div>
+                        <span class="text-[10px] text-[#5c5f61]">Klik angka untuk edit</span>
+                    </div>
+
+                    <div class="p-4 space-y-3">
+                        @forelse($jadwals->unique('kelas_id') as $j)
+                            @php
+                                $sesiSudahTerjadi = \App\Models\SesiPresensi::where('kelas_id', $j->kelas_id)
+                                    ->where('guru_id', auth()->id())
+                                    ->count();
+                                $target = $j->jumlah_pertemuan ?? 16;
+                                $pct = $target > 0 ? min(100, round($sesiSudahTerjadi / $target * 100)) : 0;
+                            @endphp
+                            <div class="bg-[#f6fafe] rounded-xl p-4 border border-[#eaeef2]"
+                                 x-data="{ editing: false, val: {{ $target }} }">
+                                <div class="flex items-center justify-between gap-3 mb-3">
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-[#171c1f] truncate">{{ $j->kelas->nama_kelas ?? '-' }}</p>
+                                        <p class="text-[10px] text-[#5c5f61]">{{ $j->mata_pelajaran }}</p>
+                                    </div>
+
+                                    <div class="shrink-0 relative">
+                                        <div x-show="!editing" @click="editing = true"
+                                             class="w-16 h-16 rounded-full border-4 border-[#005f2d] flex flex-col items-center justify-center cursor-pointer hover:bg-[#f0fdf4] transition-colors"
+                                             title="Klik untuk edit target">
+                                            <span class="text-xl font-extrabold text-[#005f2d] leading-none">{{ $sesiSudahTerjadi }}</span>
+                                            <span class="text-[9px] text-[#5c5f61] font-semibold">/ {{ $target }}</span>
+                                        </div>
+
+                                        <div x-show="editing" x-cloak class="w-16 h-16 flex items-center justify-center">
+                                            <form action="{{ route('guru.jadwal.pertemuan', $j->id) }}" method="POST"
+                                                  @submit="editing = false">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="number" name="jumlah_pertemuan"
+                                                       x-model="val" min="1" max="100"
+                                                       @keydown.escape="editing = false"
+                                                       @keydown.enter="$el.form.submit()"
+                                                       x-ref="inp{{ $j->id }}"
+                                                       x-init="$watch('editing', v => v && $nextTick(() => $refs['inp{{ $j->id }}'].focus()))"
+                                                       class="w-14 h-14 text-center text-lg font-bold border-2 border-[#005f2d] rounded-full bg-white text-[#005f2d]
+                                                              focus:outline-none focus:ring-2 focus:ring-[#005f2d]/30">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-[9px] text-[#5c5f61] mb-1">
+                                        <span>{{ $sesiSudahTerjadi }} pertemuan terlaksana</span>
+                                        <span>{{ $pct }}%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-[#eaeef2] rounded-full overflow-hidden">
+                                        <div class="h-full rounded-full transition-all duration-500"
+                                             style="width: {{ $pct }}%; background-color: {{ $pct >= 100 ? '#005f2d' : ($pct >= 60 ? '#0e7a3d' : '#f59e0b') }};"></div>
+                                    </div>
+                                    <p class="text-[9px] text-[#5c5f61] mt-1">
+                                        Target: {{ $target }} pertemuan/semester
+                                        @if($sesiSudahTerjadi >= $target)
+                                            <span class="text-[#005f2d] font-bold">✓ Terpenuhi</span>
+                                        @else
+                                            • Sisa {{ $target - $sesiSudahTerjadi }} pertemuan
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        @empty
+                            {{-- Tampilkan berdasarkan kelas kalau belum ada jadwal --}}
+                            @foreach($kelas as $k)
+                                @php
+                                    $sesiTerjadi = \App\Models\SesiPresensi::where('kelas_id', $k->id)
+                                        ->where('guru_id', auth()->id())
+                                        ->count();
+                                    $target = 16;
+                                    $pct = 0;
+                                @endphp
+                                <div class="bg-[#f6fafe] rounded-xl p-4 border border-[#eaeef2]">
+                                    <div class="flex items-center justify-between gap-3 mb-3">
+                                        <div class="min-w-0">
+                                            <p class="text-xs font-bold text-[#171c1f] truncate">{{ $k->nama_kelas }}</p>
+                                            <p class="text-[10px] text-[#5c5f61]">{{ $k->mata_pelajaran }}</p>
+                                        </div>
+                                        <div class="w-16 h-16 rounded-full border-4 border-[#becabc] flex flex-col items-center justify-center">
+                                            <span class="text-xl font-extrabold text-[#5c5f61] leading-none">{{ $sesiTerjadi }}</span>
+                                            <span class="text-[9px] text-[#5c5f61] font-semibold">/ {{ $target }}</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-[#5c5f61]">Tambahkan jadwal untuk mengatur target pertemuan.</p>
+                                </div>
+                            @endforeach
+
+                            @if($kelas->isEmpty())
+                                <div class="text-center py-6">
+                                    <span class="material-symbols-outlined text-[#dfe3e7] text-3xl">event_note</span>
+                                    <p class="text-xs text-[#5c5f61] mt-2">Tambah jadwal untuk mulai melacak pertemuan.</p>
+                                </div>
+                            @endif
+                        @endforelse
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

@@ -128,13 +128,26 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->name  = $request->name;
+        $user->email = $request->email;
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        // NIS hanya untuk siswa
+        if ($user->role === 'siswa') {
+            $user->nis = $request->nis;
+        }
+
+        // Mata pelajaran hanya untuk guru
+        if ($user->role === 'guru') {
+            $user->mata_pelajaran = $request->mata_pelajaran;
+        }
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

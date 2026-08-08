@@ -75,13 +75,21 @@
                 <span class="material-symbols-outlined {{ request()->routeIs('guru.kelas') || request()->routeIs('guru.kelas.store') || request()->routeIs('guru.kelas.update') || request()->routeIs('guru.kelas.destroy') ? 'filled-icon' : '' }}">class</span>
                 <span class="text-sm">Kelas</span>
             </a>
+            <a href="{{ route('guru.kelola') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
+                      {{ request()->routeIs('guru.kelola*')
+                         ? 'bg-white/15 text-white font-semibold'
+                         : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                <span class="material-symbols-outlined {{ request()->routeIs('guru.kelola*') ? 'filled-icon' : '' }}">school</span>
+                <span class="text-sm">Kelola Guru</span>
+            </a>
             <a href="{{ route('guru.kelas_siswa') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95
                       {{ request()->routeIs('guru.kelas_siswa*')
                          ? 'bg-white/15 text-white font-semibold'
                          : 'text-white/75 hover:text-white hover:bg-white/10' }}">
                 <span class="material-symbols-outlined {{ request()->routeIs('guru.kelas_siswa*') ? 'filled-icon' : '' }}">groups</span>
-                <span class="text-sm">Siswa</span>
+                <span class="text-sm">Kelola Siswa</span>
             </a>
             <a href="{{ route('materi.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 active:scale-95

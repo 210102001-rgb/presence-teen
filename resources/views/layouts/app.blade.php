@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Prevent browser bfcache — halaman authenticated tidak boleh di-cache --}}
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    {{-- Simpan role user di meta tag untuk deteksi perubahan role --}}
+    <meta name="user-role" content="{{ Auth::check() ? Auth::user()->role : 'guest' }}">
+    <meta name="user-id" content="{{ Auth::check() ? Auth::user()->id : '0' }}">
+
     <title>{{ config('app.name', 'Presence-Teen') }} — @isset($header){{ $header }}@else Dashboard @endif</title>
     <link rel="icon" type="image/png" href="{{ asset('smansa.png') }}">
 
@@ -252,6 +261,37 @@
                 document.getElementById('page-loader')?.classList.add('loaded');
             }, 80);
         });
+
+        // === BFCACHE FIX ===
+        // Ketika halaman direstorasi dari bfcache (navigasi back/forward),
+        // cek apakah role user di session masih sama.
+        // Jika berbeda (ganti akun), paksa reload halaman.
+        (function() {
+            const currentRole = document.querySelector('meta[name="user-role"]')?.content || '';
+            const currentUserId = document.querySelector('meta[name="user-id"]')?.content || '0';
+            const storedRole = sessionStorage.getItem('app_user_role');
+            const storedId = sessionStorage.getItem('app_user_id');
+
+            // Simpan role dan ID saat ini
+            sessionStorage.setItem('app_user_role', currentRole);
+            sessionStorage.setItem('app_user_id', currentUserId);
+
+            // Deteksi bfcache restore — pageshow event dengan persisted = true
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted) {
+                    // Halaman diambil dari bfcache — reload paksa
+                    window.location.reload();
+                }
+            });
+
+            // Deteksi perubahan role atau user (ganti akun tanpa hard refresh)
+            if (storedId && storedId !== '0' && storedId !== currentUserId) {
+                // User ID berubah — reload untuk ensure UI sesuai role baru
+                sessionStorage.setItem('app_user_role', currentRole);
+                sessionStorage.setItem('app_user_id', currentUserId);
+                window.location.reload();
+            }
+        })();
         if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
         navigator.serviceWorker.register('/sw.js')

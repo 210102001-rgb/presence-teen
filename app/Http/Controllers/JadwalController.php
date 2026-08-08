@@ -107,6 +107,19 @@ class JadwalController extends Controller
         return redirect()->route('guru.jadwal')->with('success', 'Jadwal berhasil dihapus.');
     }
 
+    public function updatePertemuan(Request $request, JadwalKelas $jadwal)
+    {
+        abort_if($jadwal->guru_id !== auth()->id(), 403);
+
+        $request->validate([
+            'jumlah_pertemuan' => 'required|integer|min:1|max:100',
+        ]);
+
+        $jadwal->update(['jumlah_pertemuan' => $request->jumlah_pertemuan]);
+
+        return redirect()->route('guru.jadwal')->with('success', 'Jumlah pertemuan berhasil diperbarui.');
+    }
+
     private function hariIniLabel(Carbon $date): string
     {
         $map = [1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu'];
