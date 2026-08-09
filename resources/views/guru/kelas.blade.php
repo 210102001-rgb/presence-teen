@@ -129,12 +129,6 @@
                                                        required>
                                             </div>
                                             <div>
-                                                <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Mata Pelajaran</label>
-                                                <input type="text" name="mata_pelajaran" value="{{ $k->mata_pelajaran }}"
-                                                       class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
-                                                       required>
-                                            </div>
-                                            <div>
                                                 <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Tahun Ajaran</label>
                                                 <input type="text" name="tahun_ajaran" value="{{ $k->tahun_ajaran }}"
                                                        class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
@@ -193,14 +187,6 @@
                            class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
                            required>
                     @error('nama_kelas') <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p> @enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Mata Pelajaran</label>
-                    <input type="text" name="mata_pelajaran" value="{{ old('mata_pelajaran') }}"
-                           placeholder="Cth: Matematika"
-                           class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
-                           required>
-                    @error('mata_pelajaran') <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Tahun Ajaran</label>

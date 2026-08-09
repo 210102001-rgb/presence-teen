@@ -31,16 +31,15 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_kelas' => 'required|string|max:100',
-            'mata_pelajaran' => 'required|string|max:100',
+            'nama_kelas'   => 'required|string|max:100',
             'tahun_ajaran' => 'required|string|max:20',
         ]);
 
         Kelas::create([
-            'nama_kelas' => $request->nama_kelas,
-            'guru_id' => auth()->id(),
-            'mata_pelajaran' => $request->mata_pelajaran,
-            'tahun_ajaran' => $request->tahun_ajaran,
+            'nama_kelas'    => $request->nama_kelas,
+            'guru_id'       => auth()->id(),
+            'mata_pelajaran' => '',   // kosong — diisi lewat jadwal
+            'tahun_ajaran'  => $request->tahun_ajaran,
         ]);
 
         return redirect()->route('guru.kelas')->with('success', 'Kelas berhasil ditambahkan.');
@@ -51,12 +50,11 @@ class KelasController extends Controller
         abort_if($kelas->guru_id !== auth()->id(), 403);
 
         $request->validate([
-            'nama_kelas' => 'required|string|max:100',
-            'mata_pelajaran' => 'required|string|max:100',
+            'nama_kelas'   => 'required|string|max:100',
             'tahun_ajaran' => 'required|string|max:20',
         ]);
 
-        $kelas->update($request->only('nama_kelas', 'mata_pelajaran', 'tahun_ajaran'));
+        $kelas->update($request->only('nama_kelas', 'tahun_ajaran'));
 
         return redirect()->route('guru.kelas')->with('success', 'Kelas berhasil diperbarui.');
     }
@@ -195,7 +193,43 @@ class KelasController extends Controller
     {
         $kelas = Kelas::where('guru_id', auth()->id())->get();
 
-        return view('guru.kelas_siswa_create', compact('kelas'));
+        // Ambil semua siswa yang belum terdaftar di kelas manapun milik guru ini
+        $kelasIds  = $kelas->pluck('id');
+        $siswaIds  = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
+        $siswaAda  = User::where('role', 'siswa')
+            ->whereNotIn('id', $siswaIds)
+            ->orderBy('name')
+            ->get();
+
+        return view('guru.kelas_siswa_create', compact('kelas', 'siswaAda'));
+    }
+
+    public function daftarkanSiswa(Request $request)
+    {
+        $request->validate([
+            'kelas_id'  => 'required|exists:kelas,id',
+            'siswa_ids' => 'required|array|min:1',
+            'siswa_ids.*' => 'exists:users,id',
+        ]);
+
+        $kelas = Kelas::where('id', $request->kelas_id)
+            ->where('guru_id', auth()->id())
+            ->firstOrFail();
+
+        $added = 0;
+        foreach ($request->siswa_ids as $siswaId) {
+            $user = User::where('id', $siswaId)->where('role', 'siswa')->first();
+            if (!$user) continue;
+
+            $exists = SiswaKelas::where('siswa_id', $siswaId)->where('kelas_id', $kelas->id)->exists();
+            if (!$exists) {
+                SiswaKelas::create(['siswa_id' => $siswaId, 'kelas_id' => $kelas->id]);
+                $added++;
+            }
+        }
+
+        return redirect()->route('guru.kelas_siswa')
+            ->with('success', "{$added} siswa berhasil didaftarkan ke kelas {$kelas->nama_kelas}.");
     }
 
     public function tambahSiswa(Request $request)

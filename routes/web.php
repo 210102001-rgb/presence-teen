@@ -101,6 +101,7 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::post('/kelas-siswa/import', [KelasController::class, 'importSiswa'])->name('guru.kelas_siswa.import.store');
     Route::get('/kelas-siswa/tambah', [KelasController::class, 'createSiswa'])->name('guru.kelas_siswa.create');
     Route::post('/kelas-siswa/tambah', [KelasController::class, 'tambahSiswa'])->name('guru.kelas_siswa.tambah');
+    Route::post('/kelas-siswa/daftarkan', [KelasController::class, 'daftarkanSiswa'])->name('guru.kelas_siswa.daftarkan');
     Route::post('/kelas-siswa/hapus', [KelasController::class, 'hapusSiswa'])->name('guru.kelas_siswa.hapus');
 });
 
