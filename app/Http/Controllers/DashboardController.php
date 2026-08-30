@@ -42,20 +42,15 @@ class DashboardController extends Controller
         $totalTugas = Tugas::whereIn('kelas_id', $kelasIds)->count();
         $totalMateri = Materi::where('guru_id', $user->id)->count();
 
-        // Total sesi presensi minggu ini
-        $totalSesi = SesiPresensi::where('guru_id', $user->id)
-            ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->count();
+        // Total sesi presensi keseluruhan (semua waktu)
+        $totalSesi = SesiPresensi::where('guru_id', $user->id)->count();
 
-        // Avg attendance rate (hadir+telat / total presensi minggu ini)
-        $totalPresensiMingguIni = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id)
-            ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-        )->count();
-        $hadirMingguIni = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id)
-            ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-        )->whereIn('status', ['hadir', 'telat'])->count();
-        $avgAttendance = $totalPresensiMingguIni > 0
-            ? round($hadirMingguIni / $totalPresensiMingguIni * 100)
+        // Avg attendance rate keseluruhan
+        $totalPresensiAll = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id))->count();
+        $hadirAll = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id))
+            ->whereIn('status', ['hadir', 'telat'])->count();
+        $avgAttendance = $totalPresensiAll > 0
+            ? round($hadirAll / $totalPresensiAll * 100)
             : 0;
 
         // Data chart kehadiran per hari (Mon-Sun minggu ini)
@@ -88,9 +83,9 @@ class DashboardController extends Controller
             ->get();
 
         // Recent Activity (5 presensi terakhir dari sesi guru)
-        $recentActivity = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id)
-        )->with(['siswa', 'sesiPresensi'])
-            ->latest('waktu_absen')
+        $recentActivity = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id))
+            ->with(['siswa', 'sesiPresensi'])
+            ->latest('created_at')
             ->limit(5)
             ->get();
 

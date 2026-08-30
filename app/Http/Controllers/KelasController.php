@@ -85,7 +85,7 @@ class KelasController extends Controller
             ->selectRaw('presensi.siswa_id, sesi_presensi.kelas_id, COUNT(*) as total')
             ->groupBy('presensi.siswa_id', 'sesi_presensi.kelas_id')
             ->get()
-            ->pluck('total', fn ($r) => $r->siswa_id.'_'.$r->kelas_id);
+            ->mapWithKeys(fn ($r) => [$r->siswa_id.'_'.$r->kelas_id => $r->total]);
 
         // Flatten: semua siswa dengan kelas & stats
         $semuaSiswa = collect();
@@ -121,7 +121,7 @@ class KelasController extends Controller
             ->selectRaw('presensi.siswa_id, sesi_presensi.kelas_id, COUNT(*) as total')
             ->groupBy('presensi.siswa_id', 'sesi_presensi.kelas_id')
             ->get()
-            ->pluck('total', fn ($r) => $r->siswa_id.'_'.$r->kelas_id);
+            ->mapWithKeys(fn ($r) => [$r->siswa_id.'_'.$r->kelas_id => $r->total]);
 
         $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
