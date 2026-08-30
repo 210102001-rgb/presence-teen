@@ -31,10 +31,14 @@ class QrPresensi extends Component
 
     public function mount($kelasId = null, $jadwalId = null)
     {
-        $this->kelasList = Kelas::where('guru_id', auth()->id())->get();
+        $isAdmin = auth()->user()->role === 'super_admin';
 
-        // Check if there is an active session for this teacher
-        $this->sesiAktif = SesiPresensi::where('guru_id', auth()->id())
+        $this->kelasList = Kelas::query()
+            ->when(! $isAdmin, fn ($q) => $q->where('guru_id', auth()->id()))
+            ->get();
+
+        // Check if there is an active session (for this teacher, or any for admin)
+        $this->sesiAktif = SesiPresensi::when(! $isAdmin, fn ($q) => $q->where('guru_id', auth()->id()))
             ->where('is_active', true)
             ->first();
 
@@ -43,7 +47,7 @@ class QrPresensi extends Component
             $this->mataPelajaran = $this->sesiAktif->mata_pelajaran;
             $this->topik = $this->sesiAktif->topik;
         } elseif ($jadwalId) {
-            $jadwal = JadwalKelas::where('guru_id', auth()->id())->find($jadwalId);
+            $jadwal = JadwalKelas::when(! $isAdmin, fn ($q) => $q->where('guru_id', auth()->id()))->find($jadwalId);
             if ($jadwal) {
                 $this->selectedKelasId = $jadwal->kelas_id;
                 $this->mataPelajaran = $jadwal->mata_pelajaran;
@@ -80,14 +84,17 @@ class QrPresensi extends Component
         // Close any existing active session first
         $this->durasi = 60; // default 60 menit sesi berjalan
 
-        DB::transaction(function () {
-            SesiPresensi::where('guru_id', auth()->id())
+        $isAdmin = auth()->user()->role === 'super_admin';
+        $kelas = Kelas::findOrFail($this->selectedKelasId);
+
+        DB::transaction(function () use ($isAdmin, $kelas) {
+            SesiPresensi::when(! $isAdmin, fn ($q) => $q->where('guru_id', auth()->id()))
                 ->where('is_active', true)
                 ->update(['is_active' => false]);
 
             $this->sesiAktif = SesiPresensi::create([
                 'kelas_id' => $this->selectedKelasId,
-                'guru_id' => auth()->id(),
+                'guru_id' => $kelas->guru_id,
                 'mata_pelajaran' => $this->mataPelajaran,
                 'topik' => $this->topik,
                 'qr_token' => Str::random(32),
@@ -112,7 +119,7 @@ class QrPresensi extends Component
     public function render()
     {
         // load last 5 sessions for history
-        $riwayatSesi = SesiPresensi::where('guru_id', auth()->id())
+        $riwayatSesi = SesiPresensi::when(auth()->user()->role !== 'super_admin', fn ($q) => $q->where('guru_id', auth()->id()))
             ->with(['kelas.siswa', 'presensi'])
             ->latest()
             ->take(5)

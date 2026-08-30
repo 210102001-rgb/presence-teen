@@ -34,21 +34,31 @@ class DashboardController extends Controller
     public function guru()
     {
         $user = Auth::user();
-        $kelas = Kelas::where('guru_id', $user->id)->get();
+        $isAdmin = $this->isAdmin();
+
+        $kelas = $isAdmin ? Kelas::all() : Kelas::where('guru_id', $user->id)->get();
         $kelasIds = $kelas->pluck('id');
 
         $totalKelas = $kelas->count();
         $totalSiswa = SiswaKelas::whereIn('kelas_id', $kelasIds)->count();
         $totalTugas = Tugas::whereIn('kelas_id', $kelasIds)->count();
-        $totalMateri = Materi::where('guru_id', $user->id)->count();
+        $totalMateri = $isAdmin
+            ? Materi::count()
+            : Materi::where('guru_id', $user->id)->count();
+
+        $sesiQuery = fn () => $isAdmin
+            ? SesiPresensi::query()
+            : SesiPresensi::where('guru_id', $user->id);
+        $presensiQuery = fn () => $isAdmin
+            ? Presensi::query()
+            : Presensi::whereHas('sesiPresensi', fn ($s) => $s->where('guru_id', $user->id));
 
         // Total sesi presensi keseluruhan (semua waktu)
-        $totalSesi = SesiPresensi::where('guru_id', $user->id)->count();
+        $totalSesi = $sesiQuery()->count();
 
         // Avg attendance rate keseluruhan
-        $totalPresensiAll = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id))->count();
-        $hadirAll = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id))
-            ->whereIn('status', ['hadir', 'telat'])->count();
+        $totalPresensiAll = $presensiQuery()->count();
+        $hadirAll = $presensiQuery()->whereIn('status', ['hadir', 'telat'])->count();
         $avgAttendance = $totalPresensiAll > 0
             ? round($hadirAll / $totalPresensiAll * 100)
             : 0;
@@ -59,11 +69,11 @@ class DashboardController extends Controller
         $monday = now()->startOfWeek(Carbon::MONDAY);
         for ($i = 0; $i < 7; $i++) {
             $day = $monday->copy()->addDays($i);
-            $sesiHari = SesiPresensi::where('guru_id', $user->id)
-                ->whereDate('created_at', $day)->get();
-            $totalSiswaHari = $sesiHari->sum(fn ($s) => $s->kelas->siswa()->count());
-            $hadirHari = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id)->whereDate('created_at', $day)
-            )->whereIn('status', ['hadir', 'telat'])->count();
+            $sesiHari = $sesiQuery()->whereDate('created_at', $day)->get();
+            $totalSiswaHari = $sesiHari->sum(fn ($s) => $s->kelas?->siswa()->count() ?? 0);
+            $hadirHari = $presensiQuery()
+                ->whereHas('sesiPresensi', fn ($q) => $q->whereDate('created_at', $day))
+                ->whereIn('status', ['hadir', 'telat'])->count();
             $chartData[] = [
                 'label' => $dayNames[$i],
                 'hadir' => $hadirHari,
@@ -76,14 +86,14 @@ class DashboardController extends Controller
             'Jum' => 'Jumat', 'Sab' => 'Sabtu'][now()->shortDayName] ??
                      ['Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
                          'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'][now()->englishDayOfWeek] ?? '';
-        $jadwalHariIni = JadwalKelas::where('guru_id', $user->id)
+        $jadwalHariIni = ($isAdmin ? JadwalKelas::query() : JadwalKelas::where('guru_id', $user->id))
             ->where('hari', $todayHari)
             ->with('kelas')
             ->orderBy('jam_mulai')
             ->get();
 
         // Recent Activity (5 presensi terakhir dari sesi guru)
-        $recentActivity = Presensi::whereHas('sesiPresensi', fn ($q) => $q->where('guru_id', $user->id))
+        $recentActivity = $presensiQuery()
             ->with(['siswa', 'sesiPresensi'])
             ->latest('created_at')
             ->limit(5)

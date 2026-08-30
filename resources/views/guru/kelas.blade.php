@@ -96,7 +96,8 @@
                                     {{-- Aksi --}}
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-2">
-                                            <button type="button" onclick="document.getElementById('edit-kelas-{{ $k->id }}-modal').showModal()"
+                                            <button type="button" x-data="{}"
+                                                    @click="window.dispatchEvent(new CustomEvent('edit-kelas-open', { detail: { id: {{ $k->id }}, nama_kelas: @js($k->nama_kelas), tahun_ajaran: @js($k->tahun_ajaran), guru_id: @js($k->guru_id) } }))"
                                                     class="p-2 text-[#005f2d] hover:bg-[#f0fdf4] rounded-lg transition-colors">
                                                 <span class="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
@@ -113,42 +114,7 @@
                                     </td>
                                 </tr>
 
-                                {{-- Edit Modal --}}
-                                <dialog id="edit-kelas-{{ $k->id }}-modal" class="modal backdrop:bg-black/50 rounded-2xl shadow-2xl max-w-md">
-                                    <form method="POST" action="{{ route('guru.kelas.update', $k) }}" class="p-6">
-                                        @csrf
-                                        @method('PUT')
-
-                                        <h3 class="text-lg font-bold text-[#171c1f] mb-5">Edit Kelas</h3>
-
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Nama Kelas</label>
-                                                <input type="text" name="nama_kelas" value="{{ $k->nama_kelas }}"
-                                                       class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
-                                                       required>
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Tahun Ajaran</label>
-                                                <input type="text" name="tahun_ajaran" value="{{ $k->tahun_ajaran }}"
-                                                       class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
-                                                       required>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex gap-3 mt-6 pt-5 border-t border-[#eaeef2]">
-                                            <button type="button" onclick="this.closest('dialog').close()"
-                                                    class="flex-1 px-4 py-2 border border-[#becabc] text-[#5c5f61] rounded-xl font-semibold hover:bg-[#f0f4f8] transition-all">
-                                                Batal
-                                            </button>
-                                            <button type="submit"
-                                                    class="flex-1 px-4 py-2 bg-[#005f2d] text-white rounded-xl font-semibold hover:bg-[#0e7a3d] transition-all">
-                                                Simpan
-                                            </button>
-                                        </div>
-                                    </form>
-                                </dialog>
-                            @endforeach
+                                @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -171,6 +137,58 @@
             @endif
         </div>
     </div>
+
+    {{-- Modal Edit Kelas (satu instance, di luar tabel agar HTML valid) --}}
+    <dialog id="edit-kelas-modal"
+            class="modal backdrop:bg-black/50 rounded-2xl shadow-2xl max-w-md"
+            x-data="editKelasModal"
+            x-on:edit-kelas-open.window="open($event.detail)">
+        <form method="POST" :action="'{{ route('guru.kelas.update', ['kelas' => '__KID__']) }}'.replace('__KID__', editId)" class="p-6">
+            @csrf
+            @method('PUT')
+
+            <h3 class="text-lg font-bold text-[#171c1f] mb-5">Edit Kelas</h3>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Nama Kelas</label>
+                    <input type="text" name="nama_kelas" x-model="namaKelas"
+                           class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
+                           required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Tahun Ajaran</label>
+                    <input type="text" name="tahun_ajaran" x-model="tahunAjaran"
+                           class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d]"
+                           required>
+                </div>
+                @if($gurus->isNotEmpty())
+                    <div>
+                        <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Wali Kelas</label>
+                        <select name="guru_id" x-model="guruId"
+                                class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] bg-white"
+                                required>
+                            <option value="">Pilih Guru...</option>
+                            @foreach($gurus as $g)
+                                <option value="{{ $g->id }}">{{ $g->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+            </div>
+
+            <div class="flex gap-3 mt-6 pt-5 border-t border-[#eaeef2]">
+                <button type="button" @click="this.$el.closest('dialog').close()"
+                        class="flex-1 px-4 py-2 border border-[#becabc] text-[#5c5f61] rounded-xl font-semibold hover:bg-[#f0f4f8] transition-all">
+                    Batal
+                </button>
+                <button type="submit"
+                        class="flex-1 px-4 py-2 bg-[#005f2d] text-white rounded-xl font-semibold hover:bg-[#0e7a3d] transition-all">
+                    Simpan
+                </button>
+            </div>
+        </form>
+    </dialog>
 
     {{-- Modal Tambah Kelas --}}
     <dialog id="tambah-kelas-modal" class="modal backdrop:bg-black/50 rounded-2xl shadow-2xl max-w-md">
@@ -196,6 +214,21 @@
                            required>
                     @error('tahun_ajaran') <p class="mt-1 text-xs text-[#ba1a1a]">{{ $message }}</p> @enderror
                 </div>
+                @if($gurus->isNotEmpty())
+                    <div>
+                        <label class="block text-sm font-semibold text-[#171c1f] mb-1.5">Wali Kelas</label>
+                        <select name="guru_id"
+                                class="w-full px-4 py-2 border border-[#becabc] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005f2d] focus:border-[#005f2d] bg-white"
+                                required>
+                            <option value="">Pilih Guru...</option>
+                            @foreach($gurus as $g)
+                                <option value="{{ $g->id }}" {{ old('guru_id') == $g->id ? 'selected' : '' }}>
+                                    {{ $g->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
             </div>
 
             <div class="flex gap-3 mt-6 pt-5 border-t border-[#eaeef2]">
@@ -210,5 +243,25 @@
             </div>
         </form>
     </dialog>
+
+@push('scripts')
+<script>
+    window.editKelasModal = function () {
+        return {
+            editId: 0,
+            namaKelas: '',
+            tahunAjaran: '',
+            guruId: '',
+            open(k) {
+                this.editId = k.id;
+                this.namaKelas = k.nama_kelas;
+                this.tahunAjaran = k.tahun_ajaran;
+                this.guruId = k.guru_id;
+                this.$nextTick(() => this.$el.showModal());
+            },
+        };
+    };
+</script>
+@endpush
 
 </x-app-layout>

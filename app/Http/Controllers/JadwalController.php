@@ -12,11 +12,12 @@ class JadwalController extends Controller
     public function index()
     {
         $guru = auth()->user();
-        $kelas = Kelas::where('guru_id', $guru->id)->get();
+        $kelas = ($this->isAdmin() ? Kelas::query() : Kelas::where('guru_id', $guru->id))->get();
         $today = Carbon::now();
 
         // Semua jadwal milik guru ini
-        $jadwals = JadwalKelas::where('guru_id', $guru->id)
+        $jadwals = JadwalKelas::query()
+            ->when(! $this->isAdmin(), fn ($q) => $q->where('guru_id', $guru->id))
             ->with('kelas')
             ->get()
             ->sortBy(fn ($j) => [JadwalKelas::$urutan[$j->hari] ?? 9, $j->jam_mulai]);
@@ -85,9 +86,11 @@ class JadwalController extends Controller
             'topik' => 'nullable|string|max:150',
         ]);
 
+        $kelasPemilik = Kelas::findOrFail($request->kelas_id);
+
         JadwalKelas::create([
             'kelas_id' => $request->kelas_id,
-            'guru_id' => auth()->id(),
+            'guru_id' => $kelasPemilik->guru_id,
             'hari' => $request->hari,
             'jam_mulai' => $request->jam_mulai.':00',
             'jam_selesai' => $request->jam_selesai.':00',
@@ -101,7 +104,9 @@ class JadwalController extends Controller
 
     public function destroy(JadwalKelas $jadwal)
     {
-        abort_if($jadwal->guru_id !== auth()->id(), 403);
+        if (! $this->isAdmin() && $jadwal->guru_id !== auth()->id()) {
+            abort(403);
+        }
         $jadwal->delete();
 
         return redirect()->route('guru.jadwal')->with('success', 'Jadwal berhasil dihapus.');
@@ -109,7 +114,9 @@ class JadwalController extends Controller
 
     public function updatePertemuan(Request $request, JadwalKelas $jadwal)
     {
-        abort_if($jadwal->guru_id !== auth()->id(), 403);
+        if (! $this->isAdmin() && $jadwal->guru_id !== auth()->id()) {
+            abort(403);
+        }
 
         $request->validate([
             'jumlah_pertemuan' => 'required|integer|min:1|max:100',

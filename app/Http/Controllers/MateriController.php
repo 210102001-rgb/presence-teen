@@ -102,8 +102,8 @@ class MateriController extends Controller
      */
     public function destroy(Materi $materi)
     {
-        // Authorization check - hanya guru pembuat yang bisa hapus
-        if ($materi->guru_id !== auth()->id()) {
+        // Authorization check - hanya guru pembuat yang bisa hapus (admin bebas)
+        if (! $this->isAdmin() && $materi->guru_id !== auth()->id()) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus materi ini.');
         }
 

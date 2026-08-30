@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -19,27 +20,37 @@ class KelasController extends Controller
 {
     public function index()
     {
-        $kelas = Kelas::where('guru_id', auth()->id())
+        $kelas = ($this->isAdmin() ? Kelas::query() : Kelas::where('guru_id', auth()->id()))
             ->withCount('siswa')
             ->with('waliKelas')
             ->orderBy('nama_kelas')
             ->get();
 
-        return view('guru.kelas', compact('kelas'));
+        $gurus = $this->isAdmin()
+            ? User::where('role', 'guru')->orderBy('name')->get()
+            : collect();
+
+        return view('guru.kelas', compact('kelas', 'gurus'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_kelas'   => 'required|string|max:100',
+        $rules = [
+            'nama_kelas' => 'required|string|max:100',
             'tahun_ajaran' => 'required|string|max:20',
-        ]);
+        ];
+
+        if ($this->isAdmin()) {
+            $rules['guru_id'] = ['required', Rule::exists('users', 'id')->where(fn ($q) => $q->where('role', 'guru'))];
+        }
+
+        $request->validate($rules);
 
         Kelas::create([
-            'nama_kelas'    => $request->nama_kelas,
-            'guru_id'       => auth()->id(),
+            'nama_kelas' => $request->nama_kelas,
+            'guru_id' => $this->isAdmin() ? $request->guru_id : auth()->id(),
             'mata_pelajaran' => '',   // kosong — diisi lewat jadwal
-            'tahun_ajaran'  => $request->tahun_ajaran,
+            'tahun_ajaran' => $request->tahun_ajaran,
         ]);
 
         return redirect()->route('guru.kelas')->with('success', 'Kelas berhasil ditambahkan.');
@@ -47,21 +58,32 @@ class KelasController extends Controller
 
     public function update(Request $request, Kelas $kelas)
     {
-        abort_if($kelas->guru_id !== auth()->id(), 403);
+        if (! $this->isAdmin() && $kelas->guru_id !== auth()->id()) {
+            abort(403);
+        }
 
         $request->validate([
-            'nama_kelas'   => 'required|string|max:100',
+            'nama_kelas' => 'required|string|max:100',
             'tahun_ajaran' => 'required|string|max:20',
         ]);
 
-        $kelas->update($request->only('nama_kelas', 'tahun_ajaran'));
+        $data = $request->only('nama_kelas', 'tahun_ajaran');
+
+        if ($this->isAdmin() && $request->filled('guru_id')) {
+            $request->validate(['guru_id' => [Rule::exists('users', 'id')->where(fn ($q) => $q->where('role', 'guru'))]]);
+            $data['guru_id'] = $request->guru_id;
+        }
+
+        $kelas->update($data);
 
         return redirect()->route('guru.kelas')->with('success', 'Kelas berhasil diperbarui.');
     }
 
     public function destroy(Kelas $kelas)
     {
-        abort_if($kelas->guru_id !== auth()->id(), 403);
+        if (! $this->isAdmin() && $kelas->guru_id !== auth()->id()) {
+            abort(403);
+        }
         $kelas->delete();
 
         return redirect()->route('guru.kelas')->with('success', 'Kelas berhasil dihapus.');
@@ -69,7 +91,8 @@ class KelasController extends Controller
 
     public function siswa()
     {
-        $kelas = Kelas::with('siswa')->where('guru_id', auth()->id())->get();
+        $kelas = ($this->isAdmin() ? Kelas::query() : Kelas::where('guru_id', auth()->id()))
+            ->with('siswa')->get();
         $kelasIds = $kelas->pluck('id');
 
         // Batch: total sesi per kelas (1 query)
@@ -107,7 +130,8 @@ class KelasController extends Controller
 
     public function exportSiswa()
     {
-        $kelas = Kelas::with(['siswa'])->where('guru_id', auth()->id())->get();
+        $kelas = ($this->isAdmin() ? Kelas::query() : Kelas::where('guru_id', auth()->id()))
+            ->with(['siswa'])->get();
         $kelasIds = $kelas->pluck('id');
 
         $totalSesiPerKelas = SesiPresensi::whereIn('kelas_id', $kelasIds)
@@ -191,12 +215,12 @@ class KelasController extends Controller
 
     public function createSiswa()
     {
-        $kelas = Kelas::where('guru_id', auth()->id())->get();
+        $kelas = $this->isAdmin() ? Kelas::all() : Kelas::where('guru_id', auth()->id())->get();
 
         // Ambil semua siswa yang belum terdaftar di kelas manapun milik guru ini
-        $kelasIds  = $kelas->pluck('id');
-        $siswaIds  = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
-        $siswaAda  = User::where('role', 'siswa')
+        $kelasIds = $kelas->pluck('id');
+        $siswaIds = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
+        $siswaAda = User::where('role', 'siswa')
             ->whereNotIn('id', $siswaIds)
             ->orderBy('name')
             ->get();
@@ -207,22 +231,24 @@ class KelasController extends Controller
     public function daftarkanSiswa(Request $request)
     {
         $request->validate([
-            'kelas_id'  => 'required|exists:kelas,id',
+            'kelas_id' => 'required|exists:kelas,id',
             'siswa_ids' => 'required|array|min:1',
             'siswa_ids.*' => 'exists:users,id',
         ]);
 
         $kelas = Kelas::where('id', $request->kelas_id)
-            ->where('guru_id', auth()->id())
+            ->when(! $this->isAdmin(), fn ($q) => $q->where('guru_id', auth()->id()))
             ->firstOrFail();
 
         $added = 0;
         foreach ($request->siswa_ids as $siswaId) {
             $user = User::where('id', $siswaId)->where('role', 'siswa')->first();
-            if (!$user) continue;
+            if (! $user) {
+                continue;
+            }
 
             $exists = SiswaKelas::where('siswa_id', $siswaId)->where('kelas_id', $kelas->id)->exists();
-            if (!$exists) {
+            if (! $exists) {
                 SiswaKelas::create(['siswa_id' => $siswaId, 'kelas_id' => $kelas->id]);
                 $added++;
             }
@@ -242,9 +268,9 @@ class KelasController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        // Pastikan kelas milik guru yang sedang login
+        // Pastikan kelas milik guru yang sedang login (kecuali admin)
         $kelas = Kelas::where('id', $request->kelas_id)
-            ->where('guru_id', auth()->id())
+            ->when(! $this->isAdmin(), fn ($q) => $q->where('guru_id', auth()->id()))
             ->firstOrFail();
 
         // Buat akun siswa baru
@@ -275,7 +301,7 @@ class KelasController extends Controller
 
         // Pastikan kelas milik guru
         $kelas = Kelas::where('id', $request->kelas_id)
-            ->where('guru_id', auth()->id())
+            ->when(! $this->isAdmin(), fn ($q) => $q->where('guru_id', auth()->id()))
             ->firstOrFail();
 
         SiswaKelas::where('siswa_id', $request->siswa_id)
@@ -324,8 +350,10 @@ class KelasController extends Controller
             return back()->withErrors(['file_excel' => 'Format file tidak valid. Pastikan menggunakan file hasil export dari sistem ini.']);
         }
 
-        // Cache semua kelas milik guru ini (key: lowercase nama_kelas)
-        $kelasList = Kelas::where('guru_id', $guruId)->get()
+        // Cache semua kelas milik guru ini (admin: semua kelas)
+        $kelasList = Kelas::query()
+            ->when(! $this->isAdmin(), fn ($q) => $q->where('guru_id', $guruId))
+            ->get()
             ->keyBy(fn ($k) => strtolower(trim($k->nama_kelas)));
 
         $imported = 0;

@@ -15,7 +15,9 @@ class TugasController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role === 'guru') {
+        if ($this->isAdmin()) {
+            $tugas = Tugas::with('kelas', 'pengumpulan')->latest()->get();
+        } elseif ($user->role === 'guru') {
             $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
             $tugas = Tugas::whereIn('kelas_id', $kelasIds)->with('kelas')->latest()->get();
         } elseif ($user->role === 'siswa') {
@@ -33,7 +35,7 @@ class TugasController extends Controller
 
     public function create()
     {
-        $kelas = Kelas::where('guru_id', auth()->id())->get();
+        $kelas = ($this->isAdmin() ? Kelas::query() : Kelas::where('guru_id', auth()->id()))->get();
 
         return view('tugas.create', compact('kelas'));
     }
@@ -47,9 +49,11 @@ class TugasController extends Controller
             'deadline' => 'required|date',
         ]);
 
+        $kelas = Kelas::findOrFail($request->kelas_id);
+
         Tugas::create([
             'kelas_id' => $request->kelas_id,
-            'guru_id' => auth()->id(),
+            'guru_id' => $kelas->guru_id,
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'deadline' => $request->deadline,
@@ -62,7 +66,9 @@ class TugasController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role === 'guru') {
+        if ($this->isAdmin()) {
+            // super admin bisa melihat semua tugas
+        } elseif ($user->role === 'guru') {
             abort_if($tugas->guru_id !== $user->id, 403);
         } elseif ($user->role === 'siswa') {
             $kelasIds = SiswaKelas::where('siswa_id', $user->id)->pluck('kelas_id');
@@ -80,15 +86,19 @@ class TugasController extends Controller
 
     public function edit(Tugas $tugas)
     {
-        abort_if($tugas->guru_id !== auth()->id(), 403);
-        $kelas = Kelas::where('guru_id', auth()->id())->get();
+        if (! $this->isAdmin() && $tugas->guru_id !== auth()->id()) {
+            abort(403);
+        }
+        $kelas = ($this->isAdmin() ? Kelas::query() : Kelas::where('guru_id', auth()->id()))->get();
 
         return view('tugas.edit', compact('tugas', 'kelas'));
     }
 
     public function update(Request $request, Tugas $tugas)
     {
-        abort_if($tugas->guru_id !== auth()->id(), 403);
+        if (! $this->isAdmin() && $tugas->guru_id !== auth()->id()) {
+            abort(403);
+        }
         $request->validate([
             'kelas_id' => 'required|exists:kelas,id',
             'judul' => 'required|string|max:255',
@@ -103,7 +113,9 @@ class TugasController extends Controller
 
     public function destroy(Tugas $tugas)
     {
-        abort_if($tugas->guru_id !== auth()->id(), 403);
+        if (! $this->isAdmin() && $tugas->guru_id !== auth()->id()) {
+            abort(403);
+        }
         $tugas->delete();
 
         return redirect()->route('tugas.index')->with('success', 'Tugas berhasil dihapus.');
@@ -139,7 +151,9 @@ class TugasController extends Controller
         // Check if the logged-in user is the student who submitted or the teacher
         $user = auth()->user();
 
-        if ($user->role === 'siswa') {
+        if ($this->isAdmin()) {
+            // admin dapat mendownload semua pengumpulan
+        } elseif ($user->role === 'siswa') {
             // Student can only download their own submission
             abort_if($pengumpulanTugas->siswa_id !== $user->id, 403);
         } elseif ($user->role === 'guru') {

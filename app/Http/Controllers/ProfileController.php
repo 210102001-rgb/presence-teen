@@ -38,8 +38,10 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
-        // Autorisasikan agar guru atau orang tua yang bersangkutan bisa melihat
-        if ($user->role === 'guru') {
+        // Autorisasikan agar guru atau orang tua yang bersangkutan bisa melihat (admin boleh semua)
+        if ($this->isAdmin()) {
+            // super admin bisa melihat profil siswa mana pun
+        } elseif ($user->role === 'guru') {
             $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
             $siswaIds = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
             abort_if(! $siswaIds->contains($siswa->id), 403);
@@ -130,7 +132,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        $user->name  = $request->name;
+        $user->name = $request->name;
         $user->email = $request->email;
 
         if ($user->isDirty('email')) {

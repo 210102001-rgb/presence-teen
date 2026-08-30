@@ -396,13 +396,14 @@
 
                     <div class="p-4 space-y-3">
                         @forelse($jadwals->unique('kelas_id') as $j)
-                            @php
-                                $sesiSudahTerjadi = \App\Models\SesiPresensi::where('kelas_id', $j->kelas_id)
-                                    ->where('guru_id', auth()->id())
-                                    ->count();
-                                $target = $j->jumlah_pertemuan ?? 16;
-                                $pct = $target > 0 ? min(100, round($sesiSudahTerjadi / $target * 100)) : 0;
-                            @endphp
+@php
+                                        $isAdminGj = auth()->user()->role === 'super_admin';
+                                        $sesiSudahTerjadi = \App\Models\SesiPresensi::where('kelas_id', $j->kelas_id)
+                                            ->when(! $isAdminGj, fn ($q) => $q->where('guru_id', auth()->id()))
+                                            ->count();
+                                        $target = $j->jumlah_pertemuan ?? 16;
+                                        $pct = $target > 0 ? min(100, round($sesiSudahTerjadi / $target * 100)) : 0;
+                                    @endphp
                             <div class="bg-[#f6fafe] rounded-xl p-4 border border-[#eaeef2]"
                                  x-data="{ editing: false, val: {{ $target }} }">
                                 <div class="flex items-center justify-between gap-3 mb-3">
@@ -461,7 +462,7 @@
                             @foreach($kelas as $k)
                                 @php
                                     $sesiTerjadi = \App\Models\SesiPresensi::where('kelas_id', $k->id)
-                                        ->where('guru_id', auth()->id())
+                                        ->when(auth()->user()->role !== 'super_admin', fn ($q) => $q->where('guru_id', auth()->id()))
                                         ->count();
                                     $target = 16;
                                     $pct = 0;

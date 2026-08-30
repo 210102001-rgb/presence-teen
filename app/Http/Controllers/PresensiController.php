@@ -18,11 +18,12 @@ class PresensiController extends Controller
 
     public function guruQr(Request $request, ?Kelas $kelas = null)
     {
-        $kelasList = Kelas::where('guru_id', auth()->id())->get();
+        $kelasList = ($this->isAdmin() ? Kelas::query() : Kelas::where('guru_id', auth()->id()))->get();
 
         $jadwal = null;
         if ($request->jadwal_id) {
-            $jadwal = JadwalKelas::where('guru_id', auth()->id())
+            $jadwal = JadwalKelas::query()
+                ->when(! $this->isAdmin(), fn ($q) => $q->where('guru_id', auth()->id()))
                 ->where('id', $request->jadwal_id)
                 ->first();
         }
@@ -36,7 +37,7 @@ class PresensiController extends Controller
 
     public function updateSettings(Request $request, Kelas $kelas)
     {
-        if ($kelas->guru_id !== auth()->id()) {
+        if (! $this->isAdmin() && $kelas->guru_id !== auth()->id()) {
             abort(403);
         }
 
@@ -145,7 +146,11 @@ class PresensiController extends Controller
     public function riwayat(Request $request)
     {
         $user = auth()->user();
-        if ($user->role === 'siswa') {
+        if ($this->isAdmin()) {
+            $presensi = Presensi::with(['siswa', 'sesiPresensi.kelas'])
+                ->orderBy('waktu_absen', 'desc')
+                ->get();
+        } elseif ($user->role === 'siswa') {
             $presensi = Presensi::where('siswa_id', $user->id)
                 ->with('sesiPresensi.kelas')
                 ->orderBy('waktu_absen', 'desc')
@@ -175,12 +180,12 @@ class PresensiController extends Controller
     public function detail(Presensi $presensi)
     {
         $user = auth()->user();
-        if ($user->role === 'siswa') {
+        if (! $this->isAdmin() && $user->role === 'siswa') {
             abort_if($presensi->siswa_id !== $user->id, 403);
-        } elseif ($user->role === 'orang_tua') {
+        } elseif (! $this->isAdmin() && $user->role === 'orang_tua') {
             $siswaIds = $user->anak()->pluck('users.id');
             abort_if(! $siswaIds->contains($presensi->siswa_id), 403);
-        } else {
+        } elseif (! $this->isAdmin()) {
             // guru
             $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
             abort_if(! $kelasIds->contains($presensi->sesiPresensi->kelas_id), 403);
@@ -193,8 +198,8 @@ class PresensiController extends Controller
 
     public function manualInput()
     {
-        // Load all classes for the guru with their students
-        $kelas = Kelas::where('guru_id', auth()->id())
+        // Load all classes for the guru (admin: semua kelas)
+        $kelas = ($this->isAdmin() ? Kelas::query() : Kelas::where('guru_id', auth()->id()))
             ->with('siswa')
             ->get();
 

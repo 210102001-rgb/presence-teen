@@ -16,7 +16,9 @@ class LaporanController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role === 'guru') {
+        if ($this->isAdmin()) {
+            $laporans = LaporanAi::with('siswa')->latest()->get();
+        } elseif ($user->role === 'guru') {
             $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
             $siswaIds = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
             $laporans = LaporanAi::whereIn('siswa_id', $siswaIds)->with('siswa')->latest()->get();
@@ -32,7 +34,9 @@ class LaporanController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role === 'guru') {
+        if ($this->isAdmin()) {
+            // super admin bisa melihat semua laporan
+        } elseif ($user->role === 'guru') {
             $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
             $siswaIds = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
             abort_if(! $siswaIds->contains($laporan->siswa_id), 403);

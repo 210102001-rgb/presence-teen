@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\JadwalKelas;
 use App\Models\Kelas;
 use App\Models\Materi;
 use App\Models\SiswaKelas;
@@ -20,6 +21,8 @@ class RouteResponsivenessTest extends TestCase
 
     protected User $ortu;
 
+    protected User $admin;
+
     protected Kelas $kelas;
 
     protected function setUp(): void
@@ -30,6 +33,7 @@ class RouteResponsivenessTest extends TestCase
         $this->guru = User::factory()->create(['role' => 'guru', 'name' => 'Guru Test']);
         $this->siswa = User::factory()->create(['role' => 'siswa', 'name' => 'Siswa Test']);
         $this->ortu = User::factory()->create(['role' => 'orang_tua', 'name' => 'Ortu Test']);
+        $this->admin = User::factory()->create(['role' => 'super_admin', 'name' => 'Admin Test']);
 
         // Create kelas
         $this->kelas = Kelas::create([
@@ -63,6 +67,15 @@ class RouteResponsivenessTest extends TestCase
             'guru_id' => $this->guru->id,
             'judul' => 'Bab 1 Aljabar',
             'materi_asli' => 'Isi materi aljabar linear dan kalkulus',
+        ]);
+
+        JadwalKelas::create([
+            'kelas_id' => $this->kelas->id,
+            'guru_id' => $this->guru->id,
+            'hari' => 'Senin',
+            'jam_mulai' => '07:00:00',
+            'jam_selesai' => '08:30:00',
+            'mata_pelajaran' => 'Matematika',
         ]);
     }
 
@@ -119,6 +132,41 @@ class RouteResponsivenessTest extends TestCase
             }
             $response->assertStatus($status);
         }
+    }
+
+    public function test_super_admin_can_access_all_guru_pages()
+    {
+        $this->actingAs($this->admin);
+
+        // Semua halaman guru harus bisa diakses super_admin
+        foreach ([
+            'dashboard.guru',
+            'dashboard.super_admin',
+            'presensi.guru',
+            'presensi.manual',
+            'guru.jadwal',
+            'guru.kelas',
+            'guru.kelas_siswa',
+            'guru.kelola',
+            'tugas.index',
+            'materi.index',
+            'laporan.index',
+            'pengumuman.index',
+            'account.index',
+        ] as $route) {
+            $response = $this->get(route($route));
+            if ($response->status() !== 200) {
+                dump("Super Admin Route {$route} failed: expected 200, got ".$response->status().'. Content: '.substr($response->content(), 0, 500));
+            }
+            $response->assertOk();
+        }
+
+        // Admin harus melihat data milik guru lain (bukan hanya miliknya sendiri)
+        $this->get(route('guru.kelas'))->assertSee('XII IPA 1');
+        $this->get(route('guru.jadwal'))->assertSee('Matematika');
+        $this->get(route('guru.kelas_siswa'))->assertSee('Siswa Test');
+        $this->get(route('tugas.index'))->assertSee('Tugas Matematika');
+        $this->get(route('materi.index'))->assertSee('Bab 1 Aljabar');
     }
 
     public function test_orang_tua_routes()
