@@ -56,11 +56,16 @@ class DashboardController extends Controller
         // Total sesi presensi keseluruhan (semua waktu)
         $totalSesi = $sesiQuery()->count();
 
-        // Avg attendance rate keseluruhan
-        $totalPresensiAll = $presensiQuery()->count();
+        // Avg attendance rate yang benar:
+        // hadir+telat / (jumlah sesi × jumlah siswa di kelas-kelas guru)
         $hadirAll = $presensiQuery()->whereIn('status', ['hadir', 'telat'])->count();
-        $avgAttendance = $totalPresensiAll > 0
-            ? round($hadirAll / $totalPresensiAll * 100)
+        $totalSlot = $totalSesi > 0
+            ? $sesiQuery()
+                ->join('siswa_kelas', 'sesi_presensi.kelas_id', '=', 'siswa_kelas.kelas_id')
+                ->count()
+            : 0;
+        $avgAttendance = $totalSlot > 0
+            ? round($hadirAll / $totalSlot * 100)
             : 0;
 
         // Data chart kehadiran per hari (Mon-Sun minggu ini)

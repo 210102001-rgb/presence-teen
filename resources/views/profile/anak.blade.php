@@ -22,7 +22,9 @@
             });
 
         // Also get all session days in this month to determine Alpha vs Empty days
-        $sesiBulanIni = \App\Models\SesiPresensi::whereMonth('created_at', $month)
+        // Filter per kelas siswa agar Alpha hanya dari sesi yang relevan
+        $sesiBulanIni = \App\Models\SesiPresensi::whereIn('kelas_id', $userKelasIds)
+            ->whereMonth('created_at', $month)
             ->whereYear('created_at', $year)
             ->get()
             ->keyBy(function($s) {
@@ -51,10 +53,10 @@
                 new Chart(trendCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Jul', 'Agu', 'Sep', 'Okt', 'Nov'],
+                        labels: {!! json_encode($trendLabels) !!},
                         datasets: [{
                             label: 'Tingkat Kehadiran %',
-                            data: [90, 92, 95, 93, {{ $attendanceRate }}],
+                            data: {!! json_encode($trendData) !!},
                             borderColor: '#005f2d',
                             backgroundColor: 'rgba(0, 95, 45, 0.05)',
                             fill: true,

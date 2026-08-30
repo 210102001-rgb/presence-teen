@@ -189,7 +189,7 @@
                                                 <span class="material-symbols-outlined text-[16px] text-[#005f2d]">person</span>
                                                 Lihat Profil
                                             </a>
-                                            <a :href="'/presensi/riwayat'"
+                                            <a :href="'/presensi/riwayat?siswa_id=' + item.id"
                                                class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#171c1f] hover:bg-[#f6fafe] transition-colors">
                                                 <span class="material-symbols-outlined text-[16px] text-[#005f2d]">history</span>
                                                 Riwayat Presensi

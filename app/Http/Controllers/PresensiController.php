@@ -6,6 +6,7 @@ use App\Models\JadwalKelas;
 use App\Models\Kelas;
 use App\Models\Presensi;
 use App\Models\SesiPresensi;
+use App\Models\SiswaKelas;
 use App\Notifications\PresensiTercatat;
 use Illuminate\Http\Request;
 
@@ -150,21 +151,55 @@ class PresensiController extends Controller
             $presensi = Presensi::with(['siswa', 'sesiPresensi.kelas'])
                 ->orderBy('waktu_absen', 'desc')
                 ->get();
+            return view('presensi.riwayat', compact('presensi'));
         } elseif ($user->role === 'siswa') {
             $presensi = Presensi::where('siswa_id', $user->id)
                 ->with('sesiPresensi.kelas')
                 ->orderBy('waktu_absen', 'desc')
                 ->get();
-        } elseif ($user->role === 'guru' && $request->siswa_id) {
-            // Guru melihat riwayat siswa tertentu
-            $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
-            $siswaIds = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
-            abort_unless($siswaIds->contains($request->siswa_id), 403);
+            return view('presensi.riwayat', compact('presensi'));
+        } elseif ($user->role === 'guru') {
+            if ($request->siswa_id) {
+                // Guru melihat riwayat siswa tertentu
+                $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
+                $siswaIds = SiswaKelas::whereIn('kelas_id', $kelasIds)->pluck('siswa_id');
+                abort_unless($siswaIds->contains($request->siswa_id), 403);
 
-            $presensi = Presensi::where('siswa_id', $request->siswa_id)
-                ->with('sesiPresensi.kelas')
-                ->orderBy('waktu_absen', 'desc')
-                ->get();
+                $siswaTarget = \App\Models\User::findOrFail($request->siswa_id);
+                $presensi = Presensi::where('siswa_id', $request->siswa_id)
+                    ->with('sesiPresensi.kelas')
+                    ->orderBy('waktu_absen', 'desc')
+                    ->get();
+                return view('presensi.riwayat', compact('presensi', 'siswaTarget'));
+            }
+
+            // Guru tanpa siswa_id → tampilkan ringkasan semua siswa di kelas guru
+            $kelasIds = Kelas::where('guru_id', $user->id)->pluck('id');
+            $totalSesiPerKelas = SesiPresensi::whereIn('kelas_id', $kelasIds)
+                ->selectRaw('kelas_id, COUNT(*) as total')
+                ->groupBy('kelas_id')
+                ->pluck('total', 'kelas_id');
+
+            $siswaList = \App\Models\SiswaKelas::whereIn('kelas_id', $kelasIds)
+                ->with(['siswa', 'kelas'])
+                ->get()
+                ->map(function ($sk) use ($totalSesiPerKelas) {
+                    $totalSesi = $totalSesiPerKelas->get($sk->kelas_id, 0);
+                    $hadir = Presensi::where('siswa_id', $sk->siswa_id)
+                        ->whereHas('sesiPresensi', fn ($q) => $q->where('kelas_id', $sk->kelas_id))
+                        ->whereIn('status', ['hadir', 'telat'])
+                        ->count();
+                    $rate = $totalSesi > 0 ? round($hadir / $totalSesi * 100) : 0;
+                    return [
+                        'siswa'    => $sk->siswa,
+                        'kelas'    => $sk->kelas,
+                        'hadir'    => $hadir,
+                        'totalSesi' => $totalSesi,
+                        'rate'     => $rate,
+                    ];
+                });
+
+            return view('presensi.riwayat_guru', compact('siswaList'));
         } else {
             // orang tua
             $siswaIds = $user->anak()->pluck('users.id');
@@ -172,9 +207,8 @@ class PresensiController extends Controller
                 ->with('siswa', 'sesiPresensi.kelas')
                 ->orderBy('waktu_absen', 'desc')
                 ->get();
+            return view('presensi.riwayat', compact('presensi'));
         }
-
-        return view('presensi.riwayat', compact('presensi'));
     }
 
     public function detail(Presensi $presensi)

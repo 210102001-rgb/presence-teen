@@ -11,28 +11,69 @@
             </div>
         </header>
 
+        {{-- Info siswa yang sedang dilihat (guru context) --}}
+        @isset($siswaTarget)
+            <div class="flex items-center gap-4 p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0">
+                    {{ substr($siswaTarget->name, 0, 1) }}
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-on-surface">{{ $siswaTarget->name }}</p>
+                    <p class="text-xs text-secondary">{{ $siswaTarget->email }} @if($siswaTarget->nis) • NIS: {{ $siswaTarget->nis }} @endif</p>
+                </div>
+                <a href="{{ route('presensi.riwayat') }}" class="ml-auto text-xs text-primary font-semibold hover:underline flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+                    Semua Siswa
+                </a>
+            </div>
+        @endisset
+
         {{-- Stats Bento Grid --}}
         @php
-            $totalSesi = $presensi->count();
+            // Hitung dari record presensi yang ada
             $hadir = $presensi->where('status', 'hadir')->count();
             $telat = $presensi->where('status', 'telat')->count();
             $alpha = $presensi->where('status', 'alpha')->count();
-            $izin = $presensi->where('status', 'izin')->count();
+            $izin  = $presensi->where('status', 'izin')->count();
             $sakit = $presensi->where('status', 'sakit')->count();
 
-            $attendanceRate = $totalSesi > 0 
-                ? round((($hadir + $telat) / $totalSesi) * 100) 
-                : 100;
+            // Total sesi yang seharusnya dihadiri siswa (bukan hanya yang absen scan)
+            $user = auth()->user();
+
+            // Tentukan siswa yang sedang dilihat
+            if (isset($siswaTarget)) {
+                // Guru melihat riwayat siswa tertentu
+                $siswaIdTarget = $siswaTarget->id;
+            } elseif ($user->role === 'siswa') {
+                $siswaIdTarget = $user->id;
+            } else {
+                $siswaIdTarget = null;
+            }
+
+            if ($siswaIdTarget) {
+                $kelasIds = \App\Models\SiswaKelas::where('siswa_id', $siswaIdTarget)->pluck('kelas_id');
+                $totalSesiHarusHadir = \App\Models\SesiPresensi::whereIn('kelas_id', $kelasIds)->count();
+            } elseif ($user->role === 'orang_tua') {
+                // Orang tua — ambil semua kelas semua anak
+                $anakIds = \App\Models\OrangTuaSiswa::where('orang_tua_id', $user->id)->pluck('siswa_id');
+                $kelasIds = \App\Models\SiswaKelas::whereIn('siswa_id', $anakIds)->pluck('kelas_id')->unique();
+                $totalSesiHarusHadir = \App\Models\SesiPresensi::whereIn('kelas_id', $kelasIds)->count();
+            } else {
+                $totalSesiHarusHadir = 0;
+            }
+
+            $attendanceRate = $totalSesiHarusHadir > 0
+                ? round(($hadir + $telat) / $totalSesiHarusHadir * 100)
+                : 0;
 
             $bgClass = 'bg-primary text-white';
             if ($attendanceRate < 50) {
-                $bgClass = 'bg-[#ba1a1a] text-white'; // Merah
+                $bgClass = 'bg-[#ba1a1a] text-white';
             } elseif ($attendanceRate < 75) {
-                $bgClass = 'bg-amber-500 text-white'; // Kuning/Amber
-            }
-        @endphp
+                $bgClass = 'bg-amber-500 text-white';
+            }        @endphp
         <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div class="{{ $bgClass }} rounded-2xl p-6 shadow-soft flex flex-col justify-center items-center text-center">
+            <div class="{{ $attendanceRate === null ? 'bg-surface-container text-secondary' : $bgClass }} rounded-2xl p-6 shadow-soft flex flex-col justify-center items-center text-center">
                 <span class="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">Tingkat Kehadiran</span>
                 <div class="text-3xl font-bold">{{ $attendanceRate }}%</div>
             </div>
